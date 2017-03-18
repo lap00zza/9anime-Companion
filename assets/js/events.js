@@ -14,6 +14,10 @@
                 chrome.tabs.create({'url': "https://9anime.to"});
                 sendResponse({result: "opened"});
             }
+            else if (request.intent == "open_anime") {
+                chrome.tabs.create({'url': request.anime_url});
+                sendResponse({result: "opened"});
+            }
 
         }
     );
