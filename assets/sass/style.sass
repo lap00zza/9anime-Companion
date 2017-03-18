@@ -4,6 +4,7 @@ $primary1: #723F8C
 
 html, body
     margin: 0
+    padding: 0
 
 .companion-container
     width: 200px
@@ -12,11 +13,31 @@ html, body
     color: #cecece
 
 #info
-    text-align: center
+    //text-align: center
     font-size: 11.5pt
     color: $primary
-    border-bottom: 1px solid #eeeeee
-    padding-bottom: 3px
+    border-bottom: 1px solid #dedede
+    display: flex
+    width: 100%
+
+    .left
+        flex: 1
+        display: block
+        padding-left: 30px
+        padding-top: 5px
+        padding-bottom: 6px
+
+    .right
+        padding-top: 7px
+        padding-right: 4px
+
+        img
+            height: 15px
+            width: 15px
+            opacity: 0.4
+            cursor: pointer
+            &:hover
+                opacity: 0.5
 
 //#link_options_multi
     //height: $multiWindowHeight
@@ -30,15 +51,19 @@ html, body
         height: 50px
 
         img
+            margin: 2px
             cursor: pointer
             height: 90%
             width: auto
+
             &:hover
                 opacity: 0.8
     #lastWatchedDetails
         //height: 50px
         background-color: #eeeeee
         overflow: hidden
+        cursor: pointer
+
         .lw-header
             display: block
             font-weight: 600
@@ -51,10 +76,15 @@ html, body
             height: 20px
             font-weight: 400
             font-size: 10pt
-            cursor: pointer
             //word-break: keep-all !important
 
 // CSS for Options Window
+.op_credit
+    text-align: center
+    padding-top: 5px
+    padding-bottom: 5px
+    color: #5e5e5e
+
 .option-item
     display: flex
     border-bottom: 1px solid #dedede
@@ -63,7 +93,7 @@ html, body
     .option-text
         flex: 0 0 100px
         padding-left: 10px
-        color: #aeaeae
+        color: #9e9e9e
 
 .slideOne
     width: 35px
@@ -89,19 +119,19 @@ html, body
         &:checked + label
             left: 30px
 
-#footer
-    display: flex
-    width: 100%
-    border-top: 1px solid #eeeeee
-    padding-top: 3px
-
-    .left
-        flex: 1
-    .right
-        img
-            height: 25px
-            width: 25px
-            opacity: 0.4
-            cursor: pointer
-            &:hover
-                opacity: 0.5
+//#footer
+//    display: flex
+//    width: 100%
+//    border-top: 1px solid #dedede
+//    padding-top: 3px
+//
+//    .left
+//        flex: 1
+//    .right
+//        img
+//            height: 25px
+//            width: 25px
+//            opacity: 0.4
+//            cursor: pointer
+//            &:hover
+//                opacity: 0.5

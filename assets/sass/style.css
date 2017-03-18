@@ -1,5 +1,6 @@
 html, body {
-  margin: 0; }
+  margin: 0;
+  padding: 0; }
 
 .companion-container {
   width: 200px; }
@@ -8,11 +9,27 @@ html, body {
   color: #cecece; }
 
 #info {
-  text-align: center;
   font-size: 11.5pt;
   color: #51286A;
-  border-bottom: 1px solid #eeeeee;
-  padding-bottom: 3px; }
+  border-bottom: 1px solid #dedede;
+  display: flex;
+  width: 100%; }
+  #info .left {
+    flex: 1;
+    display: block;
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 6px; }
+  #info .right {
+    padding-top: 7px;
+    padding-right: 4px; }
+    #info .right img {
+      height: 15px;
+      width: 15px;
+      opacity: 0.4;
+      cursor: pointer; }
+      #info .right img:hover {
+        opacity: 0.5; }
 
 #main {
   height: 100%; }
@@ -20,6 +37,7 @@ html, body {
     text-align: center;
     height: 50px; }
     #main #link img {
+      margin: 2px;
       cursor: pointer;
       height: 90%;
       width: auto; }
@@ -27,7 +45,8 @@ html, body {
         opacity: 0.8; }
   #main #lastWatchedDetails {
     background-color: #eeeeee;
-    overflow: hidden; }
+    overflow: hidden;
+    cursor: pointer; }
     #main #lastWatchedDetails .lw-header {
       display: block;
       font-weight: 600;
@@ -39,8 +58,13 @@ html, body {
       display: block;
       height: 20px;
       font-weight: 400;
-      font-size: 10pt;
-      cursor: pointer; }
+      font-size: 10pt; }
+
+.op_credit {
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #5e5e5e; }
 
 .option-item {
   display: flex;
@@ -49,7 +73,7 @@ html, body {
   .option-item .option-text {
     flex: 0 0 100px;
     padding-left: 10px;
-    color: #aeaeae; }
+    color: #9e9e9e; }
 
 .slideOne {
   width: 35px;
@@ -73,20 +97,5 @@ html, body {
     visibility: hidden; }
     .slideOne input[type=checkbox]:checked + label {
       left: 30px; }
-
-#footer {
-  display: flex;
-  width: 100%;
-  border-top: 1px solid #eeeeee;
-  padding-top: 3px; }
-  #footer .left {
-    flex: 1; }
-  #footer .right img {
-    height: 25px;
-    width: 25px;
-    opacity: 0.4;
-    cursor: pointer; }
-    #footer .right img:hover {
-      opacity: 0.5; }
 
 /*# sourceMappingURL=style.css.map */
