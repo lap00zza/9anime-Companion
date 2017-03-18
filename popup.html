@@ -8,7 +8,10 @@
 <body>
 <div class="companion-container">
     <div id="info">
-        <strong>9anime</strong> Companion
+        <div class="left"><strong>9anime</strong> Companion</div>
+        <div class="right">
+            <img src="assets/images/settings.png" id="settingsWindowToggle">
+        </div>
     </div>
 
     <!--This holds the "Main Window"-->
@@ -20,11 +23,11 @@
                 <img src="assets/images/icon.png" id="anime-link-image">
             </div>
 
-            <div id="lastWatchedDetails">
+            <div id="lastWatchedDetails" data-url="">
                 <div class="lw-header">Last Watched</div>
 
                 <!-- TODO: Attach onClick listener-->
-                <div id="lastWatched" data-url="">Watch something first :)</div>
+                <div id="lastWatched">Watch something first :)</div>
             </div>
         </div>
 
@@ -57,18 +60,22 @@
                 </div>
 
             </div>
+
+            <div class="op_credit">
+                Made with <3 by lap00zza
+            </div>
         </div>
     </div>
 
     <!--TODO: maybe add some links to github?-->
-    <div id="footer">
+    <!--<div id="footer">
         <div class="left">
 
         </div>
         <div class="right">
             <img src="assets/images/settings.png" id="settingsWindowToggle">
         </div>
-    </div>
+    </div>-->
 </div>
 </body>
 <script type="text/javascript" src="assets/js/jquery-3.2.0.min.js"></script>
