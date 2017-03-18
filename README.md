@@ -1,6 +1,9 @@
 ## 9anime Companion
 A simple chrome extension for 9anime
 
+
+![Screenshot](https://image.ibb.co/jYsNFa/1.png)
+
 ### Features
 * Remove Ads
 * Resize/Center the player
