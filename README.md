@@ -1,13 +1,21 @@
-# 9anime Companion
+## 9anime Companion
 A simple chrome extension for 9anime
 
-## How to use?
+### Features
+* Remove Ads
+* Resize/Center the player
+* Minimal Mode (only player and episode list)
+* Last Watched
+* Quick Link
+* thats all for now. Additional features are planned for later release.
+
+### How to use?
 1. Download a copy of this repository as zip. Extract it to a location.
 2. Enable Developer Mode in Google Chrome.
 3. Click on Load unpacked extension and selct the extracted location from Step 1.
 4. Enjoy!
 
-## But why not from Chrome Webstore?
+### But why not from Chrome Webstore?
 This extension is still in developement. Once it is complete, I might consider adding it to the store.
 
 ## License
