@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "9anime Companion",
+  "version": "0.0.1",
+
+  "author": "Jewel Mahanta",
+
+  "description": "A simple companion extension for 9Anime",
+  "icons": {
+    "16": "assets/images/icon16.png",
+    "48": "assets/images/icon48.png",
+    "128": "assets/images/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://9anime.to/watch/*", "https://9anime.is/watch/*", "https://9anime.tv/watch/*"],
+      "js": ["assets/js/content.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "assets/images/icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["assets/js/events.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "tabs",
+    "storage"
+  ]
+}
