@@ -13,7 +13,7 @@ A simple chrome extension for 9anime
 * thats all for now. Additional features are planned for later release.
 
 ### How to use?
-1. Download the zipped extension [by clicking here](https://github.com/lap00zza/9anime-Companion/releases/download/0.0.1-beta-1/9anime-Companion.zip).
+1. Download the zipped extension [by clicking here](https://github.com/lap00zza/9anime-Companion/releases/download/0.0.1/9anime_Companion_0.0.1.zip).
 2. Extract it.
 2. Enable Developer Mode in Google Chrome.
 3. Click on Load unpacked extension and selct the extracted location from Step 2.
