@@ -2,9 +2,9 @@
  * This script handles all the functionality. It automatically loads
  * when the user goes to 9Anime website.
  */
-(function () {
+(function ($) {
     // TODO: add support for settings storage
-    console.log("9Anime Companion has loaded.",  document.location.href);
+    console.log("9Anime Companion has loaded.", document.location.href);
 
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
@@ -24,10 +24,14 @@
     ];
 
     // Other important locations
-    var playerDiv = document.querySelectorAll("#movie > div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
-    var topNotificationBar = document.querySelectorAll("#movie > div.container.player-wrapper > div > div.col-xs-24");
-    var titleLocation = document.querySelectorAll("#movie > div.widget.info > div:nth-child(1) > div > div > h1");
-
+    var movieDiv = $("#movie");
+    var playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
+    var topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24");
+    var titleDiv = $(movieDiv).find("div.widget.info > div > div > div > h1");
+    var suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container");
+    var commentDiv = $("#comment");
+    var infoDiv = $("#info");
+    var episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div");
 
     // Load Settings. In case the settings are missing, we will use
     // default values.
@@ -37,7 +41,7 @@
             removeAds = !!values["adsToggle"] || false;
             resizePlayer = !!values["playerSizeToggle"] || false;
             minimalMode = !!values["minimalModeToggle"] || false;
-
+            
             // Once we load the settings, we resolve our promise.
             resolve();
         });
@@ -46,31 +50,46 @@
     // We will use this to store the last watched anime details
     chrome.storage.local.set({
         lastWatchedUrl: document.location.href || false,
-        lastWatchedName: titleLocation[0].innerHTML || false
+        lastWatchedName: $(titleDiv).text() || false
     });
 
+    function adsRemover() {
+        for (var i = 0; i < adsLocations.length; i++) {
+            $(adsLocations[i]).remove();
+        }
+    }
+
+    function playerResizer() {
+        $(playerDiv).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
+        $(topNotificationBar).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
+    }
+
     settingsLoadedPromise.then(function () {
-        // First we make sure that the query selector actually has
-        // elements. Then we hide the sideBar and adjust the width
-        // of the player and the notification banner.
-        if (removeAds) {
-            for (var i = 0; i < adsLocations.length; i++) {
-                var ad = document.querySelectorAll(adsLocations[i]);
-                if (ad.length > 0) {
-                    ad[0].remove();
-                }
-            }
 
+        // Minimal Mode
+        // This mode will also remove ads and resize/center player,
+        // regardless of whether this option is chosen or not.
+        if (minimalMode) {
+            $(suggestedDiv).remove();
+            $(commentDiv).remove();
+            $(infoDiv).remove();
+            $(titleDiv).remove();
+            $(episodeListDiv).css({width: "90%", paddingLeft: "10%"});
+
+            adsRemover();
+            playerResizer();
         }
 
-        if (playerDiv.length > 0 && resizePlayer) {
-            playerDiv[0].style.width = (playerWidth * 100) + "%";
-            playerDiv[0].style.paddingLeft = ((1 - playerWidth) * 100) + "%";
+        // Ads Removal
+        if (!minimalMode && removeAds) {
+            // console.log("Oui Ads");
+            adsRemover();
         }
 
-        if (topNotificationBar.length > 0 && resizePlayer) {
-            topNotificationBar[0].style.width = (playerWidth * 100) + "%";
-            topNotificationBar[0].style.paddingLeft = ((1 - playerWidth) * 100) + "%";
+        // Player Resizer
+        if (!minimalMode && resizePlayer) {
+            // console.log("Oui Resize");
+            playerResizer();
         }
     });
 
@@ -78,4 +97,4 @@
     chrome.runtime.sendMessage({intent: "hello"}, function (response) {
         console.log(response.result);
     });
-})();
+})(jQuery);

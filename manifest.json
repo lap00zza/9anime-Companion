@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["https://9anime.to/watch/*", "https://9anime.is/watch/*", "https://9anime.tv/watch/*"],
-      "js": ["assets/js/content.js"]
+      "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content.js"]
     }
   ],
 
