@@ -8,9 +8,12 @@
 <body>
 <div class="companion-container">
     <div id="info">
-        <div class="left"><strong>9anime</strong> Companion</div>
-        <div class="right">
-            <img src="assets/images/settings.png" id="settingsWindowToggle">
+        <div class="left" id="anime-link-image">
+            <img src="assets/images/icon.png">
+        </div>
+        <div class="center"><strong>9anime</strong> Companion</div>
+        <div class="right" id="settingsWindowToggle">
+            <img src="assets/images/settings.png">
         </div>
     </div>
 
@@ -19,22 +22,16 @@
 
         <!-- This part contains a direct link to 9Anime.-->
         <div id="main">
-            <div id="link">
-                <img src="assets/images/icon.png" id="anime-link-image">
-            </div>
+            <div id="pinnedList">
 
-            <div id="lastWatchedDetails" data-url="">
-                <div class="lw-header">Last Watched</div>
 
-                <!-- TODO: Attach onClick listener-->
-                <div id="lastWatched">Watch something first :)</div>
             </div>
+            <div id="pinned_item_header">Pinned</div>
         </div>
 
         <!--This part holds all the options-->
         <div id="options" style="display: none;">
             <div class="option-item">
-                <!-- TODO: finish up the minimal mode ASAP-->
                 <div class="option-text">Minimal Mode</div>
                 <div class="option slideOne">
                     <input type="checkbox" id="minimalModeToggle">

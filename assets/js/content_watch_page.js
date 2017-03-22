@@ -1,11 +1,7 @@
 /**
- * This script handles all the functionality. It automatically loads
- * when the user goes to 9Anime website.
+ * This script handles all the functionality in the watch page.
  */
 (function ($) {
-    // TODO: add support for settings storage
-    console.log("9Anime Companion has loaded.", document.location.href);
-
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
     var removeAds,
@@ -33,6 +29,12 @@
     var infoDiv = $("#info");
     var episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div");
 
+    var player = $("#player");
+    var playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
+
+    // Web Accessible Resource URL's
+    var pinImage = chrome.extension.getURL("assets/images/pin.png");
+
     // Load Settings. In case the settings are missing, we will use
     // default values.
     var settingsLoadedPromise = new Promise(function (resolve, reject) {
@@ -45,12 +47,6 @@
             // Once we load the settings, we resolve our promise.
             resolve();
         });
-    });
-
-    // We will use this to store the last watched anime details
-    chrome.storage.local.set({
-        lastWatchedUrl: document.location.href || false,
-        lastWatchedName: $(titleDiv).text() || false
     });
 
     function adsRemover() {
@@ -93,8 +89,35 @@
         }
     });
 
-    // Interaction between extension and Page
-    chrome.runtime.sendMessage({intent: "hello"}, function (response) {
-        console.log(response.result);
-    });
+    // This portion deals with attaching the utility bar
+    // at the bottom of the player. This bar provide quite
+    // a few functionality like pin etc.
+    if ($(player).length > 0){
+        $(playerParent)
+            .append(`<div class="player_utilities"><div id="pin_Utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
+            .promise()
+            .done(function () {
+                $("#pin_Utility").on("click", function () {
+                    var animeName = $(titleDiv).text() || "";
+                    var animeUrl = document.location.href || "";
+                    
+                    var requestObj = {
+                        intent: "addPinnedAnime",
+                        animeName: animeName,
+                        animeUrl: animeUrl
+                    };
+                    
+                    chrome.runtime.sendMessage(requestObj, function (response) {
+                        console.log(response.result);
+                    });
+
+                });
+            });
+    }
+
+    // Test interaction between content script and background page
+    // chrome.runtime.sendMessage({intent: "hello"}, function (response) {
+    //     console.log(response.result);
+    // });
+    
 })(jQuery);
