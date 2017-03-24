@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+// TODO: Once we re-add the options page, remove options.html and bootstrap from exclude list
 
 var gulp = require("gulp");
 var zip = require("gulp-zip");
@@ -30,7 +31,6 @@ gulp.task("clean_chrome", function () {
     return del(["dist/chromium"]);
 });
 
-// TODO: Once we re-add the options page, edit this
 gulp.task("make_chrome", ["clean_chrome"], function () {
     gulp.src([
         "!src/options.html",
@@ -57,7 +57,6 @@ gulp.task("clean_firefox", function () {
     return del(["dist/firefox"]);
 });
 
-// TODO: Once we re-add the options page, edit this
 gulp.task("make_firefox", ["clean_firefox"], function () {
     gulp.src([
         "!src/options.html",
