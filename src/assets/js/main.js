@@ -1,17 +1,13 @@
 /**
- * We are going to use jquery for this interface popup
- * as it is easier to make the effects using it.
+ * Handles the functionality withing the main popup UI.
  */
 // TODO: maybe add removeFromPinnedList to the events page instead?
 (function ($) {
     var animeLink = $("#anime-link-image");
     var settingsBtn = $("#settingsWindowToggle");
-    var optionsWindow = $("#options");
-    var mainWindow = $("#main");
     var lastWatched = $("#lastWatched");
     var lastWatchedDetails = $("#lastWatchedDetails");
     var pinnedListDiv = $("#pinnedList");
-    var optionElements = ["minimalModeToggle", "adsToggle", "playerSizeToggle"];
 
     // Click Handlers
     $(animeLink).on("click", function () {
@@ -21,32 +17,7 @@
     });
 
     $(settingsBtn).on("click", function () {
-        $(mainWindow).toggle("fast");
-        $(optionsWindow).toggle("fast");
-    });
-
-    // NOTE: We are using computed property to generate
-    // dynamic keys based on ID.
-    $(optionsWindow).find("input:checkbox").change(function () {
-        var key = this.id;
-        if ($(this).is(":checked")) {
-            console.log(key + " is on!");
-            chrome.storage.local.set({[key]: 1});
-
-        } else {
-            console.log(this.id + " is off!");
-            chrome.storage.local.set({[key]: 0});
-        }
-    });
-
-    chrome.storage.local.get(optionElements, function (keys) {
-        console.log(keys);
-        for (var key in keys) {
-            if (keys.hasOwnProperty(key)) {
-                console.log(key, keys[key]);
-                $("#" + key).prop("checked", !!(keys[key]))
-            }
-        }
+        chrome.runtime.openOptionsPage();
     });
     
     // This portion deals with binding the pinned anime list

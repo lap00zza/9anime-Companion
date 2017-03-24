@@ -5,7 +5,10 @@ $primary2: #7f638c
 
 html, body
     margin: 0
-    padding: 0
+    //For firefox, we need to add these 2 lines
+    //below to get a clean uniform look
+    font-family: "Segoe UI", Tahoma, sans-serif
+    font-size: 12px
 
 .companion-container
     width: 300px
@@ -56,11 +59,9 @@ html, body
             width: 15px
             opacity: 0.6
 
-#link_options_multi
-    height: $multiWindowHeight
-
 // CSS for main window
 #main
+    height: $multiWindowHeight
     #pinned_item_header
         //text-align: center
         font-size: 14px
@@ -131,60 +132,3 @@ html, body
 .pinned_item:nth-child(even)
     background-color: #eeeeee
 
-// CSS for Options Window
-.op_credit
-    text-align: center
-    padding-top: 5px
-    padding-bottom: 5px
-    color: #5e5e5e
-
-.option-item
-    display: flex
-    border-bottom: 1px solid #dedede
-    padding: 5px
-
-    .option-text
-        flex: 0 0 100px
-        padding-left: 10px
-        color: #9e9e9e
-
-.slideOne
-    width: 35px
-    height: 1px
-    background: #dedede
-    margin: 5px auto
-    position: relative
-    border-radius: 50px
-    label
-        display: block
-        width: 10px
-        height: 10px
-        position: absolute
-        top: -3.6px
-        left: -3px
-        cursor: pointer
-        background: $primary1
-        border-radius: 50px
-        transition: all 0.4s ease
-
-    input[type=checkbox]
-        visibility: hidden
-        &:checked + label
-            left: 30px
-
-//#footer
-//    display: flex
-//    width: 100%
-//    border-top: 1px solid #dedede
-//    padding-top: 3px
-//
-//    .left
-//        flex: 1
-//    .right
-//        img
-//            height: 25px
-//            width: 25px
-//            opacity: 0.4
-//            cursor: pointer
-//            &:hover
-//                opacity: 0.5

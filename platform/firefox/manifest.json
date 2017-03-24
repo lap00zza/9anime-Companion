@@ -1,12 +1,19 @@
 {
   "manifest_version": 2,
   "name": "9anime Companion",
-  "version": "0.0.1",
+  "version": "0.0.3beta2",
 
   "author": "Jewel Mahanta",
-  "homepage_url": "https://github.com/lap00zza/9anime-Companion",
+  "homepage_url": "https://github.com/lap00zza/9anime-Companion-for-Firefox",
+  "description": "A simple companion extension for 9anime",
 
-  "description": "A simple companion extension for 9Anime",
+  "applications": {
+    "gecko": {
+      "id": "9anime-companion-firefox@jewelmahanta.com",
+      "strict_min_version": "50.0"
+    }
+  },
+
   "icons": {
     "16": "assets/images/icon16.png",
     "48": "assets/images/icon48.png",
@@ -16,12 +23,12 @@
 
   "content_scripts": [
     {
-      "matches": ["https://9anime.to/watch/*", "https://9anime.is/watch/*", "https://9anime.tv/watch/*"],
+      "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
       "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content_watch_page.js"],
       "css": ["assets/sass/style_others.css"]
     },
     {
-      "matches": ["https://9anime.to/*", "https://9anime.is/*", "https://9anime.tv/*"],
+      "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
       "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content_main_website.js"],
       "css": ["assets/sass/style_others.css"]
     }
@@ -30,6 +37,10 @@
   "browser_action": {
     "default_icon": "assets/images/icon.png",
     "default_popup": "popup.html"
+  },
+
+  "options_ui": {
+    "page": "options.html"
   },
 
   "background": {

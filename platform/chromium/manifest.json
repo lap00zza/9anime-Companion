@@ -1,0 +1,52 @@
+{
+  "manifest_version": 2,
+  "name": "9anime Companion",
+  "version": "0.0.1",
+
+  "author": "Jewel Mahanta",
+  "homepage_url": "https://github.com/lap00zza/9anime-Companion",
+  "description": "A simple companion extension for 9anime",
+
+  "icons": {
+    "16": "assets/images/icon16.png",
+    "48": "assets/images/icon48.png",
+    "96": "assets/images/icon96.png",
+    "128": "assets/images/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
+      "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content_watch_page.js"],
+      "css": ["assets/sass/style_others.css"]
+    },
+    {
+      "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
+      "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content_main_website.js"],
+      "css": ["assets/sass/style_others.css"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "assets/images/icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "options_ui": {
+    "page": "options.html"
+  },
+
+  "background": {
+    "scripts": ["assets/js/events.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+
+  "web_accessible_resources": [
+    "assets/images/*"
+  ]
+}

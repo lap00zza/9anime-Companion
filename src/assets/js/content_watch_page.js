@@ -1,13 +1,16 @@
 /**
  * This script handles all the functionality in the watch page.
  */
+// TODO: https://9anime.to/watch/yamada-kun-to-7-nin-no-majo-tv.kw99/rlq2kq remove last part of url before adding
+// This might also result in duplicate entries getting added.
+
 (function ($) {
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
     var removeAds,
         resizePlayer,
         minimalMode,
-        playerWidth = 0.9,
+        playerWidth = 1,
         optionsArray = ["minimalModeToggle", "adsToggle", "playerSizeToggle"];
 
     // Ads Locations
@@ -56,8 +59,17 @@
     }
 
     function playerResizer() {
-        $(playerDiv).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
-        $(topNotificationBar).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
+        if (playerWidth > 0 && playerWidth < 1) {
+            $(playerDiv).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
+            $(topNotificationBar).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
+
+        } else if (playerWidth === 1) {
+            $(playerDiv).css({width: "100%"});
+            $(topNotificationBar).css({width: "100%"});
+            
+        } else {
+            // TODO: handle this case when playerWidth is 0
+        }
     }
 
     settingsLoadedPromise.then(function () {
@@ -70,7 +82,7 @@
             $(commentDiv).remove();
             $(infoDiv).remove();
             $(titleDiv).remove();
-            $(episodeListDiv).css({width: "90%", paddingLeft: "10%"});
+            $(episodeListDiv).css({width: "100%"});
 
             adsRemover();
             playerResizer();
@@ -99,8 +111,15 @@
             .done(function () {
                 $("#pin_Utility").on("click", function () {
                     var animeName = $(titleDiv).text() || "";
-                    var animeUrl = document.location.href || "";
-                    
+                    // var animeUrl = document.location.href || "";
+
+                    // Why do this and not just take the document.location.href?
+                    // Well take the location, then that will also contain the parts
+                    // added to the main url to specify episode number (which we are
+                    // not interested in)
+                    var animeUrl = $("meta[property='og:url']").attr("content");
+                    console.log(animeUrl);
+
                     var requestObj = {
                         intent: "addPinnedAnime",
                         animeName: animeName,

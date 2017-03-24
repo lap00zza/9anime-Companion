@@ -16,6 +16,19 @@
     }
 
     /**
+     * This function checks whether this url refers to http or https
+     * version of the site.
+     *
+     * TODO: this needs to be tested properly
+     *
+     * @param urlString
+     */
+    function isHttps(urlString) {
+        var re_url = /^(https):/;
+        return !!urlString.match(re_url);
+    }
+
+    /**
      * Checks if a entry already exists in the current pinned anime list.
      * If this entry exists, returns boolean true. Else returns boolean
      * false. This is used to avoid duplicate pinned list entries.
