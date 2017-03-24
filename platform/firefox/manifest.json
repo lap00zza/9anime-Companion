@@ -39,9 +39,9 @@
     "default_popup": "popup.html"
   },
 
-  "options_ui": {
-    "page": "options.html"
-  },
+//  "options_ui": {
+//    "page": "options.html"
+//  },
 
   "background": {
     "scripts": ["assets/js/events.js"],
