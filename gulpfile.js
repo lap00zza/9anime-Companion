@@ -28,7 +28,7 @@ var zip = require("gulp-zip");
 
 gulp.task("make_chrome", function () {
     gulp.src([
-        "src/**/*",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
@@ -36,7 +36,7 @@ gulp.task("make_chrome", function () {
 
 gulp.task("zip_chrome", function () {
     gulp.src([
-        "src/**/*",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
         "platform/chromium/**/*"
     ])
         .pipe(zip("9anime_Companion_chrome.zip"))
@@ -45,7 +45,7 @@ gulp.task("zip_chrome", function () {
 
 gulp.task("make_firefox", function () {
     gulp.src([
-        "src/**/*",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
         "platform/firefox/**/*"
     ])
         .pipe(gulp.dest("dist/firefox"));
@@ -53,7 +53,7 @@ gulp.task("make_firefox", function () {
 
 gulp.task("zip_firefox", function () {
     gulp.src([
-        "src/**/*",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
         "platform/firefox/**/*"
     ])
         .pipe(zip("9anime_Companion_firefox.zip"))
