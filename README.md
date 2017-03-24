@@ -1,15 +1,16 @@
 ## 9anime Companion
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
 
-
 A simple companion extension for 9anime
+<p align="center"><img src="https://image.ibb.co/chDnYv/ui.png"></p>
+
 
 ### Features
 * Remove Ads
 * Resize/Center the player
 * Minimal Mode (only player and episode list)
-* Last Watched
 * Quick Link
+* Pin Anime (to watch later)
 
 ### Downloads
 * **Firefox**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/
