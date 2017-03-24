@@ -10,7 +10,7 @@ gulp.task("make_chrome", function () {
         .pipe(gulp.dest("dist/chromium"));
 });
 
-gulp.task("dist_chrome", function () {
+gulp.task("zip_chrome", function () {
     gulp.src([
         "src/**/*",
         "platform/chromium/**/*"
@@ -27,7 +27,7 @@ gulp.task("make_firefox", function () {
         .pipe(gulp.dest("dist/firefox"));
 });
 
-gulp.task("dist_firefox", function () {
+gulp.task("zip_firefox", function () {
     gulp.src([
         "src/**/*",
         "platform/firefox/**/*"
