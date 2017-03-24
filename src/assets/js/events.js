@@ -209,4 +209,18 @@
             }
         }
     );
+
+    //noinspection JSCheckFunctionSignatures
+    chrome.runtime.onInstalled.addListener(function (details) {
+        // Initializing the default settings
+        if (details.reason === "install") {
+            chrome.storage.local.set({
+                adsToggle: 1,
+                playerSizeToggle: 1,
+                minimalModeToggle: 0,
+                pinIconToggle: 1
+            });
+        }
+    });
+
 })();
