@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "9anime Companion",
-  "version": "0.0.3beta2",
+  "version": "0.0.3beta3",
 
   "author": "Jewel Mahanta",
   "homepage_url": "https://github.com/lap00zza/9anime-Companion",
@@ -24,12 +24,12 @@
   "content_scripts": [
     {
       "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
-      "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content_watch_page.js"],
+      "js": ["assets/lib/jquery-3.2.0.min.js", "assets/js/content_watch_page.js"],
       "css": ["assets/sass/style_others.css"]
     },
     {
       "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
-      "js": ["assets/js/jquery-3.2.0.min.js", "assets/js/content_main_website.js"],
+      "js": ["assets/lib/jquery-3.2.0.min.js", "assets/js/content_main_website.js"],
       "css": ["assets/sass/style_others.css"]
     }
   ],
