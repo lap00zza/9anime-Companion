@@ -24,7 +24,6 @@
 
 // This content script handles global functionality like pins etc
 // TODO: maybe add some animation to the anime item to indicate add success?
-// TODO: Pin Anime icons should be toggleable
 (function ($) {
     console.log("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
 

@@ -26,6 +26,14 @@
 // main interface. This module runs in the background.
 // TODO: maybe add some unit tests for the functions?
 (function () {
+
+    var defaultSettings = {
+        adsToggle: 1,
+        playerSizeToggle: 1,
+        minimalModeToggle: 0,
+        pinIconToggle: 1
+    };
+
     /**
      * This helper function will help us test whether a given string is a URL.
      *
@@ -214,12 +222,8 @@
     chrome.runtime.onInstalled.addListener(function (details) {
         // Initializing the default settings
         if (details.reason === "install") {
-            chrome.storage.local.set({
-                adsToggle: 1,
-                playerSizeToggle: 1,
-                minimalModeToggle: 0,
-                pinIconToggle: 1
-            });
+            console.log("New install: Saving the default settings to localStorage", defaultSettings);
+            chrome.storage.local.set(defaultSettings);
         }
     });
 

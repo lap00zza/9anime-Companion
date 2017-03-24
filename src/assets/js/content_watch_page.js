@@ -23,10 +23,7 @@
  */
 
 // This script handles all the functionality in the watch page.
-// TODO: https://9anime.to/watch/yamada-kun-to-7-nin-no-majo-tv.kw99/rlq2kq remove last part of url before adding
 // TODO: Utility Bar should be toggleable
-// This might also result in duplicate entries getting added.
-
 (function ($) {
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
@@ -34,8 +31,14 @@
         resizePlayer,
         minimalMode,
         pinAnimeIcon,
-        playerWidth = 1,
-        optionsArray = ["minimalModeToggle", "adsToggle", "playerSizeToggle", "pinIconToggle"];
+        playerWidth = 1, // this ranges from 0 to 1
+        defaultSettings = {
+            adsToggle: 1,
+            playerSizeToggle: 1,
+            minimalModeToggle: 0,
+            pinIconToggle: 1
+        },
+        optionElements = Object.keys(defaultSettings);
 
     // Ads Locations
     // TODO: add a way to update the ads locations remotely via updates
@@ -47,34 +50,19 @@
     ];
 
     // Other important locations
-    var player = $("#player");
-    var infoDiv = $("#info");
-    var movieDiv = $("#movie");
-    var commentDiv = $("#comment");
-    var playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
-    var topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24");
-    var titleDiv = $(movieDiv).find("div.widget.info > div > div > div > h1");
-    var suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container");
-    var episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div");
-    var playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
+    var player = $("#player"),
+        infoDiv = $("#info"),
+        movieDiv = $("#movie"),
+        commentDiv = $("#comment"),
+        playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24"),
+        topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24"),
+        titleDiv = $(movieDiv).find("div.widget.info > div > div > div > h1"),
+        suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container"),
+        episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div"),
+        playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
 
     // Web Accessible Resource URL's
     var pinImage = chrome.extension.getURL("assets/images/pin.png");
-
-    // Load Settings. In case the settings are missing, we will use
-    // default values.
-    var settingsLoadedPromise = new Promise(function (resolve, reject) {
-        chrome.storage.local.get(optionsArray, function (values) {
-
-            removeAds = !!values["adsToggle"] || true;
-            resizePlayer = !!values["playerSizeToggle"] || true;
-            minimalMode = !!values["minimalModeToggle"] || false;
-            pinAnimeIcon = !!values["pinIconToggle"] || true;
-
-            // Once we load the settings, we resolve our promise.
-            resolve();
-        });
-    });
 
     function adsRemover() {
         for (var i = 0; i < adsLocations.length; i++) {
@@ -90,11 +78,26 @@
         } else if (playerWidth === 1) {
             $(playerDiv).css({width: "100%"});
             $(topNotificationBar).css({width: "100%"});
-            
+
         } else {
             // TODO: handle this case when playerWidth is 0
         }
     }
+    
+    // Load Settings. In case the settings are missing, we will use
+    // default settings.
+    var settingsLoadedPromise = new Promise(function (resolve, reject) {
+        chrome.storage.local.get(optionElements, function (values) {
+
+            removeAds = !!values["adsToggle"] || !!defaultSettings["adsToggle"];
+            resizePlayer = !!values["playerSizeToggle"] || !!defaultSettings["playerSizeToggle"];
+            minimalMode = !!values["minimalModeToggle"] || !!defaultSettings["minimalModeToggle"];
+            pinAnimeIcon = !!values["pinIconToggle"] || !!defaultSettings["pinIconToggle"];
+
+            // Once we load the settings, we resolve our promise.
+            resolve();
+        });
+    });
 
     settingsLoadedPromise.then(function () {
 
@@ -128,7 +131,7 @@
             // This portion deals with attaching the utility bar
             // at the bottom of the player. This bar provide quite
             // a few functionality like pin etc.
-            if ($(player).length > 0){
+            if ($(player).length > 0) {
                 $(playerParent)
                     .append(`<div class="player_utilities"><div id="pin_Utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
                     .promise()
@@ -164,5 +167,5 @@
     // chrome.runtime.sendMessage({intent: "hello"}, function (response) {
     //     console.log(response.result);
     // });
-    
+
 })(jQuery);

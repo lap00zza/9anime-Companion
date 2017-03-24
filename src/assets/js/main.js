@@ -23,7 +23,6 @@
  */
 
 // Handles the functionality withing the main popup UI.
-// TODO: maybe add removeFromPinnedList to the events page instead?
 (function ($) {
     var animeLink = $("#anime-link-image");
     var settingsBtn = $("#settingsWindowToggle");
@@ -32,28 +31,42 @@
     var pinnedListDiv = $("#pinnedList");
     var pinned = $("#pinned");
     var quickSettings = $("#quickSettings");
-    var optionElements = ["minimalModeToggle", "adsToggle", "playerSizeToggle", "pinIconToggle"];
+    var defaultSettings = {
+        adsToggle: 1,
+        playerSizeToggle: 1,
+        minimalModeToggle: 0,
+        pinIconToggle: 1
+    };
+    var optionElements = Object.keys(defaultSettings);
 
     // NOTE: We are using computed property to generate
     // dynamic keys based on ID.
     $(quickSettings).find("input:checkbox").change(function () {
-        var key = this.id;
+        var setting = this.id;
         if ($(this).is(":checked")) {
-            console.log(key + " is on!");
-            chrome.storage.local.set({[key]: 1});
+            console.log(setting + " is on!");
+            chrome.storage.local.set({[setting]: 1});
 
         } else {
             console.log(this.id + " is off!");
-            chrome.storage.local.set({[key]: 0});
+            chrome.storage.local.set({[setting]: 0});
         }
     });
 
-    chrome.storage.local.get(optionElements, function (keys) {
-        console.log(keys);
-        for (var key in keys) {
-            if (keys.hasOwnProperty(key)) {
-                console.log(key, keys[key]);
-                $("#" + key).prop("checked", !!(keys[key]))
+    chrome.storage.local.get(optionElements, function (settings) {
+        console.log(settings, optionElements);
+        for (var i = 0; i < optionElements.length; i++) {
+            var option = optionElements[i];
+
+            // Ok this might look a bit confusing. Here is what it is doing.
+            // We first check of localStorage has a saved value for this option.
+            // In case it does not have (which is, in the case of fresh install),
+            // then we will use the default values instead.
+            if (settings[option] === undefined) {
+                console.log("Using default setting for: " + option);
+                $("#" + option).prop("checked", !!defaultSettings[option]);
+            } else {
+                $("#" + option).prop("checked", !!settings[option]);
             }
         }
     });
@@ -74,6 +87,7 @@
     // This portion deals with binding the pinned anime list
     // onto the popup.
     // TODO: maybe this can be broken down to smaller functions?
+    // TODO: maybe make getPinnedList a function in events page?
     chrome.storage.local.get({pinnedList: []}, function (values) {
         var pinned = values["pinnedList"];
         if (pinned.length > 0) {
@@ -119,7 +133,6 @@
             console.log("Wew no anime!");
             $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
         }
-
-    })
+    });
 
 })(jQuery);
