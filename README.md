@@ -1,4 +1,7 @@
 ## 9anime Companion
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
+
+
 A simple companion extension for 9anime
 
 ### Features
