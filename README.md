@@ -23,6 +23,8 @@ After that, use one the following gulp tasks
 1. To make the extension use: `gulp make_chrome` or `gulp make_firefox`.
 2. To get a zipped version of the extensions use: `gulp zip_chrome` or `gulp zip_firefox`
 
+Once done, check the `dist` directory. Enjoy!
+
 ## License
 Copyright (c) 2017 Jewel Mahanta
 
