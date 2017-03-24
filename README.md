@@ -1,15 +1,27 @@
 ## 9anime Companion
 A simple companion extension for 9anime
 
-
-![Screenshot](https://image.ibb.co/jYsNFa/1.png)
-
 ### Features
 * Remove Ads
 * Resize/Center the player
 * Minimal Mode (only player and episode list)
 * Last Watched
 * Quick Link
+
+### Downloads
+* **Firefox**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/
+* **Chrome**: Not yet published to the webstore (use in developer mode)
+
+### Build Instructions
+If you want to build this extension yourself, the follow these instructions:
+```
+git clone https://github.com/lap00zza/9anime-Companion.git
+cd 9anime-Companion
+npm install
+```
+After that, use one the following gulp tasks
+1. To make the extension use: `gulp make_chrome` or `gulp make_firefox`.
+2. To get a zipped version of the extensions use: `gulp zip_chrome` or `gulp zip_firefox`
 
 ## License
 Copyright (c) 2017 Jewel Mahanta
