@@ -24,6 +24,7 @@
 
 // This script handles all the functionality in the watch page.
 // TODO: https://9anime.to/watch/yamada-kun-to-7-nin-no-majo-tv.kw99/rlq2kq remove last part of url before adding
+// TODO: Utility Bar should be toggleable
 // This might also result in duplicate entries getting added.
 
 (function ($) {
@@ -32,8 +33,9 @@
     var removeAds,
         resizePlayer,
         minimalMode,
+        pinAnimeIcon,
         playerWidth = 1,
-        optionsArray = ["minimalModeToggle", "adsToggle", "playerSizeToggle"];
+        optionsArray = ["minimalModeToggle", "adsToggle", "playerSizeToggle", "pinIconToggle"];
 
     // Ads Locations
     // TODO: add a way to update the ads locations remotely via updates
@@ -45,16 +47,15 @@
     ];
 
     // Other important locations
+    var player = $("#player");
+    var infoDiv = $("#info");
     var movieDiv = $("#movie");
+    var commentDiv = $("#comment");
     var playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
     var topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24");
     var titleDiv = $(movieDiv).find("div.widget.info > div > div > div > h1");
     var suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container");
-    var commentDiv = $("#comment");
-    var infoDiv = $("#info");
     var episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div");
-
-    var player = $("#player");
     var playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
 
     // Web Accessible Resource URL's
@@ -65,10 +66,11 @@
     var settingsLoadedPromise = new Promise(function (resolve, reject) {
         chrome.storage.local.get(optionsArray, function (values) {
 
-            removeAds = !!values["adsToggle"] || false;
-            resizePlayer = !!values["playerSizeToggle"] || false;
+            removeAds = !!values["adsToggle"] || true;
+            resizePlayer = !!values["playerSizeToggle"] || true;
             minimalMode = !!values["minimalModeToggle"] || false;
-            
+            pinAnimeIcon = !!values["pinIconToggle"] || true;
+
             // Once we load the settings, we resolve our promise.
             resolve();
         });
@@ -121,41 +123,43 @@
             // console.log("Oui Resize");
             playerResizer();
         }
-    });
 
-    // This portion deals with attaching the utility bar
-    // at the bottom of the player. This bar provide quite
-    // a few functionality like pin etc.
-    if ($(player).length > 0){
-        $(playerParent)
-            .append(`<div class="player_utilities"><div id="pin_Utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
-            .promise()
-            .done(function () {
-                $("#pin_Utility").on("click", function () {
-                    var animeName = $(titleDiv).text() || "";
-                    // var animeUrl = document.location.href || "";
+        if (pinAnimeIcon) {
+            // This portion deals with attaching the utility bar
+            // at the bottom of the player. This bar provide quite
+            // a few functionality like pin etc.
+            if ($(player).length > 0){
+                $(playerParent)
+                    .append(`<div class="player_utilities"><div id="pin_Utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
+                    .promise()
+                    .done(function () {
+                        $("#pin_Utility").on("click", function () {
+                            var animeName = $(titleDiv).text() || "";
+                            // var animeUrl = document.location.href || "";
 
-                    // Why do this and not just take the document.location.href?
-                    // Well take the location, then that will also contain the parts
-                    // added to the main url to specify episode number (which we are
-                    // not interested in)
-                    var animeUrl = $("meta[property='og:url']").attr("content");
-                    console.log(animeUrl);
+                            // Why do this and not just take the document.location.href?
+                            // Well take the location, then that will also contain the parts
+                            // added to the main url to specify episode number (which we are
+                            // not interested in)
+                            var animeUrl = $("meta[property='og:url']").attr("content");
+                            console.log(animeUrl);
 
-                    var requestObj = {
-                        intent: "addPinnedAnime",
-                        animeName: animeName,
-                        animeUrl: animeUrl
-                    };
-                    
-                    chrome.runtime.sendMessage(requestObj, function (response) {
-                        console.log(response.result);
+                            var requestObj = {
+                                intent: "addPinnedAnime",
+                                animeName: animeName,
+                                animeUrl: animeUrl
+                            };
+
+                            chrome.runtime.sendMessage(requestObj, function (response) {
+                                console.log(response.result);
+                            });
+
+                        });
                     });
+            }
 
-                });
-            });
-    }
-
+        }
+    });
     // Test interaction between content script and background page
     // chrome.runtime.sendMessage({intent: "hello"}, function (response) {
     //     console.log(response.result);

@@ -32,7 +32,7 @@
     var pinnedListDiv = $("#pinnedList");
     var pinned = $("#pinned");
     var quickSettings = $("#quickSettings");
-    var optionElements = ["minimalModeToggle", "adsToggle", "playerSizeToggle"];
+    var optionElements = ["minimalModeToggle", "adsToggle", "playerSizeToggle", "pinIconToggle"];
 
     // NOTE: We are using computed property to generate
     // dynamic keys based on ID.
