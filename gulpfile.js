@@ -27,10 +27,15 @@ var gulp = require("gulp");
 var zip = require("gulp-zip");
 var del = require("del");
 
+// We start off by deleting the current directory
+// so that we are not left with any stale files.
 gulp.task("clean_chrome", function () {
     return del(["dist/chromium"]);
 });
 
+// Then we copy the common files from the src directory
+// and the chromium specific files from the platform
+// directory to the dist/chromium directory.
 gulp.task("make_chrome", ["clean_chrome"], function () {
     gulp.src([
         "!src/options.html",
@@ -42,6 +47,8 @@ gulp.task("make_chrome", ["clean_chrome"], function () {
         .pipe(gulp.dest("dist/chromium"));
 });
 
+// This is a helper task to make zip archives of the
+// extensions. Helpful for easy distribution.
 gulp.task("zip_chrome", function () {
     gulp.src([
         "!src/options.html",
