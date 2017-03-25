@@ -31,11 +31,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer; }
-  .player_utilities #pin_Utility {
+  .player_utilities #pin_utility {
     background-color: #1A237E; }
-    .player_utilities #pin_Utility:hover {
+    .player_utilities #pin_utility:hover {
       background-color: #304FFE; }
-    .player_utilities #pin_Utility img {
+    .player_utilities #pin_utility img {
       height: 15px;
       width: 15px; }
 

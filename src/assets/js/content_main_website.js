@@ -30,7 +30,11 @@
     var pinAnimeIcon;
     var settingsLoadedPromise = new Promise(function (resolve, reject) {
         chrome.storage.local.get("pinIconToggle", function (values) {
-            pinAnimeIcon = !!values["pinIconToggle"] || true;
+            if (values["pinIconToggle"] === undefined) {
+                pinAnimeIcon = true;
+            } else {
+                pinAnimeIcon = !!values["pinIconToggle"];
+            }
             resolve();
         });
     });

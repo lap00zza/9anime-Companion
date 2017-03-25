@@ -50,12 +50,46 @@
      * version of the site.
      *
      * TODO: this needs to be tested properly
-     *
      * @param urlString
      */
     function isHttps(urlString) {
         var re_url = /^(https):/;
         return !!urlString.match(re_url);
+    }
+
+    /**
+     * This function extracts anime and episode id from the url
+     *
+     * TODO: this needs to be tested properly
+     * @param url
+     * @returns {{animeId: *, episodeId: *}}
+     */
+    function extractIdFromUrl(url) {
+        var anime_id = null;
+        var episode_id = null;
+
+        if (isUrl(url)) {
+            // This regex will split the url such that we get the id/episode_id
+            // Using this as the example link: http://9anime.to/watch/ao-haru-ride.qk5n/vpz64
+            // we should get ["", "qk5n/vpz64"]
+            var re = /(?:http|https):\/\/9anime\.[a-z]+\/watch\/.+\./;
+            var splitUrl = url.split(re);
+
+            if (splitUrl.length === 2) {
+                // The we split that into Anime ID and Episode ID
+                var details = splitUrl[1].split("/");
+
+                if (details.length > 1) {
+                    anime_id = details[0];
+                    episode_id = details[1];
+                }
+            }
+        }
+
+        return {
+            animeId: anime_id,
+            episodeId: episode_id
+        }
     }
 
     /**
@@ -119,7 +153,7 @@
 
     /**
      * Remove a anime from the pinned list.
-     * 
+     *
      * @param url
      * @returns {Promise}
      */
@@ -200,14 +234,14 @@
             else if (request.intent === "removePinnedAnime") {
                 if (isUrl(request.animeUrl)) {
                     var remPinPromise = removeFromPinnedList(request.animeUrl);
-                    
+
                     remPinPromise.then(function (status) {
                         sendResponse({
                             result: status.result,
                             itemCount: status.itemCount
                         });
                     });
-                    
+
                     return true;
                 } else {
                     sendResponse({

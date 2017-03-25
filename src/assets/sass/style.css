@@ -74,24 +74,25 @@ html, body {
   font-size: 13px;
   cursor: pointer;
   padding: 5px;
-  position: relative; }
+  position: relative;
+  display: flex; }
   .pinned_item:hover .pinned_delete {
     visibility: visible; }
   .pinned_item .anime_item {
-    margin-right: 25px; }
+    flex: 1; }
 
 .pinned_delete {
   visibility: hidden;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  right: 0;
-  top: 3px;
-  text-align: center;
-  padding-top: 2.5px; }
+  width: 22px;
+  height: 22px;
+  text-align: center; }
   .pinned_delete img {
     height: 15px;
-    width: 15px; }
+    width: 15px;
+    padding-top: 3px;
+    opacity: 0.7; }
+  .pinned_delete:hover img {
+    opacity: 1; }
 
 @keyframes deleting {
   from {

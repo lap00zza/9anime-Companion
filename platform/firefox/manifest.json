@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "9anime Companion",
-  "version": "0.0.3",
+  "version": "0.0.3.1",
 
   "author": "Jewel Mahanta",
   "homepage_url": "https://github.com/lap00zza/9anime-Companion",
@@ -38,10 +38,6 @@
     "default_icon": "assets/images/icon.png",
     "default_popup": "popup.html"
   },
-
-//  "options_ui": {
-//    "page": "options.html"
-//  },
 
   "background": {
     "scripts": ["assets/js/events.js"],

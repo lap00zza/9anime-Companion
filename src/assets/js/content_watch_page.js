@@ -24,19 +24,22 @@
 
 // This script handles all the functionality in the watch page.
 // TODO: Utility Bar should be toggleable
+// TODO: Load Default settings from events page
 (function ($) {
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
-    var removeAds,
-        resizePlayer,
-        minimalMode,
-        pinAnimeIcon,
-        playerWidth = 1, // this ranges from 0 to 1
+    var playerWidth = 1, // this ranges from 0 to 1
         defaultSettings = {
             adsToggle: 1,
             playerSizeToggle: 1,
             minimalModeToggle: 0,
             pinIconToggle: 1
+        },
+        settings = {
+            adsToggle: 0,
+            playerSizeToggle: 0,
+            minimalModeToggle: 0,
+            pinIconToggle: 0
         },
         optionElements = Object.keys(defaultSettings);
 
@@ -83,17 +86,21 @@
             // TODO: handle this case when playerWidth is 0
         }
     }
-    
+
     // Load Settings. In case the settings are missing, we will use
     // default settings.
     var settingsLoadedPromise = new Promise(function (resolve, reject) {
         chrome.storage.local.get(optionElements, function (values) {
-
-            removeAds = !!values["adsToggle"] || !!defaultSettings["adsToggle"];
-            resizePlayer = !!values["playerSizeToggle"] || !!defaultSettings["playerSizeToggle"];
-            minimalMode = !!values["minimalModeToggle"] || !!defaultSettings["minimalModeToggle"];
-            pinAnimeIcon = !!values["pinIconToggle"] || !!defaultSettings["pinIconToggle"];
-
+            // settings = values;
+            for (var i = 0; i < optionElements.length; i++) {
+                var option = optionElements[i];
+                if (values[option] === undefined) {
+                    settings[option] = !!defaultSettings[option];
+                } else {
+                    settings[option] = !!values[option];
+                }
+            }
+            console.log(settings);
             // Once we load the settings, we resolve our promise.
             resolve();
         });
@@ -104,7 +111,7 @@
         // Minimal Mode
         // This mode will also remove ads and resize/center player,
         // regardless of whether this option is chosen or not.
-        if (minimalMode) {
+        if (settings["minimalModeToggle"]) {
             $(suggestedDiv).remove();
             $(commentDiv).remove();
             $(infoDiv).remove();
@@ -116,27 +123,29 @@
         }
 
         // Ads Removal
-        if (!minimalMode && removeAds) {
+        if (!settings["minimalModeToggle"] && settings["adsToggle"]) {
             // console.log("Oui Ads");
             adsRemover();
         }
 
         // Player Resizer
-        if (!minimalMode && resizePlayer) {
+        if (!settings["minimalModeToggle"] && settings["playerSizeToggle"]) {
             // console.log("Oui Resize");
             playerResizer();
         }
 
-        if (pinAnimeIcon) {
+        if (settings["pinIconToggle"]) {
+            // console.log("Oui PinIcon");
+
             // This portion deals with attaching the utility bar
             // at the bottom of the player. This bar provide quite
             // a few functionality like pin etc.
             if ($(player).length > 0) {
                 $(playerParent)
-                    .append(`<div class="player_utilities"><div id="pin_Utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
+                    .append(`<div class="player_utilities"><div id="pin_utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
                     .promise()
                     .done(function () {
-                        $("#pin_Utility").on("click", function () {
+                        $("#pin_utility").on("click", function () {
                             var animeName = $(titleDiv).text() || "";
                             // var animeUrl = document.location.href || "";
 
