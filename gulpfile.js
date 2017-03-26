@@ -22,6 +22,7 @@
  *  SOFTWARE.
  */
 // TODO: Once we re-add the options page, remove options.html and bootstrap from exclude list
+// TODO: Maybe add a task to build without the included tests.
 
 var gulp = require("gulp");
 var zip = require("gulp-zip");
@@ -42,7 +43,7 @@ gulp.task("make_chrome", ["clean_chrome"], function () {
         "!src/assets/js/optionsPage.js",
         "!src/assets/sass/optionsPage.css",
         "!src/assets/lib/bootstrap/**/*",
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
@@ -56,7 +57,7 @@ gulp.task("zip_chrome", function () {
         "!src/assets/js/optionsPage.js",
         "!src/assets/sass/optionsPage.css",
         "!src/assets/lib/bootstrap/**/*",
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
         .pipe(zip("9anime_Companion_chrome.zip"))
@@ -74,7 +75,7 @@ gulp.task("make_firefox", ["clean_firefox"], function () {
         "!src/assets/js/optionsPage.js",
         "!src/assets/sass/optionsPage.css",
         "!src/assets/lib/bootstrap/**/*",
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])
         .pipe(gulp.dest("dist/firefox"));
@@ -86,7 +87,7 @@ gulp.task("zip_firefox", function () {
         "!src/assets/js/optionsPage.js",
         "!src/assets/sass/optionsPage.css",
         "!src/assets/lib/bootstrap/**/*",
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2}",
+        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])
         .pipe(zip("9anime_Companion_firefox.zip"))
