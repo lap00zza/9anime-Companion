@@ -93,3 +93,10 @@ gulp.task("zip_firefox", function () {
         .pipe(zip("9anime_Companion_firefox.zip"))
         .pipe(gulp.dest("dist"));
 });
+
+// This default task is added so that we can easily
+// test our entire process using travis.
+gulp.task("default", [
+    "make_chrome",
+    "make_firefox"
+]);
