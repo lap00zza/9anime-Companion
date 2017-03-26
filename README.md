@@ -18,7 +18,7 @@ A simple companion extension for 9anime
 * **Chrome**: Not yet published to the webstore (use in developer mode)
 
 ### Build Instructions
-If you want to build this extension yourself, the follow these instructions:
+If you want to build this extension yourself, follow these instructions:
 ```
 git clone https://github.com/lap00zza/9anime-Companion.git
 cd 9anime-Companion
@@ -28,24 +28,22 @@ After that, use one the following gulp tasks
 1. To make the extension use: `gulp make_chrome` or `gulp make_firefox`.
 2. To get a zipped version of the extensions use: `gulp zip_chrome` or `gulp zip_firefox`
 
-Once done, check the `dist` directory. Enjoy!
+Once done, check the `dist` directory.
 
 ### Instructions for running in Developement Mode
 **Chrome**
-1. Either build it from source using the above instructions, or download `9anime_Companion_chrome.zip` from: [Releases](https://github.com/lap00zza/9anime-Companion/releases) and extract it. (Make sure to use latest release)
+1. Either [build it yourself](https://github.com/lap00zza/9anime-Companion#build-instructions), or download `9anime_Companion_chrome.zip` from: [Releases](https://github.com/lap00zza/9anime-Companion/releases) and extract it. (Make sure to use latest release)
 2. Open Chrome. Then Settings > Extensions. Check *Developer mode*.
 3. Click *Load unpacked extension...*
 4.  * **If you built it from source**: select the **9anime-Companion/dist** directory. 
     * **If you downloaded zip from Releases**: select the extracted location.
-5. Enjoy!
 
 **Firefox**
-1. Either build it from source using the above instructions, or download `9anime_Companion_firefox.zip` from: [Releases](https://github.com/lap00zza/9anime-Companion/releases) and extract it. (Make sure to use latest release)
+1. Either [build it yourself](https://github.com/lap00zza/9anime-Companion#build-instructions), or download `9anime_Companion_firefox.zip` from: [Releases](https://github.com/lap00zza/9anime-Companion/releases) and extract it. (Make sure to use latest release)
 2. Open Firefox. Then enter `about:debugging` in the URL bar and press enter.
 3. Click *Load Temporary Add-on*
 4.  * **If you built it from source**: select the **9anime-Companion/dist** directory. 
     * **If you downloaded zip from Releases**: select the extracted location.
-5. Enjoy!
 
 ### Tests
 There are a very limited number of tests. To access the tests, open **src/test/test.html**.
