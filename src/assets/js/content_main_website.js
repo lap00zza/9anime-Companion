@@ -25,7 +25,11 @@
 // This content script handles global functionality like pins etc
 // TODO: maybe add some animation to the anime item to indicate add success?
 (function ($) {
+
     console.log("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
+    // Note to Self: getUrl method needs a path to a resource within an app/extension expressed
+    // **relative** to its install directory.
+    console.log("If you want to view the tests, go here: " + chrome.runtime.getURL("test/test.html"));
 
     var pinAnimeIcon;
     var settingsLoadedPromise = new Promise(function (resolve, reject) {
