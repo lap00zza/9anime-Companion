@@ -81,6 +81,9 @@ html, body {
   .pinned_item .anime_item {
     flex: 1; }
 
+.pinned_item:nth-child(even) {
+  background-color: #eeeeee; }
+
 .pinned_delete {
   visibility: hidden;
   width: 22px;
@@ -105,9 +108,6 @@ html, body {
   animation: deleting;
   animation-duration: 0.5s;
   animation-fill-mode: forwards; }
-
-.pinned_item:nth-child(even) {
-  background-color: #eeeeee; }
 
 .option-item {
   display: flex;

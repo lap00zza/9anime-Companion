@@ -111,6 +111,9 @@ html, body
         flex: 1
         //margin-right: 25px
 
+.pinned_item:nth-child(even)
+    background-color: #eeeeee
+
 .pinned_delete
     visibility: hidden
     width: 22px
@@ -139,13 +142,32 @@ html, body
         height: 0
         opacity: 0
 
+//@keyframes slideIn
+//    from
+//        margin-left: 0
+//    to
+//        margin-left: 20px
+//
+//@keyframes slideOut
+//    from
+//        margin-left: 20px
+//    to
+//        margin-left: 0
+//
+//.pin_item_slide_entry
+//    animation: slideIn
+//    animation-duration: 0.5s
+//    animation-fill-mode: forwards
+//
+//.pin_item_slide_exit
+//    animation: slideOut
+//    animation-duration: 0.5s
+//    animation-fill-mode: forwards
+
 .deleting_exit
     animation: deleting
     animation-duration: 0.5s
     animation-fill-mode: forwards
-
-.pinned_item:nth-child(even)
-    background-color: #eeeeee
 
 .option-item
     display: flex
