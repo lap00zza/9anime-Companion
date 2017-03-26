@@ -1,5 +1,6 @@
 ## 9anime Companion
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
 
 A simple companion extension for 9anime
 <p align="center"><img src="https://image.ibb.co/chDnYv/ui.png"></p>
@@ -28,6 +29,26 @@ After that, use one the following gulp tasks
 2. To get a zipped version of the extensions use: `gulp zip_chrome` or `gulp zip_firefox`
 
 Once done, check the `dist` directory. Enjoy!
+
+### Instructions for running in Developement Mode
+**Chrome**
+1. Either build it from source using the above instructions, or download `9anime_Companion_chrome.zip` from: [Releases](https://github.com/lap00zza/9anime-Companion/releases) and extract it. (Make sure to use latest release)
+2. Open Chrome. Then Settings > Extensions. Check *Developer mode*.
+3. Click *Load unpacked extension...*
+4.  * **If you built it from source**: select the **9anime-Companion/dist** directory. 
+    * **If you downloaded zip from Releases**: select the extracted location.
+5. Enjoy!
+
+**Firefox**
+1. Either build it from source using the above instructions, or download `9anime_Companion_firefox.zip` from: [Releases](https://github.com/lap00zza/9anime-Companion/releases) and extract it. (Make sure to use latest release)
+2. Open Firefox. Then enter `about:debugging` in the URL bar and press enter.
+3. Click *Load Temporary Add-on*
+4.  * **If you built it from source**: select the **9anime-Companion/dist** directory. 
+    * **If you downloaded zip from Releases**: select the extracted location.
+5. Enjoy!
+
+### Tests
+There are a very limited number of tests. To access the tests, open **src/test/test.html**.
 
 ## License
 Copyright (c) 2017 Jewel Mahanta
