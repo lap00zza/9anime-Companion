@@ -94,8 +94,20 @@
 
             console.log(pinned);
             for (var i = 0; i < pinned.length; i++) {
-                $(pinnedListDiv).append(`<div data-url="${pinned[i].url}" class="pinned_item"><div class="anime_item">${pinned[i].name}</div><div class="pinned_delete"><img src="../../assets/images/delete.png"></div></div>`);
+                $(pinnedListDiv).append(
+                    `<div data-url="${pinned[i].url}" class="pinned_item">
+                        <div class="anime_item">${pinned[i].name}</div>
+                        <div class="pinned_delete"><img src="../../assets/images/delete.png"></div>
+                    </div>`
+                );
             }
+            
+            // $(".pinned_item").on("mouseover", function () {
+            //     $(this).addClass("pin_item_slide_entry").removeClass("pin_item_slide_exit");
+            // });
+            // $(".pinned_item").on("mouseout", function () {
+            //     $(this).addClass("pin_item_slide_exit").removeClass("pin_item_slide_entry");
+            // });
 
             $(".pinned_item .anime_item").on("click", function () {
 
