@@ -33,7 +33,7 @@
   },
 
   "background": {
-    "scripts": ["assets/js/events.js"],
+    "scripts": ["assets/js/animeUtils.js", "assets/js/events.js"],
     "persistent": false
   },
 

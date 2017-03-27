@@ -24,7 +24,6 @@
 
 // This script handles all the functionality in the watch page.
 // TODO: Utility Bar should be toggleable
-// TODO: Load Default settings from events page
 (function ($) {
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
@@ -53,19 +52,24 @@
     ];
 
     // Other important locations
+    // All the selectors are placed together so that if in case 9anime
+    // changes anything in the future we can easily update it.
     var player = $("#player"),
         infoDiv = $("#info"),
         movieDiv = $("#movie"),
         commentDiv = $("#comment"),
+        servers = $("#servers"),
         playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24"),
         topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24"),
-        titleDiv = $(movieDiv).find("div.widget.info > div > div > div > h1"),
+        titleDiv = $("h1.title"),
+        alternateNamesLoc = $(infoDiv).find("div.row > div.info.col-md-20 > div.row > dl:nth-child(1) > dd:nth-child(2)"),
         suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container"),
         episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div"),
         playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
 
     // Web Accessible Resource URL's
-    var pinImage = chrome.extension.getURL("assets/images/pin.png");
+    var pinImage = chrome.extension.getURL("assets/images/pin.png"),
+        redditLogo = chrome.extension.getURL("assets/images/reddit-icon.png");
 
     function adsRemover() {
         for (var i = 0; i < adsLocations.length; i++) {
@@ -149,6 +153,10 @@
                                 <img src='${pinImage}'>
                                 Pin This
                             </div>
+                            <div id="reddit_disc_utility" class="utility_item">
+                                <img src='${redditLogo}'>
+                                Reddit Discussion
+                            </div>
                         </div>`
                     )
                     .promise()
@@ -175,6 +183,61 @@
                             });
 
                         });
+
+                        // TODO: maybe use simple <a href> instead of using chrome.tabs?
+                        $("#reddit_disc_utility").on("click", function () {
+
+                            // currentlyWatching can also come directly from the URL.
+                            // for example, when some one directly opens http://9anime.to/watch/gintama.5kq/llrp3n
+                            // This should not open discussion for entire anime but only for that
+                            // specific episode.
+                            var currentlyWatching = null;
+                            var name = $(titleDiv).text() || null;
+                            var alternateNames = [];
+                            if ($(alternateNamesLoc).text()) {
+                                $(alternateNamesLoc).text().split(";").forEach(function (name) {
+
+                                    // We don't want the leading and trailing spaces.
+                                    // So we trim it.
+                                    alternateNames.push(name.trim());
+                                })
+                            }
+
+                            /* --== This comment block should not be deleted. Might need later. ==--
+                            var currentAnimeId = $(movieDiv).data("id");
+                            if (currentAnimeId) {
+                                var episodeKey = window.localStorage["watching." + currentAnimeId];
+                                if (episodeKey.episodeId) {
+                                    currentlyWatching = $(servers).find(`[data-id='${episodeKey}']`).data("base")
+                                }
+                            }*/
+
+                            // The current behaviour is as follows:
+                            // If the url contains episodeId portion, for example: /watch/gintama.5kq/llrp3n
+                            // then it will open episode discussion. Else it will open general discussion.
+                            // The above comment block uses a different behaviour using localStorage.
+                            chrome.runtime.sendMessage({
+                                intent: "extractIdFromUrl",
+                                anime_url: document.location.href
+                            }, function (response) {
+                                if (response.data.episodeId) {
+                                    currentlyWatching = $(servers).find(`[data-id='${response.data.episodeId}']`).data("base")
+                                }
+
+                                var requestObj = {
+                                    intent: "openRedditDiscussion",
+                                    name: name,
+                                    alternateNames: alternateNames,
+                                    episode: currentlyWatching
+                                };
+
+                                console.log(requestObj);
+
+                                chrome.runtime.sendMessage(requestObj, function (response) {
+                                    console.log(response.result);
+                                });
+                            });
+                        })
                     });
             }
 
