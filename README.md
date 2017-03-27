@@ -5,6 +5,8 @@
 A simple companion extension for 9anime
 <p align="center"><img src="https://image.ibb.co/chDnYv/ui.png"></p>
 
+Note: Right now, the versioning is a bit inconsistent between [Releases](https://github.com/lap00zza/9anime-Companion/releases) and [AMO](https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/). 
+This will be fixed from 0.0.4 onward.
 
 ### Features
 * Remove Ads
