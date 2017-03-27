@@ -23,25 +23,30 @@
         width: 15px
 
 .player_utilities
-    color: white
-    text-align: center
-    height: 30px
-    //background-color: orange
     width: 100%
     display: flex
+    margin-top: 10px
+    font-size: 13px
+
+    .utility_header
+        font-weight: 500
+        color: #9a9a9a
+        align-items: center
+        justify-content: center
 
     .utility_item
-        height: 30px
-        flex: 0 0 100px
         display: inline-flex
         align-items: center
         justify-content: center
         cursor: pointer
-
-    #pin_utility
-        background-color: #1A237E
+        color: #9a9a9a
+        padding-left: 20px
         &:hover
-            background-color: #304FFE
+            color: #723F8C
+
+    // Styles for the individual utility items
+    #pin_utility
         img
-            height: 15px
-            width: 15px
+            opacity: 0.5
+            height: 11px
+            width: 13px

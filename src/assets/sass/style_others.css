@@ -19,24 +19,27 @@
     width: 15px; }
 
 .player_utilities {
-  color: white;
-  text-align: center;
-  height: 30px;
   width: 100%;
-  display: flex; }
+  display: flex;
+  margin-top: 10px;
+  font-size: 13px; }
+  .player_utilities .utility_header {
+    font-weight: 500;
+    color: #9a9a9a;
+    align-items: center;
+    justify-content: center; }
   .player_utilities .utility_item {
-    height: 30px;
-    flex: 0 0 100px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer; }
-  .player_utilities #pin_utility {
-    background-color: #1A237E; }
-    .player_utilities #pin_utility:hover {
-      background-color: #304FFE; }
-    .player_utilities #pin_utility img {
-      height: 15px;
-      width: 15px; }
+    cursor: pointer;
+    color: #9a9a9a;
+    padding-left: 20px; }
+    .player_utilities .utility_item:hover {
+      color: #723F8C; }
+  .player_utilities #pin_utility img {
+    opacity: 0.5;
+    height: 11px;
+    width: 13px; }
 
 /*# sourceMappingURL=style_others.css.map */

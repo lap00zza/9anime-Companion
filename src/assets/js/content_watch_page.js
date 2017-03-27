@@ -142,7 +142,15 @@
             // a few functionality like pin etc.
             if ($(player).length > 0) {
                 $(playerParent)
-                    .append(`<div class="player_utilities"><div id="pin_utility" class="utility_item"><img src='${pinImage}'>Pin This</div></div>`)
+                    .append(
+                        `</div><div class="player_utilities">
+                            <div class="utility_header">Utility Bar:</div>
+                            <div id="pin_utility" class="utility_item">
+                                <img src='${pinImage}'>
+                                Pin This
+                            </div>
+                        </div>`
+                    )
                     .promise()
                     .done(function () {
                         $("#pin_utility").on("click", function () {
