@@ -83,6 +83,28 @@
         $(pinned).toggle("fast");
         $(quickSettings).toggle("fast");
     });
+
+    function pinItem(name, url) {
+
+        var pinnedItem = document.createElement("div"),
+            pinnedName = document.createElement("div"),
+            pinnedDeleteBtn = document.createElement("div"),
+            pinnedDeleteBtnImg = document.createElement("img");
+
+        pinnedItem.classList.add("pinned_item");
+        pinnedItem.setAttribute("data-url", url);
+
+        pinnedName.classList.add("anime_item");
+        pinnedDeleteBtn.classList.add("pinned_delete");
+        pinnedDeleteBtnImg.setAttribute("src", "../../assets/images/delete.png");
+
+        pinnedDeleteBtn.appendChild(pinnedDeleteBtnImg);
+        pinnedName.appendChild(document.createTextNode(name));
+        pinnedItem.appendChild(pinnedName);
+        pinnedItem.appendChild(pinnedDeleteBtn);
+
+        return pinnedItem;
+    }
     
     // This portion deals with binding the pinned anime list
     // onto the popup.
@@ -94,12 +116,7 @@
 
             console.log(pinned);
             for (var i = 0; i < pinned.length; i++) {
-                $(pinnedListDiv).append(
-                    `<div data-url="${pinned[i].url}" class="pinned_item">
-                        <div class="anime_item">${pinned[i].name}</div>
-                        <div class="pinned_delete"><img src="../../assets/images/delete.png"></div>
-                    </div>`
-                );
+                $(pinnedListDiv)[0].appendChild(pinItem(pinned[i].name,pinned[i].url));
             }
             
             // $(".pinned_item").on("mouseover", function () {
