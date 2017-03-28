@@ -1,7 +1,8 @@
 {
   "manifest_version": 2,
   "name": "9anime Companion",
-  "version": "0.0.4.1",
+  "version": "0.0.4.2",
+  "version_name": "0.0.4-beta.1",
 
   "author": "Jewel Mahanta",
   "homepage_url": "https://github.com/lap00zza/9anime-Companion",
