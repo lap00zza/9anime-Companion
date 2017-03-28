@@ -17,7 +17,7 @@ This will be fixed from 0.0.4 onward.
 
 ### Downloads
 * **Firefox**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/
-* **Chrome**: Not yet published to the webstore (use in developer mode)
+* **Chrome**: https://chrome.google.com/webstore/detail/9anime-companion/fopcehkidabibdmachbcpbgllhehknah
 
 ### Build Instructions
 If you want to build this extension yourself, follow these instructions:
