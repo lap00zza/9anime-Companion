@@ -40,8 +40,7 @@
   },
 
   "background": {
-    "scripts": ["assets/js/animeUtils.js", "assets/js/events.js"],
-    "persistent": false
+    "page": "background.html"
   },
 
   "permissions": [
