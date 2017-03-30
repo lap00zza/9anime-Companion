@@ -73,7 +73,7 @@
      * @param animeUrl
      * @returns {boolean}
      */
-    function checkIfEntryExists(pinnedAnimeList, animeUrl) {
+    animeUtils.checkIfEntryExists = function (pinnedAnimeList, animeUrl) {
 
         for (var i = 0; i < pinnedAnimeList.length; i++) {
             if (pinnedAnimeList[i].url === animeUrl) {
@@ -81,7 +81,7 @@
             }
         }
         return false;
-    }
+    };
 
     /**
      * This function extracts anime and episode id from the url
@@ -93,7 +93,7 @@
         var anime_id = null;
         var episode_id = null;
 
-        if (this.helper.isUrl(url)) {
+        if (animeUtils.helper.isUrl(url)) {
             // This regex will split the url such that we get the id/episode_id
             // Using this as the example link: http://9anime.to/watch/ao-haru-ride.qk5n/vpz64
             // we should get ["", "qk5n/vpz64"]
@@ -136,8 +136,8 @@
                 // console.log(pinned);
 
                 // Check if this entry already exists. If it does not
-                // exist add it to the list. Else discard.
-                if (!checkIfEntryExists(pinned, url)) {
+                // exist add it to the list. Else resolve as duplicate.
+                if (!animeUtils.checkIfEntryExists(pinned, url)) {
                     pinned.push({
                         name: name,
                         url: url
@@ -173,22 +173,29 @@
             }, function (values) {
 
                 pinned = values["pinnedList"];
-                for (var i = 0; i < pinned.length; i++) {
-                    if (pinned[i].url === url) {
-                        pinned.splice(i, 1);
+
+                // Check if this entry already exists. If it does
+                // exist remove from the list. Else reject promise.
+                if(animeUtils.checkIfEntryExists(pinned, url)) {
+                    for (var i = 0; i < pinned.length; i++) {
+                        if (pinned[i].url === url) {
+                            pinned.splice(i, 1);
+                        }
                     }
+
+                    chrome.storage.local.set({
+                        pinnedList: pinned
+                    });
+
+                    // console.log("Removed: ", url);
+
+                    resolve({
+                        result: "success",
+                        itemCount: pinned.length
+                    });
+                } else {
+                    reject("does not exist");
                 }
-
-                chrome.storage.local.set({
-                    pinnedList: pinned
-                });
-
-                console.log(pinned, url);
-
-                resolve({
-                    result: "success",
-                    itemCount: pinned.length
-                });
             });
         });
     };
