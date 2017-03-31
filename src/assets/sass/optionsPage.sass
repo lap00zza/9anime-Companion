@@ -1,7 +1,8 @@
-$primary1: #723F8C
+$primary: #2196F3
+$primary1: #BBDEFB
 $activeColor: #27ae60
-$darkenColor: darken($activeColor, 20%)
-$background: #3498db
+//$darkenColor: darken($activeColor, 20%)
+//$background: #3498db
 
 html, body
     //For firefox, we need to add these 2 lines
@@ -10,30 +11,48 @@ html, body
     font-size: 12px
 
 #options_header
-    padding: 10px
+    margin-top: 10px
+    margin-bottom: 20px
+
     .title
         font-size: 25px
     .author
         font-size: 18px
         font-weight: 300
 
-#options
-    padding: 10px
-    //height: 300px
-    border: 1px solid #dedede
-    margin-top: 10px
-    margin-left: 10px
-    margin-right: 10px
+.quick_info_1
+    color: #5e5e5e
 
 .option
     font-size: 15px
-    padding-top: 5px
+    padding-top: 10px
+    padding-bottom: 10px
+
+span.option-name
+    cursor: default
+
+.tooltip_info
+    color: yellow
+
+.tooltip_default
+    color: $primary
+
+// This is a default bootstrap class
+.tooltip-inner
+    color: $primary1
 
 #options_footer
-    padding: 10px
+    //padding-top: 10px
     font-size: 15px
+    .license
+        color: #5e5e5e
+        font-size: 14px
+
+.slide-disabled
+    opacity: 0.6
 
 .slideThree
+    float: right
     width: 80px
     height: 26px
     background: #333

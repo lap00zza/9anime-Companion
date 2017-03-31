@@ -3,29 +3,45 @@ html, body {
   font-size: 12px; }
 
 #options_header {
-  padding: 10px; }
+  margin-top: 10px;
+  margin-bottom: 20px; }
   #options_header .title {
     font-size: 25px; }
   #options_header .author {
     font-size: 18px;
     font-weight: 300; }
 
-#options {
-  padding: 10px;
-  border: 1px solid #dedede;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px; }
+.quick_info_1 {
+  color: #5e5e5e; }
 
 .option {
   font-size: 15px;
-  padding-top: 5px; }
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+span.option-name {
+  cursor: default; }
+
+.tooltip_info {
+  color: yellow; }
+
+.tooltip_default {
+  color: #2196F3; }
+
+.tooltip-inner {
+  color: #BBDEFB; }
 
 #options_footer {
-  padding: 10px;
   font-size: 15px; }
+  #options_footer .license {
+    color: #5e5e5e;
+    font-size: 14px; }
+
+.slide-disabled {
+  opacity: 0.6; }
 
 .slideThree {
+  float: right;
   width: 80px;
   height: 26px;
   background: #333;

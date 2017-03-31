@@ -31,6 +31,7 @@
     var pinnedListDiv = $("#pinnedList");
     var pinned = $("#pinned");
     var quickSettings = $("#quickSettings");
+    var advancedSettings = $("#advancedSettings");
     var defaultSettings = {
         adsToggle: 1,
         playerSizeToggle: 1,
@@ -83,7 +84,21 @@
         $(pinned).toggle("fast");
         $(quickSettings).toggle("fast");
     });
+    
+    $(advancedSettings).on("click", function () {
+        chrome.tabs.create({
+            url: "../../options.html"
+        })
+    });
 
+    /**
+     * This function is used to create sanitized pin items.
+     * TODO: maybe put this inside animeUtils?
+     *
+     * @param name
+     * @param url
+     * @returns {Element}
+     */
     function pinItem(name, url) {
 
         var pinnedItem = document.createElement("div"),

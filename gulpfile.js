@@ -39,10 +39,10 @@ gulp.task("clean_chrome", function () {
 // directory to the dist/chromium directory.
 gulp.task("make_chrome", ["clean_chrome"], function () {
     gulp.src([
-        "!src/options.html",
-        "!src/assets/js/optionsPage.js",
-        "!src/assets/sass/optionsPage.css",
-        "!src/assets/lib/bootstrap/**/*",
+        // "!src/options.html",
+        // "!src/assets/js/optionsPage.js",
+        // "!src/assets/sass/optionsPage.css",
+        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
@@ -53,10 +53,10 @@ gulp.task("make_chrome", ["clean_chrome"], function () {
 // extensions. Helpful for easy distribution.
 gulp.task("zip_chrome", function () {
     gulp.src([
-        "!src/options.html",
-        "!src/assets/js/optionsPage.js",
-        "!src/assets/sass/optionsPage.css",
-        "!src/assets/lib/bootstrap/**/*",
+        // "!src/options.html",
+        // "!src/assets/js/optionsPage.js",
+        // "!src/assets/sass/optionsPage.css",
+        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
@@ -71,10 +71,10 @@ gulp.task("clean_firefox", function () {
 
 gulp.task("make_firefox", ["clean_firefox"], function () {
     gulp.src([
-        "!src/options.html",
-        "!src/assets/js/optionsPage.js",
-        "!src/assets/sass/optionsPage.css",
-        "!src/assets/lib/bootstrap/**/*",
+        // "!src/options.html",
+        // "!src/assets/js/optionsPage.js",
+        // "!src/assets/sass/optionsPage.css",
+        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])
@@ -83,10 +83,10 @@ gulp.task("make_firefox", ["clean_firefox"], function () {
 
 gulp.task("zip_firefox", function () {
     gulp.src([
-        "!src/options.html",
-        "!src/assets/js/optionsPage.js",
-        "!src/assets/sass/optionsPage.css",
-        "!src/assets/lib/bootstrap/**/*",
+        // "!src/options.html",
+        // "!src/assets/js/optionsPage.js",
+        // "!src/assets/sass/optionsPage.css",
+        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])

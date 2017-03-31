@@ -8,41 +8,113 @@
     <link type="text/css" rel="stylesheet" href="assets/sass/optionsPage.css">
 </head>
 <body>
-<div class="container">
+<div class="container" id="optionsWindow">
     <div id="options_header">
         <div class="title"><strong>9anime</strong> Companion</div>
         <div class="author">A simple companion extension for 9anime</div>
     </div>
 
-    <div id="options">
-        <div class="row option">
-            <div class="col-md-6 col-sm-6 col-xs-6">Minimal Mode</div>
-            <div class="col-md-6 col-sm-6 col-xs-6 slideThree">
-                <input type="checkbox" id="minimalModeToggle">
-                <label for="minimalModeToggle"></label>
-            </div>
+    <div class="quick_info_1">Hover over an option for more information.</div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="watchPage">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#watchPageCollapse" aria-expanded="true" aria-controls="watchPageCollapse">
+                    Watch Page: General
+                </a>
+            </h4>
         </div>
-        <div class="row option">
-            <div class="col-md-6 col-sm-6 col-xs-6">Resize/Center Player</div>
-            <div class="col-md-6 col-sm-6 col-xs-6 slideThree">
-                <input type="checkbox" id="adsToggle">
-                <label for="adsToggle"></label>
-            </div>
-        </div>
-        <div class="row option">
-            <div class="col-md-6 col-sm-6 col-xs-6">Remove Ads</div>
-            <div class="col-md-6 col-sm-6 col-xs-6 slideThree">
-                <input type="checkbox" id="playerSizeToggle">
-                <label for="playerSizeToggle"></label>
+        <div id="watchPageCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="watchPage">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Only the player, the episode list and important notifications are shown.<br>
+                              <span class='tooltip_info'>While enabled, it will over ride the other settings in
+                              this panel.</span><br><strong>Default: <span class='tooltip_default'>OFF</span></strong>">
+                            Minimal Mode
+                        </span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="minimalModeToggle">
+                            <label for="minimalModeToggle"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Centers the player and makes it full width.<br><strong>Default:
+                              <span class='tooltip_default'>ON</span></strong>">
+                            Resize/Center Player
+                        </span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="playerSizeToggle">
+                            <label for="playerSizeToggle"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Removes Ads and Popup Ads.<br><strong>Default:
+                              <span class='tooltip_default'>ON</span></strong>">
+                            Remove Ads
+                        </span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="adsToggle">
+                            <label for="adsToggle"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Removes the Social Share bar show above the anime info box.<br><strong>Default:
+                              <span class='tooltip_default'>OFF</span></strong>">
+                            Remove Social Share
+                        </span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="shareBarToggle">
+                            <label for="shareBarToggle"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Removes the entire comments section, including Disqus.<br><strong>Default:
+                              <span class='tooltip_default'>OFF</span></strong>">
+                            Remove Comments
+                        </span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="commentsToggle">
+                            <label for="commentsToggle"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Removes the You Might Also Like section which is shown below the comments.<br>
+                              <strong>Default: <span class='tooltip_default'>OFF</span></strong>">
+                            Remove You Might Also Like
+                        </span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="youMightAlsoLikeToggle">
+                            <label for="youMightAlsoLikeToggle"></label>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 
     <div id="options_footer">
-        Made with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by <a href="https://github.com/lap00zza" target="_blank">lap00zza</a>.
+        <div>
+            Made with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by <a href="https://github.com/lap00zza" target="_blank">lap00zza</a>.
+        </div>
+        <div class="license">
+            9anime Companion is <em>free</em> and <em>open source</em> released under <a href="https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE">MIT License</a>.
+        </div>
     </div>
 </div>
 </body>
 <script src="assets/lib/jquery-3.2.0.min.js"></script>
+<script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/js/optionsPage.js"></script>
 </html>

@@ -25,17 +25,49 @@
 // Handles the functionality for the Options page.
 // TODO: Use storage.sync for the settings
 (function () {
-    var optionsWindow = $("#options");
-    var optionElements = ["minimalModeToggle", "adsToggle", "playerSizeToggle"];
-    
+    var optionsWindow = $("#optionsWindow");
+    var optionElements = [
+        "minimalModeToggle",
+        "adsToggle",
+        "playerSizeToggle",
+        "shareBarToggle",
+        "commentsToggle",
+        "youMightAlsoLikeToggle"
+    ];
+
+    // Initialize bootstrap tooltips
+    $("[data-toggle='tooltip']").tooltip();
+
     // NOTE: We are using computed property to generate
     // dynamic keys based on ID.
     $(optionsWindow).find("input:checkbox").change(function () {
         var key = this.id;
-        if ($(this).is(":checked")) {
+        var checked = $(this).is(":checked");
+
+        switch (key) {
+            case "minimalModeToggle":
+                if (checked) {
+                    $("#adsToggle").prop("disabled", "true").parent().addClass("slide-disabled");
+                    $("#playerSizeToggle").prop("disabled", "true").parent().addClass("slide-disabled");
+                    $("#shareBarToggle").prop("disabled", "true").parent().addClass("slide-disabled");
+                    $("#commentsToggle").prop("disabled", "true").parent().addClass("slide-disabled");
+                    $("#youMightAlsoLikeToggle").prop("disabled", "true").parent().addClass("slide-disabled");
+
+                } else {
+                    $("#adsToggle").removeAttr("disabled").parent().removeClass("slide-disabled");
+                    $("#playerSizeToggle").removeAttr("disabled").parent().removeClass("slide-disabled");
+                    $("#shareBarToggle").removeAttr("disabled").parent().removeClass("slide-disabled");
+                    $("#commentsToggle").removeAttr("disabled").parent().removeClass("slide-disabled");
+                    $("#youMightAlsoLikeToggle").removeAttr("disabled").parent().removeClass("slide-disabled");
+                }
+                break;
+        }
+
+        // This will run for everything, regardless of
+        // what the key is.
+        if (checked) {
             console.log(key + " is on!");
             chrome.storage.local.set({[key]: 1});
-
         } else {
             console.log(this.id + " is off!");
             chrome.storage.local.set({[key]: 0});
@@ -47,7 +79,12 @@
         for (var key in keys) {
             if (keys.hasOwnProperty(key)) {
                 console.log(key, keys[key]);
-                $("#" + key).prop("checked", !!(keys[key]))
+
+                // We bind the value and trigger the change event so that
+                // any listeners which might say disable/enable the slide
+                // buttons wont need any separate code and instead stay on
+                // the "change" event only.
+                $("#" + key).prop("checked", !!(keys[key])).trigger("change");
             }
         }
     });
