@@ -27,28 +27,35 @@
 (function ($) {
     // Initializing all the variables for 9Anime Companion
     // Some of the default values are necessary as fallback measure.
-    var playerWidth = 1, // this ranges from 0 to 1
-        defaultSettings = {
+    var defaultSettings = {
             adsToggle: 1,
             playerSizeToggle: 1,
             minimalModeToggle: 0,
-            pinIconToggle: 1
+            pinIconToggle: 1,
+            shareBarToggle: 1,
+            commentsToggle: 0,
+            youMightAlsoLikeToggle: 0
         },
         settings = {
             adsToggle: 0,
             playerSizeToggle: 0,
             minimalModeToggle: 0,
-            pinIconToggle: 0
+            pinIconToggle: 0,
+            shareBarToggle: 0,
+            commentsToggle: 0,
+            youMightAlsoLikeToggle: 0
         },
         optionElements = Object.keys(defaultSettings);
 
     // Ads Locations
     // TODO: add a way to update the ads locations remotely via updates
-    var adsLocations = [
-        "#movie > div.container.player-wrapper > div > div.col-lg-7.col-sm-24.sidebar",
-        "#movie > div.widget.info > div:nth-child(1) > div > div.col-md-7",
-        "#movie > div.widget.info > div:nth-child(1) > div > div > div.widget.mt20.a_d",
-        "#movie > div.widget.info > div:nth-child(1) > div > div > div.hidden-xs.a_d"
+    var adsLocationFilter = [
+        ".a_d"
+        // "#movie > div.container.player-wrapper > div > div.col-lg-7.col-sm-24.sidebar",
+        // "#movie > div.widget.info > div:nth-child(1) > div > div.col-md-7",
+        // "#movie > div.widget.info > div:nth-child(1) > div > div > div.widget.mt20.a_d",
+        // "#movie > div.widget.info > div:nth-child(1) > div > div > div.hidden-xs.a_d",
+        // "#movie > div.widget.info > div:nth-child(3)"
     ];
 
     // Other important locations
@@ -59,36 +66,32 @@
         movieDiv = $("#movie"),
         commentDiv = $("#comment"),
         servers = $("#servers"),
+        shareBar = $(".addthis_native_toolbox"), // this is the social network share bar
         playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24"),
         topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24"),
         titleDiv = $("h1.title"),
         alternateNamesLoc = $(infoDiv).find("div.row > div.info.col-md-20 > div.row > dl:nth-child(1) > dd:nth-child(2)"),
         suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container"),
-        episodeListDiv = $(movieDiv).find("> div.widget.info > div > div > div"),
+        episodeListDiv = $(movieDiv).find("div.widget.info > div > div > div"),
         playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
 
     // Web Accessible Resource URL's
     var pinImage = chrome.extension.getURL("assets/images/pin.png"),
-        redditLogo = chrome.extension.getURL("assets/images/reddit-icon.png");
+        redditLogo = chrome.extension.getURL("assets/images/reddit-icon.png"),
+        malLogo = chrome.extension.getURL("assets/images/mal-icon.png");
 
+    
+    // TODO: Iframe remover
+    // TODO: Script remover
     function adsRemover() {
-        for (var i = 0; i < adsLocations.length; i++) {
-            $(adsLocations[i]).remove();
+        for (var i = 0; i < adsLocationFilter.length; i++) {
+            $(adsLocationFilter[i]).remove();
         }
     }
 
     function playerResizer() {
-        if (playerWidth > 0 && playerWidth < 1) {
-            $(playerDiv).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
-            $(topNotificationBar).css({width: (playerWidth * 100) + "%", paddingLeft: ((1 - playerWidth) * 100) + "%"});
-
-        } else if (playerWidth === 1) {
-            $(playerDiv).css({width: "100%"});
-            $(topNotificationBar).css({width: "100%"});
-
-        } else {
-            // TODO: handle this case when playerWidth is 0
-        }
+        $(playerDiv).css({width: "100%"});
+        $(topNotificationBar).css({width: "100%"});
     }
 
     // Load Settings. In case the settings are missing, we will use
@@ -126,29 +129,48 @@
             playerResizer();
         }
 
-        // Ads Removal
-        if (!settings["minimalModeToggle"] && settings["adsToggle"]) {
-            // console.log("Oui Ads");
-            adsRemover();
-        }
+        // If Minimal Mode is disabled, then run these as per user
+        // customization.
+        if (!settings["minimalModeToggle"]) {
+            // Ads Removal
+            if (settings["adsToggle"]) {
+                // console.log("Oui Ads");
+                adsRemover();
+            }
 
-        // Player Resizer
-        if (!settings["minimalModeToggle"] && settings["playerSizeToggle"]) {
-            // console.log("Oui Resize");
-            playerResizer();
-        }
+            // Player Resizer
+            if (settings["playerSizeToggle"]) {
+                // console.log("Oui Resize");
+                playerResizer();
+            }
 
+            // Removes the social network share bar
+            if (settings["shareBarToggle"]) {
+                $(shareBar).remove();
+            }
+
+            // Remove comments
+            if (settings["commentsToggle"]) {
+                $(commentDiv).remove();
+            }
+
+            // Remove You Might Also Like
+            if (settings["youMightAlsoLikeToggle"]) {
+                $(suggestedDiv).remove();
+            }
+        }
+        
+        // This portion deals with attaching the utility bar
+        // at the bottom of the player. This bar provide quite
+        // a few functionality like pin etc.
         if (settings["pinIconToggle"]) {
             // console.log("Oui PinIcon");
 
-            // This portion deals with attaching the utility bar
-            // at the bottom of the player. This bar provide quite
-            // a few functionality like pin etc.
             if ($(player).length > 0) {
                 $(playerParent)
                     .append(
-                        `</div><div class="player_utilities">
-                            <div class="utility_header">Utility Bar:</div>
+                        `<div class="player_utilities">
+                            <!--<div class="utility_header">Utility Bar:</div>-->
                             <div id="pin_utility" class="utility_item">
                                 <img src='${pinImage}'>
                                 Pin This
@@ -157,16 +179,21 @@
                                 <img src='${redditLogo}'>
                                 Reddit Discussion
                             </div>
+                            <div id="mal_search_utility" class="utility_item">
+                                <img src='${malLogo}'>
+                                Find in MAL
+                            </div>
                         </div>`
                     )
                     .promise()
                     .done(function () {
+                        var animeName = $(titleDiv).text() || null;
+                        
                         $("#pin_utility").on("click", function () {
-                            var animeName = $(titleDiv).text() || "";
                             // var animeUrl = document.location.href || "";
 
                             // Why do this and not just take the document.location.href?
-                            // Well take the location, then that will also contain the parts
+                            // Well if we take that, then it will also contain the parts
                             // added to the main url to specify episode number (which we are
                             // not interested in)
                             var animeUrl = $("meta[property='og:url']").attr("content");
@@ -181,18 +208,11 @@
                             chrome.runtime.sendMessage(requestObj, function (response) {
                                 console.log(response.result);
                             });
-
                         });
 
                         // TODO: maybe use simple <a href> instead of using chrome.tabs?
                         $("#reddit_disc_utility").on("click", function () {
-
-                            // currentlyWatching can also come directly from the URL.
-                            // for example, when some one directly opens http://9anime.to/watch/gintama.5kq/llrp3n
-                            // This should not open discussion for entire anime but only for that
-                            // specific episode.
                             var currentlyWatching = null;
-                            var name = $(titleDiv).text() || null;
                             var alternateNames = [];
                             if ($(alternateNamesLoc).text()) {
                                 $(alternateNamesLoc).text().split(";").forEach(function (name) {
@@ -202,23 +222,13 @@
                                     alternateNames.push(name.trim());
                                 })
                             }
-
-                            /* --== This comment block should not be deleted. Might need later. ==--
-                            var currentAnimeId = $(movieDiv).data("id");
-                            if (currentAnimeId) {
-                                var episodeKey = window.localStorage["watching." + currentAnimeId];
-                                if (episodeKey.episodeId) {
-                                    currentlyWatching = $(servers).find(`[data-id='${episodeKey}']`).data("base")
-                                }
-                            }*/
-
+                            
                             // The current behaviour is as follows:
                             // If the url contains episodeId portion, for example: /watch/gintama.5kq/llrp3n
                             // then it will open episode discussion. Else it will open general discussion.
-                            // The above comment block uses a different behaviour using localStorage.
                             chrome.runtime.sendMessage({
                                 intent: "extractIdFromUrl",
-                                anime_url: document.location.href
+                                animeUrl: document.location.href
                             }, function (response) {
                                 if (response.data.episodeId) {
                                     currentlyWatching = $(servers).find(`[data-id='${response.data.episodeId}']`).data("base")
@@ -226,18 +236,27 @@
 
                                 var requestObj = {
                                     intent: "openRedditDiscussion",
-                                    name: name,
+                                    animeName: animeName,
                                     alternateNames: alternateNames,
                                     episode: currentlyWatching
                                 };
-
-                                console.log(requestObj);
 
                                 chrome.runtime.sendMessage(requestObj, function (response) {
                                     console.log(response.result);
                                 });
                             });
-                        })
+                        });
+                        
+                        $("#mal_search_utility").on("click", function () {
+                            var requestObj = {
+                                intent: "findInMal",
+                                animeName: animeName
+                            };
+
+                            chrome.runtime.sendMessage(requestObj, function (response) {
+                                console.log(response.result);
+                            });
+                        });
                     });
             }
 

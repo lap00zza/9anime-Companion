@@ -35,7 +35,10 @@
         adsToggle: 1,
         playerSizeToggle: 1,
         minimalModeToggle: 0,
-        pinIconToggle: 1
+        pinIconToggle: 1,
+        shareBarToggle: 1,
+        commentsToggle: 0,
+        youMightAlsoLikeToggle: 0
     };
 
     // Helper functions
@@ -84,20 +87,27 @@
     };
 
     /**
-     * This function extracts anime and episode id from the url
+     * This function extracts animeUrl, animeId and episode id from the url.
      *
      * @param url
-     * @returns {{animeId: *, episodeId: *}}
+     * @returns {{animeUrl: *, animeId: *, episodeId: *}}
      */
     animeUtils.extractIdFromUrl = function extractIdFromUrl(url) {
-        var anime_id = null;
-        var episode_id = null;
+        var animeId = null;
+        var episodeId = null;
+        var baseUrl = null;
 
         if (animeUtils.helper.isUrl(url)) {
-            // This regex will split the url such that we get the id/episode_id
             // Using this as the example link: http://9anime.to/watch/ao-haru-ride.qk5n/vpz64
-            // we should get ["", "qk5n/vpz64"]
+            // ---
+            // This regex will be used to split the url to get the id/episode_id
+            // => we should get ["", "qk5n/vpz64"]
+            //
+            // This regex will be used to match the url to get the id/episode_id
+            // => we should get ["https://9anime.to/watch/gabriel-dropout."]
+            // We then take the first element, i.e. [0]
             var re = /(?:http|https):\/\/9anime\.[a-z]+\/watch\/.+\./;
+            baseUrl = url.match(re)[0];
             var splitUrl = url.split(re);
 
             if (splitUrl.length === 2) {
@@ -105,15 +115,16 @@
                 var details = splitUrl[1].split("/");
 
                 if (details.length > 1) {
-                    anime_id = details[0];
-                    episode_id = details[1];
+                    animeId = details[0];
+                    episodeId = details[1];
                 }
             }
         }
 
         return {
-            animeId: anime_id,
-            episodeId: episode_id
+            animeUrl: baseUrl + animeId,
+            animeId: animeId,
+            episodeId: episodeId
         }
     };
 

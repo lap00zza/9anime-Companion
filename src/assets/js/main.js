@@ -144,7 +144,7 @@
             $(".pinned_item .anime_item").on("click", function () {
 
                 var url = $(this).parent().data("url");
-                chrome.runtime.sendMessage({intent: "open_anime", anime_url: url}, function (response) {
+                chrome.runtime.sendMessage({intent: "open_anime", animeUrl: url}, function (response) {
                     console.log(response.result);
                 });
             });

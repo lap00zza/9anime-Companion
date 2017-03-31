@@ -39,61 +39,73 @@ chrome.runtime.onMessage.addListener(
                 break;
 
             case "open_anime":
-                if (window.animeUtils.helper.isUrl(request.anime_url)) {
-                    chrome.tabs.create({'url': request.anime_url});
+                if (window.animeUtils.helper.isUrl(request.animeUrl)) {
+                    chrome.tabs.create({'url': request.animeUrl});
                     sendResponse({result: "opened"});
                 }
                 break;
 
+            case "findInMal":
+                if (request.animeName) {
+                    chrome.tabs.create({
+                        "url": encodeURI("https://myanimelist.net/anime.php?q=" + request.animeName)
+                    });
+                    sendResponse({
+                        result: "opened"
+                    });
+                }
+                break;
+
             case "extractIdFromUrl":
-                if (window.animeUtils.helper.isUrl(request.anime_url)) {
+                if (window.animeUtils.helper.isUrl(request.animeUrl)) {
                     sendResponse({
                         result: "success",
-                        data: window.animeUtils.extractIdFromUrl(request.anime_url)
+                        data: window.animeUtils.extractIdFromUrl(request.animeUrl)
                     });
                 }
                 break;
 
             case "openRedditDiscussion":
-                var cleanedTitle = request.name.replace(" (TV)", "").replace(" (Sub)", "").replace(" (Dub)", "").trim();
-                var url = "https://www.reddit.com/r/anime/search?q=";
+                if (request.animeName) {
+                    var cleanedTitle = request.animeName.replace(" (TV)", "").replace(" (Sub)", "").replace(" (Dub)", "").trim();
+                    var url = "https://www.reddit.com/r/anime/search?q=";
 
-                if (request.name && !request.episode) {
-                    var titleText = `title:"${cleanedTitle}"`;
-                    if (request.alternateNames.length > 0) {
-                        request.alternateNames.forEach(function (name) {
-                            titleText += ` OR title:"${name}"`;
+                    if (!request.episode) {
+                        var titleText = `title:"${cleanedTitle}"`;
+                        if (request.alternateNames.length > 0) {
+                            request.alternateNames.forEach(function (name) {
+                                titleText += ` OR title:"${name}"`;
+                            });
+                        }
+
+                        // Deciding whether to add (selftext:MyAnimelist OR selftext:MAL) or not
+                        // as not all discussion threads have MAL links. For now I will not add.
+                        var params = `subreddit:anime self:yes title:"[Spoilers]" title:"[Discussion]" (${titleText})`;
+                        chrome.tabs.create({
+                            "url": encodeURI(url + params + "&sort=new")
+                        });
+                        sendResponse({
+                            result: "opened"
+                        });
+
+                    } else if (request.episode) {
+                        var titleText1 = `title:"${cleanedTitle} Episode ${request.episode}"`;
+                        if (request.alternateNames.length > 0) {
+                            request.alternateNames.forEach(function (name) {
+                                titleText1 += ` OR title:"${name} Episode ${request.episode}"`;
+                            });
+                        }
+
+                        // Deciding whether to add (selftext:MyAnimelist OR selftext:MAL) or not
+                        // as not all discussion threads have MAL links. For now I will not add.
+                        var params1 = `subreddit:anime self:yes title:"[Spoilers]" title:"[Discussion]" (${titleText1})`;
+                        chrome.tabs.create({
+                            "url": encodeURI(url + params1 + "&sort=new")
+                        });
+                        sendResponse({
+                            result: "opened"
                         });
                     }
-
-                    // Deciding whether to add (selftext:MyAnimelist OR selftext:MAL) or not
-                    // as not all discussion threads have MAL links. For now I will not add.
-                    var params = `subreddit:anime self:yes title:"[Spoilers]" title:"[Discussion]" (${titleText})`;
-                    chrome.tabs.create({
-                        "url": encodeURI(url + params + "&sort=new")
-                    });
-                    sendResponse({
-                        result: "opened"
-                    });
-
-                } else if (request.name && request.episode) {
-                    var titleText1 = `title:"${cleanedTitle} Episode ${request.episode}"`;
-                    if (request.alternateNames.length > 0) {
-                        request.alternateNames.forEach(function (name) {
-                            titleText1 += ` OR title:"${name} Episode ${request.episode}"`;
-                        });
-                    }
-
-                    // Deciding whether to add (selftext:MyAnimelist OR selftext:MAL) or not
-                    // as not all discussion threads have MAL links. For now I will not add.
-                    var params1 = `subreddit:anime self:yes title:"[Spoilers]" title:"[Discussion]" (${titleText1})`;
-                    chrome.tabs.create({
-                        "url": encodeURI(url + params1 + "&sort=new")
-                    });
-                    sendResponse({
-                        result: "opened"
-                    });
-
                 } else {
                     sendResponse({
                         result: "fail"

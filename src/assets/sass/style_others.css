@@ -34,9 +34,11 @@
     justify-content: center;
     cursor: pointer;
     color: #9a9a9a;
-    padding-left: 20px; }
+    margin-left: 20px; }
     .player_utilities .utility_item:hover {
       color: #723F8C; }
+  .player_utilities .utility_item:first-child {
+    margin-left: 0; }
   .player_utilities #pin_utility img {
     opacity: 0.5;
     height: 11px;
@@ -44,6 +46,12 @@
   .player_utilities #reddit_disc_utility img {
     margin-top: -4px;
     padding-right: 3px;
-    opacity: 0.5; }
+    opacity: 0.7; }
+  .player_utilities #mal_search_utility img {
+    height: auto;
+    width: 15px;
+    opacity: 0.7;
+    margin-top: -2px;
+    padding-right: 3px; }
 
 /*# sourceMappingURL=style_others.css.map */
