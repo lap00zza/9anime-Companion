@@ -11,14 +11,23 @@
     <script src="jasmine/lib/jasmine-2.5.2/jasmine-html.js"></script>
     <script src="jasmine/lib/jasmine-2.5.2/boot.js"></script>
     <script>
+        // Mock the chrome.* api
         var chrome = {
             runtime: {
                 onMessage: {
-                    addListener: function () {
-                    }
+                    addListener: function () {}
                 },
                 onInstalled: {
-                    addListener: function () {
+                    addListener: function () {}
+                }
+            },
+            storage: {
+                local: {
+                    get: function (init, callback) {
+                        callback(init);
+                    },
+                    set: function () {
+                        return true;
                     }
                 }
             }
