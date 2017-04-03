@@ -48,7 +48,7 @@ Once done, check the `dist` directory.
     * **If you downloaded zip from Releases**: select the extracted location.
 
 ### Tests
-There are a very limited number of tests. To access the tests, open **src/test/test.html**.
+There are a very limited number of tests which can be found within the `test` directory.
 
 ## License
 Copyright (c) 2017 Jewel Mahanta
