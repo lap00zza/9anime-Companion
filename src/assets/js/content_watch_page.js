@@ -42,32 +42,47 @@
         commentDiv = $("#comment"),
         servers = $("#servers"),
         shareBar = $(".addthis_native_toolbox"), // this is the social network share bar
-        playerDiv = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24"),
-        topNotificationBar = $(movieDiv).find("div.container.player-wrapper > div > div.col-xs-24"),
         titleDiv = $("h1.title"),
-        alternateNamesLoc = $(infoDiv).find("div.row > div.info.col-md-20 > div.row > dl:nth-child(1) > dd:nth-child(2)"),
-        suggestedDiv = $(movieDiv).find("div.widget.info > div.widget.container"),
-        episodeListDiv = $(movieDiv).find("div.widget.info > div > div > div"),
-        playerParent = $(movieDiv).find("div.container.player-wrapper > div > div.col-lg-17.col-sm-24");
+        suggestedDiv =
+            $(movieDiv)
+                .find("div.widget-title")
+                .filter(function () {
+                    if ($(this).text() === "You might also like") {
+                        return this;
+                    }
+                })
+                .parent();
+
+    // Extract all the information about the current
+    // anime. This is extracted from the definition
+    // lists found in #info
+    var animeInfo = {};
+    $(infoDiv).find("dl dt").each(function () {
+        var key = $(this).text();
+        var value = [];
+        $(this).nextUntil("dt").each(function () {
+            value.push($(this).text());
+        });
+        animeInfo[key] = value;
+    });
+    console.log(animeInfo);
 
     // Web Accessible Resource URL's
     var pinImage = chrome.extension.getURL("assets/images/pin.png"),
         redditLogo = chrome.extension.getURL("assets/images/reddit-icon.png"),
         malLogo = chrome.extension.getURL("assets/images/mal-icon.png");
 
-    
+
     // TODO: Iframe remover
     // TODO: Script remover
     function adsRemover() {
-
         for (var i = 0; i < adsLocationFilter.length; i++) {
             $(adsLocationFilter[i]).remove();
         }
     }
 
     function playerResizer() {
-        $(playerDiv).css({width: "100%"});
-        $(topNotificationBar).css({width: "100%"});
+        $(player).parent().css({width: "100%"});
     }
 
     // Load Settings.
@@ -80,7 +95,7 @@
             $(commentDiv).remove();
             $(infoDiv).remove();
             $(titleDiv).remove();
-            $(episodeListDiv).css({width: "100%"});
+            $(servers).parent().css({width: "100%"});
 
             adsRemover();
             playerResizer();
@@ -116,15 +131,14 @@
                 $(suggestedDiv).remove();
             }
         }
-        
+
         // This portion deals with attaching the utility bar
         // at the bottom of the player. This bar provide quite
         // a few functionality like pin etc.
         if (settings["utilityBarToggle"]) {
-            // console.log("Oui PinIcon");
-
             if ($(player).length > 0) {
-                $(playerParent)
+                $(player)
+                    .parent()
                     .append(
                         `<div class="player_utilities">
                             <!--<div class="utility_header">Utility Bar:</div>-->
@@ -145,7 +159,7 @@
                     .promise()
                     .done(function () {
                         var animeName = $(titleDiv).text() || null;
-                        
+
                         $("#pin_utility").on("click", function () {
                             // var animeUrl = document.location.href || "";
 
@@ -162,7 +176,7 @@
                                     console.log(response);
                                 })
                                 .catch(function (response) {
-                                   console.log(response);
+                                    console.log(response);
                                 });
                         });
 
@@ -175,14 +189,18 @@
                             var urlDetails = animeUtils.extractIdFromUrl(document.location.href);
                             var currentlyWatching = $(servers).find(`[data-id='${urlDetails.episodeId}']`).data("base");
 
-                            if ($(alternateNamesLoc).text()) {
-                                $(alternateNamesLoc).text().split(";").forEach(function (name) {
+                            if (animeInfo["Other names:"] && animeInfo["Other names:"].length > 0) {
+
+                                // Why the 0th Index? Because all the values are stored
+                                // as arrays.
+                                animeInfo["Other names:"][0].split(";").forEach(function (name) {
 
                                     // We don't want the leading and trailing spaces.
                                     // So we trim it.
                                     alternateNames.push(name.trim());
                                 })
                             }
+
                             var requestObj = {
                                 intent: "openRedditDiscussion",
                                 animeName: animeName,
@@ -194,7 +212,7 @@
                                 console.log(response.result);
                             });
                         });
-                        
+
                         $("#mal_search_utility").on("click", function () {
                             var requestObj = {
                                 intent: "findInMal",
