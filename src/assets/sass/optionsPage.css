@@ -53,6 +53,12 @@ span.open_ss {
 #options_footer {
   font-size: 15px;
   margin-bottom: 10px; }
+  #options_footer .extra_info {
+    font-size: 14px;
+    display: flex; }
+  #options_footer .separator {
+    padding-left: 5px;
+    padding-right: 5px; }
   #options_footer .license {
     color: #5e5e5e;
     font-size: 14px; }
