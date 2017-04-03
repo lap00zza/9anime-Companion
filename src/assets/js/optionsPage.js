@@ -25,21 +25,12 @@
 // Handles the functionality for the Options page.
 // TODO: Use storage.sync for the settings
 (function () {
+    var animeUtils = window.animeUtils;
     var optionsWindow = $("#optionsWindow");
-    var optionElements = [
-        "minimalModeToggle",
-        "adsToggle",
-        "playerSizeToggle",
-        "shareBarToggle",
-        "commentsToggle",
-        "youMightAlsoLikeToggle"
-    ];
 
     // Initialize bootstrap tooltips
     $("[data-toggle='tooltip']").tooltip();
 
-    // NOTE: We are using computed property to generate
-    // dynamic keys based on ID.
     $(optionsWindow).find("input:checkbox").change(function () {
         var key = this.id;
         var checked = $(this).is(":checked");
@@ -63,8 +54,9 @@
                 break;
         }
 
-        // This will run for everything, regardless of
-        // what the key is.
+        // This will run for everything.
+        // NOTE: We are using computed property names
+        // to generate dynamic keys based on ID.
         if (checked) {
             console.log(key + " is on!");
             chrome.storage.local.set({[key]: 1});
@@ -74,18 +66,28 @@
         }
     });
 
-    chrome.storage.local.get(optionElements, function (keys) {
-        console.log(keys);
-        for (var key in keys) {
-            if (keys.hasOwnProperty(key)) {
-                console.log(key, keys[key]);
+    animeUtils.loadSettings().then(function (settings) {
+        Object.keys(settings).forEach(function (key) {
+            // We bind the value and trigger the change event so that
+            // any listeners which might say disable/enable the slide
+            // buttons wont need any separate code and instead stay on
+            // the "change" event only.
+            $("#" + key).prop("checked", !!(settings[key])).trigger("change");
+        });
+    });
 
-                // We bind the value and trigger the change event so that
-                // any listeners which might say disable/enable the slide
-                // buttons wont need any separate code and instead stay on
-                // the "change" event only.
-                $("#" + key).prop("checked", !!(keys[key])).trigger("change");
-            }
+    // Display welcome notice or update log
+    chrome.storage.local.get(["installType", "installedOn", "installModalShown"], function (result) {
+        // TODO: work on the fresh install modal later
+        // if(result["installType"] === "fresh" && result["installModalShown"] === false) {
+        //     $("#fresh_install_modal").modal();
+        //     chrome.storage.local.set({installModalShown: true});
+        // }
+        
+        // Lets focus on the update modal for now
+        if (result["installType"] === "update" && result["installModalShown"] === false) {
+            $("#update_install_modal").modal();
+            chrome.storage.local.set({installModalShown: true});
         }
     });
 })();

@@ -8,13 +8,86 @@
     <link type="text/css" rel="stylesheet" href="assets/sass/optionsPage.css">
 </head>
 <body>
+<!--Modals-->
+<!-- >> Screen-shot Modals-->
+<div id="utility_bar_ss" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ss_modal">
+            <div class="modal-body">
+                <img src="assets/images/utility_bar.png">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pin_icons_ss" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ss_modal">
+            <div class="modal-body">
+                <img src="assets/images/pin_icons.png">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- >> Fresh Install Modal -->
+<!--<div id="fresh_install_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Welcome!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Hello</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<!-- >> Update Install Modal -->
+<div id="update_install_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Updated to 0.0.4-beta.2</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Changes:</h4>
+                <ul>
+                    <li>Added <strong>Find in MAL</strong>. Check out the Utility Bar.</li>
+                    <li>Added a detailed settings page (<em>this one</em>) and removed the old one (on the popup).</li>
+                </ul>
+                <h4>Release Notes:</h4>
+                <a href="https://github.com/lap00zza/9anime-Companion/releases" target="_blank">https://github.com/lap00zza/9anime-Companion/releases</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Container -->
 <div class="container" id="optionsWindow">
     <div id="options_header">
         <div class="title"><strong>9anime</strong> Companion</div>
         <div class="author">A simple companion extension for 9anime</div>
     </div>
 
-    <div class="quick_info_1">Hover over an option for more information.</div>
+    <div class="quick_info_1">Hover over an option for more information. Click on the eye to see screen-shot.</div>
+
+    <!--== Watch Page: General ==-->
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="watchPage">
             <h4 class="panel-title">
@@ -65,7 +138,7 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
-                              title="Removes the Social Share bar show above the anime info box.<br><strong>Default:
+                              title="Removes the Social Share bar shown above the anime info box.<br><strong>Default:
                               <span class='tooltip_default'>OFF</span></strong>">
                             Remove Social Share
                         </span>
@@ -104,16 +177,79 @@
         </div>
     </div>
 
+    <!--== Watch Page: Extras ==-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="watchPageExtras">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#watchPageExtrasCollapse" aria-expanded="true" aria-controls="watchPageUtilCollapse">
+                    Watch Page: Extras
+                </a>
+            </h4>
+        </div>
+        <div id="watchPageExtrasCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="watchPageExtras">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <!-- TODO: maybe add image to show where the utility bar is? -->
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="The utility bar is located just below the player and contains quite a few really
+                              helpful utilities like: Reddit Discussion, Find in MAL etc.
+                              <br><strong>Default: <span class='tooltip_default'>ON</span></strong>">
+                            Utility Bar
+                        </span>
+                        <span class="glyphicon glyphicon-eye-open open_ss" aria-hidden="true" data-toggle="modal" data-target="#utility_bar_ss"></span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="utilityBarToggle">
+                            <label for="utilityBarToggle"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--== Global ==-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="global">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#globalCollapse" aria-expanded="true" aria-controls="watchPageUtilCollapse">
+                    Global
+                </a>
+            </h4>
+        </div>
+        <div id="globalCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="global">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
+                        <!-- TODO: this tooltip overflows as the height is quite large.
+                        Add some more stuff to the footer to make up for it.-->
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="The Pin Icons are attached onto the lower right corner of all anime items
+                              throughout 9anime. This allows you to quickly add items to your pinned list.
+                              <br><strong>Default: <span class='tooltip_default'>ON</span></strong>">
+                            Pin Anime Icons
+                        </span>
+                        <span class="glyphicon glyphicon-eye-open open_ss" aria-hidden="true" data-toggle="modal" data-target="#pin_icons_ss"></span>
+                        <div class="slideThree">
+                            <input type="checkbox" id="pinIconToggle">
+                            <label for="pinIconToggle"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="options_footer">
         <div>
             Made with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by <a href="https://github.com/lap00zza" target="_blank">lap00zza</a>.
         </div>
         <div class="license">
-            9anime Companion is <em>free</em> and <em>open source</em> released under <a href="https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE">MIT License</a>.
+            9anime Companion is <em>free</em> and <em>open source</em> released under <a href="https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE" target="_blank">MIT License</a>.
         </div>
     </div>
 </div>
 </body>
+<script src="assets/js/animeUtils.js"></script>
 <script src="assets/lib/jquery-3.2.0.min.js"></script>
 <script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/js/optionsPage.js"></script>

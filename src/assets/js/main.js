@@ -24,71 +24,21 @@
 
 // Handles the functionality withing the main popup UI.
 (function ($) {
+    var animeUtils = window.animeUtils;
+
     var animeLink = $("#anime-link-image");
     var settingsBtn = $("#settingsWindowToggle");
-    var lastWatched = $("#lastWatched");
-    var lastWatchedDetails = $("#lastWatchedDetails");
     var pinnedListDiv = $("#pinnedList");
-    var pinned = $("#pinned");
-    var quickSettings = $("#quickSettings");
-    var advancedSettings = $("#advancedSettings");
-    var defaultSettings = {
-        adsToggle: 1,
-        playerSizeToggle: 1,
-        minimalModeToggle: 0,
-        pinIconToggle: 1
-    };
-    var optionElements = Object.keys(defaultSettings);
-
-    // NOTE: We are using computed property to generate
-    // dynamic keys based on ID.
-    $(quickSettings).find("input:checkbox").change(function () {
-        var setting = this.id;
-        if ($(this).is(":checked")) {
-            console.log(setting + " is on!");
-            chrome.storage.local.set({[setting]: 1});
-
-        } else {
-            console.log(this.id + " is off!");
-            chrome.storage.local.set({[setting]: 0});
-        }
-    });
-
-    chrome.storage.local.get(optionElements, function (settings) {
-        console.log(settings, optionElements);
-        for (var i = 0; i < optionElements.length; i++) {
-            var option = optionElements[i];
-
-            // Ok this might look a bit confusing. Here is what it is doing.
-            // We first check of localStorage has a saved value for this option.
-            // In case it does not have (which is, in the case of fresh install),
-            // then we will use the default values instead.
-            if (settings[option] === undefined) {
-                console.log("Using default setting for: " + option);
-                $("#" + option).prop("checked", !!defaultSettings[option]);
-            } else {
-                $("#" + option).prop("checked", !!settings[option]);
-            }
-        }
-    });
 
     // Click Handlers
     $(animeLink).on("click", function () {
-        chrome.runtime.sendMessage({intent: "open_9anime"}, function (response) {
-            console.log(response.result);
+        chrome.tabs.create({
+            "url": "https://9anime.to"
         });
     });
 
     $(settingsBtn).on("click", function () {
-        // chrome.runtime.openOptionsPage();
-        $(pinned).toggle("fast");
-        $(quickSettings).toggle("fast");
-    });
-    
-    $(advancedSettings).on("click", function () {
-        chrome.tabs.create({
-            url: "../../options.html"
-        })
+        chrome.runtime.sendMessage({intent: "openOptions"});
     });
 
     /**
@@ -120,56 +70,52 @@
 
         return pinnedItem;
     }
-    
+
     // This portion deals with binding the pinned anime list
     // onto the popup.
     // TODO: maybe this can be broken down to smaller functions?
     // TODO: maybe make getPinnedList a function in events page?
-    chrome.storage.local.get({pinnedList: []}, function (values) {
+    chrome.storage.local.get({
+        pinnedList: []
+        
+    }, function (values) {
         var pinned = values["pinnedList"];
         if (pinned.length > 0) {
 
-            console.log(pinned);
+            // console.log(pinned);
             for (var i = 0; i < pinned.length; i++) {
-                $(pinnedListDiv)[0].appendChild(pinItem(pinned[i].name,pinned[i].url));
+                $(pinnedListDiv)[0].appendChild(pinItem(pinned[i].name, pinned[i].url));
             }
-            
-            // $(".pinned_item").on("mouseover", function () {
-            //     $(this).addClass("pin_item_slide_entry").removeClass("pin_item_slide_exit");
-            // });
-            // $(".pinned_item").on("mouseout", function () {
-            //     $(this).addClass("pin_item_slide_exit").removeClass("pin_item_slide_entry");
-            // });
 
             $(".pinned_item .anime_item").on("click", function () {
-
                 var url = $(this).parent().data("url");
-                chrome.runtime.sendMessage({intent: "open_anime", animeUrl: url}, function (response) {
-                    console.log(response.result);
-                });
+                if (animeUtils.helper.isUrl(url)) {
+                    chrome.tabs.create({
+                        "url": url
+                    });
+                }
             });
 
             $(".pinned_item .pinned_delete").on("click", function () {
-
                 var that = this;
                 var url = $(this).parent().data("url");
-                var requestObj = {
-                    intent: "removePinnedAnime",
-                    animeUrl: url
-                };
 
-                chrome.runtime.sendMessage(requestObj, function (response) {
-                    // console.log(response.result, response.itemCount);
-                    if (response.result === "success") {
-                        $(that).parent().addClass("deleting_exit");
-                        setTimeout(function () {
-                            $(that).parent().remove();
-                        }, 500);
-                    }
-                    if (response.itemCount === 0) {
-                        $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
-                    }
-                });
+                animeUtils
+                    .removeFromPinnedList(url)
+                    .then(function (response) {
+                        if (response.result === "success") {
+                            $(that).parent().addClass("deleting_exit");
+                            setTimeout(function () {
+                                $(that).parent().remove();
+                            }, 500);
+                        }
+                        if (response.itemCount === 0) {
+                            $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
+                        }
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                    });
 
             });
 

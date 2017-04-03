@@ -22,15 +22,20 @@
  *  SOFTWARE.
  */
 
-// This module contains the utility functions.
-// This module runs in the background.
-// TODO: add unit tests for all the functions
+// This module contains the utility functions which can
+// be used globally.
+
+// NOTE: 
+// Unit Tests for this can be found in animeUtils.spec.js 
+// in the test/unit directory.
 (function () {
 
     // Bind this to window object so that we can easily
     // test it out as well.
     var animeUtils = window.animeUtils = window.animeUtils || {};
-
+    
+    // Every single settings and their default values are 
+    // present here. 1 = ON, 0 = OFF
     animeUtils.defaultSettings = {
         adsToggle: 1,
         playerSizeToggle: 1,
@@ -38,14 +43,62 @@
         pinIconToggle: 1,
         shareBarToggle: 1,
         commentsToggle: 0,
-        youMightAlsoLikeToggle: 0
+        youMightAlsoLikeToggle: 0,
+        utilityBarToggle: 1
+    };
+
+    /**
+     * This function gets the user settings and resolves this settings
+     * object once done.
+     * 
+     * @param key: This parameter is optional. If it is empty, then the entire
+     *              settings object will be passed. If specific options are mentioned
+     *              in the key, then only those will be present in the settings object.
+     * @returns {Promise}
+     */
+    animeUtils.loadSettings = function (key) {
+        return new Promise (function (resolve, reject) {
+            if ((key && key instanceof Array) || (!key)) {
+                var optionElements = Object.keys(animeUtils.defaultSettings);
+                var fetchArray = key || optionElements;
+
+                chrome.storage.local.get(fetchArray, function (values) {
+                    var settings = {};
+
+                    for (var i = 0; i < fetchArray.length; i++) {
+                        var option = fetchArray[i];
+                        if (values[option] === undefined) {
+                            settings[option] = !!animeUtils.defaultSettings[option];
+                        } else {
+                            settings[option] = !!values[option];
+                        }
+                    }
+                    
+                    // Once we load the settings, we resolve our promise.
+                    resolve(settings);
+                });
+            } else {
+                reject("key not an array")
+            }
+        });
     };
 
     // Helper functions
     animeUtils.helper = {
 
         /**
+         * A simple helper function which returns the keys of the default settings
+         * as arrays.
+         * 
+         * @returns {Array}
+         */
+        settingsKeys: function () {
+            return Object.keys(animeUtils.defaultSettings);
+        },
+
+        /**
          * This helper function will help us test whether a given string is a URL.
+         * 
          * @param urlString
          * @returns {boolean}
          */
@@ -106,7 +159,7 @@
             // This regex will be used to match the url to get the id/episode_id
             // => we should get ["https://9anime.to/watch/gabriel-dropout."]
             // We then take the first element, i.e. [0]
-            var re = /(?:http|https):\/\/9anime\.[a-z]+\/watch\/.+\./;
+            var re = /(?:http|https):\/\/9anime\.[a-z]+\/watch\/.+\./i;
             baseUrl = url.match(re)[0];
             var splitUrl = url.split(re);
 
@@ -136,34 +189,38 @@
      * @returns {Promise}
      */
     animeUtils.addToPinnedList = function addToPinnedList(name, url) {
-        var pinned = [];
         return new Promise(function (resolve, reject) {
-            chrome.storage.local.get({
-                pinnedList: []
+            if (name && animeUtils.helper.isUrl(url)) {
+                chrome.storage.local.get({
+                    pinnedList: []
 
-            }, function (values) {
+                }, function (values) {
 
-                pinned = values["pinnedList"];
-                // console.log(pinned);
+                    var pinned = values["pinnedList"];
+                    // console.log(pinned);
 
-                // Check if this entry already exists. If it does not
-                // exist add it to the list. Else resolve as duplicate.
-                if (!animeUtils.checkIfEntryExists(pinned, url)) {
-                    pinned.push({
-                        name: name,
-                        url: url
-                    });
+                    // Check if this entry already exists. If it does not
+                    // exist add it to the list. Else resolve as duplicate.
+                    if (!animeUtils.checkIfEntryExists(pinned, url)) {
+                        pinned.push({
+                            name: name,
+                            url: url
+                        });
 
-                    chrome.storage.local.set({
-                        pinnedList: pinned
-                    });
+                        chrome.storage.local.set({
+                            pinnedList: pinned
+                        });
 
-                    // console.log("Pinned:", name, url);
-                    resolve("success");
-                } else {
-                    resolve("duplicate");
-                }
-            });
+                        // console.log("Pinned:", name, url);
+                        resolve("success");
+                    } else {
+                        resolve("duplicate");
+                    }
+                });
+            } else {
+                // TODO: add something descriptive here?
+                reject("error");
+            }
         });
 
     };
@@ -175,15 +232,13 @@
      * @returns {Promise}
      */
     animeUtils.removeFromPinnedList = function removeFromPinnedList(url) {
-
-        var pinned = [];
         return new Promise(function (resolve, reject) {
             chrome.storage.local.get({
                 pinnedList: []
 
             }, function (values) {
 
-                pinned = values["pinnedList"];
+                var pinned = values["pinnedList"];
 
                 // Check if this entry already exists. If it does
                 // exist remove from the list. Else reject promise.
@@ -199,7 +254,6 @@
                     });
 
                     // console.log("Removed: ", url);
-
                     resolve({
                         result: "success",
                         itemCount: pinned.length

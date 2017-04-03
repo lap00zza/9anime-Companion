@@ -25,26 +25,12 @@
 // This content script handles global functionality like pins etc
 // TODO: maybe add some animation to the anime item to indicate add success?
 (function ($) {
+    var animeUtils = window.animeUtils;
 
     console.log("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
-    // Note to Self: getUrl method needs a path to a resource within an app/extension expressed
-    // **relative** to its install directory.
-    console.log("If you want to view the tests, go here: " + chrome.runtime.getURL("test/test.html"));
 
-    var pinAnimeIcon;
-    var settingsLoadedPromise = new Promise(function (resolve, reject) {
-        chrome.storage.local.get("pinIconToggle", function (values) {
-            if (values["pinIconToggle"] === undefined) {
-                pinAnimeIcon = true;
-            } else {
-                pinAnimeIcon = !!values["pinIconToggle"];
-            }
-            resolve();
-        });
-    });
-
-    settingsLoadedPromise.then(function () {
-        if (pinAnimeIcon) {
+    animeUtils.loadSettings(["pinIconToggle"]).then(function (settings) {
+        if (settings["pinIconToggle"]) {
             var animeItems = $(".list-film .item");
 
             // Web Accessible Resource URL's
@@ -65,23 +51,17 @@
                         var animeName = $(this).parent().find(".name").text();
                         var animeUrl = $(this).parent().find(".name").prop("href");
 
-                        var requestObj = {
-                            intent: "addPinnedAnime",
-                            animeName: animeName,
-                            animeUrl: animeUrl
-                        };
-
-                        chrome.runtime.sendMessage(requestObj, function (response) {
-                            console.log(response.result);
-                        });
+                        animeUtils
+                            .addToPinnedList(animeName, animeUrl)
+                            .then(function (response) {
+                                console.log(response);
+                            })
+                            .catch(function (response) {
+                                console.log(response);
+                            })
 
                     });
                 });
         }
     });
-    // Test interaction between content script and background page
-    // chrome.runtime.sendMessage({intent: "hello"}, function (response) {
-    //     console.log(response.result);
-    // });
-
 })(jQuery);

@@ -21,12 +21,12 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-// TODO: Once we re-add the options page, remove options.html and bootstrap from exclude list
-// TODO: Maybe add a task to build without the included tests.
 
 var gulp = require("gulp");
 var zip = require("gulp-zip");
 var del = require("del");
+var Server = require("karma").Server;
+var runSequence = require("run-sequence");
 
 // We start off by deleting the current directory
 // so that we are not left with any stale files.
@@ -39,10 +39,6 @@ gulp.task("clean_chrome", function () {
 // directory to the dist/chromium directory.
 gulp.task("make_chrome", ["clean_chrome"], function () {
     gulp.src([
-        // "!src/options.html",
-        // "!src/assets/js/optionsPage.js",
-        // "!src/assets/sass/optionsPage.css",
-        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
@@ -53,10 +49,6 @@ gulp.task("make_chrome", ["clean_chrome"], function () {
 // extensions. Helpful for easy distribution.
 gulp.task("zip_chrome", function () {
     gulp.src([
-        // "!src/options.html",
-        // "!src/assets/js/optionsPage.js",
-        // "!src/assets/sass/optionsPage.css",
-        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
@@ -71,10 +63,6 @@ gulp.task("clean_firefox", function () {
 
 gulp.task("make_firefox", ["clean_firefox"], function () {
     gulp.src([
-        // "!src/options.html",
-        // "!src/assets/js/optionsPage.js",
-        // "!src/assets/sass/optionsPage.css",
-        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])
@@ -83,10 +71,6 @@ gulp.task("make_firefox", ["clean_firefox"], function () {
 
 gulp.task("zip_firefox", function () {
     gulp.src([
-        // "!src/options.html",
-        // "!src/assets/js/optionsPage.js",
-        // "!src/assets/sass/optionsPage.css",
-        // "!src/assets/lib/bootstrap/**/*",
         "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])
@@ -94,9 +78,19 @@ gulp.task("zip_firefox", function () {
         .pipe(gulp.dest("dist"));
 });
 
+
+/**
+ * Run test once and exit
+ */
+gulp.task("test", function (done) {
+    new Server({
+        configFile: __dirname + "/test/karma.conf.js",
+        singleRun: true
+    }, done).start();
+});
+
 // This default task is added so that we can easily
 // test our entire process using travis.
-gulp.task("default", [
-    "make_chrome",
-    "make_firefox"
-]);
+gulp.task("default", function () {
+    runSequence("test", ["make_chrome", "make_firefox"]);
+});

@@ -22,17 +22,34 @@
  *  SOFTWARE.
  */
 
-/*global describe, beforeEach, inject, module, expect, it, sinon*/
+/*global spyOn, describe, beforeEach, inject, module, expect, it, sinon*/
 describe("Tests for animeUtils", function () {
 
-    // TODO: maybe we are better off using chrome-sinon
-    // and running it with karma instead of doing it manually
-    // on the browser. That way we can run the tests during
-    // the travis build. And since end users don't really care
-    // about tests we can remove it from "dist" altogether. I
-    // wonder what future me will think of this :/
+    var chrome = {
+        runtime: {
+            onMessage: {
+                addListener: function () {}
+            },
+            onInstalled: {
+                addListener: function () {}
+            }
+        },
+        storage: {
+            local: {
+                get: function () {},
+                set: function () {}
+            }
+        }
+    };
 
-    var testUrl = "https://9anime.is/watch/ao-haru-ride.qk5n/vpz64";
+    beforeEach(function () {
+        // Replace the global chrome object with our own
+        window.chrome = chrome;
+    });
+    
+    // The casing is a bit weird to make sure we can test
+    // case in-sensitive regex.
+    var testUrl = "https://9Anime.IS/watch/ao-haru-ride.qk5n/vpz64";
 
     // ***
     describe("extractIdFromUrl, using: " + testUrl, function () {
@@ -49,7 +66,7 @@ describe("Tests for animeUtils", function () {
 
         it("should return animeUrl: https://9anime.is/watch/ao-haru-ride.qk5n", function () {
             var extracted = window.animeUtils.extractIdFromUrl(testUrl);
-            expect(extracted.animeUrl).toBe("https://9anime.is/watch/ao-haru-ride.qk5n");
+            expect(extracted.animeUrl).toBe("https://9Anime.IS/watch/ao-haru-ride.qk5n");
         });
     });
 
@@ -98,6 +115,11 @@ describe("Tests for animeUtils", function () {
     // ***
     describe("addToPinnedList", function () {
         it("should add anime: test with url: https://test.com", function (done) {
+            spyOn(chrome.storage.local, "get").and.callFake(function (init, callback) {
+                return callback(init);
+            });
+            spyOn(chrome.storage.local, "set").and.returnValue(true);
+
             window
                 .animeUtils
                 .addToPinnedList("test", "https://test.com")
@@ -111,15 +133,47 @@ describe("Tests for animeUtils", function () {
     // ***
     describe("removeFromPinnedList", function () {
         it("should not remove anything if list is empty", function (done) {
+            spyOn(chrome.storage.local, "get").and.callFake(function (init, callback) {
+                return callback(init);
+            });
+
             window
                 .animeUtils
                 .removeFromPinnedList("test", "https://test.com")
                 .catch(function (reason) {
-                    console.log(reason);
                     expect(reason).toBe("does not exist");
                     done();
                 });
         });
     });
+
+    // ***
+    describe("loadSettings", function () {
+        it("should reject if parameter 'key' is not an array", function (done) {
+            window
+                .animeUtils
+                .loadSettings("1234141")
+                .catch(function (reason) {
+                    expect(reason).toBe("key not an array");
+                    done();
+                });
+
+            window
+                .animeUtils
+                .loadSettings("1234141", [12123213])
+                .catch(function (reason) {
+                    expect(reason).toBe("key not an array");
+                    done();
+                });
+
+            window
+                .animeUtils
+                .loadSettings("1234141", 123, [12123213])
+                .catch(function (reason) {
+                    expect(reason).toBe("key not an array");
+                    done();
+                });
+        })
+    })
 
 });

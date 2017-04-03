@@ -26,25 +26,15 @@
 // main interface. This module runs in the background.
 //noinspection JSCheckFunctionSignatures
 chrome.runtime.onMessage.addListener(
-    // TODO: https://github.com/gorhill/uBlock/blob/master/src/js/messaging.js#L55 | use switch case?
     function (request, sender, sendResponse) {
         switch (request.intent) {
             case "hello":
-                sendResponse({result: "Background page is working properly."});
+                sendResponse({
+                    result: "Background page is working properly."
+                });
                 break;
 
-            case "open_9anime":
-                chrome.tabs.create({'url': "https://9anime.to"});
-                sendResponse({result: "opened"});
-                break;
-
-            case "open_anime":
-                if (window.animeUtils.helper.isUrl(request.animeUrl)) {
-                    chrome.tabs.create({'url': request.animeUrl});
-                    sendResponse({result: "opened"});
-                }
-                break;
-
+            // Why? Coz content scripts can't open new tabs
             case "findInMal":
                 if (request.animeName) {
                     chrome.tabs.create({
@@ -56,17 +46,38 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
 
-            case "extractIdFromUrl":
-                if (window.animeUtils.helper.isUrl(request.animeUrl)) {
-                    sendResponse({
-                        result: "success",
-                        data: window.animeUtils.extractIdFromUrl(request.animeUrl)
-                    });
-                }
+            case "registerTabId":
                 break;
 
+            // TODO: url match does not seem to work with firefox 
+            // lets instead query tabs by name till firefox supports extension url match?
+            case "openOptions":
+
+                var optionsUrl = chrome.extension.getURL("options.html");
+                // var pos = optionsUrl.indexOf('#');
+                // var cleanUrl;
+                //
+                // if (pos === -1) {
+                //     cleanUrl = optionsUrl;
+                // } else {
+                //     cleanUrl = optionsUrl.slice(0, pos);
+                // }
+
+                chrome.tabs.query({title: "9anime Companion - Options"}, function (response) {
+                    console.log(response);
+                    if(response.length === 0) {
+                        chrome.tabs.create({
+                            "url": optionsUrl
+                        });
+                    } else {
+                        chrome.tabs.update(response[0].id, {active: true});
+                    }
+                });
+                break;
+            
             case "openRedditDiscussion":
                 if (request.animeName) {
+                    // Change the replace part with regex
                     var cleanedTitle = request.animeName.replace(" (TV)", "").replace(" (Sub)", "").replace(" (Dub)", "").trim();
                     var url = "https://www.reddit.com/r/anime/search?q=";
 
@@ -112,60 +123,57 @@ chrome.runtime.onMessage.addListener(
                     });
                 }
                 break;
-
-            case "addPinnedAnime":
-                // Validate the url before adding it to list
-                if (request.animeName && window.animeUtils.helper.isUrl(request.animeUrl)) {
-                    // console.log(name, url);
-                    var pinPromise = window.animeUtils.addToPinnedList(request.animeName, request.animeUrl);
-                    pinPromise.then(function (status) {
-                        sendResponse({
-                            result: status
-                        });
-                    });
-
-                    // We return true to indicate we wish to send a response
-                    // asynchronously (this will keep the message channel
-                    // open to the other end until sendResponse is called)
-                    return true;
-
-                } else {
-                    sendResponse({
-                        result: "fail"
-                    });
-                }
-                break;
-
-            case "removePinnedAnime":
-                if (window.animeUtils.helper.isUrl(request.animeUrl)) {
-                    var remPinPromise = window.animeUtils.removeFromPinnedList(request.animeUrl);
-
-                    remPinPromise.then(function (status) {
-                        sendResponse({
-                            result: status.result,
-                            itemCount: status.itemCount
-                        });
-                    });
-
-                    // We return true to indicate we wish to send a response
-                    // asynchronously (this will keep the message channel
-                    // open to the other end until sendResponse is called)
-                    return true;
-                } else {
-                    sendResponse({
-                        result: "fail"
-                    });
-                }
-                break;
         }
     }
 );
 
 //noinspection JSCheckFunctionSignatures
 chrome.runtime.onInstalled.addListener(function (details) {
-    // Initializing the default settings
     if (details.reason === "install") {
-        console.log("New install: Saving the default settings to localStorage", window.animeUtils.defaultSettings);
+        console.log("New install: Saving the default settings to localStorage");
+        chrome.storage.local.set({
+            installType: "fresh",
+            installedOn: (new Date()).toISOString(),
+            installModalShown: false
+        });
+        
+        // Initializing the default settings
         chrome.storage.local.set(window.animeUtils.defaultSettings);
+        // chrome.tabs.create({
+        //     "url": chrome.extension.getURL("options.html")
+        // });
+    } 
+    
+    if (details.reason === "update") {
+        console.log("Update: Preserving old settings and adding new ones");
+        chrome.storage.local.set({
+            installType: "update",
+            installedOn: (new Date()).toISOString(),
+            installModalShown: false
+        });
+
+        // Preserve the previous settings and add
+        // the new default settings.
+        var optionElements = Object.keys(window.animeUtils.defaultSettings);
+        var newSettings = {};
+        chrome.storage.local.get(optionElements, function (previousSettings) {
+            optionElements.forEach(function (option) {
+                if (previousSettings[option] === undefined) {
+                    newSettings[option] = window.animeUtils.defaultSettings[option];
+                    
+                } else {
+                    newSettings[option] = previousSettings[option];
+                }
+            });
+        });
+        
+        // console.log(newSettings);
+        chrome.storage.local.set(newSettings);
+
+        // Open the options page, which should then show
+        // the updated notification modal.
+        chrome.tabs.create({
+            "url": chrome.extension.getURL("options.html")
+        });
     }
 });
