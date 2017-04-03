@@ -65,7 +65,7 @@
         });
         animeInfo[key] = value;
     });
-    console.log(animeInfo);
+    // console.log(animeInfo);
 
     // Web Accessible Resource URL's
     var pinImage = chrome.extension.getURL("assets/images/pin.png"),
@@ -197,7 +197,13 @@
 
                                     // We don't want the leading and trailing spaces.
                                     // So we trim it.
-                                    alternateNames.push(name.trim());
+                                    var trimmedName = name.trim();
+
+                                    // We need this check because we don't want to add
+                                    // blank strings to the alternate names.
+                                    if (trimmedName) {
+                                        alternateNames.push(trimmedName);
+                                    }
                                 })
                             }
 

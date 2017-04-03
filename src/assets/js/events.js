@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener(
                 // }
 
                 chrome.tabs.query({title: "9anime Companion - Options"}, function (response) {
-                    console.log(response);
+                    // console.log(response);
                     if(response.length === 0) {
                         chrome.tabs.create({
                             "url": optionsUrl
@@ -78,7 +78,7 @@ chrome.runtime.onMessage.addListener(
             case "openRedditDiscussion":
                 if (request.animeName) {
                     // Change the replace part with regex
-                    var cleanedTitle = request.animeName.replace(" (TV)", "").replace(" (Sub)", "").replace(" (Dub)", "").trim();
+                    var cleanedTitle = request.animeName.replace(/\(DUB\)|\(SUB\)|\(TV\)/gi, "").trim();
                     var url = "https://www.reddit.com/r/anime/search?q=";
 
                     if (!request.episode) {
@@ -129,6 +129,7 @@ chrome.runtime.onMessage.addListener(
 
 //noinspection JSCheckFunctionSignatures
 chrome.runtime.onInstalled.addListener(function (details) {
+    // console.log(details);
     if (details.reason === "install") {
         console.log("New install: Saving the default settings to localStorage");
         chrome.storage.local.set({
