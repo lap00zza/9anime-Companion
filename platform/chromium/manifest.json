@@ -47,6 +47,7 @@
     "tabs",
     "storage",
     "notifications",
+    "downloads",
     "https://myanimelist.net/api/*"
   ],
 

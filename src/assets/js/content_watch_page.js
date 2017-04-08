@@ -72,7 +72,8 @@
         malLogo = chrome.extension.getURL("assets/images/mal-icon.png"),
         loader = chrome.extension.getURL("assets/images/loader.svg"),
         plusIcon = chrome.extension.getURL("assets/images/plus.png"),
-        mal_status_wait = chrome.extension.getURL("assets/images/balls.svg");
+        mal_status_wait = chrome.extension.getURL("assets/images/balls.svg"),
+        downloadIcon = chrome.extension.getURL("assets/images/download.png");
 
 
     // TODO: Iframe remover
@@ -221,6 +222,10 @@
                                 <img src='${malLogo}'>
                                 Find in MAL
                             </div>
+                            <div id="download_all_utility" class="utility_item">
+                                <img src='${downloadIcon}'>
+                                Download All
+                            </div>
                         </div>`
                     )
                     .promise()
@@ -296,6 +301,33 @@
                                 console.log(response.result);
                             });
                         });
+
+                        // Click listener for download all utility
+                        $("#download_all_utility").on("click", function () {
+                            var episodes = [];
+                            $(servers)
+                                // We are only interested in the direct
+                                // file server downloads. And not the iframe ones
+                                // like openload etc.
+                                .find(".server.row[data-type='direct']")
+                                // There are usually 2 direct servers, f1 and f2
+                                // we select the first one for now
+                                .first()
+                                .find(".episodes.range li > a")
+                                .each(function () {
+                                    episodes.push({
+                                        id: $(this).data("id"),
+                                        number: $(this).data("base")
+                                    });
+                                });
+                            
+                            console.log(episodes);
+                            chrome.runtime.sendMessage({
+                                intent: "downloadFiles",
+                                episodes: episodes,
+                                animeName: animeName
+                            });
+                        })
                     });
             }
 
@@ -495,7 +527,7 @@
 
             return malAddShell;
         }
-        
+
         if (settings["malIntegrationToggle"]) {
             if ($(player).length > 0) {
                 $(player)

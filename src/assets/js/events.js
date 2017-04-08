@@ -280,6 +280,11 @@ chrome.runtime.onMessage.addListener(
                     });
                 }
                 break;
+
+            /**********************************************************************************************************/
+            case "downloadFiles":
+                window.downloadAll.downloadFiles(request.episodes, request.animeName);
+                break;
         }
     }
 );
