@@ -74,7 +74,6 @@
     // This portion deals with binding the pinned anime list
     // onto the popup.
     // TODO: maybe this can be broken down to smaller functions?
-    // TODO: maybe make getPinnedList a function in events page?
     chrome.storage.local.get({
         pinnedList: []
         

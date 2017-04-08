@@ -23,7 +23,6 @@
  */
 
 // This script handles all the functionality in the watch page.
-// TODO: Utility Bar should be toggleable
 (function ($) {
     var animeUtils = window.animeUtils;
 
@@ -618,7 +617,6 @@
                             });
 
                         } else {
-                            // TODO: handle this case
                             // console.debug(response.reason);
                             if (response.reason.status === 401) {
                                 $("#mal_widget").empty().text("Verification of your MAL Credentials failed. " +

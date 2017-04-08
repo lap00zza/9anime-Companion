@@ -52,6 +52,7 @@ chrome.runtime.onMessage.addListener(
             case "removeMALCredentials":
                 window.mal.removeCredentials();
                 break;
+            
             /**********************************************************************************************************/
             case "verifyAndSetCredentials":
                 window

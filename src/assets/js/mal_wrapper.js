@@ -40,7 +40,6 @@
 
     // username and password are stored in the local-storage.
     // what that means is its exposed to pretty much anything.
-    // TODO: use MAL api's verify credential method to make sure login is correct
     var username = null;
     var password = null;
 

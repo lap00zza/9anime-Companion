@@ -100,6 +100,7 @@
         var key = this.id;
         var checked = $(this).is(":checked");
 
+        // TODO: turning on MAL integration should ask for permission to access MAL Website
         switch (key) {
             case "minimalModeToggle":
                 if (checked) {
