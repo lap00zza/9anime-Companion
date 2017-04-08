@@ -44,7 +44,8 @@
         shareBarToggle: 1,
         commentsToggle: 0,
         youMightAlsoLikeToggle: 0,
-        utilityBarToggle: 1
+        utilityBarToggle: 1,
+        malIntegrationToggle: 0
     };
 
     /**

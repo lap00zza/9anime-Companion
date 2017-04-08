@@ -45,7 +45,9 @@
 
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "notifications",
+    "https://myanimelist.net/api/*"
   ],
 
   "web_accessible_resources": [

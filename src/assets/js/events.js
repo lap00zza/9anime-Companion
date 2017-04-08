@@ -28,13 +28,15 @@
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         switch (request.intent) {
+
+            /**********************************************************************************************************/
             case "hello":
                 sendResponse({
                     result: "Background page is working properly."
                 });
                 break;
 
-            // Why? Coz content scripts can't open new tabs
+            /**********************************************************************************************************/
             case "findInMal":
                 if (request.animeName) {
                     chrome.tabs.create({
@@ -46,9 +48,162 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
 
-            case "registerTabId":
+            /**********************************************************************************************************/
+            case "removeMALCredentials":
+                window.mal.removeCredentials();
+                break;
+            /**********************************************************************************************************/
+            case "verifyAndSetCredentials":
+                window
+                    .mal
+                    .verifyAndSetCredentials(request.username, request.password)
+                    .then(function () {
+                        sendResponse({
+                            result: "success"
+                        })
+                    })
+                    .catch(function () {
+                        sendResponse({
+                            result: "fail"
+                        });
+                    });
+                return true;
+
+
+            /**********************************************************************************************************/
+            case "searchMal":
+                if (request.animeName) {
+                    window
+                        .mal
+                        .searchAnime(request.animeName)
+                        .then(function (response) {
+                            sendResponse({
+                                result: "success",
+                                data: response
+                            });
+                        })
+                        .catch(function (response) {
+                            sendResponse({
+                                result: "fail",
+                                reason: response
+                            });
+                        });
+                    return true;
+                } else {
+                    sendResponse({
+                        result: "fail",
+                        reason: "animeName is missing"
+                    });
+                }
                 break;
 
+            /**********************************************************************************************************/
+            case "getUserList":
+                window
+                    .mal
+                    .getUserList()
+                    .then(function (response) {
+                        sendResponse({
+                            result: "success",
+                            data: response
+                        });
+                    })
+                    .catch(function (reason) {
+                        sendResponse({
+                            result: "fail",
+                            reason: reason
+                        });
+                    });
+                return true;
+
+            /**********************************************************************************************************/
+            case "addMal":
+                if (request.animeId) {
+                    // console.log(request);
+                    window
+                        .mal
+                        .addAnime(request.animeId)
+                        .then(function () {
+                            var opt = {
+                                type: "basic",
+                                title: "Success!",
+                                message: "Added to your MAL.",
+                                iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                            };
+                            chrome.notifications.create(opt);
+
+                            sendResponse({
+                                result: "success"
+                            });
+                        })
+                        .catch(function () {
+                            var opt = {
+                                type: "basic",
+                                title: "Error!",
+                                message: "There was an error adding anime to your MAL. Please try again.",
+                                iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                            };
+                            chrome.notifications.create(opt);
+
+                            sendResponse({
+                                result: "fail",
+                                reason: "error"
+                            });
+                        });
+                    return true;
+                } else {
+                    sendResponse({
+                        result: "fail",
+                        reason: "animeId is missing"
+                    });
+                }
+                break;
+
+            /**********************************************************************************************************/
+            case "updateMal":
+                if (request.animeId) {
+                    // console.log(request);
+                    window
+                        .mal
+                        .updateAnime(request.animeId, request.episode)
+                        .then(function () {
+                            var opt = {
+                                type: "basic",
+                                title: "Success!",
+                                message: "Updated your MAL",
+                                iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                            };
+                            chrome.notifications.create(opt);
+
+                            sendResponse({
+                                result: "success",
+                                reason: "<3 baby"
+                            });
+                        })
+                        .catch(function () {
+                            var opt = {
+                                type: "basic",
+                                title: "Error!",
+                                message: "There was an error updating your MAL. Please try again.",
+                                iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                            };
+                            chrome.notifications.create(opt);
+
+                            sendResponse({
+                                result: "fail",
+                                reason: "error"
+                            });
+                        });
+                    return true;
+                } else {
+                    sendResponse({
+                        result: "fail",
+                        reason: "animeId is missing"
+                    });
+                }
+                break;
+
+            /**********************************************************************************************************/
             // TODO: url match does not seem to work with firefox 
             // lets instead query tabs by name till firefox supports extension url match?
             case "openOptions":
@@ -65,7 +220,7 @@ chrome.runtime.onMessage.addListener(
 
                 chrome.tabs.query({title: "9anime Companion - Options"}, function (response) {
                     // console.log(response);
-                    if(response.length === 0) {
+                    if (response.length === 0) {
                         chrome.tabs.create({
                             "url": optionsUrl
                         });
@@ -74,7 +229,8 @@ chrome.runtime.onMessage.addListener(
                     }
                 });
                 break;
-            
+
+            /**********************************************************************************************************/
             case "openRedditDiscussion":
                 if (request.animeName) {
                     // Change the replace part with regex
@@ -137,14 +293,14 @@ chrome.runtime.onInstalled.addListener(function (details) {
             installedOn: (new Date()).toISOString(),
             installModalShown: false
         });
-        
+
         // Initializing the default settings
         chrome.storage.local.set(window.animeUtils.defaultSettings);
         // chrome.tabs.create({
         //     "url": chrome.extension.getURL("options.html")
         // });
-    } 
-    
+    }
+
     if (details.reason === "update") {
         console.log("Update: Preserving old settings and adding new ones");
         chrome.storage.local.set({
@@ -161,20 +317,21 @@ chrome.runtime.onInstalled.addListener(function (details) {
             optionElements.forEach(function (option) {
                 if (previousSettings[option] === undefined) {
                     newSettings[option] = window.animeUtils.defaultSettings[option];
-                    
+
                 } else {
                     newSettings[option] = previousSettings[option];
                 }
             });
         });
-        
+
         // console.log(newSettings);
         chrome.storage.local.set(newSettings);
 
         // Open the options page, which should then show
         // the updated notification modal.
-        chrome.tabs.create({
-            "url": chrome.extension.getURL("options.html")
-        });
+        // TODO: uncomment it before pushing. DON'T FORGET
+        // chrome.tabs.create({
+        //     "url": chrome.extension.getURL("options.html")
+        // });
     }
 });

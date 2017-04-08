@@ -23,11 +23,6 @@
   display: flex;
   margin-top: 10px;
   font-size: 13px; }
-  .player_utilities .utility_header {
-    font-weight: 500;
-    color: #9a9a9a;
-    align-items: center;
-    justify-content: center; }
   .player_utilities .utility_item {
     display: inline-flex;
     align-items: center;
@@ -53,5 +48,66 @@
     opacity: 0.7;
     margin-top: -2px;
     padding-right: 3px; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+.mal_integration {
+  color: #9a9a9a;
+  margin-top: 10px;
+  width: 250px;
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  height: 75px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  font-size: 14px;
+  position: relative; }
+  .mal_integration #_mal_ops_status_ {
+    position: absolute;
+    bottom: 0;
+    right: 0; }
+  .mal_integration #recommended {
+    border: 0;
+    background: #08080b;
+    font-size: 15px;
+    width: 100%; }
+  .mal_integration .mal_add_shell {
+    animation: fadeIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards; }
+    .mal_integration .mal_add_shell .mal_add_anime {
+      padding-left: 4px;
+      padding-right: 4px; }
+  .mal_integration .mal_update_shell {
+    animation: fadeIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards; }
+    .mal_integration .mal_update_shell .mal_episodes {
+      padding-left: 4px;
+      padding-right: 4px; }
+      .mal_integration .mal_update_shell .mal_episodes .episode_select {
+        float: right;
+        position: relative; }
+        .mal_integration .mal_update_shell .mal_episodes .episode_select .qol_mal_episode_increment {
+          margin-right: 5px;
+          height: 15px;
+          width: auto;
+          cursor: pointer; }
+          .mal_integration .mal_update_shell .mal_episodes .episode_select .qol_mal_episode_increment:hover {
+            opacity: 0.8; }
+        .mal_integration .mal_update_shell .mal_episodes .episode_select select {
+          border: 0;
+          background: #08080b; }
+  .mal_integration .mal_shell_btn {
+    background: #13131a;
+    border: 0; }
+    .mal_integration .mal_shell_btn:hover {
+      background: #1d1d29; }
+    .mal_integration .mal_shell_btn:active {
+      background: #08080b; }
 
 /*# sourceMappingURL=style_others.css.map */

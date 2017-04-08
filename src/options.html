@@ -36,6 +36,69 @@
     </div>
 </div>
 
+<!-- Integration Options Modals -->
+<div id="mal_integration_options" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">MyAnimeList Integration: Options</h4>
+            </div>
+            <div class="modal-body">
+
+                <!--*************************************************************************************************-->
+                <div class="container-fluid">
+                    <div class="text-justify">
+                        <div class="callout">
+                            Username and password will be stored in
+                            <mark>Plain Text</mark>
+                            in this browsers local
+                            storage.
+                            <a href="#"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        </div>
+                        <!--<div class="callout">
+                            If your status is <strong>Not Verified</strong> then the MAL widget won't show up, even if
+                            you turned it on.
+                        </div>-->
+
+                    </div>
+                    <div class="row mal_cred">
+                        <!--<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">-->
+                        <!--Enter you MAL Credentials and press verify.-->
+                        <form id="mal_cred_form">
+                            <div class="status">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="malUserName">MAL Username</label>
+                                <input type="text" class="form-control" id="malUserName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="malPassword">MAL Password</label>
+                                <input type="password" class="form-control" id="malPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="_submit_mal_credentials_">
+                                Verify
+                            </button>
+                            <button type="button" id="_remove_mal_credentials_" class="btn btn-danger"
+                                    style="display: none">
+                                Remove Credentials
+                            </button>
+                        </form>
+                        <span class="label label-info">Status</span> <span id="mal_verified_status">Not Verified</span>
+                    </div>
+
+                    <!--</div>-->
+                </div>
+                <!--*************************************************************************************************-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- >> Fresh Install Modal -->
 <!--<div id="fresh_install_modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -59,7 +122,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Updated to 0.0.4-beta.2</h4>
             </div>
             <div class="modal-body">
@@ -92,7 +156,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="watchPage">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#watchPageCollapse" aria-expanded="true" aria-controls="watchPageCollapse">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#watchPageCollapse"
+                   aria-expanded="true" aria-controls="watchPageCollapse">
                     Watch Page: General
                 </a>
             </h4>
@@ -100,6 +165,8 @@
         <div id="watchPageCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="watchPage">
             <div class="panel-body">
                 <div class="row">
+
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="Only the player, the episode list and important notifications are shown.<br>
@@ -113,6 +180,7 @@
                         </div>
                     </div>
 
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="Centers the player and makes it full width.<br><strong>Default:
@@ -125,6 +193,7 @@
                         </div>
                     </div>
 
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="Removes Ads and Popup Ads.<br><strong>Default:
@@ -137,6 +206,7 @@
                         </div>
                     </div>
 
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="Removes the Social Share bar shown above the anime info box.<br><strong>Default:
@@ -149,6 +219,7 @@
                         </div>
                     </div>
 
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="Removes the entire comments section, including Disqus.<br><strong>Default:
@@ -161,6 +232,7 @@
                         </div>
                     </div>
 
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="Removes the You Might Also Like section which is shown below the comments.<br>
@@ -182,14 +254,18 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="watchPageExtras">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#watchPageExtrasCollapse" aria-expanded="true" aria-controls="watchPageUtilCollapse">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#watchPageExtrasCollapse"
+                   aria-expanded="true" aria-controls="watchPageUtilCollapse">
                     Watch Page: Extras
                 </a>
             </h4>
         </div>
-        <div id="watchPageExtrasCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="watchPageExtras">
+        <div id="watchPageExtrasCollapse" class="panel-collapse collapse in" role="tabpanel"
+             aria-labelledby="watchPageExtras">
             <div class="panel-body">
                 <div class="row">
+
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <!-- TODO: maybe add image to show where the utility bar is? -->
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
@@ -198,12 +274,32 @@
                               <br><strong>Default: <span class='tooltip_default'>ON</span></strong>">
                             Utility Bar
                         </span>
-                        <span class="glyphicon glyphicon-eye-open open_ss" aria-hidden="true" data-toggle="modal" data-target="#utility_bar_ss"></span>
+                        <span class="glyphicon glyphicon-eye-open open_ss" aria-hidden="true" data-toggle="modal"
+                              data-target="#utility_bar_ss"></span>
                         <div class="slideThree">
                             <input type="checkbox" id="utilityBarToggle">
                             <label for="utilityBarToggle"></label>
                         </div>
                     </div>
+
+                    <!--*********************************************************************************************-->
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option mal_int_option">
+                        <!-- TODO: maybe add image to show where the utility bar is? -->
+                        <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                              title="Integration for MyAnimeList. Adds the ability to add and update your MAL.
+                              <br><strong>Default: <span class='tooltip_default'>OFF</span></strong>">
+                            MyAnimeList
+                        </span>
+                        <span class="space_fill"><!-- This is just here to fix the spacing of flex --></span>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#mal_integration_options">
+                            Configure
+                        </button>
+                        <div class="slideThree">
+                            <input type="checkbox" id="malIntegrationToggle">
+                            <label for="malIntegrationToggle"></label>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -213,7 +309,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="global">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#globalCollapse" aria-expanded="true" aria-controls="watchPageUtilCollapse">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#globalCollapse"
+                   aria-expanded="true" aria-controls="watchPageUtilCollapse">
                     Global
                 </a>
             </h4>
@@ -221,6 +318,8 @@
         <div id="globalCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="global">
             <div class="panel-body">
                 <div class="row">
+
+                    <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
                         <!-- TODO: this tooltip overflows as the height is quite large.
                         Add some more stuff to the footer to make up for it.-->
@@ -230,19 +329,23 @@
                               <br><strong>Default: <span class='tooltip_default'>ON</span></strong>">
                             Pin Anime Icons
                         </span>
-                        <span class="glyphicon glyphicon-eye-open open_ss" aria-hidden="true" data-toggle="modal" data-target="#pin_icons_ss"></span>
+                        <span class="glyphicon glyphicon-eye-open open_ss" aria-hidden="true" data-toggle="modal"
+                              data-target="#pin_icons_ss"></span>
                         <div class="slideThree">
                             <input type="checkbox" id="pinIconToggle">
                             <label for="pinIconToggle"></label>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
     </div>
     <div id="options_footer">
         <div>
-            Made with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by <a href="https://github.com/lap00zza" target="_blank">lap00zza</a>
+            Made with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by <a
+                href="https://github.com/lap00zza" target="_blank">lap00zza</a>
         </div>
         <div class="extra_info">
             <div>
@@ -256,7 +359,8 @@
             </div>
         </div>
         <div class="license">
-            9anime Companion is <em>free</em> and <em>open source</em> released under <a href="https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE" target="_blank">MIT License</a>.
+            9anime Companion is <em>free</em> and <em>open source</em> released under <a
+                href="https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE" target="_blank">MIT License</a>.
         </div>
     </div>
 </div>
