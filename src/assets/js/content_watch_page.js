@@ -393,8 +393,10 @@
                             $(download_all_options).css({display: "block"});
                         });
 
-                        $(download_all_options).on("click", function () {
-                            $(download_all_options).css({display: "none"});
+                        $(download_all_options).on("click", function (e) {
+                            if (e.target === download_all_options[0]){
+                                $(download_all_options).css({display: "none"});
+                            }
                         });
 
                         $(download_all_options).find(".dla_container .title span").on("click", function () {
