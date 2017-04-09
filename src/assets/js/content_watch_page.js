@@ -302,31 +302,103 @@
                             });
                         });
 
-                        // Click listener for download all utility
-                        $("#download_all_utility").on("click", function () {
-                            var episodes = [];
-                            $(servers)
-                                // We are only interested in the direct
-                                // file server downloads. And not the iframe ones
-                                // like openload etc.
-                                .find(".server.row[data-type='direct']")
-                                // There are usually 2 direct servers, f1 and f2
-                                // we select the first one for now
-                                .first()
-                                .find(".episodes.range li > a")
+                        /**********************************************************************************************/
+                        // DOWNLOAD ALL
+                        // We are not going to put the Modal generation inside the click handler
+                        // because there is no need to generate the contents every time. Instead
+                        // we generate it once on load, here.
+                        var episodes = [];
+                        $(servers)
+                        // We are only interested in the direct
+                        // file server downloads. And not the iframe ones
+                        // like openload etc.
+                            .find(".server.row[data-type='direct']")
+                            // There are usually 2 direct servers, f1 and f2
+                            // we select the first one for now
+                            .first()
+                            .find(".episodes.range li > a")
+                            .each(function () {
+                                episodes.push({
+                                    id: $(this).data("id"),
+                                    number: $(this).data("base")
+                                });
+                            });
+
+
+                        var epCheckBoxes = document.createElement("div");
+                        epCheckBoxes.classList.add("epCheckBoxes");
+
+                        episodes.forEach(function (episode) {
+                            var checkItem = document.createElement("div");
+                            checkItem.classList.add("check_item");
+
+                            var checkBox = document.createElement("input");
+                            var label = document.createElement("label");
+
+                            checkBox.setAttribute("type", "checkbox");
+                            checkBox.id = "dl_option_" + episode.id;
+                            checkBox.dataset.id = episode.id;
+                            checkBox.dataset.number = episode.number;
+
+                            label.setAttribute("for", "dl_option_" + episode.id);
+                            label.appendChild(document.createTextNode("Episode " + episode.number));
+
+                            checkItem.append(checkBox);
+                            checkItem.append(label);
+
+                            epCheckBoxes.append(checkItem);
+                        });
+
+                        console.log(episodes);
+
+                        $("body").append(
+                            `<div id="download_all_options" style="display: none">
+                                <div class="dla_container">
+                                    <div class="title">Select Episodes<span aria-hidden="true">&times;</span></div>
+                                    <div class="content">
+                                        
+                                    </div>
+                                    <div class="footer"> 
+                                        <a id="dla_start_download">Download</a>
+                                    </div>
+                                </div>
+                            </div>`
+                        );
+
+                        var download_all_options = $("#download_all_options");
+
+                        $(download_all_options).find(".content").append(epCheckBoxes);
+                        $("#dla_start_download").on("click", function () {
+                            var selected = [];
+
+                            $("#download_all_options")
+                                .find(".content input[type='checkbox']:checked")
                                 .each(function () {
-                                    episodes.push({
+                                    selected.push({
                                         id: $(this).data("id"),
-                                        number: $(this).data("base")
+                                        number: $(this).data("number")
                                     });
                                 });
-                            
-                            console.log(episodes);
+
+                            console.log(selected);
                             chrome.runtime.sendMessage({
                                 intent: "downloadFiles",
-                                episodes: episodes,
+                                episodes: selected,
                                 animeName: animeName
                             });
+                        });
+
+                        // Click listener for download all utility
+                        $("#download_all_utility").on("click", function () {
+                            $(download_all_options).css({display: "block"});
+                        });
+
+                        $(download_all_options).on("click", function () {
+                            $(download_all_options).css({display: "none"});
+                        });
+
+                        $(download_all_options).find(".dla_container .title span").on("click", function () {
+                            $(download_all_options).css({display: "none"});
                         })
                     });
             }
