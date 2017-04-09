@@ -283,7 +283,7 @@ chrome.runtime.onMessage.addListener(
 
             /**********************************************************************************************************/
             case "downloadFiles":
-                window.downloadAll.downloadFiles(request.episodes, request.animeName);
+                window.downloadAll.downloadFiles(request.episodes, request.animeName, request.quality);
                 break;
         }
     }

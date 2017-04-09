@@ -130,6 +130,7 @@
     downloadAll.downloadFiles = function (episodes, name, quality = "360p", method = "browser", baseUrl = "https://9anime.to") {
         // TODO: do we really need a promise for this?
         // TODO: if we do use promise, maybe add a progress callback?
+        // TODO: add a quality fallback
         return new Promise(function (resolve, reject) {
 
             var qualityEnums = {
@@ -181,7 +182,10 @@
                                         if(fileQuality === quality) {
                                             chrome.downloads.download({
                                                 url: fileUrl,
-                                                filename: `9anime Companion/${generateFileSafeString(name)} - E${ep_number}.${fileType}`,
+                                                // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
+                                                // Remember: Files are stored in the 9anime Companion sub-folder
+                                                // within your main downloads folder.
+                                                filename: `9anime Companion/${generateFileSafeString(name)} - E${ep_number} (${quality}).${fileType}`,
                                                 conflictAction: "uniquify"
 
                                             }, function (downloadId) {

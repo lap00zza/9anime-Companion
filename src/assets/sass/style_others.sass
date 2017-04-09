@@ -23,7 +23,7 @@
         width: 15px
 
 
-@-webkit-keyframes animateLeft
+@-webkit-keyframes animateTop
     from
         top: -300px
         opacity: 0
@@ -32,7 +32,7 @@
         opacity: 1
 
 
-@keyframes animateLeft
+@keyframes animateTop
     from
         top: -300px
         opacity: 0
@@ -67,9 +67,9 @@
         //border: 1px solid #888
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
 
-        -webkit-animation-name: animateLeft
+        -webkit-animation-name: animateTop
         -webkit-animation-duration: 0.5s
-        animation-name: animateLeft
+        animation-name: animateTop
         animation-duration: 0.5s
         .title
             height: 30px
@@ -110,7 +110,12 @@
             font-size: 14px
             padding-left: 5px
             padding-right: 5px
+            select
+                background: #16151c
+            .footer_item
+                display: inline-block
             a
+                float: right
                 cursor: pointer
 
 .player_utilities

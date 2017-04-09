@@ -359,6 +359,15 @@
                                         
                                     </div>
                                     <div class="footer"> 
+                                        <div class="footer_item">
+                                            <span>Quality</span>
+                                            <select id="dla_quality_select">
+                                                <option value="360p">360p</option>
+                                                <option value="480p">480p</option>
+                                                <option value="720p">720p</option>
+                                                <option value="1080p">1080p</option>
+                                            </select>
+                                        </div>
                                         <a id="dla_start_download">Download</a>
                                     </div>
                                 </div>
@@ -370,6 +379,7 @@
                         $(download_all_options).find(".content").append(epCheckBoxes);
                         $("#dla_start_download").on("click", function () {
                             var selected = [];
+                            var quality = $("#dla_quality_select").val();
 
                             $("#download_all_options")
                                 .find(".content input[type='checkbox']:checked")
@@ -384,7 +394,8 @@
                             chrome.runtime.sendMessage({
                                 intent: "downloadFiles",
                                 episodes: selected,
-                                animeName: animeName
+                                animeName: animeName,
+                                quality: quality
                             });
                         });
 
