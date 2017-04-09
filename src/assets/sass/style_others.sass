@@ -22,6 +22,97 @@
         height: 15px
         width: 15px
 
+
+@-webkit-keyframes animateLeft
+    from
+        top: -300px
+        opacity: 0
+    to
+        top: 0
+        opacity: 1
+
+
+@keyframes animateLeft
+    from
+        top: -300px
+        opacity: 0
+    to
+        top: 0
+        opacity: 1
+
+#download_all_options
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 100
+    height: 100%
+    width: 100%
+    background-color: rgb(0,0,0)
+    background-color: rgba(0,0,0,0.7)
+
+    .dla_container
+        font-size: 12px
+
+        height: 200px
+        width: 60%
+        max-width: 800px
+        min-width: 100px
+
+        margin: 15% auto
+        box-sizing: border-box
+
+        position: relative
+        background-color: #16151c
+        color: #9a9a9a
+        //border: 1px solid #888
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+
+        -webkit-animation-name: animateLeft
+        -webkit-animation-duration: 0.5s
+        animation-name: animateLeft
+        animation-duration: 0.5s
+        .title
+            height: 30px
+            line-height: 30px
+            font-size: 15px
+            padding-left: 5px
+            padding-right: 5px
+            span
+                cursor: pointer
+                float: right
+                font-size: 16px
+                font-weight: bold
+        .content
+            overflow-x: hidden
+            overflow-y: scroll
+            height: 140px
+            .epCheckBoxes
+                padding: 5px
+                .check_item
+                    position: relative
+                    display: inline-block
+                    background: #472757
+                    color: #dadada
+                    margin: 3px
+                    width: 90px
+                    padding-left: 5px
+                    //label
+                    //    height: 100%
+                    //    width: 100%
+                    //    position: absolute
+                    //    background: red
+                    //    left: 0
+                    //    opacity: 0
+
+        .footer
+            height: 30px
+            line-height: 30px
+            font-size: 14px
+            padding-left: 5px
+            padding-right: 5px
+            a
+                cursor: pointer
+
 .player_utilities
     width: 100%
     display: flex
