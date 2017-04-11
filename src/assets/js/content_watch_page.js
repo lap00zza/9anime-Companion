@@ -359,6 +359,7 @@
                                         
                                     </div>
                                     <div class="footer"> 
+                                        <a class="footer_item" id="dla_select_all_episodes">Toggle Select All</a>
                                         <div class="footer_item">
                                             <span>Quality</span>
                                             <select id="dla_quality_select">
@@ -368,7 +369,7 @@
                                                 <option value="1080p">1080p</option>
                                             </select>
                                         </div>
-                                        <a id="dla_start_download">Download</a>
+                                        <a class="footer_item" id="dla_start_download">Download</a>
                                     </div>
                                 </div>
                             </div>`
@@ -400,16 +401,38 @@
                         });
 
                         // Click listener for download all utility
+                        // TODO: popup should be closed, or at-least download button should be disabled
+                        // once download is underway; to prevent spamming.
                         $("#download_all_utility").on("click", function () {
                             $(download_all_options).css({display: "block"});
                         });
 
+                        // This handles the toggle select all episodes. Coz'
+                        // only select all with no deselect all is PTSD inducing.
+                        var dla_sel_state = false;
+                        $("#dla_select_all_episodes").on("click", function () {
+                            if (dla_sel_state) {
+                                $("#download_all_options")
+                                    .find(".content input[type='checkbox']")
+                                    .prop("checked", false);
+                            } else {
+                                $("#download_all_options")
+                                    .find(".content input[type='checkbox']")
+                                    .prop("checked", true);
+                            }
+                            dla_sel_state = !dla_sel_state;
+                        });
+
+                        // Hide the popup when there is a click event
+                        // outside the popup.
                         $(download_all_options).on("click", function (e) {
                             if (e.target === download_all_options[0]){
                                 $(download_all_options).css({display: "none"});
                             }
                         });
 
+                        // Hide the popup when the X (on the top right corner)
+                        // is clicked
                         $(download_all_options).find(".dla_container .title span").on("click", function () {
                             $(download_all_options).css({display: "none"});
                         })

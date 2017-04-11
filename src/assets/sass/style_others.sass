@@ -53,7 +53,7 @@
     .dla_container
         font-size: 12px
 
-        height: 200px
+        //height: 200px
         width: 60%
         max-width: 800px
         min-width: 100px
@@ -103,20 +103,33 @@
                     //    background: red
                     //    left: 0
                     //    opacity: 0
+            //&::-webkit-scrollbar-track
+                //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+            &::-webkit-scrollbar
+                width: 10px
+                margin-right: 5px
+            &::-webkit-scrollbar-thumb
+                //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
+                background-color: #5e5e5e
 
         .footer
-            height: 30px
-            line-height: 30px
+            //height: 30px
+            //line-height: 30px
             font-size: 14px
-            padding-left: 5px
-            padding-right: 5px
-            select
-                background: #16151c
+            padding: 5px
             .footer_item
                 display: inline-block
+                padding: 5px
+            // specific styles
             a
-                float: right
+                // This is for the href less anchor tags
                 cursor: pointer
+            select
+                background: #16151c
+            #dla_start_download
+                float: right
+                @media screen and (max-width: 550px)
+                    float: none
 
 .player_utilities
     width: 100%

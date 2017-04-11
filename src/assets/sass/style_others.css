@@ -43,7 +43,6 @@
   background-color: rgba(0, 0, 0, 0.7); }
   #download_all_options .dla_container {
     font-size: 12px;
-    height: 200px;
     width: 60%;
     max-width: 800px;
     min-width: 100px;
@@ -82,19 +81,26 @@
           margin: 3px;
           width: 90px;
           padding-left: 5px; }
+      #download_all_options .dla_container .content::-webkit-scrollbar {
+        width: 10px;
+        margin-right: 5px; }
+      #download_all_options .dla_container .content::-webkit-scrollbar-thumb {
+        background-color: #5e5e5e; }
     #download_all_options .dla_container .footer {
-      height: 30px;
-      line-height: 30px;
       font-size: 14px;
-      padding-left: 5px;
-      padding-right: 5px; }
+      padding: 5px; }
+      #download_all_options .dla_container .footer .footer_item {
+        display: inline-block;
+        padding: 5px; }
+      #download_all_options .dla_container .footer a {
+        cursor: pointer; }
       #download_all_options .dla_container .footer select {
         background: #16151c; }
-      #download_all_options .dla_container .footer .footer_item {
-        display: inline-block; }
-      #download_all_options .dla_container .footer a {
-        float: right;
-        cursor: pointer; }
+      #download_all_options .dla_container .footer #dla_start_download {
+        float: right; }
+        @media screen and (max-width: 550px) {
+          #download_all_options .dla_container .footer #dla_start_download {
+            float: none; } }
 
 .player_utilities {
   width: 100%;
