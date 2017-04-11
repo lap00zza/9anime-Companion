@@ -141,8 +141,16 @@
             };
 
             if (episodes instanceof Array) {
-                var totalEpisodes = episodes.length - 1;
+                // Why exactly are we reversing the array?
+                // Well the rationale behind it is simple, if we reverse it
+                // we can start downloading the episodes in increasing order
+                // of episodes. But why? because we take the last item of the
+                // episodes array and once we are done triggering the download
+                // we pop it. "Pop"-ing is simpler then slicing but sadly only
+                // works on the last element. Cheers!
+                episodes.reverse();
 
+                var totalEpisodes = episodes.length - 1;
                 // This function houses the entire download process.
                 function processDl() {
                     if (episodes.length === 0) {
