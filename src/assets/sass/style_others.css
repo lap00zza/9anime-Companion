@@ -18,20 +18,45 @@
     height: 15px;
     width: 15px; }
 
-@-webkit-keyframes animateTop {
+@keyframes fadeInFromTop {
   from {
     top: -300px;
     opacity: 0; }
   to {
     top: 0;
     opacity: 1; } }
-@keyframes animateTop {
+@keyframes fadeOutToTop {
   from {
-    top: -300px;
-    opacity: 0; }
-  to {
     top: 0;
-    opacity: 1; } }
+    opacity: 1; }
+  to {
+    top: -300px;
+    opacity: 0; } }
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0); }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0); }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0); } }
+.shake {
+  -moz-animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  -moz-transform: translate3d(0, 0, 0);
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0); }
+
+.fadeInFromTop {
+  animation-name: fadeInFromTop;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards; }
+
+.fadeOutToTop {
+  animation-name: fadeOutToTop;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards; }
+
 #download_all_options {
   position: fixed;
   left: 0;
@@ -51,11 +76,7 @@
     position: relative;
     background-color: #16151c;
     color: #9a9a9a;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-animation-name: animateTop;
-    -webkit-animation-duration: 0.5s;
-    animation-name: animateTop;
-    animation-duration: 0.5s; }
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
     #download_all_options .dla_container .title {
       height: 30px;
       line-height: 30px;

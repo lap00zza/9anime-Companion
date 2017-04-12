@@ -349,7 +349,7 @@
                             epCheckBoxes.append(checkItem);
                         });
 
-                        console.log(episodes);
+                        // console.log(episodes);
 
                         $("body").append(
                             `<div id="download_all_options" style="display: none">
@@ -391,20 +391,51 @@
                                     });
                                 });
 
-                            console.log(selected);
-                            chrome.runtime.sendMessage({
-                                intent: "downloadFiles",
-                                episodes: selected,
-                                animeName: animeName,
-                                quality: quality
-                            });
+                            // console.log(selected);
+                            
+                            // Coz', what's the use of starting downloads with
+                            // no episodes.
+                            if (selected.length === 0) {
+
+                                // --- Animation ---
+                                $(download_all_options).find(".dla_container").addClass("shake");
+                                setTimeout(function () {
+                                    $(download_all_options).find(".dla_container").removeClass("shake");
+                                }, 820);
+                                // --- End Animation ---
+
+                            } else {
+                                chrome.runtime.sendMessage({
+                                    intent: "downloadFiles",
+                                    episodes: selected,
+                                    animeName: animeName,
+                                    quality: quality,
+                                    
+                                    // document.location.origin should work in firefox
+                                    baseUrl: document.location.origin
+                                });
+
+                                // --- Animation ---
+                                $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
+                                setTimeout(function () {
+                                    $(download_all_options).css({display: "none"});
+                                    $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
+                                }, 500);
+                                // --- End Animation ---
+                            }
                         });
 
                         // Click listener for download all utility
-                        // TODO: popup should be closed, or at-least download button should be disabled
-                        // once download is underway; to prevent spamming.
                         $("#download_all_utility").on("click", function () {
                             $(download_all_options).css({display: "block"});
+
+                            // --- Animation ---
+                            $(download_all_options).find(".dla_container").addClass("fadeInFromTop");
+                            setTimeout(function () {
+                                $(download_all_options).find(".dla_container").removeClass("fadeInFromTop");
+                            }, 500);
+                            // --- End Animation ---
+
                         });
 
                         // This handles the toggle select all episodes. Coz'
@@ -427,14 +458,30 @@
                         // outside the popup.
                         $(download_all_options).on("click", function (e) {
                             if (e.target === download_all_options[0]){
-                                $(download_all_options).css({display: "none"});
+
+                                // --- Animation ---
+                                $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
+                                setTimeout(function () {
+                                    $(download_all_options).css({display: "none"});
+                                    $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
+                                }, 500);
+                                // --- End Animation ---
+
                             }
                         });
 
                         // Hide the popup when the X (on the top right corner)
                         // is clicked
                         $(download_all_options).find(".dla_container .title span").on("click", function () {
-                            $(download_all_options).css({display: "none"});
+
+                            // --- Animation ---
+                            $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
+                            setTimeout(function () {
+                                $(download_all_options).css({display: "none"});
+                                $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
+                            }, 500);
+                            // --- End Animation ---
+                            
                         })
                     });
             }
