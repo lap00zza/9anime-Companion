@@ -31,7 +31,6 @@
 //    to a pure javascript based library.
 // 2. The downloads start at 5 seconds interval. Please don't try to decrease this. If you
 //    do, your IP might get flagged for spamming.
-// TODO: add tests
 (function ($) {
 
     var downloadAll = window.downloadAll = downloadAll || {};
@@ -43,10 +42,10 @@
      * @param filename
      * @returns {void|XML|string|*}
      */
-    function generateFileSafeString(filename) {
+    downloadAll.generateFileSafeString = function (filename) {
         var re = /[\\\/<>*?:"|]/gi;
         return filename.replace(re, "_");
-    }
+    };
 
     /**
      * Fetch the grabber information. These are necessary to use the
@@ -122,7 +121,7 @@
      * Download all anime!
      *
      * @param {Array} episodes - The list of episode ID's to download. This should always be a array.
-     * @param {String} name - (Optional) The name of the anime.
+     * @param {String} name - The name of the anime.
      * @param {String} quality - Possible values => 360p/480p/720p/1080p
      * @param {String} baseUrl - The current base url. Example: https://9anime.tv, https://9anime.is etc.
      * @param {String} method - Possible values => browser/external
@@ -148,13 +147,17 @@
             // works on the last element. Cheers!
             episodes.reverse();
 
+            // Why? because the array starts at the 0th element
             var totalEpisodes = episodes.length - 1;
+
             // This function houses the entire download process.
             function processDl() {
                 if (episodes.length === 0) {
+                    console.log("No more items left to download!");
                     return true;
                 }
 
+                // Select the last element of the array
                 var ep = episodes[totalEpisodes]["id"];
                 var ep_number = episodes[totalEpisodes]["number"];
 
@@ -191,7 +194,8 @@
                                             // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
                                             // Remember: Files are stored in the 9anime Companion sub-folder
                                             // within your main downloads folder.
-                                            filename: `9anime Companion/${generateFileSafeString(name)} - E${ep_number} (${quality}).${fileType}`,
+                                            filename: `9anime Companion/${downloadAll.generateFileSafeString(name)}` +
+                                            ` - E${ep_number} (${quality}).${fileType}`,
                                             conflictAction: "uniquify"
 
                                         }, function (downloadId) {
@@ -226,7 +230,7 @@
             processDl();
 
         } else {
-            console.debug("Download Error: episodes should be an array");
+            throw new Error("Download Error: episodes should be an array");
         }
     }
 
