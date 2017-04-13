@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(
             case "removeMALCredentials":
                 window.mal.removeCredentials();
                 break;
-            
+
             /**********************************************************************************************************/
             case "verifyAndSetCredentials":
                 window
@@ -274,6 +274,32 @@ chrome.runtime.onMessage.addListener(
                             result: "opened"
                         });
                     }
+                } else {
+                    sendResponse({
+                        result: "fail"
+                    });
+                }
+                break;
+
+            /**********************************************************************************************************/
+            case "downloadFiles":
+                if (request.episodes && request.animeName && request.quality && request.baseUrl) {
+
+                    // This is not a promise. Its a one off request.
+                    window.downloadAll.downloadFiles(
+                        request.episodes, request.animeName, request.quality, request.baseUrl
+                    );
+
+                    var opt = {
+                        type: "basic",
+                        title: "Starting Download",
+                        message: "Processing video links. Your videos will be downloaded shortly.",
+                        iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                    };
+                    chrome.notifications.create(opt);
+                    sendResponse({
+                        result: "success"
+                    });
                 } else {
                     sendResponse({
                         result: "fail"

@@ -47,7 +47,11 @@
     "tabs",
     "storage",
     "notifications",
-    "https://myanimelist.net/api/*"
+    "downloads",
+    "https://myanimelist.net/api/*",
+    "*://9anime.to/*",
+    "*://9anime.is/*",
+    "*://9anime.tv/*"
   ],
 
   "web_accessible_resources": [

@@ -72,7 +72,8 @@
         malLogo = chrome.extension.getURL("assets/images/mal-icon.png"),
         loader = chrome.extension.getURL("assets/images/loader.svg"),
         plusIcon = chrome.extension.getURL("assets/images/plus.png"),
-        mal_status_wait = chrome.extension.getURL("assets/images/balls.svg");
+        mal_status_wait = chrome.extension.getURL("assets/images/balls.svg"),
+        downloadIcon = chrome.extension.getURL("assets/images/download.png");
 
 
     // TODO: Iframe remover
@@ -221,6 +222,10 @@
                                 <img src='${malLogo}'>
                                 Find in MAL
                             </div>
+                            <div id="download_all_utility" class="utility_item">
+                                <img src='${downloadIcon}'>
+                                Download All
+                            </div>
                         </div>`
                     )
                     .promise()
@@ -296,6 +301,188 @@
                                 console.log(response.result);
                             });
                         });
+
+                        /**********************************************************************************************/
+                        // DOWNLOAD ALL
+                        // We are not going to put the Modal generation inside the click handler
+                        // because there is no need to generate the contents every time. Instead
+                        // we generate it once on load, here.
+                        var episodes = [];
+                        $(servers)
+                        // We are only interested in the direct
+                        // file server downloads. And not the iframe ones
+                        // like openload etc.
+                            .find(".server.row[data-type='direct']")
+                            // There are usually 2 direct servers, f1 and f2
+                            // we select the first one for now
+                            .first()
+                            .find(".episodes.range li > a")
+                            .each(function () {
+                                episodes.push({
+                                    id: $(this).data("id"),
+                                    number: $(this).data("base")
+                                });
+                            });
+
+
+                        var epCheckBoxes = document.createElement("div");
+                        epCheckBoxes.classList.add("epCheckBoxes");
+
+                        episodes.forEach(function (episode) {
+                            var checkItem = document.createElement("div");
+                            checkItem.classList.add("check_item");
+
+                            var checkBox = document.createElement("input");
+                            var label = document.createElement("label");
+
+                            checkBox.setAttribute("type", "checkbox");
+                            checkBox.id = "dl_option_" + episode.id;
+                            checkBox.dataset.id = episode.id;
+                            checkBox.dataset.number = episode.number;
+
+                            label.setAttribute("for", "dl_option_" + episode.id);
+                            label.appendChild(document.createTextNode("Episode " + episode.number));
+
+                            checkItem.append(checkBox);
+                            checkItem.append(label);
+
+                            epCheckBoxes.append(checkItem);
+                        });
+
+                        // console.log(episodes);
+
+                        $("body").append(
+                            `<div id="download_all_options" style="display: none">
+                                <div class="dla_container">
+                                    <div class="title">Select Episodes<span aria-hidden="true">&times;</span></div>
+                                    <div class="content">
+                                        
+                                    </div>
+                                    <div class="footer"> 
+                                        <a class="footer_item" id="dla_select_all_episodes">Toggle Select All</a>
+                                        <div class="footer_item">
+                                            <span>Quality</span>
+                                            <select id="dla_quality_select">
+                                                <option value="360p">360p</option>
+                                                <option value="480p">480p</option>
+                                                <option value="720p">720p</option>
+                                                <option value="1080p">1080p</option>
+                                            </select>
+                                        </div>
+                                        <a class="footer_item" id="dla_start_download">Download</a>
+                                    </div>
+                                </div>
+                            </div>`
+                        );
+
+                        var download_all_options = $("#download_all_options");
+
+                        $(download_all_options).find(".content").append(epCheckBoxes);
+                        $("#dla_start_download").on("click", function () {
+                            var selected = [];
+                            var quality = $("#dla_quality_select").val();
+
+                            $("#download_all_options")
+                                .find(".content input[type='checkbox']:checked")
+                                .each(function () {
+                                    selected.push({
+                                        id: $(this).data("id"),
+                                        number: $(this).data("number")
+                                    });
+                                });
+
+                            // console.log(selected);
+                            
+                            // Coz', what's the use of starting downloads with
+                            // no episodes.
+                            if (selected.length === 0) {
+
+                                // --- Animation ---
+                                $(download_all_options).find(".dla_container").addClass("shake");
+                                setTimeout(function () {
+                                    $(download_all_options).find(".dla_container").removeClass("shake");
+                                }, 820);
+                                // --- End Animation ---
+
+                            } else {
+                                chrome.runtime.sendMessage({
+                                    intent: "downloadFiles",
+                                    episodes: selected,
+                                    animeName: animeName,
+                                    quality: quality,
+                                    
+                                    // document.location.origin should work in firefox
+                                    baseUrl: document.location.origin
+                                });
+
+                                // --- Animation ---
+                                $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
+                                setTimeout(function () {
+                                    $(download_all_options).css({display: "none"});
+                                    $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
+                                }, 500);
+                                // --- End Animation ---
+                            }
+                        });
+
+                        // Click listener for download all utility
+                        $("#download_all_utility").on("click", function () {
+                            $(download_all_options).css({display: "block"});
+
+                            // --- Animation ---
+                            $(download_all_options).find(".dla_container").addClass("fadeInFromTop");
+                            setTimeout(function () {
+                                $(download_all_options).find(".dla_container").removeClass("fadeInFromTop");
+                            }, 500);
+                            // --- End Animation ---
+
+                        });
+
+                        // This handles the toggle select all episodes. Coz'
+                        // only select all with no deselect all is PTSD inducing.
+                        var dla_sel_state = false;
+                        $("#dla_select_all_episodes").on("click", function () {
+                            if (dla_sel_state) {
+                                $("#download_all_options")
+                                    .find(".content input[type='checkbox']")
+                                    .prop("checked", false);
+                            } else {
+                                $("#download_all_options")
+                                    .find(".content input[type='checkbox']")
+                                    .prop("checked", true);
+                            }
+                            dla_sel_state = !dla_sel_state;
+                        });
+
+                        // Hide the popup when there is a click event
+                        // outside the popup.
+                        $(download_all_options).on("click", function (e) {
+                            if (e.target === download_all_options[0]){
+
+                                // --- Animation ---
+                                $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
+                                setTimeout(function () {
+                                    $(download_all_options).css({display: "none"});
+                                    $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
+                                }, 500);
+                                // --- End Animation ---
+
+                            }
+                        });
+
+                        // Hide the popup when the X (on the top right corner)
+                        // is clicked
+                        $(download_all_options).find(".dla_container .title span").on("click", function () {
+
+                            // --- Animation ---
+                            $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
+                            setTimeout(function () {
+                                $(download_all_options).css({display: "none"});
+                                $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
+                            }, 500);
+                            // --- End Animation ---
+                            
+                        })
                     });
             }
 
@@ -495,7 +682,7 @@
 
             return malAddShell;
         }
-        
+
         if (settings["malIntegrationToggle"]) {
             if ($(player).length > 0) {
                 $(player)

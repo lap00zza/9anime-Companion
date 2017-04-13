@@ -24,28 +24,6 @@
 
 /*global spyOn, describe, beforeEach, inject, module, expect, it, sinon*/
 describe("Tests for animeUtils", function () {
-
-    var chrome = {
-        runtime: {
-            onMessage: {
-                addListener: function () {}
-            },
-            onInstalled: {
-                addListener: function () {}
-            }
-        },
-        storage: {
-            local: {
-                get: function () {},
-                set: function () {}
-            }
-        }
-    };
-
-    beforeEach(function () {
-        // Replace the global chrome object with our own
-        window.chrome = chrome;
-    });
     
     // The casing is a bit weird to make sure we can test
     // case in-sensitive regex.

@@ -22,6 +22,145 @@
         height: 15px
         width: 15px
 
+@keyframes fadeInFromTop
+    from
+        top: -300px
+        opacity: 0
+    to
+        top: 0
+        opacity: 1
+
+@keyframes fadeOutToTop
+    from
+        top: 0
+        opacity: 1
+    to
+        top: -300px
+        opacity: 0
+
+@keyframes shake
+    10%, 90%
+        transform: translate3d(-1px, 0, 0)
+
+    20%, 80%
+        transform: translate3d(2px, 0, 0)
+
+
+    30%, 50%, 70%
+        transform: translate3d(-4px, 0, 0)
+
+
+    40%, 60%
+        transform: translate3d(4px, 0, 0)
+
+.shake
+    -moz-animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+    -moz-transform: translate3d(0, 0, 0)
+
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+    transform: translate3d(0, 0, 0)
+
+    //backface-visibility: hidden
+
+.fadeInFromTop
+    animation-name: fadeInFromTop
+    animation-duration: 0.5s
+    animation-fill-mode: forwards
+
+.fadeOutToTop
+    animation-name: fadeOutToTop
+    animation-duration: 0.5s
+    animation-fill-mode: forwards
+
+#download_all_options
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 100
+    height: 100%
+    width: 100%
+    background-color: rgb(0,0,0)
+    background-color: rgba(0,0,0,0.7)
+
+    .dla_container
+        font-size: 12px
+
+        //height: 200px
+        width: 60%
+        max-width: 800px
+        min-width: 100px
+
+        margin: 15% auto
+        box-sizing: border-box
+
+        position: relative
+        background-color: #16151c
+        color: #9a9a9a
+        //border: 1px solid #888
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+
+        //animation-name: animateTop
+        //animation-duration: 0.5s
+        .title
+            height: 30px
+            line-height: 30px
+            font-size: 15px
+            padding-left: 5px
+            padding-right: 5px
+            span
+                cursor: pointer
+                float: right
+                font-size: 16px
+                font-weight: bold
+        .content
+            overflow-x: hidden
+            overflow-y: scroll
+            height: 140px
+            .epCheckBoxes
+                padding: 5px
+                .check_item
+                    position: relative
+                    display: inline-block
+                    background: #472757
+                    color: #dadada
+                    margin: 3px
+                    width: 90px
+                    padding-left: 5px
+                    //label
+                    //    height: 100%
+                    //    width: 100%
+                    //    position: absolute
+                    //    background: red
+                    //    left: 0
+                    //    opacity: 0
+            //&::-webkit-scrollbar-track
+                //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+            &::-webkit-scrollbar
+                width: 10px
+                margin-right: 5px
+            &::-webkit-scrollbar-thumb
+                //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
+                background-color: #5e5e5e
+
+        .footer
+            //height: 30px
+            //line-height: 30px
+            font-size: 14px
+            padding: 5px
+            .footer_item
+                display: inline-block
+                padding: 5px
+            // specific styles
+            a
+                // This is for the href less anchor tags
+                cursor: pointer
+            select
+                background: #16151c
+            #dla_start_download
+                float: right
+                @media screen and (max-width: 550px)
+                    float: none
+
 .player_utilities
     width: 100%
     display: flex
@@ -55,6 +194,14 @@
             opacity: 0.7
 
     #mal_search_utility
+        img
+            height: auto
+            width: 15px
+            opacity: 0.7
+            margin-top: -2px
+            padding-right: 3px
+
+    #download_all_utility
         img
             height: auto
             width: 15px
