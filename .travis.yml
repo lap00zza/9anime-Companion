@@ -9,8 +9,6 @@ addons:
 language: node_js
 node_js:
   - "node"
-cache:
-  directories: node_modules
 before_script:
   - npm install
   - export CHROME_BIN=/usr/bin/google-chrome
