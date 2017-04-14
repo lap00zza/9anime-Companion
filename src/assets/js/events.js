@@ -21,6 +21,9 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+import * as animeUtils from "./animeUtils";
+import * as downloadAll from "./download_all";
+import * as mal from "./mal_wrapper";
 
 // This module is responsible for listening to events from the
 // main interface. This module runs in the background.
@@ -50,13 +53,12 @@ chrome.runtime.onMessage.addListener(
 
             /**********************************************************************************************************/
             case "removeMALCredentials":
-                window.mal.removeCredentials();
+                mal.removeCredentials();
                 break;
 
             /**********************************************************************************************************/
             case "verifyAndSetCredentials":
-                window
-                    .mal
+                mal
                     .verifyAndSetCredentials(request.username, request.password)
                     .then(function () {
                         sendResponse({
@@ -74,8 +76,7 @@ chrome.runtime.onMessage.addListener(
             /**********************************************************************************************************/
             case "searchMal":
                 if (request.animeName) {
-                    window
-                        .mal
+                    mal
                         .searchAnime(request.animeName)
                         .then(function (response) {
                             sendResponse({
@@ -100,8 +101,7 @@ chrome.runtime.onMessage.addListener(
 
             /**********************************************************************************************************/
             case "getUserList":
-                window
-                    .mal
+                mal
                     .getUserList()
                     .then(function (response) {
                         sendResponse({
@@ -121,8 +121,7 @@ chrome.runtime.onMessage.addListener(
             case "addMal":
                 if (request.animeId) {
                     // console.log(request);
-                    window
-                        .mal
+                    mal
                         .addAnime(request.animeId)
                         .then(function () {
                             var opt = {
@@ -164,8 +163,7 @@ chrome.runtime.onMessage.addListener(
             case "updateMal":
                 if (request.animeId) {
                     // console.log(request);
-                    window
-                        .mal
+                    mal
                         .updateAnime(request.animeId, request.episode)
                         .then(function () {
                             var opt = {
@@ -286,7 +284,7 @@ chrome.runtime.onMessage.addListener(
                 if (request.episodes && request.animeName && request.quality && request.baseUrl) {
 
                     // This is not a promise. Its a one off request.
-                    window.downloadAll.downloadFiles(
+                    downloadAll.downloadFiles(
                         request.episodes, request.animeName, request.quality, request.baseUrl
                     );
 
@@ -322,7 +320,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
         });
 
         // Initializing the default settings
-        chrome.storage.local.set(window.animeUtils.defaultSettings);
+        chrome.storage.local.set(animeUtils.defaultSettings);
         // chrome.tabs.create({
         //     "url": chrome.extension.getURL("options.html")
         // });
@@ -338,12 +336,12 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
         // Preserve the previous settings and add
         // the new default settings.
-        var optionElements = Object.keys(window.animeUtils.defaultSettings);
+        var optionElements = Object.keys(animeUtils.defaultSettings);
         var newSettings = {};
         chrome.storage.local.get(optionElements, function (previousSettings) {
             optionElements.forEach(function (option) {
                 if (previousSettings[option] === undefined) {
-                    newSettings[option] = window.animeUtils.defaultSettings[option];
+                    newSettings[option] = animeUtils.defaultSettings[option];
 
                 } else {
                     newSettings[option] = previousSettings[option];

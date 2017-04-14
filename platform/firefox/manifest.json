@@ -24,13 +24,13 @@
   "content_scripts": [
     {
       "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
-      "js": ["assets/js/animeUtils.js", "assets/lib/jquery-3.2.0.min.js", "assets/js/content_watch_page.js"],
+      "js": ["assets/js/content_watch_page.bundle.js"],
       "css": ["assets/sass/style_others.css"],
       "run_at": "document_end"
     },
     {
       "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
-      "js": ["assets/js/animeUtils.js", "assets/lib/jquery-3.2.0.min.js", "assets/js/content_main_website.js"],
+      "js": ["assets/js/content_main_website.bundle.js"],
       "css": ["assets/sass/style_others.css"],
       "run_at": "document_end"
     }
@@ -64,3 +64,4 @@
     "assets/images/*"
   ]
 }
+

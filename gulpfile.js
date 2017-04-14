@@ -26,8 +26,45 @@ var gulp = require("gulp");
 var zip = require("gulp-zip");
 var del = require("del");
 var Server = require("karma").Server;
+var gutil = require("gulp-util");
+var webpack = require("webpack");
 var runSequence = require("run-sequence");
+var path = require("path");
 
+/**********************************************************************************************************************/
+gulp.task("clean_bundles", function () {
+    return del(["src/assets/js/*.bundle.js"]);
+});
+
+gulp.task("webpack", function(callback) {
+    // run webpack
+    webpack({
+        plugins: [
+            new webpack.ProvidePlugin({
+                jQuery:  path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js"),
+                $: path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js"),
+                jquery: path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js")
+            })
+        ],
+        entry: {
+            background: "./src/assets/js/events.js",
+            content_watch_page: "./src/assets/js/content_watch_page.js",
+            content_main_website: "./src/assets/js/content_main_website.js",
+            popup: "./src/assets/js/main.js",
+            options: "./src/assets/js/optionsPage.js"
+        },
+        output: {
+            filename: "[name].bundle.js",
+            path: path.resolve(__dirname, "src/assets/js")
+        }
+    }, function(err, stats) {
+        if(err) throw new gutil.PluginError("webpack", err);
+        gutil.log("[webpack]", stats.toString());
+        callback();
+    });
+});
+
+/**********************************************************************************************************************/
 // We start off by deleting the current directory
 // so that we are not left with any stale files.
 gulp.task("clean_chrome", function () {
@@ -37,51 +74,56 @@ gulp.task("clean_chrome", function () {
 // Then we copy the common files from the src directory
 // and the chromium specific files from the platform
 // directory to the dist/chromium directory.
-gulp.task("make_chrome", ["clean_chrome"], function () {
-    gulp.src([
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
+gulp.task("copy_chromium_files", function () {
+    return gulp.src([
+        "src/**/*.{bundle.js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
 });
 
+gulp.task("make_chrome", function (callback) {
+    runSequence("clean_chrome", "webpack", "copy_chromium_files", "clean_bundles", callback);
+});
+
 // This is a helper task to make zip archives of the
 // extensions. Helpful for easy distribution.
-gulp.task("zip_chrome", function () {
+gulp.task("zip_chrome", ["make_chrome"], function () {
     gulp.src([
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
-        "platform/chromium/**/*"
+        "dist/chromium/**/*"
     ])
         .pipe(zip("9anime_Companion_chrome.zip"))
         .pipe(gulp.dest("dist"));
 });
 
-
+/**********************************************************************************************************************/
 gulp.task("clean_firefox", function () {
     return del(["dist/firefox"]);
 });
 
-gulp.task("make_firefox", ["clean_firefox"], function () {
-    gulp.src([
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
+gulp.task("copy_firefox_files", function () {
+    return gulp.src([
+        "src/**/*.{bundle.js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
         "platform/firefox/**/*"
     ])
         .pipe(gulp.dest("dist/firefox"));
 });
 
-gulp.task("zip_firefox", function () {
+gulp.task("make_firefox", function (callback) {
+    runSequence("clean_firefox", "webpack", "copy_firefox_files", "clean_bundles", callback);
+});
+
+gulp.task("zip_firefox", ["make_firefox"], function () {
     gulp.src([
-        "src/**/*.{js,css,png,html,eot,svg,ttf,woff,woff2,LICENSE}",
-        "platform/firefox/**/*"
+        "dist/firefox/**/*"
     ])
         .pipe(zip("9anime_Companion_firefox.zip"))
         .pipe(gulp.dest("dist"));
 });
 
 
-/**
- * Run test once and exit
- */
+/**********************************************************************************************************************/
+// Run test once and exit
 gulp.task("test", function (done) {
     new Server({
         configFile: __dirname + "/test/karma.conf.js",
@@ -92,5 +134,5 @@ gulp.task("test", function (done) {
 // This default task is added so that we can easily
 // test our entire process using travis.
 gulp.task("default", function () {
-    runSequence("test", ["make_chrome", "make_firefox"]);
+    runSequence("test", "make_chrome", "make_firefox", "zip_chrome", "zip_firefox");
 });

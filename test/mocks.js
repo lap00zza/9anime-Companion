@@ -3,11 +3,6 @@
  */
 // MOCKS for global objects that cant be injected
 
-// jQuery mock
-window.jQuery = {
-    ajax: function () {}
-};
-
 // chrome.* API mock
 window.chrome = {
     downloads: {

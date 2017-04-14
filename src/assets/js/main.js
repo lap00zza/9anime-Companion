@@ -23,105 +23,103 @@
  */
 
 // Handles the functionality withing the main popup UI.
-(function ($) {
-    var animeUtils = window.animeUtils;
+import $ from "../lib/jquery-3.2.0.min";
+import * as animeUtils from "./animeUtils";
 
-    var animeLink = $("#anime-link-image");
-    var settingsBtn = $("#settingsWindowToggle");
-    var pinnedListDiv = $("#pinnedList");
+var animeLink = $("#anime-link-image");
+var settingsBtn = $("#settingsWindowToggle");
+var pinnedListDiv = $("#pinnedList");
 
-    // Click Handlers
-    $(animeLink).on("click", function () {
-        chrome.tabs.create({
-            "url": "https://9anime.to"
-        });
+// Click Handlers
+$(animeLink).on("click", function () {
+    chrome.tabs.create({
+        "url": "https://9anime.to"
     });
+});
 
-    $(settingsBtn).on("click", function () {
-        chrome.runtime.sendMessage({intent: "openOptions"});
-    });
+$(settingsBtn).on("click", function () {
+    chrome.runtime.sendMessage({intent: "openOptions"});
+});
 
-    /**
-     * This function is used to create sanitized pin items.
-     * TODO: maybe put this inside animeUtils?
-     *
-     * @param name
-     * @param url
-     * @returns {Element}
-     */
-    function pinItem(name, url) {
+/**
+ * This function is used to create sanitized pin items.
+ * TODO: maybe put this inside animeUtils?
+ *
+ * @param name
+ * @param url
+ * @returns {Element}
+ */
+function pinItem(name, url) {
 
-        var pinnedItem = document.createElement("div"),
-            pinnedName = document.createElement("div"),
-            pinnedDeleteBtn = document.createElement("div"),
-            pinnedDeleteBtnImg = document.createElement("img");
+    var pinnedItem = document.createElement("div"),
+        pinnedName = document.createElement("div"),
+        pinnedDeleteBtn = document.createElement("div"),
+        pinnedDeleteBtnImg = document.createElement("img");
 
-        pinnedItem.classList.add("pinned_item");
-        pinnedItem.setAttribute("data-url", url);
+    pinnedItem.classList.add("pinned_item");
+    pinnedItem.setAttribute("data-url", url);
 
-        pinnedName.classList.add("anime_item");
-        pinnedDeleteBtn.classList.add("pinned_delete");
-        pinnedDeleteBtnImg.setAttribute("src", "../../assets/images/delete.png");
+    pinnedName.classList.add("anime_item");
+    pinnedDeleteBtn.classList.add("pinned_delete");
+    pinnedDeleteBtnImg.setAttribute("src", "../../assets/images/delete.png");
 
-        pinnedDeleteBtn.appendChild(pinnedDeleteBtnImg);
-        pinnedName.appendChild(document.createTextNode(name));
-        pinnedItem.appendChild(pinnedName);
-        pinnedItem.appendChild(pinnedDeleteBtn);
+    pinnedDeleteBtn.appendChild(pinnedDeleteBtnImg);
+    pinnedName.appendChild(document.createTextNode(name));
+    pinnedItem.appendChild(pinnedName);
+    pinnedItem.appendChild(pinnedDeleteBtn);
 
-        return pinnedItem;
-    }
+    return pinnedItem;
+}
 
-    // This portion deals with binding the pinned anime list
-    // onto the popup.
-    // TODO: maybe this can be broken down to smaller functions?
-    chrome.storage.local.get({
-        pinnedList: []
-        
-    }, function (values) {
-        var pinned = values["pinnedList"];
-        if (pinned.length > 0) {
+// This portion deals with binding the pinned anime list
+// onto the popup.
+// TODO: maybe this can be broken down to smaller functions?
+chrome.storage.local.get({
+    pinnedList: []
 
-            // console.log(pinned);
-            for (var i = 0; i < pinned.length; i++) {
-                $(pinnedListDiv)[0].appendChild(pinItem(pinned[i].name, pinned[i].url));
-            }
+}, function (values) {
+    var pinned = values["pinnedList"];
+    if (pinned.length > 0) {
 
-            $(".pinned_item .anime_item").on("click", function () {
-                var url = $(this).parent().data("url");
-                if (animeUtils.helper.isUrl(url)) {
-                    chrome.tabs.create({
-                        "url": url
-                    });
-                }
-            });
-
-            $(".pinned_item .pinned_delete").on("click", function () {
-                var that = this;
-                var url = $(this).parent().data("url");
-
-                animeUtils
-                    .removeFromPinnedList(url)
-                    .then(function (response) {
-                        if (response.result === "success") {
-                            $(that).parent().addClass("deleting_exit");
-                            setTimeout(function () {
-                                $(that).parent().remove();
-                            }, 500);
-                        }
-                        if (response.itemCount === 0) {
-                            $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
-                        }
-                    })
-                    .catch(function (response) {
-                        console.log(response);
-                    });
-
-            });
-
-        } else {
-            console.log("Wew no anime!");
-            $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
+        // console.log(pinned);
+        for (var i = 0; i < pinned.length; i++) {
+            $(pinnedListDiv)[0].appendChild(pinItem(pinned[i].name, pinned[i].url));
         }
-    });
 
-})(jQuery);
+        $(".pinned_item .anime_item").on("click", function () {
+            var url = $(this).parent().data("url");
+            if (animeUtils.isUrl(url)) {
+                chrome.tabs.create({
+                    "url": url
+                });
+            }
+        });
+
+        $(".pinned_item .pinned_delete").on("click", function () {
+            var that = this;
+            var url = $(this).parent().data("url");
+
+            animeUtils
+                .removeFromPinnedList(url)
+                .then(function (response) {
+                    if (response.result === "success") {
+                        $(that).parent().addClass("deleting_exit");
+                        setTimeout(function () {
+                            $(that).parent().remove();
+                        }, 500);
+                    }
+                    if (response.itemCount === 0) {
+                        $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
+
+        });
+
+    } else {
+        console.log("Wew no anime!");
+        $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
+    }
+});

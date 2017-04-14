@@ -1,3 +1,6 @@
+var path = require("path");
+var webpack = require("webpack");
+
 module.exports = function (config) {
     var options = {
 
@@ -10,6 +13,7 @@ module.exports = function (config) {
         frameworks: ["jasmine"],
 
         // list of files / patterns to load in the browser
+        // TODO: optimize this for webpack
         files: [
             "test/mocks.js",
             "src/assets/js/animeUtils.js",
@@ -25,14 +29,38 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "src/assets/js/animeUtils.js": ["coverage"],
-            "src/assets/js/download_all.js": ["coverage"]
+            "src/assets/js/animeUtils.js": ["webpack"],
+            "src/assets/js/download_all.js": ["webpack"],
+            "test/unit/*.spec.js": ["webpack"]
+        },
+
+        webpack: {
+            module: {
+                rules: [
+                    {
+                        test: /\.js$/,
+                        exclude: /(node_modules|bower_components)/,
+                        use: {
+                            loader: "babel-loader",
+                            options: {
+                                presets: ["env"]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+
+        webpackMiddleware: {
+            // webpack-dev-middleware configuration
+            // i. e.
+            stats: 'errors-only'
         },
 
         // test results reporter to use
         // possible values: "dots", "progress"
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ["coverage", "progress"],
+        reporters: ["progress"],
 
 
         // web server port
