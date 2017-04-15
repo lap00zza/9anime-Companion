@@ -706,114 +706,123 @@ import * as animeUtils from "./animeUtils";
                 chrome.runtime.sendMessage({
                     intent: "getUserList"
                 }, function (response) {
-                    try {
-                        userMal = response["data"]["myanimelist"]["anime"];
-                        // console.log(userMal);
-                    } catch (e) {
-                        //
-                    }
-
-                    // Once we get the userList, we search
-                    // for the current anime
-                    chrome.runtime.sendMessage({
-                        intent: "searchMal",
-                        animeName: $(titleDiv).text() || null
-
-                    }, function (response) {
-                        // The part below might like daunting at first,
-                        // but I have added enough comments for you to
-                        // follow. Future me will be proud! ^-^
-                        if (response.result === "success") {
-                            var animeList = response.data;
-                            // console.log(animeList);
-
-                            // --- Attach the select anime ---
-                            $("#mal_loading_image").remove();
-                            $("#rec_wrapper")
-                                .append(generateSelectTemplate(animeList))
-                                .append(generateOpsStatusTemplate());
-
-                            // --- Add the change event listener on select ---
-                            $("#recommended").on("change", function () {
-
-                                /**************************************************************************************/
-                                try {
-                                    var selected = $(this).find("option:selected");
-                                    var episodes = Number(selected.data("episodes"));
-                                    var id = Number(selected.data("id"));
-                                    var image = selected.data("image");
-
-                                } catch (e) {
-                                    console.debug(e);
-                                }
-
-                                /**************************************************************************************/
-                                // Just a tiny helper function to check if
-                                // an anime exists in users MAL.
-                                function checkIfExists() {
-                                    for (var i = 0; i < userMal.length; i++) {
-                                        if (Number(userMal[i]["series_animedb_id"]) === id) {
-                                            return {
-                                                status: "exists",
-                                                lastWatched: userMal[i]["my_watched_episodes"] || 0
-                                            };
-                                        }
-                                    }
-
-                                    // This part runs a check against any anime that are
-                                    // added to MAL after this MAL widget was attached.
-                                    for (var j = 0; j < mal_added_this_session.length; j++) {
-                                        if (mal_added_this_session[j] === id) {
-                                            return {
-                                                status: "exists",
-                                                lastWatched: 0
-                                            };
-                                        }
-                                    }
-
-                                    // This is the case when the user selects the default
-                                    // first option (...)
-                                    if (isNaN(id)) return {status: "_mal_default_"};
-
-                                    return false;
-                                }
-
-                                /**************************************************************************************/
-                                var checkStatus = checkIfExists();
-                                // console.log(checkStatus);
-
-                                // If this anime exists in users mal we show
-                                // update panel. Else we show add panel
-                                if (checkStatus.status === "exists") {
-                                    // Remove the previous episode select using
-                                    // jQuery's empty method and then append the
-                                    // current episode select.
-                                    $("#rec_list").empty().append(generateMalUpdateShell(episodes, id, image,
-                                        checkStatus.lastWatched));
-
-                                } else if (checkStatus.status === "_mal_default_") {
-                                    // --- Default Option ---
-                                    // so we basically just empty the div and do
-                                    // nothing else.
-                                    $("#rec_list").empty()
-                                } else {
-                                    // --- Add aime to MAL ---
-                                    $("#rec_list").empty().append(generateMalAddShell(id, image));
-                                }
-
-                            });
-
-                        } else {
-                            // console.debug(response.reason);
-                            if (response.reason.status === 401) {
-                                $("#mal_widget").empty().text("Verification of your MAL Credentials failed. " +
-                                    "Please re-verify by going to settings.");
-                            } else {
-                                $("#mal_widget").empty().text("Oops! Something went wrong.");
-                            }
+                    if (response.result === "success") {
+                        try {
+                            userMal = response["data"]["myanimelist"]["anime"];
+                            // console.log(userMal);
+                        } catch (e) {
+                            //
                         }
-                    });
 
+                        // Once we get the userList, we search
+                        // for the current anime
+                        chrome.runtime.sendMessage({
+                            intent: "searchMal",
+                            animeName: $(titleDiv).text() || null
+
+                        }, function (response) {
+                            // The part below might like daunting at first,
+                            // but I have added enough comments for you to
+                            // follow. Future me will be proud! ^-^
+                            if (response.result === "success") {
+                                var animeList = response.data;
+                                // console.log(animeList);
+
+                                // --- Attach the select anime ---
+                                $("#mal_loading_image").remove();
+                                $("#rec_wrapper")
+                                    .append(generateSelectTemplate(animeList))
+                                    .append(generateOpsStatusTemplate());
+
+                                // --- Add the change event listener on select ---
+                                $("#recommended").on("change", function () {
+
+                                    /**********************************************************************************/
+                                    try {
+                                        var selected = $(this).find("option:selected");
+                                        var episodes = Number(selected.data("episodes"));
+                                        var id = Number(selected.data("id"));
+                                        var image = selected.data("image");
+
+                                    } catch (e) {
+                                        console.debug(e);
+                                    }
+
+                                    /**********************************************************************************/
+                                    // Just a tiny helper function to check if
+                                    // an anime exists in users MAL.
+                                    function checkIfExists() {
+                                        for (var i = 0; i < userMal.length; i++) {
+                                            if (Number(userMal[i]["series_animedb_id"]) === id) {
+                                                return {
+                                                    status: "exists",
+                                                    lastWatched: userMal[i]["my_watched_episodes"] || 0
+                                                };
+                                            }
+                                        }
+
+                                        // This part runs a check against any anime that are
+                                        // added to MAL after this MAL widget was attached.
+                                        for (var j = 0; j < mal_added_this_session.length; j++) {
+                                            if (mal_added_this_session[j] === id) {
+                                                return {
+                                                    status: "exists",
+                                                    lastWatched: 0
+                                                };
+                                            }
+                                        }
+
+                                        // This is the case when the user selects the default
+                                        // first option (...)
+                                        if (isNaN(id)) return {status: "_mal_default_"};
+
+                                        return false;
+                                    }
+
+                                    /**********************************************************************************/
+                                    var checkStatus = checkIfExists();
+                                    // console.log(checkStatus);
+
+                                    // If this anime exists in users mal we show
+                                    // update panel. Else we show add panel
+                                    if (checkStatus.status === "exists") {
+                                        // Remove the previous episode select using
+                                        // jQuery's empty method and then append the
+                                        // current episode select.
+                                        $("#rec_list").empty().append(generateMalUpdateShell(episodes, id, image,
+                                            checkStatus.lastWatched));
+
+                                    } else if (checkStatus.status === "_mal_default_") {
+                                        // --- Default Option ---
+                                        // so we basically just empty the div and do
+                                        // nothing else.
+                                        $("#rec_list").empty()
+                                    } else {
+                                        // --- Add aime to MAL ---
+                                        $("#rec_list").empty().append(generateMalAddShell(id, image));
+                                    }
+
+                                });
+
+                            } else {
+                                // console.debug(response.reason);
+                                if (response.reason.status === 401) {
+                                    $("#mal_widget").empty().text("Verification of your MAL Credentials failed. " +
+                                        "Please re-verify by going to settings.");
+                                } else {
+                                    $("#mal_widget").empty().text("Oops! Something went wrong.");
+                                }
+                            }
+                        });
+                        
+                    } else {
+                        if (response.reason === "Not Verified") {
+                            $("#mal_widget").empty().text("Verification of your MAL Credentials failed. " +
+                                "Please re-verify by going to settings.");
+                        } else {
+                            $("#mal_widget").empty().text("Oops! Something went wrong.");
+                        }
+                    }
                 });
 
             }
