@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>9anime Companion - Options</title>
     <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="assets/sass/optionsPage.css">
+    <link type="text/css" rel="stylesheet" href="assets/sass/style_options_page.css">
 </head>
 <body>
 <!--Modals-->
@@ -51,11 +51,15 @@
                 <div class="container-fluid">
                     <div class="text-justify">
                         <div class="callout">
-                            Username and password will be stored in
-                            <mark>Plain Text</mark>
-                            in this browsers local
+                            Username and password will be stored in <mark>Plain Text</mark> in this browsers local
                             storage.
                             <a href="#"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        </div>
+                        <div class="callout">
+                            This integration adds very minimal information to you MAL. <strong>Add To MAL</strong> adds
+                            the name of the anime, sets the status as watching and sets the started watching date to
+                            today. <strong>Update MAL</strong> only updates the Episode. For more customization, please
+                            use MyAnimeList directly.
                         </div>
                         <!--<div class="callout">
                             If your status is <strong>Not Verified</strong> then the MAL widget won't show up, even if
@@ -124,14 +128,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Updated to 0.0.4-beta.2</h4>
+                <h4 class="modal-title">Updated to 0.0.4</h4>
             </div>
             <div class="modal-body">
                 <h4>Changes:</h4>
                 <ul>
-                    <li>Added <strong>Find in MAL</strong>. Check out the Utility Bar.</li>
-                    <li>Added more settings to customize the watch page.</li>
-                    <li>Added a detailed settings page (<em>this one</em>) and removed the old one (on the popup).</li>
+                    <li>Added MyAnimeList Integration.</li>
+                    <li>Added Download All episodes to Utility Bar.</li>
                 </ul>
                 <h4>Release Notes:</h4>
                 <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/0.0.4-beta.2" target="_blank">https://github.com/lap00zza/9anime-Companion/releases/tag/0.0.4-beta.2</a>
