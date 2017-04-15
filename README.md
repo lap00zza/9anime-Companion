@@ -5,19 +5,22 @@
 A simple companion extension for 9anime
 <p align="center"><img src="https://image.ibb.co/chDnYv/ui.png"></p>
 
-Note: Right now, the versioning is a bit inconsistent between [Releases](https://github.com/lap00zza/9anime-Companion/releases) and [AMO](https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/). 
-This will be fixed from 0.0.4 onward.
-
 ### Features
 * Remove Ads
-* Resize/Center the player
 * Minimal Mode (only player and episode list)
-* Quick Link
-* Pin Anime (to watch later)
+* Pinned Anime List
+* Ability to **Download All** episodes
+* MyAnimeList Integration
+* Utility Bar
+* Ability to toggle elements (*comments, you may also like etc.*) in the watch page
+* *and quite a few more*
 
 ### Downloads
 * **Firefox**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/
 * **Chrome**: https://chrome.google.com/webstore/detail/9anime-companion/fopcehkidabibdmachbcpbgllhehknah
+
+
+Note: The firefox official version is outdated because of how slow the AMO review process is. I would suggest using it from the developement channel or downloading it from [Releases](https://github.com/lap00zza/9anime-Companion/releases)
 
 ### Build Instructions
 If you want to build this extension yourself, follow these instructions:
@@ -29,6 +32,7 @@ npm install
 After that, use one the following gulp tasks
 1. To make the extension use: `gulp make_chrome` or `gulp make_firefox`.
 2. To get a zipped version of the extensions use: `gulp zip_chrome` or `gulp zip_firefox`
+3. To run the tests, use `gulp test`
 
 Once done, check the `dist` directory.
 
@@ -48,7 +52,7 @@ Once done, check the `dist` directory.
     * **If you downloaded zip from Releases**: select the extracted location.
 
 ### Tests
-There are a very limited number of tests which can be found within the `test` directory.
+Tests can be found within the `test` directory.
 
 ## License
 Copyright (c) 2017 Jewel Mahanta

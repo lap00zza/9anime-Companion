@@ -1,0 +1,21 @@
+.pin_anime {
+  position: absolute;
+  bottom: 45px;
+  right: 0;
+  padding: 1px;
+  cursor: pointer;
+  z-index: 15;
+  color: white;
+  border-top-left-radius: 5px;
+  height: 25px;
+  width: 25px;
+  background-color: #1A237E;
+  text-align: center;
+  line-height: 25px; }
+  .pin_anime:hover {
+    background-color: #304FFE; }
+  .pin_anime img {
+    height: 15px;
+    width: 15px; }
+
+/*# sourceMappingURL=style_global.css.map */
