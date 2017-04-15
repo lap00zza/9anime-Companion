@@ -21,12 +21,12 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+import $ from "../lib/jquery-3.2.0.min";
+import * as animeUtils from "./animeUtils";
 
 // This content script handles global functionality like pins etc
 // TODO: maybe add some animation to the anime item to indicate add success?
-(function ($) {
-    var animeUtils = window.animeUtils;
-
+(function () {
     console.log("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
 
     animeUtils.loadSettings(["pinIconToggle"]).then(function (settings) {
@@ -64,4 +64,4 @@
                 });
         }
     });
-})(jQuery);
+})();

@@ -21,18 +21,20 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+import $ from "../lib/jquery-3.2.0.min";
+import "../lib/bootstrap/js/bootstrap.min";
+import * as animeUtils from "./animeUtils";
 
-// Handles the functionality for the Options page.
-// TODO: Use storage.sync for the settings
 (function () {
-    var animeUtils = window.animeUtils;
+    // Handles the functionality for the Options page.
+// TODO: Use storage.sync for the settings
     var optionsWindow = $("#optionsWindow");
     var loader = chrome.extension.getURL("assets/images/loader.svg");
 
-    // Initialize bootstrap tooltips
+// Initialize bootstrap tooltips
     $("[data-toggle='tooltip']").tooltip();
 
-    // TODO: document this function
+// TODO: document this function
     $("#mal_cred_form").on("submit", function (event) {
         event.preventDefault();
 
@@ -142,7 +144,7 @@
         });
     });
 
-    // Display welcome notice or update log
+// Display welcome notice or update log
     chrome.storage.local.get([
         "installType",
         "installedOn",

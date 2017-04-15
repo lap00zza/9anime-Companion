@@ -22,6 +22,8 @@
  *  SOFTWARE.
  */
 
+import * as animeUtils from "../../src/assets/js/animeUtils";
+
 /*global spyOn, describe, beforeEach, inject, module, expect, it, sinon*/
 describe("Tests for animeUtils", function () {
     
@@ -33,17 +35,17 @@ describe("Tests for animeUtils", function () {
     describe("extractIdFromUrl, using: " + testUrl, function () {
 
         it("should return animeId: qk5n", function () {
-            var extracted = window.animeUtils.extractIdFromUrl(testUrl);
+            var extracted = animeUtils.extractIdFromUrl(testUrl);
             expect(extracted.animeId).toBe("qk5n");
         });
 
         it("should return episodeId: vpz64", function () {
-            var extracted = window.animeUtils.extractIdFromUrl(testUrl);
+            var extracted = animeUtils.extractIdFromUrl(testUrl);
             expect(extracted.episodeId).toBe("vpz64");
         });
 
         it("should return animeUrl: https://9anime.is/watch/ao-haru-ride.qk5n", function () {
-            var extracted = window.animeUtils.extractIdFromUrl(testUrl);
+            var extracted = animeUtils.extractIdFromUrl(testUrl);
             expect(extracted.animeUrl).toBe("https://9Anime.IS/watch/ao-haru-ride.qk5n");
         });
     });
@@ -51,17 +53,17 @@ describe("Tests for animeUtils", function () {
     // ***
     describe("isUrl", function () {
         it("should return false when url is: javascript:alert(1)", function () {
-            var result = window.animeUtils.helper.isUrl("javascript:alert(1)");
+            var result = animeUtils.isUrl("javascript:alert(1)");
             expect(result).not.toBe(true);
         });
 
         it("should return false when url is: shpp://#$%%*12121210....90qwqw", function () {
-            var result = window.animeUtils.helper.isUrl("javascript:alert(1)");
+            var result = animeUtils.isUrl("javascript:alert(1)");
             expect(result).not.toBe(true);
         });
 
         it("should return true when url is: " + testUrl, function () {
-            var result = window.animeUtils.helper.isUrl(testUrl);
+            var result = animeUtils.isUrl(testUrl);
             expect(result).toBe(true);
         });
     });
@@ -80,12 +82,12 @@ describe("Tests for animeUtils", function () {
         ];
 
         it("should return true when list contains URL", function () {
-            var result = window.animeUtils.checkIfEntryExists(testArray, testUrl);
+            var result = animeUtils.checkIfEntryExists(testArray, testUrl);
             expect(result).toBe(true);
         });
 
         it("should return false when list does not contain URL", function () {
-            var result = window.animeUtils.checkIfEntryExists(testArray1, testUrl);
+            var result = animeUtils.checkIfEntryExists(testArray1, testUrl);
             expect(result).not.toBe(true);
         });
     });
@@ -97,9 +99,8 @@ describe("Tests for animeUtils", function () {
                 return callback(init);
             });
             spyOn(chrome.storage.local, "set").and.returnValue(true);
-
-            window
-                .animeUtils
+            
+            animeUtils
                 .addToPinnedList("test", "https://test.com")
                 .then(function (result) {
                     expect(result).toBe("success");
@@ -115,9 +116,8 @@ describe("Tests for animeUtils", function () {
                 return callback(init);
             });
 
-            window
-                .animeUtils
-                .removeFromPinnedList("test", "https://test.com")
+            animeUtils
+                .removeFromPinnedList("https://test.com")
                 .catch(function (reason) {
                     expect(reason).toBe("does not exist");
                     done();
@@ -128,25 +128,24 @@ describe("Tests for animeUtils", function () {
     // ***
     describe("loadSettings", function () {
         it("should reject if parameter 'key' is not an array", function (done) {
-            window
-                .animeUtils
+            animeUtils
                 .loadSettings("1234141")
                 .catch(function (reason) {
                     expect(reason).toBe("key not an array");
                     done();
                 });
 
-            window
-                .animeUtils
-                .loadSettings("1234141", [12123213])
+
+            animeUtils
+                .loadSettings("1234141")
                 .catch(function (reason) {
                     expect(reason).toBe("key not an array");
                     done();
                 });
 
-            window
-                .animeUtils
-                .loadSettings("1234141", 123, [12123213])
+
+            animeUtils
+                .loadSettings(123)
                 .catch(function (reason) {
                     expect(reason).toBe("key not an array");
                     done();

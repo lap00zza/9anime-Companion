@@ -21,11 +21,11 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+import $ from "../lib/jquery-3.2.0.min";
+import * as animeUtils from "./animeUtils";
 
 // This script handles all the functionality in the watch page.
-(function ($) {
-    var animeUtils = window.animeUtils;
-
+(function () {
     // Ads Locations
     // TODO: add a way to update the ads locations remotely via updates
     var adsLocationFilter = [
@@ -819,4 +819,4 @@
             }
         }
     });
-})(jQuery);
+})();
