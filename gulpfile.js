@@ -49,7 +49,7 @@ gulp.task("webpack", function(callback) {
         entry: {
             background: "./src/assets/js/events.js",
             content_watch_page: "./src/assets/js/content_watch_page.js",
-            content_main_website: "./src/assets/js/content_main_website.js",
+            content_global: "./src/assets/js/content_global.js",
             popup: "./src/assets/js/main.js",
             options: "./src/assets/js/optionsPage.js"
         },
