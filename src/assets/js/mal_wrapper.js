@@ -24,7 +24,7 @@
 // This library is responsible for interfacing with myAnimeList.
 // MAL API Docs: https://myanimelist.net/modules.php?go=api
 import $ from "../lib/jquery-3.2.0.min";
-import X2JS from "../lib/xml2json";
+import * as X2JS from "../lib/xml2json";
 
 // Instantiate X2JS
 var x2js = new X2JS({
