@@ -54,7 +54,7 @@ Once done, check the `dist` directory.
 ### Tests
 Tests can be found within the `test` directory.
 
-### Acknowledgements
+## Acknowledgements
 9anime Companion uses these awesome open source projects:
 <table>
 <tr>
