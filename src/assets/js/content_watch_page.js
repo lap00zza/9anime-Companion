@@ -363,7 +363,7 @@ import * as animeUtils from "./animeUtils";
                                 });
 
                             // console.log(selected);
-                            
+
                             // Coz', what's the use of starting downloads with
                             // no episodes.
                             if (selected.length === 0) {
@@ -381,7 +381,7 @@ import * as animeUtils from "./animeUtils";
                                     episodes: selected,
                                     animeName: animeName,
                                     quality: quality,
-                                    
+
                                     // document.location.origin should work in firefox
                                     baseUrl: document.location.origin
                                 });
@@ -428,7 +428,7 @@ import * as animeUtils from "./animeUtils";
                         // Hide the popup when there is a click event
                         // outside the popup.
                         $(download_all_options).on("click", function (e) {
-                            if (e.target === download_all_options[0]){
+                            if (e.target === download_all_options[0]) {
 
                                 // --- Animation ---
                                 $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
@@ -452,8 +452,8 @@ import * as animeUtils from "./animeUtils";
                                 $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
                             }, 500);
                             // --- End Animation ---
-                            
-                        })
+
+                        });
                     });
             }
 
@@ -785,7 +785,7 @@ import * as animeUtils from "./animeUtils";
                                 }
                             }
                         });
-                        
+
                     } else {
                         if (response.reason === "Not Verified") {
                             $("#mal_widget").empty().text("Verification of your MAL Credentials failed.");

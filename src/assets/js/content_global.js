@@ -100,7 +100,6 @@ import * as animeUtils from "./animeUtils";
                 }
             }
 
-
             // Removes the social network share bar
             if (settings["shareBarToggle"]) {
                 shareBarRemover();

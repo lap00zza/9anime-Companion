@@ -39,7 +39,7 @@ var username = null;
 var password = null;
 
 chrome.storage.local.get(["malUsername", "malPassword"], function (credentials) {
-    console.log(credentials);
+    // console.log(credentials);
     username = credentials["malUsername"];
     password = credentials["malPassword"]
 });
