@@ -1,8 +1,13 @@
-## 9anime Companion
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
 
-A simple companion extension for 9anime
+<h1 align="center">
+  <sub>
+    <img src="https://image.ibb.co/ezeELk/icon.png" height="30px" width="30px">
+  </sub>
+  9anime Companion
+</h1>
+<p align="center"><em>A simple companion extension for 9anime</em></p>
 <p align="center"><img src="https://image.ibb.co/chDnYv/ui.png"></p>
 
 ### Features
