@@ -26,13 +26,7 @@ import * as animeUtils from "./animeUtils";
 
 // This script handles all the functionality in the watch page.
 (function () {
-    // Ads Locations
-    // TODO: add a way to update the ads locations remotely via updates
-    var adsLocationFilter = [
-        ".a_d"
-    ];
 
-    // Other important locations
     // All the selectors are placed together so that if in case 9anime
     // changes anything in the future we can easily update it.
     var player = $("#player"),
@@ -40,7 +34,6 @@ import * as animeUtils from "./animeUtils";
         movieDiv = $("#movie"),
         commentDiv = $("#comment"),
         servers = $("#servers"),
-        shareBar = $(".addthis_native_toolbox"), // this is the social network share bar
         titleDiv = $("h1.title"),
         suggestedDiv =
             $(movieDiv)
@@ -74,19 +67,6 @@ import * as animeUtils from "./animeUtils";
         plusIcon = chrome.extension.getURL("assets/images/plus.png"),
         mal_status_wait = chrome.extension.getURL("assets/images/balls.svg"),
         downloadIcon = chrome.extension.getURL("assets/images/download.png");
-
-
-    // TODO: Iframe remover
-    // TODO: Script remover
-    function adsRemover() {
-        for (var i = 0; i < adsLocationFilter.length; i++) {
-            $(adsLocationFilter[i]).remove();
-        }
-    }
-
-    function playerResizer() {
-        $(player).parent().css({width: "100%"});
-    }
 
     /******************************************************************************************************************/
     // Event Listeners
@@ -152,6 +132,10 @@ import * as animeUtils from "./animeUtils";
     /******************************************************************************************************************/
     // Load Settings.
     animeUtils.loadSettings().then(function (settings) {
+        function playerResizer() {
+            $(player).parent().css({width: "100%"});
+        }
+
         // Minimal Mode
         // This mode will also remove ads and resize/center player,
         // regardless of whether this option is chosen or not.
@@ -162,28 +146,15 @@ import * as animeUtils from "./animeUtils";
             $(titleDiv).remove();
             $(servers).parent().css({width: "100%"});
 
-            adsRemover();
             playerResizer();
         }
 
         // If Minimal Mode is disabled, then run these as per user
         // customization.
         if (!settings["minimalModeToggle"]) {
-            // Ads Removal
-            if (settings["adsToggle"]) {
-                // console.log("Oui Ads");
-                adsRemover();
-            }
-
             // Player Resizer
             if (settings["playerSizeToggle"]) {
-                // console.log("Oui Resize");
                 playerResizer();
-            }
-
-            // Removes the social network share bar
-            if (settings["shareBarToggle"]) {
-                $(shareBar).remove();
             }
 
             // Remove comments
@@ -240,7 +211,7 @@ import * as animeUtils from "./animeUtils";
                             // added to the main url to specify episode number (which we are
                             // not interested in)
                             var animeUrl = $("meta[property='og:url']").attr("content");
-                            console.log(animeUrl);
+                            // console.log(animeUrl);
 
                             animeUtils
                                 .addToPinnedList(animeName, animeUrl)
@@ -807,20 +778,20 @@ import * as animeUtils from "./animeUtils";
                             } else {
                                 // console.debug(response.reason);
                                 if (response.reason.status === 401) {
-                                    $("#mal_widget").empty().text("Verification of your MAL Credentials failed. " +
-                                        "Please re-verify by going to settings.");
+                                    $("#mal_widget").empty().text("Verification of your MAL Credentials failed.");
                                 } else {
-                                    $("#mal_widget").empty().text("Oops! Something went wrong.");
+                                    $("#mal_widget").empty().text("Oops! Something went wrong. Maybe you revoked " +
+                                        "the additional permissions?");
                                 }
                             }
                         });
                         
                     } else {
                         if (response.reason === "Not Verified") {
-                            $("#mal_widget").empty().text("Verification of your MAL Credentials failed. " +
-                                "Please re-verify by going to settings.");
+                            $("#mal_widget").empty().text("Verification of your MAL Credentials failed.");
                         } else {
-                            $("#mal_widget").empty().text("Oops! Something went wrong.");
+                            $("#mal_widget").empty().text("Oops! Something went wrong. Maybe you revoked " +
+                                "the additional permissions?");
                         }
                     }
                 });

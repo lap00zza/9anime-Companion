@@ -29,39 +29,81 @@ import * as animeUtils from "./animeUtils";
 (function () {
     console.log("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
 
-    animeUtils.loadSettings(["pinIconToggle"]).then(function (settings) {
-        if (settings["pinIconToggle"]) {
-            var animeItems = $(".list-film .item");
+    animeUtils
+        .loadSettings(["pinIconToggle", "adsToggle", "shareBarToggle"])
+        .then(function (settings) {
 
-            // Web Accessible Resource URL's
-            var pinImage = chrome.extension.getURL("assets/images/pin.png");
+            /**********************************************************************************************************/
+            if (settings["pinIconToggle"]) {
+                var animeItems = $(".list-film .item");
 
-            // This portion deals with adding the pin to all
-            // the anime items present in a page. The pin is
-            // attached onto the bottom-left corner of the anime
-            // cover image.
-            $(animeItems)
-                .each(function (key, item) {
-                    $(item).append(`<div class='pin_anime'><img src='${pinImage}'></div>`);
-                })
-                .promise()
-                .done(function () {
+                // Web Accessible Resource URL's
+                var pinImage = chrome.extension.getURL("assets/images/pin.png");
 
-                    $(".pin_anime").on("click", function () {
-                        var animeName = $(this).parent().find(".name").text();
-                        var animeUrl = $(this).parent().find(".name").prop("href");
+                // This portion deals with adding the pin to all
+                // the anime items present in a page. The pin is
+                // attached onto the bottom-left corner of the anime
+                // cover image.
+                $(animeItems)
+                    .each(function (key, item) {
+                        $(item).append(`<div class='pin_anime'><img src='${pinImage}'></div>`);
+                    })
+                    .promise()
+                    .done(function () {
 
-                        animeUtils
-                            .addToPinnedList(animeName, animeUrl)
-                            .then(function (response) {
-                                console.log(response);
-                            })
-                            .catch(function (response) {
-                                console.log(response);
-                            })
+                        $(".pin_anime").on("click", function () {
+                            var animeName = $(this).parent().find(".name").text();
+                            var animeUrl = $(this).parent().find(".name").prop("href");
 
+                            animeUtils
+                                .addToPinnedList(animeName, animeUrl)
+                                .then(function (response) {
+                                    console.log(response);
+                                })
+                                .catch(function (response) {
+                                    console.log(response);
+                                })
+
+                        });
                     });
-                });
-        }
-    });
+            }
+
+            /**********************************************************************************************************/
+            // Ads Locations
+            // TODO: add a way to update the ads locations remotely via updates
+            var adsLocationFilter = [
+                ".a_d"
+            ];
+
+            function adsRemover() {
+                // Generic Remover
+                for (var i = 0; i < adsLocationFilter.length; i++) {
+                    $(adsLocationFilter[i]).remove();
+                }
+            }
+
+            // Ads Removal
+            if (settings["adsToggle"]) {
+                adsRemover();
+            }
+
+            /**********************************************************************************************************/
+            // Share Bar Locations
+            var shareBarLocationFilter = [
+                ".addthis_native_toolbox",
+                ".home-socials"
+            ];
+
+            function shareBarRemover() {
+                for (var i = 0; i < shareBarLocationFilter.length; i++) {
+                    $(shareBarLocationFilter[i]).remove();
+                }
+            }
+
+
+            // Removes the social network share bar
+            if (settings["shareBarToggle"]) {
+                shareBarRemover();
+            }
+        });
 })();
