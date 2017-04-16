@@ -51,50 +51,54 @@
                 <div class="container-fluid">
                     <div class="text-justify">
                         <div class="callout">
-                            Username and password will be stored in <mark>Plain Text</mark> in this browsers local
-                            storage.
-                            <a href="#"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <strong>DISCLAIMER</strong><br>
+                            Username and password will be stored in <mark>Plain Text</mark> in chrome.local/browser.local
+                            storage. It is not transmitted anywhere else. <em>I am not responsible for any unwanted changes
+                            to your MAL.</em>
+                            <a href="https://github.com/lap00zza/9anime-Companion/wiki/MyAnimeList-Integration"
+                               target="_blank">Tell me more</a>
                         </div>
-                        <div class="callout">
-                            This integration adds very minimal information to you MAL. <strong>Add To MAL</strong> adds
-                            the name of the anime, sets the status as watching and sets the started watching date to
-                            today. <strong>Update MAL</strong> only updates the Episode. For more customization, please
-                            use MyAnimeList directly.
-                        </div>
-                        <!--<div class="callout">
-                            If your status is <strong>Not Verified</strong> then the MAL widget won't show up, even if
-                            you turned it on.
-                        </div>-->
-
                     </div>
                     <div class="row mal_cred">
-                        <!--<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">-->
-                        <!--Enter you MAL Credentials and press verify.-->
+                        <div class="permissions" id="mal_add_perms" style="display: none;">
+                            <span>This integration requires additional permission.</span>
+                            <button class="btn btn-primary" id="mal_grant_add_perms">Grant Additional Permission</button>
+                            <button class="btn btn-danger" id="mal_revoke_add_perms">Revoke Permission</button>
+                        </div>
+
                         <form id="mal_cred_form">
-                            <div class="status">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="malUserName">MAL Username</label>
+                                        <input type="text" class="form-control" id="malUserName" required>
+                                    </div>
 
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="malPassword">MAL Password</label>
+                                        <input type="password" class="form-control" id="malPassword" required>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="malUserName">MAL Username</label>
-                                <input type="text" class="form-control" id="malUserName" required>
-                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <button type="submit" class="btn btn-primary" id="_submit_mal_credentials_">
+                                            Verify
+                                        </button>
+                                        <button type="button" id="_remove_mal_credentials_" class="btn btn-danger"
+                                                style="display: none">
+                                            Remove Credentials
+                                        </button>
+                                    </div>
+                                    <div class="status col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
-                            <div class="form-group">
-                                <label for="malPassword">MAL Password</label>
-                                <input type="password" class="form-control" id="malPassword" required>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="_submit_mal_credentials_">
-                                Verify
-                            </button>
-                            <button type="button" id="_remove_mal_credentials_" class="btn btn-danger"
-                                    style="display: none">
-                                Remove Credentials
-                            </button>
                         </form>
                         <span class="label label-info">Status</span> <span id="mal_verified_status">Not Verified</span>
                     </div>
-
-                    <!--</div>-->
                 </div>
                 <!--*************************************************************************************************-->
 
@@ -137,7 +141,7 @@
                     <li>Added Download All episodes to Utility Bar.</li>
                 </ul>
                 <h4>Release Notes:</h4>
-                <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/0.0.4-beta.2" target="_blank">https://github.com/lap00zza/9anime-Companion/releases/tag/0.0.4-beta.2</a>
+                <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/0.0.4" target="_blank">https://github.com/lap00zza/9anime-Companion/releases/tag/0.0.4</a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -288,8 +292,9 @@
                     <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option mal_int_option">
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
-                              title="Integration for MyAnimeList. Adds the ability to add and update your MAL.
-                              <br><strong>Default: <span class='tooltip_default'>OFF</span></strong>">
+                              title="Integration for MyAnimeList. Adds the ability to add and update your MAL.<br>
+                              <span class='tooltip_info'>You will need to configure the integration for it to work.
+                              </span><br><strong>Default: <span class='tooltip_default'>OFF</span></strong>">
                             MyAnimeList
                         </span>
                         <span class="space_fill"><!-- This is just here to fix the spacing of flex --></span>
@@ -323,8 +328,6 @@
 
                     <!--*********************************************************************************************-->
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 option">
-                        <!-- TODO: this tooltip overflows as the height is quite large.
-                        Add some more stuff to the footer to make up for it.-->
                         <span class="option-name" data-toggle="tooltip" data-placement="bottom" data-html="true"
                               title="The Pin Icons are attached onto the lower right corner of all anime items
                               throughout 9anime. This allows you to quickly add items to your pinned list.

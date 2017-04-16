@@ -48,10 +48,13 @@
     "storage",
     "notifications",
     "downloads",
-    "https://myanimelist.net/api/*",
     "*://9anime.to/*",
     "*://9anime.is/*",
     "*://9anime.tv/*"
+  ],
+
+  "optional_permissions": [
+    "https://myanimelist.net/api/*"
   ],
 
   "web_accessible_resources": [
