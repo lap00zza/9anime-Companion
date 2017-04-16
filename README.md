@@ -2,9 +2,6 @@
 [![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
 
 <h1 align="center">
-  <sub>
-    <img src="https://image.ibb.co/ezeELk/icon.png" height="30px" width="30px">
-  </sub>
   9anime Companion
 </h1>
 <p align="center"><em>A simple companion extension for 9anime</em></p>
