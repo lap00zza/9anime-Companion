@@ -1,0 +1,208 @@
+@import "animations"
+
+#download_all_options
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 100
+    height: 100%
+    width: 100%
+    background-color: rgb(0,0,0)
+    background-color: rgba(0,0,0,0.7)
+
+    .dla_container
+        font-size: 12px
+
+        //height: 200px
+        width: 60%
+        max-width: 800px
+        min-width: 100px
+
+        margin: 15% auto
+        box-sizing: border-box
+
+        position: relative
+        background-color: #16151c
+        color: #9a9a9a
+        //border: 1px solid #888
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+
+        //animation-name: animateTop
+        //animation-duration: 0.5s
+        .title
+            height: 30px
+            line-height: 30px
+            font-size: 15px
+            padding-left: 5px
+            padding-right: 5px
+            span
+                cursor: pointer
+                float: right
+                font-size: 16px
+                font-weight: bold
+        .content
+            overflow-x: hidden
+            overflow-y: scroll
+            height: 140px
+            .epCheckBoxes
+                padding: 5px
+                .check_item
+                    position: relative
+                    display: inline-block
+                    background: #472757
+                    color: #dadada
+                    margin: 3px
+                    width: 90px
+                    padding-left: 5px
+                    //label
+                    //    height: 100%
+                    //    width: 100%
+                    //    position: absolute
+                    //    background: red
+                    //    left: 0
+                    //    opacity: 0
+            //&::-webkit-scrollbar-track
+                //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+            &::-webkit-scrollbar
+                width: 10px
+                margin-right: 5px
+            &::-webkit-scrollbar-thumb
+                //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
+                background-color: #5e5e5e
+
+        .footer
+            //height: 30px
+            //line-height: 30px
+            font-size: 14px
+            padding: 5px
+            .footer_item
+                display: inline-block
+                padding: 5px
+            // specific styles
+            a
+                // This is for the href less anchor tags
+                cursor: pointer
+            select
+                background: #16151c
+            #dla_start_download
+                float: right
+                @media screen and (max-width: 550px)
+                    float: none
+
+.player_utilities
+    width: 100%
+    //display: flex
+    margin-top: 5px
+    font-size: 13px
+
+    .utility_item
+        display: inline-flex
+        align-items: center
+        justify-content: center
+        cursor: pointer
+        color: #9a9a9a
+        //margin-left: 20px
+        padding: 5px
+        &:hover
+            color: #723F8C
+
+    .utility_item:first-child
+        margin-left: 0
+
+    // Styles for the individual utility items
+    #pin_utility
+        img
+            opacity: 0.5
+            height: 11px
+            width: 13px
+
+    #reddit_disc_utility
+        img
+            margin-top: -4px
+            padding-right: 3px
+            opacity: 0.7
+
+    #mal_search_utility
+        img
+            height: auto
+            width: 15px
+            opacity: 0.7
+            margin-top: -2px
+            padding-right: 3px
+
+    #download_all_utility
+        img
+            height: auto
+            width: 15px
+            opacity: 0.7
+            margin-top: -2px
+            padding-right: 3px
+
+@keyframes fadeIn
+    from
+        opacity: 0
+    to
+        opacity: 1
+
+.mal_integration
+    color: #9a9a9a
+    margin-top: 5px
+    width: 250px
+    border: 1px solid #1e1e1e
+    border-radius: 4px
+    height: 75px
+    padding-left: 5px
+    padding-right: 5px
+    padding-top: 5px
+    font-size: 14px
+    position: relative
+
+    #_mal_ops_status_
+        position: absolute
+        bottom: 0
+        right: 0
+
+    #recommended
+        border: 0
+        background: #08080b
+        font-size: 15px
+        width: 100%
+
+    // Styles for the add shell.
+    .mal_add_shell
+        animation: fadeIn
+        animation-duration: 0.5s
+        animation-fill-mode: forwards
+        .mal_add_anime
+            padding-left: 4px
+            padding-right: 4px
+
+    // Styles for the update shell.
+    .mal_update_shell
+        animation: fadeIn
+        animation-duration: 0.5s
+        animation-fill-mode: forwards
+        .mal_episodes
+            padding-left: 4px
+            padding-right: 4px
+            .episode_select
+                float: right
+                position: relative
+                .qol_mal_episode_increment
+                    margin-right: 5px
+                    height: 15px
+                    width: auto
+                    cursor: pointer
+                    &:hover
+                        opacity: 0.8
+                select
+                    border: 0
+                    background: #08080b
+
+    .mal_shell_btn
+        background: lighten(#08080b, 5%)
+        border: 0
+        &:hover
+            background: lighten(#08080b, 10%)
+        &:active
+            background: #08080b

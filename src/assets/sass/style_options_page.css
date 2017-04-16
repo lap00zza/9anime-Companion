@@ -19,6 +19,54 @@ html, body {
   padding-top: 10px;
   padding-bottom: 10px; }
 
+.callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left: 5px solid #1b809e;
+  border-radius: 3px; }
+
+.mal_cred .permissions {
+  width: 70%;
+  min-width: 200px;
+  border: 1px solid #eeeeee;
+  border-radius: 2px;
+  padding: 10px;
+  text-align: center;
+  margin: auto auto 20px; }
+  .mal_cred .permissions span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px; }
+.mal_cred .status {
+  text-align: right;
+  height: 34px;
+  line-height: 34px;
+  color: #5e5e5e; }
+  .mal_cred .status img {
+    height: 30px;
+    width: 30px; }
+.mal_cred form {
+  position: relative;
+  width: 70%;
+  min-width: 200px;
+  margin: auto auto 20px; }
+
+#mal_verified_status {
+  font-weight: 600; }
+
+.mal_int_option {
+  display: flex; }
+  .mal_int_option span.option-name {
+    color: #2e51a2;
+    font-weight: 700; }
+  .mal_int_option span.space_fill {
+    flex: 1; }
+  .mal_int_option button {
+    height: 26px;
+    padding: 0 5px 0 5px;
+    margin-right: 10px; }
+
 span.option-name {
   cursor: default; }
 
@@ -110,4 +158,4 @@ span.open_ss {
     .slideThree input[type=checkbox]:checked + label {
       left: 43px; }
 
-/*# sourceMappingURL=optionsPage.css.map */
+/*# sourceMappingURL=style_options_page.css.map */

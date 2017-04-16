@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "9anime Companion",
-  "version": "0.0.4.3",
-  "version_name": "0.0.4-beta.2",
+  "version": "0.0.4.4",
+  "version_name": "0.0.4",
 
   "author": "Jewel Mahanta",
   "homepage_url": "https://github.com/lap00zza/9anime-Companion",
@@ -18,14 +18,14 @@
   "content_scripts": [
     {
       "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
-      "js": ["assets/js/animeUtils.js", "assets/lib/jquery-3.2.0.min.js", "assets/js/content_watch_page.js"],
-      "css": ["assets/sass/style_others.css"],
+      "js": ["assets/js/content_watch_page.bundle.js"],
+      "css": ["assets/sass/style_watch_page.css"],
       "run_at": "document_end"
     },
     {
       "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
-      "js": ["assets/js/animeUtils.js", "assets/lib/jquery-3.2.0.min.js", "assets/js/content_main_website.js"],
-      "css": ["assets/sass/style_others.css"],
+      "js": ["assets/js/content_global.bundle.js"],
+      "css": ["assets/sass/style_global.css"],
       "run_at": "document_end"
     }
   ],
@@ -45,7 +45,16 @@
 
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "notifications",
+    "downloads",
+    "*://9anime.to/*",
+    "*://9anime.is/*",
+    "*://9anime.tv/*"
+  ],
+
+  "optional_permissions": [
+    "https://myanimelist.net/api/*"
   ],
 
   "web_accessible_resources": [
