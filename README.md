@@ -54,6 +54,17 @@ Once done, check the `dist` directory.
 ### Tests
 Tests can be found within the `test` directory.
 
+### Acknowledgements
+9anime Companion uses these awesome open source projects:
+<table>
+<tr>
+<td><a href="https://github.com/gulpjs/gulp"><img src="https://image.ibb.co/gEjWi5/gulp_256.png"></a></td>
+<td><a href="https://github.com/jasmine/jasmine"><img src="https://image.ibb.co/iXrYwQ/jasmine_256.png"></a></td>
+<td><a href="https://github.com/karma-runner/karma"><img src="https://image.ibb.co/dH3fbQ/karma_256.png"></a></td>
+<td><a href="https://github.com/webpack/webpack"><img src="https://image.ibb.co/kNCvAk/webpack_256.png"></a></td>
+</tr>
+</table>
+
 ## License
 Copyright (c) 2017 Jewel Mahanta
 
