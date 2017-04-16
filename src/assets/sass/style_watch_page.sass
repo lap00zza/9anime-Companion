@@ -1,76 +1,4 @@
-// CSS for the pin icon than appears on anime
-// items on the 9anime website
-.pin_anime
-    position: absolute
-    bottom: 45px
-    right: 0
-    padding: 1px
-    cursor: pointer
-    z-index: 15
-    color: white
-    border-top-left-radius: 5px
-    height: 25px
-    width: 25px
-    background-color: #1A237E
-    text-align: center
-    line-height: 25px
-
-    &:hover
-        background-color: #304FFE
-
-    img
-        height: 15px
-        width: 15px
-
-@keyframes fadeInFromTop
-    from
-        top: -300px
-        opacity: 0
-    to
-        top: 0
-        opacity: 1
-
-@keyframes fadeOutToTop
-    from
-        top: 0
-        opacity: 1
-    to
-        top: -300px
-        opacity: 0
-
-@keyframes shake
-    10%, 90%
-        transform: translate3d(-1px, 0, 0)
-
-    20%, 80%
-        transform: translate3d(2px, 0, 0)
-
-
-    30%, 50%, 70%
-        transform: translate3d(-4px, 0, 0)
-
-
-    40%, 60%
-        transform: translate3d(4px, 0, 0)
-
-.shake
-    -moz-animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
-    -moz-transform: translate3d(0, 0, 0)
-
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
-    transform: translate3d(0, 0, 0)
-
-    //backface-visibility: hidden
-
-.fadeInFromTop
-    animation-name: fadeInFromTop
-    animation-duration: 0.5s
-    animation-fill-mode: forwards
-
-.fadeOutToTop
-    animation-name: fadeOutToTop
-    animation-duration: 0.5s
-    animation-fill-mode: forwards
+@import "animations"
 
 #download_all_options
     position: fixed
@@ -163,8 +91,8 @@
 
 .player_utilities
     width: 100%
-    display: flex
-    margin-top: 10px
+    //display: flex
+    margin-top: 5px
     font-size: 13px
 
     .utility_item
@@ -173,7 +101,8 @@
         justify-content: center
         cursor: pointer
         color: #9a9a9a
-        margin-left: 20px
+        //margin-left: 20px
+        padding: 5px
         &:hover
             color: #723F8C
 
@@ -217,7 +146,7 @@
 
 .mal_integration
     color: #9a9a9a
-    margin-top: 10px
+    margin-top: 5px
     width: 250px
     border: 1px solid #1e1e1e
     border-radius: 4px

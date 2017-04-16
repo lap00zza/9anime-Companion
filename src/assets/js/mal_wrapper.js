@@ -39,7 +39,7 @@ var username = null;
 var password = null;
 
 chrome.storage.local.get(["malUsername", "malPassword"], function (credentials) {
-    console.log(credentials);
+    // console.log(credentials);
     username = credentials["malUsername"];
     password = credentials["malPassword"]
 });
@@ -53,34 +53,20 @@ var MAL_STATUS_ENUMS = {
     "plantowatch": 6
 };
 
-/******************************************************************************************************************/
-// generateAnimeValues = function (episode, score, status) {
-//     // var parser = new DOMParser();
-//     var animeValues =
-//         `<?xml version="1.0" encoding="UTF-8"?>
-//         <entry>
-//             <episode>${episode || ''}</episode>
-//             <status>${status || ''}</status>
-//             <score>${score || ''}</score>
-//             <storage_type></storage_type>
-//             <storage_value></storage_value>
-//             <times_rewatched></times_rewatched>
-//             <rewatch_value></rewatch_value>
-//             <date_start></date_start>
-//             <date_finish></date_finish>
-//             <priority></priority>
-//             <enable_discussion></enable_discussion>
-//             <enable_rewatching></enable_rewatching>
-//             <comments></comments>
-//             <tags></tags>
-//         </entry>`;
-//
-//     return animeValues;
-//     // return parser.parseFromString(animeValues, "text/xml");
-// };
+/**
+ * A small helper function to generate a properly formatted
+ * date string.
+ * 
+ * @returns {string}
+ */
+function generateDateString() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = ((date.getMonth() + 1) < 10 ? "0" : "") + (date.getMonth() + 1);
+    var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
+    return month + day + year;
+}
 
-
-/******************************************************************************************************************/
 /**
  *
  * @returns {string}
@@ -91,7 +77,6 @@ function removeCredentials() {
     password = null;
 }
 
-/******************************************************************************************************************/
 /**
  * Verify the username and password and set it.
  *
@@ -132,7 +117,6 @@ function verifyAndSetCredentials(usr, pwd) {
     });
 }
 
-/******************************************************************************************************************/
 /**
  * Get users current list from MAL
  *
@@ -162,7 +146,6 @@ function getUserList() {
     });
 }
 
-/******************************************************************************************************************/
 /**
  * Search for an anime on MAL
  *
@@ -226,7 +209,6 @@ function searchAnime(animeName) {
     });
 }
 
-/******************************************************************************************************************/
 /**
  * Add anime to users MAL
  *
@@ -246,7 +228,8 @@ function addAnime(animeId) {
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     data: {
                         data: `<?xml version="1.0" encoding="UTF-8"?><entry>` +
-                        `<status>${MAL_STATUS_ENUMS.watching}</status></entry>`
+                        `<status>${MAL_STATUS_ENUMS.watching}</status>` +
+                        `<date_start>${generateDateString()}</date_start></entry>`
                     },
                     method: "POST",
                     beforeSend: function (xhr) {
@@ -274,7 +257,6 @@ function addAnime(animeId) {
     });
 }
 
-/******************************************************************************************************************/
 /**
  * Update users MAL
  *

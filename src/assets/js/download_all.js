@@ -32,7 +32,7 @@
 // 2. The downloads start at 5 seconds interval. Please don't try to decrease this. If you
 //    do, your IP might get flagged for spamming.
 
-import $ from "../lib/jquery-3.2.0.min"
+import $ from "../lib/jquery-3.2.0.min";
 
 /**
  * Just as the function name says!
@@ -69,11 +69,11 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
         $
             .ajax(requestDetails)
             .then(function (data, textStatus, response) {
-                console.log("PErr >>", response);
+                // console.log(response);
                 resolve(data);
             })
             .catch(function (response) {
-                console.log("Err >>", response);
+                console.log(response);
                 reject(response);
             })
     });
@@ -105,7 +105,7 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
         $
             .ajax(requestDetails)
             .then(function (data, textStatus, response) {
-                console.log(data);
+                // console.log(data);
                 // The data key contains the files arrays
                 resolve(data["data"]);
             })
@@ -152,7 +152,7 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
         // This function houses the entire download process.
         function processDl() {
             if (episodes.length === 0) {
-                console.log("No more items left to download!");
+                // console.log("No more items left to download!");
                 return true;
             }
 
@@ -160,7 +160,7 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
             var ep = episodes[totalEpisodes]["id"];
             var ep_number = episodes[totalEpisodes]["number"];
 
-            console.log(ep, ep_number);
+            // console.log(ep, ep_number);
 
             /******************************************/
             // First we get the file grabber info
@@ -187,17 +187,19 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
                                 if (fileQuality === quality) {
                                     chrome.downloads.download({
-                                        url: fileUrl,
-                                        // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
-                                        // Remember: Files are stored in the 9anime Companion sub-folder
-                                        // within your main downloads folder.
-                                        filename: `9anime Companion/${generateFileSafeString(name)}` +
-                                        ` - E${ep_number} (${quality}).${fileType}`,
-                                        conflictAction: "uniquify"
+                                            url: fileUrl,
+                                            // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
+                                            // Remember: Files are stored in the 9anime Companion sub-folder
+                                            // within your main downloads folder.
+                                            filename: `9anime Companion/${generateFileSafeString(name)}` +
+                                            ` - E${ep_number} (${quality}).${fileType}`,
+                                            conflictAction: "uniquify"
 
-                                    }, function (downloadId) {
-                                        console.log(downloadId);
-                                    })
+                                        }
+                                        // , function (downloadId) {
+                                        //     console.log(downloadId);
+                                        // }
+                                    );
                                 }
                             });
 

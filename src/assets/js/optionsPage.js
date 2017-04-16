@@ -27,18 +27,22 @@ import * as animeUtils from "./animeUtils";
 
 (function () {
     // Handles the functionality for the Options page.
-// TODO: Use storage.sync for the settings
+    // TODO: Use storage.sync for the settings
     var optionsWindow = $("#optionsWindow");
     var loader = chrome.extension.getURL("assets/images/loader.svg");
 
-// Initialize bootstrap tooltips
+    // Initialize bootstrap tooltips
     $("[data-toggle='tooltip']").tooltip();
 
-// TODO: document this function
+    /******************************************************************************************************************/
+    /**
+     * This function deals with verifying the MAL credentials and setting
+     * it to the chrome.local storage.
+     */
     $("#mal_cred_form").on("submit", function (event) {
         event.preventDefault();
 
-        var submitBtn = $(this).find("button[type='submit']");
+        var submitBtn = $("#_submit_mal_credentials_");
         var statusWindow = $(this).find(".status");
 
         // Disable the submit button so that verification
@@ -60,8 +64,7 @@ import * as animeUtils from "./animeUtils";
 
         }, function (response) {
             if (response.result === "success") {
-
-                $(statusWindow).empty().text("Success");
+                $(statusWindow).empty();
                 $("#mal_verified_status").text("Verified");
 
                 // Hide the verify button and show the
@@ -75,7 +78,6 @@ import * as animeUtils from "./animeUtils";
                 $("#malPassword").val("").attr("disabled", true);
 
             } else {
-                console.log(response);
                 $(submitBtn).removeAttr("disabled");
                 $(statusWindow).empty().text("Verification failed");
             }
@@ -89,7 +91,7 @@ import * as animeUtils from "./animeUtils";
 
         // Hide the verify button and show the
         // remove credentials button
-        $("#_submit_mal_credentials_").css({display: "block"});
+        $("#_submit_mal_credentials_").removeAttr("disabled").css({display: "block"});
         $("#_remove_mal_credentials_").css({display: "none"});
 
         // Once verified the username and password
@@ -98,12 +100,17 @@ import * as animeUtils from "./animeUtils";
         $("#malPassword").removeAttr("disabled");
     });
 
-    $(optionsWindow).find("input:checkbox").change(function () {
+    /******************************************************************************************************************/
+    // This section deals with loading the settings
+    // ---
+    $(optionsWindow).find("input:checkbox").change(function (e) {
         var key = this.id;
         var checked = $(this).is(":checked");
 
         // TODO: turning on MAL integration should ask for permission to access MAL Website
         switch (key) {
+            case "":
+                
             case "minimalModeToggle":
                 if (checked) {
                     $("#adsToggle").prop("disabled", "true").parent().addClass("slide-disabled");
@@ -144,7 +151,73 @@ import * as animeUtils from "./animeUtils";
         });
     });
 
-// Display welcome notice or update log
+    /******************************************************************************************************************/
+    // This section deals with the MAL Integration Popup
+    // ---
+    function displayMalAddPerms() {
+        $("#mal_grant_add_perms").css({display: "inline-block"});
+        $("#mal_revoke_add_perms").css({display: "none"});
+    }
+
+    function displayMalRevokePerms() {
+        $("#mal_grant_add_perms").css({display: "none"});
+        $("#mal_revoke_add_perms").css({display: "inline-block"})
+    }
+
+    // Click handler for granting additional MAL permissions
+    $("#mal_grant_add_perms").on("click", function () {
+        try {
+            chrome.permissions.request({
+                origins: ["https://myanimelist.net/api/*"]
+            }, function (granted) {
+                console.log(granted);
+                if (granted) {
+                    displayMalRevokePerms();
+                }
+            });
+        } catch (e) {
+            // permissions doesn't work in Firefox
+        }
+    });
+
+    // Click handler for revoking additional MAL permissions
+    $("#mal_revoke_add_perms").on("click", function () {
+        try {
+            chrome.permissions.remove({
+                origins: ["https://myanimelist.net/api/*"]
+            }, function (removed) {
+                console.log(removed);
+                if (removed) {
+                    displayMalAddPerms();
+                }
+            });
+        } catch (e) {
+            // permissions doesn't work in Firefox
+        }
+    });
+
+    // Determining the initial state of the additional MAL permissions
+    // We don't need to show the permission buttons on firefox as it
+    // does not support optional permissions.
+    try {
+        chrome.permissions.contains({
+            origins: ["https://myanimelist.net/api/*"]
+        }, function (contains) {
+            $("#mal_add_perms").css({display: "block"});
+            if(contains) {
+                displayMalRevokePerms();
+            } else {
+                displayMalAddPerms();
+            }
+        })
+    } catch (e) {
+        // in Firefox we dont need to do this
+    }
+
+    /******************************************************************************************************************/
+    // This section deals with misc. initialization work like showing fresh install/update modals etc
+    // ---
+    // Display welcome notice or update log
     chrome.storage.local.get([
         "installType",
         "installedOn",
