@@ -69,12 +69,12 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
         };
         $
             .ajax(requestDetails)
-            .then(function (data, textStatus, response) {
+            .then(function (data) {
                 // console.log(response);
                 resolve(data);
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
                 reject(response);
             });
     });
@@ -105,13 +105,13 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
         };
         $
             .ajax(requestDetails)
-            .then(function (data, textStatus, response) {
+            .then(function (data) {
                 // console.log(data);
                 // The data key contains the files arrays
                 resolve(data["data"]);
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
                 reject(response);
             });
     });
@@ -215,13 +215,13 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
                         })
                         .catch(function (response) {
-                            console.log(response);
+                            console.error(response);
                         });
                     /******************************************/
 
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
             /******************************************/
         }

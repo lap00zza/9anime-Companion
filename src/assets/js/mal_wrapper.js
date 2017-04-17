@@ -95,7 +95,7 @@ function verifyAndSetCredentials(usr, pwd) {
                 }
             };
             $.ajax(requestDetails)
-                .then(function (data, textStatus, response) {
+                .then(function (data) {
 
                     // Save the credentials
                     chrome.storage.local.set({
@@ -135,7 +135,7 @@ function getUserList() {
                 }
             };
             $.ajax(requestDetails)
-                .then(function (data, textStatus, response) {
+                .then(function (data) {
                     resolve(x2js.xml2json(data));
                 })
                 .catch(function (reason) {
@@ -240,12 +240,12 @@ function addAnime(animeId) {
 
                 $
                     .ajax(requestDetails)
-                    .then(function (data, textStatus, response) {
+                    .then(function () {
                         // console.log(response);
                         resolve("success");
                     })
                     .catch(function (reason) {
-                        console.log(reason);
+                        console.error(reason);
                         reject("error");
                     });
                 // console.log(requestDetails);
@@ -291,12 +291,12 @@ function updateAnime(animeId, episode) {
 
                 $
                     .ajax(requestDetails)
-                    .then(function (data, textStatus, response) {
+                    .then(function () {
                         // console.log(response);
                         resolve("success");
                     })
                     .catch(function (reason) {
-                        console.log(reason);
+                        console.error(reason);
                         reject("error");
                     });
                 // console.log(requestDetails);

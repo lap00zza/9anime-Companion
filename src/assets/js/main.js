@@ -113,13 +113,13 @@ chrome.storage.local.get({
                     }
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
 
         });
 
     } else {
-        console.log("Wew no anime!");
+        // console.log("Wew no anime!");
         $(pinnedListDiv).css({background: "url('../../assets/images/no_item_banner.png')"});
     }
 });

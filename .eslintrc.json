@@ -11,8 +11,14 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-unused-vars": [
+            "error"
+        ],
         "no-console": [
-            "warn"
+            "error",
+            {
+                "allow": ["warn", "error", "info"]
+            }
         ],
         "indent": [
             "error",
@@ -26,7 +32,9 @@
         "quotes": [
             "error",
             "double",
-            { "allowTemplateLiterals": true }
+            {
+                "allowTemplateLiterals": true
+            }
         ],
         "semi": [
             "error",

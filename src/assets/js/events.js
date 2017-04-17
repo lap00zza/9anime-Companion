@@ -313,7 +313,7 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onInstalled.addListener(function (details) {
     // console.log(details);
     if (details.reason === "install") {
-        console.log("New install: Saving the default settings to localStorage");
+        console.info("New install: Saving the default settings to localStorage");
         chrome.storage.local.set({
             installType: "fresh",
             installedOn: (new Date()).toISOString(),
@@ -328,7 +328,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
     }
 
     if (details.reason === "update") {
-        console.log("Update: Preserving old settings and adding new ones");
+        console.info("Update: Preserving old settings and adding new ones");
         chrome.storage.local.set({
             installType: "update",
             installedOn: (new Date()).toISOString(),

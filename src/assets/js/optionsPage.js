@@ -56,7 +56,7 @@ import * as animeUtils from "./animeUtils";
         var username = $("#malUserName").val().trim();
         var password = $("#malPassword").val();
 
-        console.log(username, password);
+        // console.log(username, password);
         // Send off verification check to the background
         chrome.runtime.sendMessage({
             intent: "verifyAndSetCredentials",
@@ -132,10 +132,10 @@ import * as animeUtils from "./animeUtils";
         // NOTE: We are using computed property names
         // to generate dynamic keys based on ID.
         if (checked) {
-            console.log(key + " is on!");
+            console.info(key + " is on!");
             chrome.storage.local.set({[key]: 1});
         } else {
-            console.log(this.id + " is off!");
+            console.info(this.id + " is off!");
             chrome.storage.local.set({[key]: 0});
         }
     });
@@ -169,7 +169,6 @@ import * as animeUtils from "./animeUtils";
             chrome.permissions.request({
                 origins: ["https://myanimelist.net/api/*"]
             }, function (granted) {
-                console.log(granted);
                 if (granted) {
                     displayMalRevokePerms();
                 }
@@ -185,7 +184,6 @@ import * as animeUtils from "./animeUtils";
             chrome.permissions.remove({
                 origins: ["https://myanimelist.net/api/*"]
             }, function (removed) {
-                console.log(removed);
                 if (removed) {
                     displayMalAddPerms();
                 }
@@ -235,7 +233,7 @@ import * as animeUtils from "./animeUtils";
             $("#update_install_modal").modal();
             chrome.storage.local.set({installModalShown: true});
         }
-        console.log(result);
+        // console.log(result);
 
         if (result["malUsername"] && result["malPassword"]) {
 
