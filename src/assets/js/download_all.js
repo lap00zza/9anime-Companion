@@ -26,6 +26,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+/*global chrome*/
 // NOTES:
 // 1. JQUERY is only used for the AJAX function. So, it is 100% possible to convert this
 //    to a pure javascript based library.
@@ -75,7 +76,7 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
             .catch(function (response) {
                 console.log(response);
                 reject(response);
-            })
+            });
     });
 }
 
@@ -112,7 +113,7 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
             .catch(function (response) {
                 console.log(response);
                 reject(response);
-            })
+            });
     });
 }
 
@@ -187,18 +188,18 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
                                 if (fileQuality === quality) {
                                     chrome.downloads.download({
-                                            url: fileUrl,
-                                            // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
-                                            // Remember: Files are stored in the 9anime Companion sub-folder
-                                            // within your main downloads folder.
-                                            filename: `9anime Companion/${generateFileSafeString(name)}` +
-                                            ` - E${ep_number} (${quality}).${fileType}`,
-                                            conflictAction: "uniquify"
+                                        url: fileUrl,
+                                        // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
+                                        // Remember: Files are stored in the 9anime Companion sub-folder
+                                        // within your main downloads folder.
+                                        filename: `9anime Companion/${generateFileSafeString(name)}` +
+                                        ` - E${ep_number} (${quality}).${fileType}`,
+                                        conflictAction: "uniquify"
 
-                                        }
-                                        // , function (downloadId) {
-                                        //     console.log(downloadId);
-                                        // }
+                                    }
+                                    // , function (downloadId) {
+                                    //     console.log(downloadId);
+                                    // }
                                     );
                                 }
                             });
@@ -214,7 +215,7 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
                         })
                         .catch(function (response) {
-                            console.log(response)
+                            console.log(response);
                         });
                     /******************************************/
 
@@ -235,4 +236,4 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
 export {
     generateFileSafeString, getGrabberInfo, getFiles, downloadFiles
-}
+};

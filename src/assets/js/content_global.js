@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import * as animeUtils from "./animeUtils";
 
@@ -62,7 +63,7 @@ import * as animeUtils from "./animeUtils";
                                 })
                                 .catch(function (response) {
                                     console.log(response);
-                                })
+                                });
 
                         });
                     });

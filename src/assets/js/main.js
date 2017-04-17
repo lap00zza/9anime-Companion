@@ -21,11 +21,11 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-
-// Handles the functionality withing the main popup UI.
+/*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import * as animeUtils from "./animeUtils";
 
+// Handles the functionality withing the main popup UI.
 var animeLink = $("#anime-link-image");
 var settingsBtn = $("#settingsWindowToggle");
 var pinnedListDiv = $("#pinnedList");
@@ -109,7 +109,7 @@ chrome.storage.local.get({
                         }, 500);
                     }
                     if (response.itemCount === 0) {
-                        $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
+                        $(pinnedListDiv).css({background: "url('../../assets/images/no_item_banner.png')"});
                     }
                 })
                 .catch(function (response) {
@@ -120,6 +120,6 @@ chrome.storage.local.get({
 
     } else {
         console.log("Wew no anime!");
-        $(pinnedListDiv).css({background: 'url("../../assets/images/no_item_banner.png")'});
+        $(pinnedListDiv).css({background: "url('../../assets/images/no_item_banner.png')"});
     }
 });

@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/* global chrome */
 // This library is responsible for interfacing with myAnimeList.
 // MAL API Docs: https://myanimelist.net/modules.php?go=api
 import $ from "../lib/jquery-3.2.0.min";
@@ -41,7 +42,7 @@ var password = null;
 chrome.storage.local.get(["malUsername", "malPassword"], function (credentials) {
     // console.log(credentials);
     username = credentials["malUsername"];
-    password = credentials["malPassword"]
+    password = credentials["malPassword"];
 });
 
 
@@ -63,7 +64,7 @@ function generateDateString() {
     var date = new Date();
     var year = date.getFullYear();
     var month = ((date.getMonth() + 1) < 10 ? "0" : "") + (date.getMonth() + 1);
-    var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
+    var day = (date.getDate() < 10 ? "0" : "") + date.getDate();
     return month + day + year;
 }
 
@@ -110,9 +111,9 @@ function verifyAndSetCredentials(usr, pwd) {
                 })
                 .catch(function (response) {
                     reject(response);
-                })
+                });
         } else {
-            reject("Both Username and Password are required.")
+            reject("Both Username and Password are required.");
         }
     });
 }
@@ -197,7 +198,7 @@ function searchAnime(animeName) {
                     })
                     .catch(function (response) {
                         reject(response);
-                    })
+                    });
             } else {
                 reject("animeName is missing");
             }
@@ -221,7 +222,7 @@ function addAnime(animeId) {
 
             /*************************/
             if (!animeId) {
-                reject("Parameter animeId is both required.")
+                reject("Parameter animeId is both required.");
             } else {
                 var requestDetails = {
                     url: encodeURI("https://myanimelist.net/api/animelist/add/" + animeId + ".xml"),
@@ -311,4 +312,4 @@ function updateAnime(animeId, episode) {
 }
 export {
     removeCredentials, addAnime, getUserList, searchAnime, updateAnime, verifyAndSetCredentials
-}
+};

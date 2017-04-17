@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/*global chrome*/
 import * as animeUtils from "./animeUtils";
 import * as downloadAll from "./download_all";
 import * as mal from "./mal_wrapper";
@@ -63,7 +64,7 @@ chrome.runtime.onMessage.addListener(
                     .then(function () {
                         sendResponse({
                             result: "success"
-                        })
+                        });
                     })
                     .catch(function () {
                         sendResponse({

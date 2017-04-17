@@ -21,7 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-
+/*global chrome*/
 // This module contains the utility functions which can
 // be used globally.
 
@@ -74,7 +74,7 @@ function loadSettings(key) {
                 resolve(settings);
             });
         } else {
-            reject("key not an array")
+            reject("key not an array");
         }
     });
 }
@@ -171,7 +171,7 @@ function extractIdFromUrl(url) {
         animeUrl: baseUrl + animeId,
         animeId: animeId,
         episodeId: episodeId
-    }
+    };
 }
 
 /**

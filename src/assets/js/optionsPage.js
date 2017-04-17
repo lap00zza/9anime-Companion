@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import "../lib/bootstrap/js/bootstrap.min";
 import * as animeUtils from "./animeUtils";
@@ -103,14 +104,12 @@ import * as animeUtils from "./animeUtils";
     /******************************************************************************************************************/
     // This section deals with loading the settings
     // ---
-    $(optionsWindow).find("input:checkbox").change(function (e) {
+    $(optionsWindow).find("input:checkbox").change(function () {
         var key = this.id;
         var checked = $(this).is(":checked");
 
         // TODO: turning on MAL integration should ask for permission to access MAL Website
         switch (key) {
-            case "":
-                
             case "minimalModeToggle":
                 if (checked) {
                     $("#adsToggle").prop("disabled", "true").parent().addClass("slide-disabled");
@@ -161,7 +160,7 @@ import * as animeUtils from "./animeUtils";
 
     function displayMalRevokePerms() {
         $("#mal_grant_add_perms").css({display: "none"});
-        $("#mal_revoke_add_perms").css({display: "inline-block"})
+        $("#mal_revoke_add_perms").css({display: "inline-block"});
     }
 
     // Click handler for granting additional MAL permissions
@@ -209,7 +208,7 @@ import * as animeUtils from "./animeUtils";
             } else {
                 displayMalAddPerms();
             }
-        })
+        });
     } catch (e) {
         // in Firefox we dont need to do this
     }
