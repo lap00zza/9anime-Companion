@@ -124,10 +124,10 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
  * @param {String} name - The name of the anime.
  * @param {String} quality - Possible values => 360p/480p/720p/1080p
  * @param {String} baseUrl - The current base url. Example: https://9anime.tv, https://9anime.is etc.
- * @param {String} method - Possible values => browser/external
- *                          Whether we will use the chrome downloader or external downloader
  */
-function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to", method = "browser") {
+//@param {String} method - Possible values => browser/external
+//                         Whether we will use the chrome downloader or external downloader
+function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to" /*, method = "browser"*/ ) {
     // TODO: add a quality fallback
 
     // var qualityEnums = {
