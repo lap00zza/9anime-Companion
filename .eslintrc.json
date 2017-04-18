@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "amd": true,
+        "jasmine": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-inner-declarations": [
+            "warn"
+        ],
+        "no-unused-vars": [
+            "error"
+        ],
+        "no-console": [
+            "error",
+            {
+                "allow": ["warn", "error", "info"]
+            }
+        ],
+        "indent": [
+            "error",
+            4,
+            {"SwitchCase": 1}
+        ],
+        "quotes": [
+            "error",
+            "double",
+            {
+                "allowTemplateLiterals": true
+            }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}

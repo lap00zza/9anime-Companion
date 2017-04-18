@@ -1,6 +1,4 @@
-var path = require("path");
-var webpack = require("webpack");
-
+/* global process */
 module.exports = function (config) {
     var options = {
 
@@ -54,7 +52,7 @@ module.exports = function (config) {
         webpackMiddleware: {
             // webpack-dev-middleware configuration
             // i. e.
-            stats: 'errors-only'
+            stats: "errors-only"
         },
 
         // test results reporter to use

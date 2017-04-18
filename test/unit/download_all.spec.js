@@ -1,8 +1,7 @@
 /**
  * Created by Jewel Mahanta (@lap00zza) on 12-04-2017.
  */
-/*global spyOn, describe, beforeEach, afterEach, inject, module, expect, it, sinon*/
-/*eslint no-undef: "error"*/
+/*global spyOn, describe, expect, it, beforeEach, afterEach*/
 import "jasmine-ajax";
 import * as downloadAll from "../../src/assets/js/download_all";
 
@@ -20,8 +19,8 @@ describe("Tests for download_all", function () {
             expect(result).toBe("nar__to");
         });
         
-        it('should return nar__to when input string is nar<>?*|"to', function () {
-            var result = downloadAll.generateFileSafeString('nar<>?*|"to');
+        it(`should return nar__to when input string is nar<>?*|"to`, function () {
+            var result = downloadAll.generateFileSafeString(`nar<>?*|"to`);
             expect(result).toBe("nar______to");
         });
     });
@@ -61,7 +60,7 @@ describe("Tests for download_all", function () {
 
             it("should resolve with data when the request succeeds", function () {
                 setTimeout(function () {
-                    console.log(onSuccess.calls);
+                    // console.log(onSuccess.calls);
                     expect(onSuccess).toHaveBeenCalled();
                     // var successArgs = onSuccess.calls.mostRecent().args;
                     // console.log(successArgs);
@@ -79,7 +78,7 @@ describe("Tests for download_all", function () {
 
             it("should reject with response when the request fails", function () {
                 setTimeout(function () {
-                    console.log(onFailure.calls);
+                    // console.log(onFailure.calls);
                     expect(onFailure).toHaveBeenCalled();
                     // var failureArgs = onFailure.calls.mostRecent().args;
                     // console.log(failureArgs);
@@ -124,7 +123,7 @@ describe("Tests for download_all", function () {
 
             it("should resolve with data when the request succeeds", function () {
                 setTimeout(function () {
-                    console.log(onSuccess.calls);
+                    // console.log(onSuccess.calls);
                     expect(onSuccess).toHaveBeenCalled();
                     // var successArgs = onSuccess.calls.mostRecent().args;
                     // console.log(successArgs);
@@ -142,7 +141,7 @@ describe("Tests for download_all", function () {
 
             it("should reject with response when the request fails", function () {
                 setTimeout(function () {
-                    console.log(onFailure.calls);
+                    // console.log(onFailure.calls);
                     expect(onFailure).toHaveBeenCalled();
                     // var failureArgs = onFailure.calls.mostRecent().args;
                     // console.log(failureArgs);

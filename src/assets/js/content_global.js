@@ -21,13 +21,14 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import * as animeUtils from "./animeUtils";
 
 // This content script handles global functionality like pins etc
 // TODO: maybe add some animation to the anime item to indicate add success?
 (function () {
-    console.log("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
+    console.info("%c 9anime Companion loaded successfully", "color: orange; font-weight: bold;");
 
     animeUtils
         .loadSettings(["pinIconToggle", "adsToggle", "shareBarToggle"])
@@ -57,12 +58,12 @@ import * as animeUtils from "./animeUtils";
 
                             animeUtils
                                 .addToPinnedList(animeName, animeUrl)
-                                .then(function (response) {
-                                    console.log(response);
-                                })
+                                // .then(function (response) {
+                                //     console.log(response);
+                                // })
                                 .catch(function (response) {
-                                    console.log(response);
-                                })
+                                    console.error(response);
+                                });
 
                         });
                     });

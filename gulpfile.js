@@ -30,18 +30,20 @@ var gutil = require("gulp-util");
 var webpack = require("webpack");
 var runSequence = require("run-sequence");
 var path = require("path");
+var childProcess = require("child_process");
 
 /**********************************************************************************************************************/
 gulp.task("clean_bundles", function () {
     return del(["src/assets/js/*.bundle.js"]);
 });
 
-gulp.task("webpack", function(callback) {
+gulp.task("webpack", function (callback) {
     // run webpack
+    // noinspection JSUnresolvedFunction
     webpack({
         plugins: [
             new webpack.ProvidePlugin({
-                jQuery:  path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js"),
+                jQuery: path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js"),
                 $: path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js"),
                 jquery: path.resolve(__dirname, "src/assets/lib/jquery-3.2.0.min.js")
             })
@@ -57,8 +59,8 @@ gulp.task("webpack", function(callback) {
             filename: "[name].bundle.js",
             path: path.resolve(__dirname, "src/assets/js")
         }
-    }, function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack", err);
+    }, function (err, stats) {
+        if (err) throw new gutil.PluginError("webpack", err);
         gutil.log("[webpack]", stats.toString());
         callback();
     });
@@ -131,8 +133,26 @@ gulp.task("test", function (done) {
     }, done).start();
 });
 
+/**********************************************************************************************************************/
+gulp.task("linter", function (done) {
+    var esPath = path.resolve(__dirname, "node_modules/eslint/bin/eslint.js");
+    var eslintrcPath = path.resolve(__dirname, ".eslintrc.json");
+    var esProcess = childProcess.fork(esPath, ["-c", eslintrcPath, "./src/assets/js", "./test", "./platform"]);
+
+    esProcess.on("exit", function (exitCode) {
+        // if its not a clean exit we call the done
+        // callback with the error code.
+        if (exitCode !== 0) {
+            done(exitCode); 
+            return;
+        }
+        // If no error, we move on with our lives.
+        done();
+    });
+});
+
 // This default task is added so that we can easily
 // test our entire process using travis.
 gulp.task("default", function () {
-    runSequence("test", "make_chrome", "make_firefox", "zip_chrome", "zip_firefox");
+    runSequence("linter", "test", "make_chrome", "make_firefox", "zip_chrome", "zip_firefox");
 });

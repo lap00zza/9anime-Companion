@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import * as animeUtils from "./animeUtils";
 
@@ -82,7 +83,7 @@ import * as animeUtils from "./animeUtils";
             var details = JSON.parse(event.detail);
             // console.log(details);
         } catch (e) {
-            console.debug(e);
+            console.error(e);
         }
 
         var requestObj = {
@@ -91,7 +92,7 @@ import * as animeUtils from "./animeUtils";
             episode: details.episode
             // image: details.image
         };
-        chrome.runtime.sendMessage(requestObj, function (response) {
+        chrome.runtime.sendMessage(requestObj, function () {
             // console.log(response);
             $("#_mal_ops_status_").empty();
         });
@@ -109,7 +110,7 @@ import * as animeUtils from "./animeUtils";
             var details = JSON.parse(event.detail);
             // console.log(details);
         } catch (e) {
-            console.debug(e);
+            console.error(e);
         }
 
         var requestObj = {
@@ -121,9 +122,10 @@ import * as animeUtils from "./animeUtils";
             if (response.result === "success") {
                 mal_added_this_session.push(details.id);
                 $("#recommended").trigger("change");
-            } else {
-                console.log(response);
-            }
+            } 
+            // else {
+            //     console.log(response);
+            // }
 
             $("#_mal_ops_status_").empty();
         });
@@ -215,11 +217,11 @@ import * as animeUtils from "./animeUtils";
 
                             animeUtils
                                 .addToPinnedList(animeName, animeUrl)
-                                .then(function (response) {
-                                    console.log(response);
-                                })
+                                // .then(function (response) {
+                                //     console.log(response);
+                                // })
                                 .catch(function (response) {
-                                    console.log(response);
+                                    console.error(response);
                                 });
                         });
 
@@ -247,7 +249,7 @@ import * as animeUtils from "./animeUtils";
                                     if (trimmedName) {
                                         alternateNames.push(trimmedName);
                                     }
-                                })
+                                });
                             }
 
                             var requestObj = {
@@ -257,9 +259,12 @@ import * as animeUtils from "./animeUtils";
                                 episode: currentlyWatching
                             };
 
-                            chrome.runtime.sendMessage(requestObj, function (response) {
-                                console.log(response.result);
-                            });
+                            chrome.runtime.sendMessage(
+                                requestObj
+                                // , function (response) {
+                                //     console.log(response.result);
+                                // }
+                            );
                         });
 
                         $("#mal_search_utility").on("click", function () {
@@ -268,9 +273,12 @@ import * as animeUtils from "./animeUtils";
                                 animeName: animeName
                             };
 
-                            chrome.runtime.sendMessage(requestObj, function (response) {
-                                console.log(response.result);
-                            });
+                            chrome.runtime.sendMessage(
+                                requestObj
+                                // , function (response) {
+                                //     console.log(response.result);
+                                // }
+                            );
                         });
 
                         /**********************************************************************************************/
@@ -716,7 +724,7 @@ import * as animeUtils from "./animeUtils";
                                         var image = selected.data("image");
 
                                     } catch (e) {
-                                        console.debug(e);
+                                        console.error(e);
                                     }
 
                                     /**********************************************************************************/
@@ -767,7 +775,7 @@ import * as animeUtils from "./animeUtils";
                                         // --- Default Option ---
                                         // so we basically just empty the div and do
                                         // nothing else.
-                                        $("#rec_list").empty()
+                                        $("#rec_list").empty();
                                     } else {
                                         // --- Add aime to MAL ---
                                         $("#rec_list").empty().append(generateMalAddShell(id, image));

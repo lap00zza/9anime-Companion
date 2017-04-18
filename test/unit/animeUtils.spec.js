@@ -24,7 +24,7 @@
 
 import * as animeUtils from "../../src/assets/js/animeUtils";
 
-/*global spyOn, describe, beforeEach, inject, module, expect, it, sinon*/
+/*global chrome, spyOn, describe, expect, it*/
 describe("Tests for animeUtils", function () {
     
     // The casing is a bit weird to make sure we can test
@@ -150,7 +150,7 @@ describe("Tests for animeUtils", function () {
                     expect(reason).toBe("key not an array");
                     done();
                 });
-        })
-    })
+        });
+    });
 
 });

@@ -21,6 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+/*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import "../lib/bootstrap/js/bootstrap.min";
 import * as animeUtils from "./animeUtils";
@@ -55,7 +56,7 @@ import * as animeUtils from "./animeUtils";
         var username = $("#malUserName").val().trim();
         var password = $("#malPassword").val();
 
-        console.log(username, password);
+        // console.log(username, password);
         // Send off verification check to the background
         chrome.runtime.sendMessage({
             intent: "verifyAndSetCredentials",
@@ -103,14 +104,12 @@ import * as animeUtils from "./animeUtils";
     /******************************************************************************************************************/
     // This section deals with loading the settings
     // ---
-    $(optionsWindow).find("input:checkbox").change(function (e) {
+    $(optionsWindow).find("input:checkbox").change(function () {
         var key = this.id;
         var checked = $(this).is(":checked");
 
         // TODO: turning on MAL integration should ask for permission to access MAL Website
         switch (key) {
-            case "":
-                
             case "minimalModeToggle":
                 if (checked) {
                     $("#adsToggle").prop("disabled", "true").parent().addClass("slide-disabled");
@@ -133,10 +132,10 @@ import * as animeUtils from "./animeUtils";
         // NOTE: We are using computed property names
         // to generate dynamic keys based on ID.
         if (checked) {
-            console.log(key + " is on!");
+            console.info(key + " is on!");
             chrome.storage.local.set({[key]: 1});
         } else {
-            console.log(this.id + " is off!");
+            console.info(this.id + " is off!");
             chrome.storage.local.set({[key]: 0});
         }
     });
@@ -161,7 +160,7 @@ import * as animeUtils from "./animeUtils";
 
     function displayMalRevokePerms() {
         $("#mal_grant_add_perms").css({display: "none"});
-        $("#mal_revoke_add_perms").css({display: "inline-block"})
+        $("#mal_revoke_add_perms").css({display: "inline-block"});
     }
 
     // Click handler for granting additional MAL permissions
@@ -170,7 +169,6 @@ import * as animeUtils from "./animeUtils";
             chrome.permissions.request({
                 origins: ["https://myanimelist.net/api/*"]
             }, function (granted) {
-                console.log(granted);
                 if (granted) {
                     displayMalRevokePerms();
                 }
@@ -186,7 +184,6 @@ import * as animeUtils from "./animeUtils";
             chrome.permissions.remove({
                 origins: ["https://myanimelist.net/api/*"]
             }, function (removed) {
-                console.log(removed);
                 if (removed) {
                     displayMalAddPerms();
                 }
@@ -209,7 +206,7 @@ import * as animeUtils from "./animeUtils";
             } else {
                 displayMalAddPerms();
             }
-        })
+        });
     } catch (e) {
         // in Firefox we dont need to do this
     }
@@ -236,7 +233,7 @@ import * as animeUtils from "./animeUtils";
             $("#update_install_modal").modal();
             chrome.storage.local.set({installModalShown: true});
         }
-        console.log(result);
+        // console.log(result);
 
         if (result["malUsername"] && result["malPassword"]) {
 

@@ -26,6 +26,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+/*global chrome*/
 // NOTES:
 // 1. JQUERY is only used for the AJAX function. So, it is 100% possible to convert this
 //    to a pure javascript based library.
@@ -68,14 +69,14 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
         };
         $
             .ajax(requestDetails)
-            .then(function (data, textStatus, response) {
+            .then(function (data) {
                 // console.log(response);
                 resolve(data);
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
                 reject(response);
-            })
+            });
     });
 }
 
@@ -104,15 +105,15 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
         };
         $
             .ajax(requestDetails)
-            .then(function (data, textStatus, response) {
+            .then(function (data) {
                 // console.log(data);
                 // The data key contains the files arrays
                 resolve(data["data"]);
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
                 reject(response);
-            })
+            });
     });
 }
 
@@ -123,10 +124,10 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
  * @param {String} name - The name of the anime.
  * @param {String} quality - Possible values => 360p/480p/720p/1080p
  * @param {String} baseUrl - The current base url. Example: https://9anime.tv, https://9anime.is etc.
- * @param {String} method - Possible values => browser/external
- *                          Whether we will use the chrome downloader or external downloader
  */
-function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to", method = "browser") {
+//@param {String} method - Possible values => browser/external
+//                         Whether we will use the chrome downloader or external downloader
+function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to" /*, method = "browser"*/ ) {
     // TODO: add a quality fallback
 
     // var qualityEnums = {
@@ -187,18 +188,18 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
                                 if (fileQuality === quality) {
                                     chrome.downloads.download({
-                                            url: fileUrl,
-                                            // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
-                                            // Remember: Files are stored in the 9anime Companion sub-folder
-                                            // within your main downloads folder.
-                                            filename: `9anime Companion/${generateFileSafeString(name)}` +
-                                            ` - E${ep_number} (${quality}).${fileType}`,
-                                            conflictAction: "uniquify"
+                                        url: fileUrl,
+                                        // Example file name: "Shingeki No Kyojen - E5 (1080p).mp4"
+                                        // Remember: Files are stored in the 9anime Companion sub-folder
+                                        // within your main downloads folder.
+                                        filename: `9anime Companion/${generateFileSafeString(name)}` +
+                                        ` - E${ep_number} (${quality}).${fileType}`,
+                                        conflictAction: "uniquify"
 
-                                        }
-                                        // , function (downloadId) {
-                                        //     console.log(downloadId);
-                                        // }
+                                    }
+                                    // , function (downloadId) {
+                                    //     console.log(downloadId);
+                                    // }
                                     );
                                 }
                             });
@@ -214,13 +215,13 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
                         })
                         .catch(function (response) {
-                            console.log(response)
+                            console.error(response);
                         });
                     /******************************************/
 
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
             /******************************************/
         }
@@ -235,4 +236,4 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
 
 export {
     generateFileSafeString, getGrabberInfo, getFiles, downloadFiles
-}
+};
