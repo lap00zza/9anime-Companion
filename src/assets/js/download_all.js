@@ -212,7 +212,13 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                                             // }
                                             );
                                         } else {
-                                            episodeLinks.push(fileUrl);
+                                            // We want to make sure that title is properly encoded for the URL
+                                            var downloadTitle = encodeURIComponent(
+                                                `${generateFileSafeString(name)}` + ` - E${ep_number} (${quality})`
+                                            );
+                                            var downloadUrl = fileUrl + "&type=video/" + fileType +
+                                                "&title=" + downloadTitle;
+                                            episodeLinks.push(downloadUrl);
                                         }
                                     }
                                 });
