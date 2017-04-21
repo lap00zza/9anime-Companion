@@ -282,23 +282,52 @@ chrome.runtime.onMessage.addListener(
 
             /**********************************************************************************************************/
             case "downloadFiles":
-                if (request.episodes && request.animeName && request.quality && request.baseUrl) {
+                if (request.episodes && request.animeName && request.quality && request.baseUrl && request.method) {
+                    if (request.method === "browser") {
+                        // This is not a promise. Its a one off request.
+                        downloadAll.downloadFiles(
+                            request.episodes, request.animeName, request.quality, request.baseUrl, "browser"
+                        );
 
-                    // This is not a promise. Its a one off request.
-                    downloadAll.downloadFiles(
-                        request.episodes, request.animeName, request.quality, request.baseUrl
-                    );
+                        chrome.notifications.create({
+                            type: "basic",
+                            title: "Starting Download",
+                            message: "Processing video links. Your videos will be downloaded shortly.",
+                            iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                        });
+                    } else {
+                        // TODO: should we push all sender tab ID to a array in case we get request
+                        // from multiple tabs?
+                        chrome.notifications.create({
+                            type: "basic",
+                            title: "Fetching Download Links",
+                            message: `ETA: ${request.episodes.length * 2} sec`,
+                            iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                        });
 
-                    var opt = {
-                        type: "basic",
-                        title: "Starting Download",
-                        message: "Processing video links. Your videos will be downloaded shortly.",
-                        iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
-                    };
-                    chrome.notifications.create(opt);
-                    sendResponse({
-                        result: "success"
-                    });
+                        downloadAll
+                            .downloadFiles(
+                                request.episodes, request.animeName, request.quality, request.baseUrl, "external", 2000
+                            )
+                            .then(function (fileLinks) {
+                                chrome.tabs.sendMessage(
+                                    sender.tab.id,
+                                    {
+                                        intent: "mal_external_dl_links",
+                                        links: fileLinks
+                                    });
+                            })
+                            .catch(function () {
+                                chrome.notifications.create({
+                                    type: "basic",
+                                    title: "Error: Fetching Download Links",
+                                    message: "Something went terribly wrong while fetching the download links. Please " +
+                                    "try again.",
+                                    iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
+                                });
+                            });
+                    }
+
                 } else {
                     sendResponse({
                         result: "fail"

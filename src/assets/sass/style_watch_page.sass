@@ -1,5 +1,56 @@
 @import "animations"
 
+#medl_popup
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 100
+    height: 100%
+    width: 100%
+    background-color: rgb(0,0,0)
+    background-color: rgba(0,0,0,0.7)
+    button
+        padding: 5px
+        box-shadow: 0 2px 5px rgba(0,0,0,.4)
+        transition: all .1s ease-in-out 0s
+        color: #B4B4B4
+        background-color: #51286A
+        border: 0
+        border-radius: 5px
+
+        &:hover
+            color: #dadada
+            background-color: #6d368f
+            border-color: #6d368f
+
+    .medl_container
+        font-size: 12px
+
+        width: 60%
+        max-width: 800px
+        min-width: 100px
+
+        margin: 15% auto
+        box-sizing: border-box
+
+        position: relative
+        background-color: #16151c
+        color: #9a9a9a
+        padding: 10px
+
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+        textarea
+            width: 100%
+            max-width: 100%
+            min-width: 100%
+
+            height: 200px
+            max-height: 200px
+            min-height: 200px
+
+            resize: none
+            background: lighten(#16151c, 5%)
+
 #download_all_options
     position: fixed
     left: 0
@@ -86,7 +137,7 @@
                 background: #16151c
             #dla_start_download
                 float: right
-                @media screen and (max-width: 550px)
+                @media screen and (max-width: 900px)
                     float: none
 
 .player_utilities

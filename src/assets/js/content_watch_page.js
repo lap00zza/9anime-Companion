@@ -130,6 +130,83 @@ import * as animeUtils from "./animeUtils";
             $("#_mal_ops_status_").empty();
         });
     });
+    /******************************************************************************************************************/
+    // Runtime Listeners
+    //noinspection JSCheckFunctionSignatures
+    chrome.runtime.onMessage.addListener(function (request) {
+        switch (request.intent) {
+            case "mal_external_dl_links":
+
+                // Validation
+                if (request.links && request.links instanceof Array) {
+                    // Generate the Modal
+                    // medl = mal external download links
+                    $("body").append(
+                        `<div id="medl_popup" style="display: none;">
+                        <div class="medl_container">
+                            <div class="medl_header">
+                                Click on <em>Copy to clipboard</em> to start downloading. Make sure to read
+                                the wiki on how to set up external downloaders.
+                            </div>
+                            <div class="medl_links">
+                                <textarea readonly id="medl_links_text">${request.links.join("\n")}</textarea>
+                            </div>
+                            <div class="medl_footer">
+                                <button type="button" id="medl_copy">Copy to clipboard</button>
+                                <button type="button" id="medl_close">Close</button>
+                            </div>
+                        </div>
+                    </div>`
+                    );
+
+                    var medl_popup = $("#medl_popup");
+                    $(medl_popup).css({display: "block"});
+
+                    // --- Animation ---
+                    $(medl_popup).find(".medl_container").addClass("fadeInFromTop");
+                    setTimeout(function () {
+                        $("#medl_popup").find(".medl_container").removeClass("fadeInFromTop");
+                    }, 500);
+                    // --- End Animation ---
+
+
+                    // Copy Functionality
+                    $("#medl_copy").on("click", function () {
+                        try {
+                            $("#medl_links_text").select();
+                            document.execCommand("copy");
+                        } catch (e) {
+                            console.warn("Error in medl_copy: ", e);
+                        }
+                    });
+
+                    // Close popup when we click outside container
+                    $(medl_popup).on("click", function (e) {
+                        if (e.target === medl_popup[0]) {
+                            // --- Animation ---
+                            $(medl_popup).find(".medl_container").addClass("fadeOutToTop");
+                            setTimeout(function () {
+                                $(medl_popup).css({display: "none"});
+                                $(medl_popup).find(".medl_container").removeClass("fadeOutToTop");
+                            }, 500);
+                            // --- End Animation ---
+                        }
+                    });
+
+                    // Close the popup when user clicks close
+                    $("#medl_close").on("click", function () {
+                        // --- Animation ---
+                        $(medl_popup).find(".medl_container").addClass("fadeOutToTop");
+                        setTimeout(function () {
+                            $(medl_popup).css({display: "none"});
+                            $(medl_popup).find(".medl_container").removeClass("fadeOutToTop");
+                        }, 500);
+                        // --- End Animation ---
+                    });
+                }
+                break;
+        }
+    });
 
     /******************************************************************************************************************/
     // Load Settings.
@@ -348,6 +425,13 @@ import * as animeUtils from "./animeUtils";
                                                 <option value="1080p">1080p</option>
                                             </select>
                                         </div>
+                                        <div class="footer_item">
+                                            <span>Downloader</span>
+                                            <select id="dla_method_select">
+                                                <option value="browser">Default</option>
+                                                <option value="external">External</option>
+                                            </select>
+                                        </div>
                                         <a class="footer_item" id="dla_start_download">Download</a>
                                     </div>
                                 </div>
@@ -360,6 +444,7 @@ import * as animeUtils from "./animeUtils";
                         $("#dla_start_download").on("click", function () {
                             var selected = [];
                             var quality = $("#dla_quality_select").val();
+                            var method = $("#dla_method_select").val();
 
                             $("#download_all_options")
                                 .find(".content input[type='checkbox']:checked")
@@ -389,6 +474,7 @@ import * as animeUtils from "./animeUtils";
                                     episodes: selected,
                                     animeName: animeName,
                                     quality: quality,
+                                    method: method,
 
                                     // document.location.origin should work in firefox
                                     baseUrl: document.location.origin
@@ -401,6 +487,9 @@ import * as animeUtils from "./animeUtils";
                                     $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
                                 }, 500);
                                 // --- End Animation ---
+
+                                // Remove stale external dl popup if exists
+                                $("#medl_popup").remove();
                             }
                         });
 
