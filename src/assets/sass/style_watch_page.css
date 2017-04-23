@@ -131,8 +131,19 @@
       #download_all_options .dla_container .content::-webkit-scrollbar-thumb {
         background-color: #5e5e5e; }
     #download_all_options .dla_container .footer {
+      position: relative;
       font-size: 14px;
       padding: 5px; }
+      #download_all_options .dla_container .footer #dla_footer_progress {
+        background: #16151c;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0; }
+        #download_all_options .dla_container .footer #dla_footer_progress img {
+          height: 20px; }
       #download_all_options .dla_container .footer .footer_item {
         display: inline-block;
         padding: 5px; }

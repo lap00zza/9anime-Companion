@@ -287,7 +287,14 @@ chrome.runtime.onMessage.addListener(
                         // This is not a promise. Its a one off request.
                         downloadAll.downloadFiles(
                             request.episodes, request.animeName, request.quality, request.baseUrl, "browser"
-                        );
+                        ).then(function () {
+                            chrome.tabs.sendMessage(
+                                sender.tab.id,
+                                {
+                                    intent: "9ac-dla-mal_dl_over",
+                                    result: "All downloads are over"
+                                });
+                        });
 
                         chrome.notifications.create({
                             type: "basic",
@@ -301,7 +308,7 @@ chrome.runtime.onMessage.addListener(
                         chrome.notifications.create({
                             type: "basic",
                             title: "Fetching Download Links",
-                            message: `ETA: ${request.episodes.length * 2} sec`,
+                            message: `ETA: ${request.episodes.length * 4} sec`,
                             iconUrl: chrome.extension.getURL("assets/images/notification_icon.png")
                         });
 
@@ -313,7 +320,7 @@ chrome.runtime.onMessage.addListener(
                                 chrome.tabs.sendMessage(
                                     sender.tab.id,
                                     {
-                                        intent: "mal_external_dl_links",
+                                        intent: "9ac-dla-mal_external_dl_links",
                                         links: fileLinks
                                     });
                             })
