@@ -37,6 +37,49 @@
   animation-duration: 0.5s;
   animation-fill-mode: forwards; }
 
+#medl_popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.7); }
+  #medl_popup button {
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    transition: all 0.1s ease-in-out 0s;
+    color: #B4B4B4;
+    background-color: #51286A;
+    border: 0;
+    border-radius: 5px; }
+    #medl_popup button:hover {
+      color: #dadada;
+      background-color: #6d368f;
+      border-color: #6d368f; }
+  #medl_popup .medl_container {
+    font-size: 12px;
+    width: 60%;
+    max-width: 800px;
+    min-width: 100px;
+    margin: 15% auto;
+    box-sizing: border-box;
+    position: relative;
+    background-color: #16151c;
+    color: #9a9a9a;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+    #medl_popup .medl_container textarea {
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+      height: 200px;
+      max-height: 200px;
+      min-height: 200px;
+      resize: none;
+      background: #21202b; }
+
 #download_all_options {
   position: fixed;
   left: 0;
@@ -88,8 +131,19 @@
       #download_all_options .dla_container .content::-webkit-scrollbar-thumb {
         background-color: #5e5e5e; }
     #download_all_options .dla_container .footer {
+      position: relative;
       font-size: 14px;
       padding: 5px; }
+      #download_all_options .dla_container .footer #dla_footer_progress {
+        background: #16151c;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0; }
+        #download_all_options .dla_container .footer #dla_footer_progress img {
+          height: 20px; }
       #download_all_options .dla_container .footer .footer_item {
         display: inline-block;
         padding: 5px; }
@@ -99,7 +153,7 @@
         background: #16151c; }
       #download_all_options .dla_container .footer #dla_start_download {
         float: right; }
-        @media screen and (max-width: 550px) {
+        @media screen and (max-width: 900px) {
           #download_all_options .dla_container .footer #dla_start_download {
             float: none; } }
 

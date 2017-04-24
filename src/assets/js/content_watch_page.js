@@ -70,6 +70,61 @@ import * as animeUtils from "./animeUtils";
         downloadIcon = chrome.extension.getURL("assets/images/download.png");
 
     /******************************************************************************************************************/
+    // Custom Objects
+    // --------------
+    /**
+     * Attaches common modal behaviours. All modals using this are expected to have
+     *  - class => identifier_container
+     *  - class => identifier_close
+     *  where, identifier represents the modal identifier
+     *
+     * @param {jQuery} modal - The jQuery selector of the modal
+     * @param {String} identifier - The preface id for this modal
+     * @private
+     */
+    function _9ac_modal(modal, identifier){
+        // capture this scope
+        var that = this;
+
+        that.entry = function () {
+            $(modal).css({display: "block"});
+            $(modal).find(`.${identifier}_container`).addClass("fadeInFromTop");
+            setTimeout(function () {
+                $(modal).find(`.${identifier}_container`).removeClass("fadeInFromTop");
+            }, 500);
+        };
+
+
+        that.exit = function () {
+            $(modal).find(`.${identifier}_container`).addClass("fadeOutToTop");
+            setTimeout(function () {
+                $(modal).css({display: "none"});
+                $(modal).find(`.${identifier}_container`).removeClass("fadeOutToTop");
+            }, 500);
+        };
+
+        that.shake = function () {
+            $(modal).find(`.${identifier}_container`).addClass("shake");
+            setTimeout(function () {
+                $(modal).find(`.${identifier}_container`).removeClass("shake");
+            }, 820);
+        };
+
+        // Modal Behaviour
+        // Close modal when user clicks outside the container
+        $(modal).on("click", function (e) {
+            if (e.target === modal[0]) {
+                that.exit();
+            }
+        });
+
+        // Close the modal when user clicks close
+        $(modal).find(`.${identifier}_close`).on("click", function () {
+            that.exit();
+        });
+    }
+
+    /******************************************************************************************************************/
     // Event Listeners
     // ---------------
     // A few components in 9anime Companion emits customs events.
@@ -129,6 +184,59 @@ import * as animeUtils from "./animeUtils";
 
             $("#_mal_ops_status_").empty();
         });
+    });
+    /******************************************************************************************************************/
+    // Runtime Listeners
+    //noinspection JSCheckFunctionSignatures
+    chrome.runtime.onMessage.addListener(function (request) {
+        var dla_footer_progress = $("#dla_footer_progress");
+
+        switch (request.intent) {
+            case "9ac-dla-mal_dl_over":
+                $(dla_footer_progress).hide();
+                break;
+
+            case "9ac-dla-mal_external_dl_links":
+                // Validation
+                if (request.links && request.links instanceof Array) {
+                    // Generate the Modal
+                    // medl = mal external download links
+                    $("body").append(
+                        `<div id="medl_popup" style="display: none;">
+                        <div class="medl_container">
+                            <div class="medl_header">
+                                Make sure to <a href="https://github.com/lap00zza/9anime-Companion/wiki" 
+                                target="_blank">read the wiki</a> on how to set up external downloaders.
+                            </div>
+                            <div class="medl_links">
+                                <textarea readonly id="medl_links_text">${request.links.join("\n")}</textarea>
+                            </div>
+                            <div class="medl_footer">
+                                <button type="button" id="medl_copy">Copy to clipboard</button>
+                                <button type="button" class="medl_close">Close</button>
+                            </div>
+                        </div>
+                    </div>`
+                    );
+
+                    var medl_modal = new _9ac_modal($("#medl_popup"), "medl");
+                    medl_modal.entry();
+
+                    // Hide the download in progress footer
+                    $(dla_footer_progress).hide();
+
+                    // Copy Functionality
+                    $("#medl_copy").on("click", function () {
+                        try {
+                            $("#medl_links_text").select();
+                            document.execCommand("copy");
+                        } catch (e) {
+                            console.warn("Error in medl_copy: ", e);
+                        }
+                    });
+                }
+                break;
+        }
     });
 
     /******************************************************************************************************************/
@@ -333,11 +441,15 @@ import * as animeUtils from "./animeUtils";
                         $("body").append(
                             `<div id="download_all_options" style="display: none">
                                 <div class="dla_container">
-                                    <div class="title">Select Episodes<span aria-hidden="true">&times;</span></div>
+                                    <div class="title">Select Episodes<span aria-hidden="true" class="dla_close">&times;</span></div>
                                     <div class="content">
                                         
                                     </div>
                                     <div class="footer"> 
+                                        <div id="dla_footer_progress" style="display: none">
+                                            <img src="${loader}">
+                                            Please wait
+                                        </div>
                                         <a class="footer_item" id="dla_select_all_episodes">Toggle Select All</a>
                                         <div class="footer_item">
                                             <span>Quality</span>
@@ -348,6 +460,13 @@ import * as animeUtils from "./animeUtils";
                                                 <option value="1080p">1080p</option>
                                             </select>
                                         </div>
+                                        <div class="footer_item">
+                                            <span>Downloader</span>
+                                            <select id="dla_method_select">
+                                                <option value="browser">Default</option>
+                                                <option value="external">External</option>
+                                            </select>
+                                        </div>
                                         <a class="footer_item" id="dla_start_download">Download</a>
                                     </div>
                                 </div>
@@ -356,10 +475,22 @@ import * as animeUtils from "./animeUtils";
 
                         var download_all_options = $("#download_all_options");
 
+                        // Initialize our modal
+                        var dla_modal = new _9ac_modal(download_all_options, "dla");
+
                         $(download_all_options).find(".content").append(epCheckBoxes);
+
+                        // Click listener for download all utility
+                        $("#download_all_utility").on("click", function () {
+                            dla_modal.entry();
+                        });
+
+                        /**********************************************************************************************/
+                        // Click listener to start download
                         $("#dla_start_download").on("click", function () {
                             var selected = [];
                             var quality = $("#dla_quality_select").val();
+                            var method = $("#dla_method_select").val();
 
                             $("#download_all_options")
                                 .find(".content input[type='checkbox']:checked")
@@ -375,13 +506,7 @@ import * as animeUtils from "./animeUtils";
                             // Coz', what's the use of starting downloads with
                             // no episodes.
                             if (selected.length === 0) {
-
-                                // --- Animation ---
-                                $(download_all_options).find(".dla_container").addClass("shake");
-                                setTimeout(function () {
-                                    $(download_all_options).find(".dla_container").removeClass("shake");
-                                }, 820);
-                                // --- End Animation ---
+                                dla_modal.shake();
 
                             } else {
                                 chrome.runtime.sendMessage({
@@ -389,34 +514,21 @@ import * as animeUtils from "./animeUtils";
                                     episodes: selected,
                                     animeName: animeName,
                                     quality: quality,
+                                    method: method,
 
                                     // document.location.origin should work in firefox
                                     baseUrl: document.location.origin
                                 });
 
-                                // --- Animation ---
-                                $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
-                                setTimeout(function () {
-                                    $(download_all_options).css({display: "none"});
-                                    $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
-                                }, 500);
-                                // --- End Animation ---
+                                // Show the download in progress footer
+                                $("#dla_footer_progress").show();
+                                
+                                // Remove stale external dl popup if exists
+                                $("#medl_popup").remove();
                             }
                         });
 
-                        // Click listener for download all utility
-                        $("#download_all_utility").on("click", function () {
-                            $(download_all_options).css({display: "block"});
-
-                            // --- Animation ---
-                            $(download_all_options).find(".dla_container").addClass("fadeInFromTop");
-                            setTimeout(function () {
-                                $(download_all_options).find(".dla_container").removeClass("fadeInFromTop");
-                            }, 500);
-                            // --- End Animation ---
-
-                        });
-
+                        /**********************************************************************************************/
                         // This handles the toggle select all episodes. Coz'
                         // only select all with no deselect all is PTSD inducing.
                         var dla_sel_state = false;
@@ -431,36 +543,6 @@ import * as animeUtils from "./animeUtils";
                                     .prop("checked", true);
                             }
                             dla_sel_state = !dla_sel_state;
-                        });
-
-                        // Hide the popup when there is a click event
-                        // outside the popup.
-                        $(download_all_options).on("click", function (e) {
-                            if (e.target === download_all_options[0]) {
-
-                                // --- Animation ---
-                                $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
-                                setTimeout(function () {
-                                    $(download_all_options).css({display: "none"});
-                                    $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
-                                }, 500);
-                                // --- End Animation ---
-
-                            }
-                        });
-
-                        // Hide the popup when the X (on the top right corner)
-                        // is clicked
-                        $(download_all_options).find(".dla_container .title span").on("click", function () {
-
-                            // --- Animation ---
-                            $(download_all_options).find(".dla_container").addClass("fadeOutToTop");
-                            setTimeout(function () {
-                                $(download_all_options).css({display: "none"});
-                                $(download_all_options).find(".dla_container").removeClass("fadeOutToTop");
-                            }, 500);
-                            // --- End Animation ---
-
                         });
                     });
             }
