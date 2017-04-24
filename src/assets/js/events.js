@@ -391,8 +391,9 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
         // Open the options page, which should then show
         // the updated notification modal.
-        chrome.tabs.create({
-            "url": chrome.extension.getURL("options.html")
-        });
+        // TODO: uncomment this before release
+        // chrome.tabs.create({
+        //     "url": chrome.extension.getURL("options.html")
+        // });
     }
 });

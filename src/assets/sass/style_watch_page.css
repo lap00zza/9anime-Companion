@@ -210,11 +210,11 @@
   padding-top: 5px;
   font-size: 14px;
   position: relative; }
-  .mal_integration #_mal_ops_status_ {
+  .mal_integration ._mal_ops_status_ {
     position: absolute;
     bottom: 0;
     right: 0; }
-  .mal_integration #recommended {
+  .mal_integration .recommended {
     border: 0;
     background: #08080b;
     font-size: 15px;
@@ -246,12 +246,12 @@
         .mal_integration .mal_update_shell .mal_episodes .episode_select select {
           border: 0;
           background: #08080b; }
-  .mal_integration .mal_shell_btn {
+  .mal_integration button {
     background: #13131a;
     border: 0; }
-    .mal_integration .mal_shell_btn:hover {
+    .mal_integration button:hover {
       background: #1d1d29; }
-    .mal_integration .mal_shell_btn:active {
+    .mal_integration button:active {
       background: #08080b; }
 
 /*# sourceMappingURL=style_watch_page.css.map */
