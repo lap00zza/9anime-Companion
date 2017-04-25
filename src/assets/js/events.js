@@ -314,7 +314,7 @@ chrome.runtime.onMessage.addListener(
 
                         downloadAll
                             .downloadFiles(
-                                request.episodes, request.animeName, request.quality, request.baseUrl, "external", 2000
+                                request.episodes, request.animeName, request.quality, request.baseUrl, "external", 1000
                             )
                             .then(function (fileLinks) {
                                 chrome.tabs.sendMessage(
