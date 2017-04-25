@@ -68,7 +68,6 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
         $
             .ajax(requestDetails)
             .then(function (data) {
-                // console.log(response);
                 resolve(data);
             })
             .catch(function (response) {
@@ -104,7 +103,6 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
         $
             .ajax(requestDetails)
             .then(function (data) {
-                // console.log(data);
                 // The data key contains the files arrays
                 resolve(data["data"]);
             })
@@ -137,7 +135,6 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
             // This function houses the entire download process.
             function processDl() {
                 if (episodes.length === 0) {
-                    // console.log("No more items left to download!");
                     if (method === "browser") {
                         resolve("All downloads are over");
                         return true;
@@ -145,30 +142,23 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                         resolve(episodeLinks);
                         return true;
                     }
-
                 }
 
                 var currentEp = episodes.shift();
-                var ep_id = currentEp["id"];
-                var ep_number = currentEp["number"];
+                var epId = currentEp["id"];
+                var epNumber = currentEp["number"];
 
-                /******************************************/
                 // First we get the file grabber info
-                getGrabberInfo(ep_id, baseUrl)
+                getGrabberInfo(epId, baseUrl)
                     .then(function (data) {
-
-                        // console.log(data);
                         var grabberUrl = data["grabber"];
                         var episodeId = data["params"]["id"];
                         var episodeToken = data["params"]["token"];
                         var episodeOptions = data["params"]["options"];
 
-                        /******************************************/
                         // The we get the files
                         getFiles(grabberUrl, episodeId, episodeToken, episodeOptions)
                             .then(function (data) {
-                                // console.log(data);
-
                                 // And then we start the actual download
                                 data.forEach(function (file) {
                                     var fileQuality = file["label"];
@@ -183,18 +173,15 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                                                 // Remember: Files are stored in the 9anime Companion sub-folder
                                                 // within your main downloads folder.
                                                 filename: `9anime Companion/${generateFileSafeString(name)}` +
-                                                ` - E${ep_number} (${quality}).${fileType}`,
+                                                ` - E${epNumber} (${quality}).${fileType}`,
                                                 conflictAction: "uniquify"
 
-                                            }
-                                            // , function (downloadId) {
-                                            //     console.log(downloadId);
-                                            // }
-                                            );
+                                            });
+
                                         } else {
                                             // We want to make sure that title is properly encoded for the URL
                                             var downloadTitle = encodeURIComponent(
-                                                `${generateFileSafeString(name)}` + ` - E${ep_number} (${quality})`
+                                                `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
                                             );
                                             var downloadUrl = fileUrl + "&title=" + downloadTitle;
                                             episodeLinks.push(downloadUrl);
@@ -211,21 +198,19 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                                 console.error(response);
                                 reject(response);
                             });
-                        /******************************************/
 
                     })
                     .catch(function (response) {
                         console.error(response);
                         reject(response);
                     });
-                /******************************************/
             }
 
             // start the download process
             processDl();
 
         } else {
-            throw new Error("Download Error: episodes should be an array");
+            reject("episodes should be an array");
         }
     });
 
