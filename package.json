@@ -19,6 +19,7 @@
     "del": "^2.2.2",
     "eslint": "^3.19.0",
     "gulp": "latest",
+    "gulp-sass": "^3.1.0",
     "gulp-util": "latest",
     "gulp-zip": "^4.0.0",
     "jasmine-ajax": "^3.3.1",
