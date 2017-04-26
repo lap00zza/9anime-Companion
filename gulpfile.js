@@ -22,14 +22,15 @@
  *  SOFTWARE.
  */
 
+var del = require("del");
+var path = require("path");
 var gulp = require("gulp");
 var zip = require("gulp-zip");
-var del = require("del");
-var Server = require("karma").Server;
+var sass = require('gulp-sass');
 var gutil = require("gulp-util");
 var webpack = require("webpack");
+var Server = require("karma").Server;
 var runSequence = require("run-sequence");
-var path = require("path");
 var childProcess = require("child_process");
 
 /**********************************************************************************************************************/
@@ -143,7 +144,7 @@ gulp.task("linter", function (done) {
         // if its not a clean exit we call the done
         // callback with the error code.
         if (exitCode !== 0) {
-            done(exitCode); 
+            done(exitCode);
             return;
         }
         // If no error, we move on with our lives.
@@ -151,8 +152,15 @@ gulp.task("linter", function (done) {
     });
 });
 
+// Compile sass to regular css
+gulp.task("sass", function () {
+    return gulp.src("src/assets/sass/*.sass")
+        .pipe(sass())
+        .pipe(gulp.dest("src/assets/css"));
+});
+
 // This default task is added so that we can easily
 // test our entire process using travis.
 gulp.task("default", function () {
-    runSequence("linter", "test", "make_chrome", "make_firefox", "zip_chrome", "zip_firefox");
+    runSequence("sass", "linter", "test", "make_chrome", "make_firefox", "zip_chrome", "zip_firefox");
 });
