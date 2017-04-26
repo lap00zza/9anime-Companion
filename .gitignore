@@ -1,3 +1,6 @@
+# ignore .gitignore
+.gitignore
+
 # ignore JetBrains IDE files
 .idea/
 
