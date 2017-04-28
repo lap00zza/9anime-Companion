@@ -7,18 +7,20 @@ import * as downloadAll from "../../src/assets/js/download_all";
 
 // TODO Maybe add tests for downloadFiles method too?
 describe("Tests for download_all", function () {
+    var grabberUrl = "https://example.com/grabber-api";
+
     // ***
     describe("generateFileSafeString", function () {
         it("should return nar__to when input string is nar::to", function () {
             var result = downloadAll.generateFileSafeString("nar::to");
             expect(result).toBe("nar__to");
         });
-        
+
         it("should return nar__to when input string is nar\\\/to", function () {
             var result = downloadAll.generateFileSafeString("nar\\\/to");
             expect(result).toBe("nar__to");
         });
-        
+
         it(`should return nar__to when input string is nar<>?*|"to`, function () {
             var result = downloadAll.generateFileSafeString(`nar<>?*|"to`);
             expect(result).toBe("nar______to");
@@ -28,126 +30,111 @@ describe("Tests for download_all", function () {
     // ***
     describe("getGrabberInfo", function () {
         var request;
-        var onSuccess, onFailure;
 
         beforeEach(function () {
             jasmine.Ajax.install();
-            onSuccess = jasmine.createSpy("onSuccess");
-            onFailure = jasmine.createSpy("onFailure");
-
-            downloadAll
-                .getGrabberInfo("1")
-                .then(function () {
-                    onSuccess("success");
-                })
-                .catch(function () {
-                    onFailure("fail");
-                });
-            request = jasmine.Ajax.requests.mostRecent();
-            expect(request.url).toBe("https://9anime.to/ajax/episode/info?id=1&update=0");
         });
 
         afterEach(function () {
             jasmine.Ajax.uninstall();
         });
 
-        describe("on success", function () {
-            beforeEach(function () {
-                request.respondWith({
-                    status: 200
+        /**************************************************************************************************************/
+        it("should resolve when request succeeds", function (done) {
+            downloadAll
+                .getGrabberInfo("1")
+                .then(function (data) {
+                    expect(data.grabber).toBeDefined();
+                    expect(data.params.id).toBeDefined();
+                    expect(data.params.token).toBeDefined();
+                    expect(data.params.options).toBeDefined();
+                    done();
                 });
+
+            request = jasmine.Ajax.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                responseText: JSON.stringify({
+                    grabber: grabberUrl,
+                    params: {
+                        id: "1",
+                        token: "2",
+                        options: "3"
+                    }
+                })
             });
 
-            it("should resolve with data when the request succeeds", function () {
-                setTimeout(function () {
-                    // console.log(onSuccess.calls);
-                    expect(onSuccess).toHaveBeenCalled();
-                    // var successArgs = onSuccess.calls.mostRecent().args;
-                    // console.log(successArgs);
-                }, 1000);
-            });
-
+            expect(request.url).toBe("https://9anime.to/ajax/episode/info?id=1&update=0");
         });
 
-        describe("on failure", function () {
-            beforeEach(function () {
-                request.respondWith({
-                    status: 404
+        /**************************************************************************************************************/
+        it("should reject when the request fails", function (done) {
+            downloadAll
+                .getGrabberInfo("1")
+                .catch(function (response) {
+                    expect(response.status).toBe(404);
+                    done();
                 });
+
+            request = jasmine.Ajax.requests.mostRecent();
+            request.respondWith({
+                status: 404
             });
 
-            it("should reject with response when the request fails", function () {
-                setTimeout(function () {
-                    // console.log(onFailure.calls);
-                    expect(onFailure).toHaveBeenCalled();
-                    // var failureArgs = onFailure.calls.mostRecent().args;
-                    // console.log(failureArgs);
-                }, 1000);
-            });
-
+            expect(request.url).toBe("https://9anime.to/ajax/episode/info?id=1&update=0");
         });
+
     });
 
     // ***
     describe("getFiles", function () {
         var request;
-        var onSuccess, onFailure;
 
         beforeEach(function () {
             jasmine.Ajax.install();
-            onSuccess = jasmine.createSpy("onSuccess");
-            onFailure = jasmine.createSpy("onFailure");
-
-            downloadAll
-                .getFiles("https://abc.xyz/", "1", "123", "xyz")
-                .then(function () {
-                    onSuccess();
-                })
-                .catch(function () {
-                    onFailure();
-                });
-            request = jasmine.Ajax.requests.mostRecent();
-            expect(request.url).toBe("https://abc.xyz/?id=1&token=123&options=xyz&mobile=0");
         });
 
         afterEach(function () {
             jasmine.Ajax.uninstall();
         });
 
-        describe("on success", function () {
-            beforeEach(function () {
-                request.respondWith({
-                    status: 200
+        /**************************************************************************************************************/
+        it("should resolve when request succeeds", function (done) {
+            downloadAll
+                .getFiles(grabberUrl, "1", "2", "3")
+                .then(function (data) {
+                    expect(data).toEqual(jasmine.any(Array));
+                    done();
                 });
+
+            request = jasmine.Ajax.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                responseText: JSON.stringify({
+                    data: [],
+                    error: "...",
+                    token: "..."
+                })
             });
 
-            it("should resolve with data when the request succeeds", function () {
-                setTimeout(function () {
-                    // console.log(onSuccess.calls);
-                    expect(onSuccess).toHaveBeenCalled();
-                    // var successArgs = onSuccess.calls.mostRecent().args;
-                    // console.log(successArgs);
-                }, 1000);
-            });
-
+            expect(request.url).toBe(grabberUrl + "?id=1&token=2&options=3&mobile=0");
         });
 
-        describe("on failure", function () {
-            beforeEach(function () {
-                request.respondWith({
-                    status: 404
+        /**************************************************************************************************************/
+        it("should reject when the request fails", function (done) {
+            downloadAll
+                .getFiles(grabberUrl, "1", "2", "3")
+                .catch(function (response) {
+                    expect(response.status).toBe(404);
+                    done();
                 });
+
+            request = jasmine.Ajax.requests.mostRecent();
+            request.respondWith({
+                status: 404
             });
 
-            it("should reject with response when the request fails", function () {
-                setTimeout(function () {
-                    // console.log(onFailure.calls);
-                    expect(onFailure).toHaveBeenCalled();
-                    // var failureArgs = onFailure.calls.mostRecent().args;
-                    // console.log(failureArgs);
-                }, 1000);
-            });
-
+            expect(request.url).toBe(grabberUrl + "?id=1&token=2&options=3&mobile=0");
         });
     });
 });

@@ -127,6 +127,7 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
  */
 function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to", method = "browser", requestInterval = 5000) {
     // TODO: add a quality fallback
+    // TODO: what happens when the api returns different keys?
 
     return new Promise(function (resolve, reject) {
         if (episodes instanceof Array) {
