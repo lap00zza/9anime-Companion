@@ -1,10 +1,7 @@
-# ignore .gitignore
-.gitignore
-
 # ignore JetBrains IDE files
 .idea/
 
-# ignore npm dependencies
+# Dependency directories
 node_modules/
 
 # ignore 9animeCompanion dist directory
@@ -12,8 +9,6 @@ dist/chromium/
 dist/firefox/
 dist/9anime_Companion_chrome.zip
 dist/9anime_Companion_firefox.zip
-archive
-changelog.txt
 
 # ignore macOS related files
 *.DS_Store
