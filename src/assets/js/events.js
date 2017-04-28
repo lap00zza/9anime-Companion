@@ -314,7 +314,7 @@ chrome.runtime.onMessage.addListener(
 
                         downloadAll
                             .downloadFiles(
-                                request.episodes, request.animeName, request.quality, request.baseUrl, "external", 2000
+                                request.episodes, request.animeName, request.quality, request.baseUrl, "external", 1000
                             )
                             .then(function (fileLinks) {
                                 chrome.tabs.sendMessage(
@@ -391,8 +391,9 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
         // Open the options page, which should then show
         // the updated notification modal.
-        chrome.tabs.create({
-            "url": chrome.extension.getURL("options.html")
-        });
+        // TODO: uncomment this before release
+        // chrome.tabs.create({
+        //     "url": chrome.extension.getURL("options.html")
+        // });
     }
 });

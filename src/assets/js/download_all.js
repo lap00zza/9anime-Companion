@@ -68,7 +68,6 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
         $
             .ajax(requestDetails)
             .then(function (data) {
-                // console.log(response);
                 resolve(data);
             })
             .catch(function (response) {
@@ -104,7 +103,6 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
         $
             .ajax(requestDetails)
             .then(function (data) {
-                // console.log(data);
                 // The data key contains the files arrays
                 resolve(data["data"]);
             })
@@ -129,33 +127,15 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
  */
 function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to", method = "browser", requestInterval = 5000) {
     // TODO: add a quality fallback
-
-    // var qualityEnums = {
-    //     0: "360p",
-    //     1: "480p",
-    //     2: "720p",
-    //     3: "1080p"
-    // };
+    // TODO: what happens when the api returns different keys?
 
     return new Promise(function (resolve, reject) {
         if (episodes instanceof Array) {
-            // Why exactly are we reversing the array?
-            // Well the rationale behind it is simple, if we reverse it
-            // we can start downloading the episodes in increasing order
-            // of episodes. But why? because we take the last item of the
-            // episodes array and once we are done triggering the download
-            // we pop it. "Pop"-ing is simpler then slicing but sadly only
-            // works on the last element. Cheers!
-            episodes.reverse();
-
-            // Why? because the array starts at the 0th element
-            var totalEpisodes = episodes.length - 1;
             var episodeLinks = [];
 
             // This function houses the entire download process.
             function processDl() {
                 if (episodes.length === 0) {
-                    // console.log("No more items left to download!");
                     if (method === "browser") {
                         resolve("All downloads are over");
                         return true;
@@ -163,32 +143,23 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                         resolve(episodeLinks);
                         return true;
                     }
-
                 }
 
-                // Select the last element of the array
-                var ep = episodes[totalEpisodes]["id"];
-                var ep_number = episodes[totalEpisodes]["number"];
+                var currentEp = episodes.shift();
+                var epId = currentEp["id"];
+                var epNumber = currentEp["number"];
 
-                // console.log(ep, ep_number);
-
-                /******************************************/
                 // First we get the file grabber info
-                getGrabberInfo(ep, baseUrl)
+                getGrabberInfo(epId, baseUrl)
                     .then(function (data) {
-
-                        // console.log(data);
                         var grabberUrl = data["grabber"];
                         var episodeId = data["params"]["id"];
                         var episodeToken = data["params"]["token"];
                         var episodeOptions = data["params"]["options"];
 
-                        /******************************************/
                         // The we get the files
                         getFiles(grabberUrl, episodeId, episodeToken, episodeOptions)
                             .then(function (data) {
-                                // console.log(data);
-
                                 // And then we start the actual download
                                 data.forEach(function (file) {
                                     var fileQuality = file["label"];
@@ -203,33 +174,24 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                                                 // Remember: Files are stored in the 9anime Companion sub-folder
                                                 // within your main downloads folder.
                                                 filename: `9anime Companion/${generateFileSafeString(name)}` +
-                                                ` - E${ep_number} (${quality}).${fileType}`,
+                                                ` - E${epNumber} (${quality}).${fileType}`,
                                                 conflictAction: "uniquify"
 
-                                            }
-                                            // , function (downloadId) {
-                                            //     console.log(downloadId);
-                                            // }
-                                            );
+                                            });
+
                                         } else {
                                             // We want to make sure that title is properly encoded for the URL
                                             var downloadTitle = encodeURIComponent(
-                                                `${generateFileSafeString(name)}` + ` - E${ep_number} (${quality})`
+                                                `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
                                             );
-                                            var downloadUrl = fileUrl + "&type=video/" + fileType +
-                                                "&title=" + downloadTitle;
+                                            var downloadUrl = fileUrl + "&title=" + downloadTitle;
                                             episodeLinks.push(downloadUrl);
                                         }
                                     }
                                 });
 
-                                episodes.pop();
-                                totalEpisodes--;
-
-                                // For now we are setting a 5 second timeout
-                                // because we don't know for sure what is the
-                                // exact interval after which we will be flagged
-                                // for spamming.
+                                // Restart entire process after the specified
+                                // request interval. This defaults to 5 seconds.
                                 setTimeout(processDl, requestInterval);
 
                             })
@@ -237,21 +199,19 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                                 console.error(response);
                                 reject(response);
                             });
-                        /******************************************/
 
                     })
                     .catch(function (response) {
                         console.error(response);
                         reject(response);
                     });
-                /******************************************/
             }
 
             // start the download process
             processDl();
 
         } else {
-            throw new Error("Download Error: episodes should be an array");
+            reject("episodes should be an array");
         }
     });
 
