@@ -24,7 +24,7 @@
 /*global chrome*/
 import * as animeUtils from "./animeUtils";
 import * as downloadAll from "./download_all";
-import * as mal from "./mal_wrapper";
+import * as mal from "./MyAnimeList/Services";
 
 // This module is responsible for listening to events from the
 // main interface. This module runs in the background.

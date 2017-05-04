@@ -22,7 +22,7 @@
  *  SOFTWARE.
  */
 /*global chrome*/
-import $ from "../lib/jquery-3.2.0.min";
+import $ from "../../lib/jquery-3.2.0.min";
 
 // This variable is used to resolve ID's in case more than
 // one MAL Widget is used on a page.
@@ -35,64 +35,66 @@ var mal_added_this_session = [];
 // Loader Image
 var mal_status_wait = chrome.extension.getURL("assets/images/balls.svg");
 
-$(document).on("updateMal", function (event) {
+function BindMALEvents() {
+    $(document).on("updateMal", function (event) {
 
-    try {
-        var details = JSON.parse(event.detail);
-        var refWidget = $(`#${details.referringWidgetId}`);
+        try {
+            var details = JSON.parse(event.detail);
+            var refWidget = $(`#${details.referringWidgetId}`);
 
-        $(refWidget)
-            .find("._mal_ops_status_")
-            .empty()
-            .append(`<img src="${mal_status_wait}">`);
+            $(refWidget)
+                .find("._mal_ops_status_")
+                .empty()
+                .append(`<img src="${mal_status_wait}">`);
 
-        var requestObj = {
-            intent: "updateMal",
-            animeId: details.id,
-            episode: details.episode
-        };
+            var requestObj = {
+                intent: "updateMal",
+                animeId: details.id,
+                episode: details.episode
+            };
 
-        chrome.runtime.sendMessage(requestObj, function () {
-            $(refWidget).find("._mal_ops_status_").empty();
-        });
+            chrome.runtime.sendMessage(requestObj, function () {
+                $(refWidget).find("._mal_ops_status_").empty();
+            });
 
-    } catch (e) {
-        console.error(e);
-    }
+        } catch (e) {
+            console.error(e);
+        }
 
-});
+    });
 
-$(document).on("addMal", function (event) {
+    $(document).on("addMal", function (event) {
 
-    try {
-        var details = JSON.parse(event.detail);
-        var refWidget = $(`#${details.referringWidgetId}`);
+        try {
+            var details = JSON.parse(event.detail);
+            var refWidget = $(`#${details.referringWidgetId}`);
 
-        $(refWidget)
-            .find("._mal_ops_status_")
-            .empty()
-            .append(`<img src="${mal_status_wait}">`);
+            $(refWidget)
+                .find("._mal_ops_status_")
+                .empty()
+                .append(`<img src="${mal_status_wait}">`);
 
-        var requestObj = {
-            intent: "addMal",
-            animeId: details.id
-        };
+            var requestObj = {
+                intent: "addMal",
+                animeId: details.id
+            };
 
 
-        chrome.runtime.sendMessage(requestObj, function (response) {
-            if (response.result === "success") {
-                mal_added_this_session.push(details.id);
-                $(refWidget).find(".recommended").trigger("change");
-            }
+            chrome.runtime.sendMessage(requestObj, function (response) {
+                if (response.result === "success") {
+                    mal_added_this_session.push(details.id);
+                    $(refWidget).find(".recommended").trigger("change");
+                }
 
-            $(refWidget).find("._mal_ops_status_").empty();
-        });
+                $(refWidget).find("._mal_ops_status_").empty();
+            });
 
-    } catch (e) {
-        console.error(e);
-    }
+        } catch (e) {
+            console.error(e);
+        }
 
-});
+    });
+}
 
 function MyAnimeListWidget(animeName) {
 
@@ -383,5 +385,5 @@ function MyAnimeListWidget(animeName) {
 }
 
 export {
-    MyAnimeListWidget
+    BindMALEvents, MyAnimeListWidget
 };

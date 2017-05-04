@@ -24,7 +24,7 @@
 /*global chrome*/
 import $ from "../lib/jquery-3.2.0.min";
 import * as animeUtils from "./animeUtils";
-import { MyAnimeListWidget as MALWidget } from "./myAnimeList_integration";
+import { MyAnimeListWidget as MALWidget, BindMALEvents } from "./MyAnimeList/Widget";
 
 // This script handles all the functionality in the watch page.
 (function () {
@@ -495,12 +495,13 @@ import { MyAnimeListWidget as MALWidget } from "./myAnimeList_integration";
         // user's MAL.
         if (settings["malIntegrationToggle"]) {
             if ($(player).length > 0) {
+                BindMALEvents();
+                
                 var malWidget = new MALWidget($(titleDiv).text());
                 // var malWidget2 = new MALWidget($(titleDiv).text());
 
                 $(player).parent().append(malWidget);
                 // $(player).parent().append(malWidget2);
-
             }
         }
     });
