@@ -1,3 +1,8 @@
+<h4>THIS PROJECT IS CURRENTLY NOT BEING MAINTAINED AS I AM BUSY WITH SOMETHING ELSE.</h4>
+<p>If you want to work on it, just fork it :)</p>
+
+<hr>
+
 ## 9anime Companion
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
