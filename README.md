@@ -1,5 +1,5 @@
-<h4>THIS PROJECT IS CURRENTLY NOT BEING MAINTAINED AS I AM BUSY WITH SOMETHING ELSE.</h4>
-<p>If you want to work on it, just fork it :)</p>
+<h2>This project is currently NOT BEING MAINTAINED as I am busy with something else.</h2>
+<p>So I won't respond to the issues for now. I hope to continue working on it again from July. If you want to work on it, just fork it :)</p>
 
 <hr>
 
