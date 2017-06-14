@@ -27,9 +27,6 @@
  * DAMAGE.
  */
 /*global chrome*/
-// NOTES:
-// 1. JQUERY is only used for the AJAX function. So, it is 100% possible to convert this
-//    to a pure javascript based library.
 
 import $ from "../lib/jquery-3.2.0.min";
 
@@ -67,7 +64,7 @@ function a(t, e) {
 
 function generate_token(data, initial_state = 0) {
     // console.log("INIT STATE: ", initial_state);
-    
+
     var keys = Object.keys(data);
     var _ = s(DD) + initial_state;
     for (var i = 0; i < keys.length; i++) {
