@@ -14,19 +14,22 @@
         "no-inner-declarations": [
             "warn"
         ],
-        "no-unused-vars": [
-            "error"
-        ],
         "no-console": [
             "error",
             {
-                "allow": ["warn", "error", "info"]
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
             }
         ],
         "indent": [
             "error",
             4,
-            {"SwitchCase": 1}
+            {
+                "SwitchCase": 1
+            }
         ],
         "quotes": [
             "error",
@@ -36,6 +39,14 @@
             }
         ],
         "semi": [
+            "error",
+            "always"
+        ],
+        "wrap-iife": [
+            "error",
+            "inside"
+        ],
+        "eqeqeq": [
             "error",
             "always"
         ]

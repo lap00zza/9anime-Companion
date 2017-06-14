@@ -45,6 +45,41 @@ function generateFileSafeString(filename) {
     return filename.replace(re, "_");
 }
 
+// --- Token generation scheme for 9anime ---
+const DD = "gIXCaNh";
+
+function s(t) {
+    var e, i = 0;
+    for (e = 0; e < t.length; e++) {
+        i += t.charCodeAt(e) * e + e;
+    }
+    return i;
+}
+
+function a(t, e) {
+    var i, n = 0;
+    for (i = 0; i < Math.max(t.length, e.length); i++) {
+        n += i < e.length ? e.charCodeAt(i) : 0;
+        n += i < t.length ? t.charCodeAt(i) : 0;
+    }
+    return Number(n).toString(16);
+}
+
+function generate_token(data, initial_state = 0) {
+    // console.log("INIT STATE: ", initial_state);
+    
+    var keys = Object.keys(data);
+    var _ = s(DD) + initial_state;
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var trans = a(DD + key, data[key].toString());
+        // console.log(trans);
+        _ += s(trans);
+    }
+    return _;
+}
+// --- End Token Generation
+
 /**
  * Fetch the grabber information. These are necessary to use the
  * file grabber api.
@@ -54,14 +89,18 @@ function generateFileSafeString(filename) {
  * @param baseUrl - The current base url. Example: https://9anime.tv, https://9anime.is etc.
  * @returns {Promise}
  */
-function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
+function getGrabberInfo(ts, episodeId, baseUrl = "https://9anime.to", update = 0) {
     return new Promise(function (resolve, reject) {
+        var data = {
+            ts: ts,
+            id: episodeId,
+            update: update
+        };
+        data["_"] = generate_token(data);
+
         var requestDetails = {
             url: baseUrl + "/ajax/episode/info",
-            data: {
-                id: episodeId,
-                update: update
-            },
+            data: data,
             dataType: "json",
             method: "GET"
         };
@@ -87,16 +126,38 @@ function getGrabberInfo(episodeId, baseUrl = "https://9anime.to", update = 0) {
  * @param mobile
  * @returns {Promise}
  */
-function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
+function getFiles(ts, grabberUrl, episodeId, token, options, mobile = 0) {
     return new Promise(function (resolve, reject) {
+
+        var data = {
+            ts: ts,
+            id: episodeId,
+            token: token,
+            options: options,
+            mobile: mobile
+        };
+
+        // Add any extra queries to the data and then
+        // calculate the token.
+        var re = /([^=\?&]+)(?:=([^&$]+))?/gi;
+        
+        // The first match is the grabber URL
+        // All the proceeding matches are the query params.
+        var query_params = grabberUrl.match(re);
+        
+        var init_state = s(a(DD + query_params[0], ""));
+        
+        for (var i = 1; i < query_params.length; i++) {
+            var query = query_params[i].split("=");
+            data[query[0]] = query[1];
+        }
+
+        data["_"] = generate_token(data, init_state);
+        console.log(data);
+
         var requestDetails = {
-            url: grabberUrl,
-            data: {
-                id: episodeId,
-                token: token,
-                options: options,
-                mobile: mobile
-            },
+            url: query_params[0],
+            data: data,
             dataType: "json",
             method: "GET"
         };
@@ -125,7 +186,7 @@ function getFiles(grabberUrl, episodeId, token, options, mobile = 0) {
  * @param {Number} requestInterval - The interval after which requests are sent to fetch file links.
  *                                   This value should ideally be kept between 2000 to 5000
  */
-function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9anime.to", method = "browser", requestInterval = 5000) {
+function downloadFiles(ts, episodes, name, quality = "360p", baseUrl = "https://9anime.to", method = "browser", requestInterval = 5000) {
     // TODO: add a quality fallback
     // TODO: what happens when the api returns different keys?
 
@@ -150,7 +211,7 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                 var epNumber = currentEp["number"];
 
                 // First we get the file grabber info
-                getGrabberInfo(epId, baseUrl)
+                getGrabberInfo(ts, epId, baseUrl)
                     .then(function (data) {
                         var grabberUrl = data["grabber"];
                         var episodeId = data["params"]["id"];
@@ -158,7 +219,7 @@ function downloadFiles(episodes, name, quality = "360p", baseUrl = "https://9ani
                         var episodeOptions = data["params"]["options"];
 
                         // The we get the files
-                        getFiles(grabberUrl, episodeId, episodeToken, episodeOptions)
+                        getFiles(ts, grabberUrl, episodeId, episodeToken, episodeOptions)
                             .then(function (data) {
                                 // And then we start the actual download
                                 data.forEach(function (file) {

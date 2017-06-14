@@ -9,7 +9,7 @@
 
   "applications": {
     "gecko": {
-      "id": "9anime-companion-firefox@jewelmahanta.com",
+      "id": "9anime-companion-firefox_self_signed@jewelmahanta.com",
       "strict_min_version": "50.0"
     }
   },

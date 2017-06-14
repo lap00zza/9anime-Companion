@@ -453,6 +453,7 @@ import { MyAnimeListWidget as MALWidget, BindMALEvents } from "./MyAnimeList/Wid
                                     animeName: animeName,
                                     quality: quality,
                                     method: method,
+                                    ts: $("body").data("ts"),
 
                                     // document.location.origin should work in firefox
                                     baseUrl: document.location.origin

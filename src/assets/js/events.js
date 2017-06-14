@@ -282,19 +282,21 @@ chrome.runtime.onMessage.addListener(
 
             /**********************************************************************************************************/
             case "downloadFiles":
-                if (request.episodes && request.animeName && request.quality && request.baseUrl && request.method) {
+                if (request.episodes && request.animeName && request.quality && request.baseUrl && request.method && request.ts) {
                     if (request.method === "browser") {
                         // This is not a promise. Its a one off request.
-                        downloadAll.downloadFiles(
-                            request.episodes, request.animeName, request.quality, request.baseUrl, "browser"
-                        ).then(function () {
-                            chrome.tabs.sendMessage(
-                                sender.tab.id,
-                                {
-                                    intent: "9ac-dla-mal_dl_over",
-                                    result: "All downloads are over"
-                                });
-                        });
+                        downloadAll
+                            .downloadFiles(
+                                request.ts, request.episodes, request.animeName, request.quality, request.baseUrl, "browser"
+                            )
+                            .then(function () {
+                                chrome.tabs.sendMessage(
+                                    sender.tab.id,
+                                    {
+                                        intent: "9ac-dla-mal_dl_over",
+                                        result: "All downloads are over"
+                                    });
+                            });
 
                         chrome.notifications.create({
                             type: "basic",
@@ -314,7 +316,7 @@ chrome.runtime.onMessage.addListener(
 
                         downloadAll
                             .downloadFiles(
-                                request.episodes, request.animeName, request.quality, request.baseUrl, "external", 1000
+                                request.ts, request.episodes, request.animeName, request.quality, request.baseUrl, "external", 1000
                             )
                             .then(function (fileLinks) {
                                 chrome.tabs.sendMessage(

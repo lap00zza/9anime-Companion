@@ -129,7 +129,7 @@ gulp.task("zip_firefox", ["make_firefox"], function () {
 // Run test once and exit
 gulp.task("test", function (done) {
     new Server({
-        configFile: __dirname + "/test/karma.conf.js",
+        configFile: path.resolve(__dirname, "test/karma.conf.js"),
         singleRun: true
     }, done).start();
 });
@@ -138,7 +138,14 @@ gulp.task("test", function (done) {
 gulp.task("linter", function (done) {
     var esPath = path.resolve(__dirname, "node_modules/eslint/bin/eslint.js");
     var eslintrcPath = path.resolve(__dirname, ".eslintrc.json");
-    var esProcess = childProcess.fork(esPath, ["-c", eslintrcPath, "./src/assets/js", "./test", "./platform"]);
+    var esProcess = childProcess.fork(esPath, [
+        "-c", 
+        eslintrcPath, 
+        "./src/assets/js", 
+        "./test", 
+        "./platform", 
+        "gulpfile.js"
+    ]);
 
     esProcess.on("exit", function (exitCode) {
         // if its not a clean exit we call the done
