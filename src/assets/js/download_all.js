@@ -150,7 +150,7 @@ function getFiles(ts, grabberUrl, episodeId, token, options, mobile = 0) {
         }
 
         data["_"] = generate_token(data, init_state);
-        console.log(data);
+        // console.log(data);
 
         var requestDetails = {
             url: query_params[0],
@@ -239,11 +239,11 @@ function downloadFiles(ts, episodes, name, quality = "360p", baseUrl = "https://
 
                                         } else {
                                             // We want to make sure that title is properly encoded for the URL
-                                            var downloadTitle = encodeURIComponent(
-                                                `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
-                                            );
-                                            var downloadUrl = fileUrl + "&title=" + downloadTitle;
-                                            episodeLinks.push(downloadUrl);
+                                            // var downloadTitle = encodeURIComponent(
+                                            //     `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
+                                            // );
+                                            // var downloadUrl = fileUrl + "&title=" + downloadTitle;
+                                            episodeLinks.push(fileUrl);
                                         }
                                     }
                                 });
