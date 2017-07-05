@@ -1,0 +1,14 @@
+# ignore JetBrains IDE files
+.idea/
+
+# Dependency directories
+node_modules/
+
+# ignore 9animeCompanion dist directory
+dist/
+
+# ignore macOS related files
+*.DS_Store
+
+# ignore css directory
+src/assets/css
