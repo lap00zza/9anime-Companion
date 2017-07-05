@@ -1,0 +1,58 @@
+{
+  "manifest_version": 2,
+  "name": "9anime Companion",
+  "version": "1.0.0",
+
+  "author": "Jewel Mahanta",
+  "homepage_url": "https://github.com/lap00zza/9anime-Companion",
+  "description": "A simple companion extension for 9anime",
+
+  "applications": {
+    "gecko": {
+      "id": "9anime-companion-firefox_self_signed@jewelmahanta.com",
+      "strict_min_version": "50.0"
+    }
+  },
+
+  "icons": {
+    "16": "assets/images/icon16.png",
+    "48": "assets/images/icon48.png",
+    "96": "assets/images/icon96.png",
+    "128": "assets/images/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
+      "js": ["assets/js/content_watch_page.bundle.js"],
+      "css": ["assets/css/style_watch_page.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
+      "js": ["assets/js/content_global.bundle.js"],
+      "css": ["assets/css/style_global.css"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "assets/images/icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications",
+    "downloads",
+    "https://myanimelist.net/api/*",
+    "*://9anime.to/*",
+    "*://9anime.is/*",
+    "*://9anime.tv/*"
+  ],
+
+  "web_accessible_resources": [
+    "assets/images/*"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "files": [
+    "src/cs_watch_page.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true
+  }
+}

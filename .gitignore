@@ -12,3 +12,6 @@ dist/
 
 # ignore css directory
 src/assets/css
+
+# Ignore the build directory
+src/build

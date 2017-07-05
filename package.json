@@ -1,0 +1,29 @@
+{
+  "name": "9anime-Companion",
+  "version": "1.0.0",
+  "description": "A simple companion extension for 9anime",
+  "author": "Jewel Mahanta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lap00zza/9anime-Companion/issues",
+    "email": "jewelmahanta@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lap00zza/9anime-Companion"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.8",
+    "run-sequence": "^2.0.0",
+    "ts-lint": "^4.5.1",
+    "ts-loader": "^2.2.2",
+    "typescript": "^2.4.1",
+    "webpack": "^3.0.0"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.2.6",
+    "jquery": "^3.2.1"
+  }
+}

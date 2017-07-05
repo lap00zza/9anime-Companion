@@ -1,0 +1,47 @@
+{
+  "manifest_version": 2,
+  "name": "9anime Companion",
+  "version": "1.0.0",
+  "version_name": "1.0.0",
+
+  "author": "Jewel Mahanta",
+  "homepage_url": "https://github.com/lap00zza/9anime-Companion",
+  "description": "A simple companion extension for 9anime",
+
+  "icons": {
+    "16": "assets/images/icon16.png",
+    "48": "assets/images/icon48.png",
+    "96": "assets/images/icon96.png",
+    "128": "assets/images/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
+      "js": ["build/cs_watch_page.bundle.js"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "assets/images/icon.png"
+  },
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications",
+    "downloads",
+    "*://9anime.to/*",
+    "*://9anime.is/*",
+    "*://9anime.tv/*"
+  ],
+
+  "optional_permissions": [
+    "https://myanimelist.net/api/*"
+  ],
+
+  "web_accessible_resources": [
+    "assets/images/*"
+  ]
+}
