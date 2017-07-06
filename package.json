@@ -23,6 +23,7 @@
     "webpack": "^3.0.0"
   },
   "dependencies": {
+    "@types/chrome": "0.0.47",
     "@types/jquery": "^3.2.6",
     "jquery": "^3.2.1"
   }

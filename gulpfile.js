@@ -20,7 +20,7 @@ gulp.task("clean_chromium", function () {
 
 gulp.task("copy_chromium_files", function () {
     return gulp.src([
-        "src/**/*.{bundle.js,png}",
+        "src/**/*.{bundle.js,png,css}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));

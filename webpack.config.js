@@ -3,18 +3,33 @@ var fs = require("fs");
 var webpack = require("webpack");
 
 module.exports = {
+    cache: true,
     entry: {
-        cs_watch_page: "./src/cs_watch_page.js",
+        cs_watch_page: "./src/cs_watch_page.ts"
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                include: [
+                    path.resolve(__dirname, "src")
+                ],
+                loader: "ts-loader"
+            }
+        ]
     },
     output: {
         filename: "[name].bundle.js",
         path: path.resolve(__dirname, "src/build")
     },
     plugins: [
-        //  https://webpack.js.org/plugins/banner-plugin/#options
         new webpack.BannerPlugin({
-            banner: fs.readFileSync('./LICENSE', {encoding: 'UTF-8'}),
+            banner: fs.readFileSync("./LICENSE", {encoding: "UTF-8"}),
             entryOnly: true
         })
-    ]
+    ],
+    resolve: {
+        // Add `.ts` and `.tsx` as a resolvable extension.
+        extensions: [".ts", ".tsx", ".js"]
+    },
 };
