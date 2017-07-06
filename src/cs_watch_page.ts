@@ -1,6 +1,6 @@
 // TODO: implement settings loader
 import * as $ from "jquery";
-import UtilityBar from "./components/utility_bar";
+import UtilityBar from "./utility_bar";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 

@@ -1,4 +1,4 @@
-import * as utils from "../utils";
+import * as utils from "./utils";
 import RedditDiscussion from "./reddit_discussion";
 
 export default class UtilityBar {
