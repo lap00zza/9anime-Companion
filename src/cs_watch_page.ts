@@ -4,11 +4,6 @@ import UtilityBar from "./components/utility_bar";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 
-enum option {
-    "DISABLED",
-    "ENABLED",
-}
-
 let title = $("h1.title");
 let animeName = title.text();
 let currentEpisode = $("#servers").find(".episodes > li > a.active").data("base");
@@ -18,12 +13,12 @@ let currentEpisode = $("#servers").find(".episodes > li > a.active").data("base"
 // res* -> resize*
 // TODO: is minimal mode actually required?
 let settings = {
-    remAds: option.ENABLED,
-    remComments: option.ENABLED,
-    remInfo: option.DISABLED,
-    remSuggested: option.ENABLED,
-    resPlayer: option.ENABLED,
-    utilityBar: option.ENABLED,
+    remAds: true,
+    remComments: true,
+    remInfo: false,
+    remSuggested: true,
+    resPlayer: true,
+    utilityBar: true,
 };
 
 // Remove visible ads from the DOM.
