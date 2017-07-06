@@ -1,5 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg)](https://travis-ci.org/lap00zza/9anime-Companion)
+[![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=rewrite%2Ftypescript)](https://travis-ci.org/lap00zza/9anime-Companion)
 
 ### This is the rewrite branch
 
