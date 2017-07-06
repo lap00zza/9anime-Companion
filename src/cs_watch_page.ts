@@ -9,6 +9,10 @@ enum option {
     "ENABLED",
 }
 
+let title = $("h1.title");
+let animeName = title.text();
+let currentEpisode = $("#servers").find(".episodes > li > a.active").data("base");
+
 // INFO:
 // rem* -> remove*
 // res* -> resize*
@@ -16,6 +20,7 @@ enum option {
 let settings = {
     remAds: option.ENABLED,
     remComments: option.ENABLED,
+    remInfo: option.DISABLED,
     remSuggested: option.ENABLED,
     resPlayer: option.ENABLED,
     utilityBar: option.ENABLED,
@@ -58,7 +63,12 @@ if (settings.remSuggested) {
         .remove();
 }
 
+if (settings.remInfo) {
+    console.info("Removing info");
+    title.remove();
+    $("#info").remove();
+}
+
 if (settings.utilityBar) {
-    let currentEpisode = $("#servers").find(".episodes > li > a.active").data("base");
-    $("#player").parent().append(new UtilityBar($("h1.title").text(), [], currentEpisode).generate());
+    $("#player").parent().append(new UtilityBar(animeName, [], currentEpisode).generate());
 }
