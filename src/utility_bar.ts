@@ -1,5 +1,5 @@
-import * as utils from "./utils";
 import RedditDiscussion from "./reddit_discussion";
+import * as utils from "./utils";
 
 export default class UtilityBar {
     private redditSearchUrl: string;
