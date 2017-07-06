@@ -1,5 +1,6 @@
 // TODO: implement settings loader
 import * as $ from "jquery";
+import UtilityBar from "./components/utility_bar";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 
@@ -11,11 +12,13 @@ enum option {
 // INFO:
 // rem* -> remove*
 // res* -> resize*
+// TODO: is minimal mode actually required?
 let settings = {
     remAds: option.ENABLED,
     remComments: option.ENABLED,
     remSuggested: option.ENABLED,
     resPlayer: option.ENABLED,
+    utilityBar: option.ENABLED,
 };
 
 // Remove visible ads from the DOM.
@@ -54,4 +57,9 @@ if (settings.remSuggested) {
         })
         .parent()
         .remove();
+}
+
+if (settings.utilityBar) {
+    let currentEpisode = $("#servers").find(".episodes > li > a.active").data("base");
+    $("#player").parent().append(new UtilityBar($("h1.title").text(), [], currentEpisode).generate());
 }

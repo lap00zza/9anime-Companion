@@ -1,6 +1,9 @@
 {
   "files": [
-    "src/cs_watch_page.ts"
+    "src/cs_watch_page.ts",
+    "src/utils.ts",
+    "src/components/reddit_discussion.ts",
+    "src/components/utility_bar.ts"
   ],
   "compilerOptions": {
     "noImplicitAny": true,
