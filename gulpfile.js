@@ -29,3 +29,9 @@ gulp.task("copy_chromium_files", function () {
 gulp.task("make_chrome", function (callback) {
     runSequence("webpack", "clean_chromium", "copy_chromium_files", callback);
 });
+
+// The default gulp task that runs when we
+// just type `gulp`
+gulp.task("default", function (callback) {
+    runSequence("make_chrome", callback);
+})
