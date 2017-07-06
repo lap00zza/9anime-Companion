@@ -37,10 +37,9 @@ if (settings.remAds) {
 
 if (settings.resPlayer) {
     console.info("Resizing player");
-    $("#player").parent().css({
-        maxHeight: "500px",
-        width: "100%",
-    });
+    let player = $("#player");
+    player.css("maxHeight", "500px");
+    player.parent().css("width", "100%");
 }
 
 if (settings.remComments) {
