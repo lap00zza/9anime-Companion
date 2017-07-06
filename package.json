@@ -12,6 +12,9 @@
     "type": "git",
     "url": "https://github.com/lap00zza/9anime-Companion"
   },
+  "scripts": {
+    "linter": "tslint -c tslint.json ./src/**/*.ts"
+  },
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",

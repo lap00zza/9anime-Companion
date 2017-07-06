@@ -4,6 +4,9 @@
 # Dependency directories
 node_modules/
 
+# npm log files
+npm-debug.log
+
 # ignore 9animeCompanion dist directory
 dist/
 
