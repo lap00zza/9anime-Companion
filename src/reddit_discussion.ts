@@ -30,7 +30,7 @@ export default class RedditDiscussion {
     private urlWithEp(): string {
         let titleText = `title:"${this.cleanTitle()} Episode ${this.episode}" `/* <-- trailing space is important */;
         if (this.altNames.length > 0) {
-            this.altNames.forEach((name) => {
+            this.altNames.forEach(name => {
                 titleText += ` OR title:"${name} Episode ${this.episode}"`;
             });
         }
@@ -41,7 +41,7 @@ export default class RedditDiscussion {
     private urlWithoutEp(): string {
         let titleText = `title:"${this.cleanTitle()}" `/* <-- trailing space is important */;
         if (this.altNames.length > 0) {
-            this.altNames.forEach((name) => {
+            this.altNames.forEach(name => {
                 titleText += ` OR title:"${name}"`;
             });
         }

@@ -3,6 +3,7 @@
         "tslint:recommended"
     ],
     "rules": {
-        "no-console": [true, "log"]
+        "no-console": [true, "log"],
+        "arrow-parens": [true, "ban-single-arg-parens"]
     }
 }
