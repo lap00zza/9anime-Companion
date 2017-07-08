@@ -5,7 +5,7 @@ export default class RedditDiscussion {
     // Reddit search endpoint
     private endpoint: string = "https://www.reddit.com/r/anime/search?q=";
 
-    public constructor(name: string, altNames: string[], episode: string = "") {
+    public constructor(name: string, episode: string = "", altNames: string[] = []) {
         this.name = name;
         this.altNames = altNames;
         this.episode = episode;
