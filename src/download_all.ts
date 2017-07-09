@@ -24,13 +24,16 @@ let selectedEpisodes: IEpisode[] = [];
 // 9anime Companion can only download from 1 server at
 // a time. This variable holds the type of server from
 // which we are currently downloading/will download.
-let currentServer: Servers;
+let currentServer: Servers = Servers.Default;
 
-export function showEpModal(): void {
+// A boolean flag to track if download is in progress.
+let isDownloading = false;
+
+function showEpModal(): void {
     $("#nac__dl-all__ep-modal").show();
 }
 
-export function hideEpModal(): void {
+function hideEpModal(): void {
     $("#nac__dl-all__ep-modal").hide();
 }
 
@@ -67,8 +70,8 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
         // episode to the epSelectModal. The user can then
         // take further action.
         let modalBody = $("#nac__dl-all__ep-modal").find(".body");
+        // Delete the earlier episodes and start fresh
         modalBody.empty();
-        /* delete the earlier episodes and start fresh */
         for (let ep of episodes) {
             let epSpan = $(
                 `<span class="nac__dl-all__episode">
@@ -77,7 +80,7 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
                 </span>`);
             modalBody.append(epSpan);
         }
-        // console.info(currentServer, dlEpisodeIds);
+        console.info(currentServer);
         showEpModal();
     });
     return btn;
@@ -94,20 +97,25 @@ export function epModal(name: string): JQuery<HTMLElement> {
     // We wil start by loading the template from an external file.
     let template = require("html-loader!./templates/dlAll_epModal.html");
     let modal = $(template);
+
     // Add the anime name to the "header"
     modal.find(".title").text(name);
+
     // When the overlay is clicked, the modal hides
     modal.on("click", e => {
         if (e.target === modal[0]) {
             hideEpModal();
         }
     });
+
     // Bind functionality for the "Select All" button
     modal.find("#nac__dl-all__select-all").on("click", () => {
         $("#nac__dl-all__ep-modal").find(".body input[type='checkbox']").prop("checked", true);
     });
+
     // Bind functionality for the "Download" button
     modal.find("#nac__dl-all__download").on("click", () => {
+        selectedEpisodes = [];
         // First, we get all the episodes that are
         // checked in the modal and push these to
         // selectedEpisodes.
@@ -119,8 +127,17 @@ export function epModal(name: string): JQuery<HTMLElement> {
                     num: $(el).data("num"),
                 });
             });
-        console.info("Downloading...", selectedEpisodes);
+        // And... let it rip! We start downloading.
+        if (!isDownloading) {
+            downloader();
+        }
     });
+
+    // When the modal is first attached, it should be hidden.
     modal.hide();
     return modal;
+}
+
+function downloader(): void {
+    console.info("Downloading...", selectedEpisodes);
 }
