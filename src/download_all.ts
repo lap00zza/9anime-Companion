@@ -5,7 +5,7 @@ import * as utils from "./utils";
 // The list of servers that 9anime Companion can
 // currently download from. PR's are welcome to
 // help expand the server pool.
-export enum Servers {
+export enum Server {
     "Default", /* default means the 9anime server */
     "RapidVideo",
 }
@@ -24,7 +24,7 @@ let selectedEpisodes: IEpisode[] = [];
 // 9anime Companion can only download from 1 server at
 // a time. This variable holds the type of server from
 // which we are currently downloading/will download.
-let currentServer: Servers = Servers.Default;
+let currentServer: Server = Server.Default;
 
 // A boolean flag to track if download is in progress.
 let isDownloading = false;
@@ -39,12 +39,12 @@ function hideEpModal(): void {
 
 /**
  * Returns a 'Download' button.
- * @param {string} server
+ * @param {Server} server
  *      The server from which episodes will be downloaded.
  *      Allowed types are 9anime and RapidVideo.
- * @returns {JQuery<HTMLElement>} 'Download' button
+ * @returns {JQuery<HTMLElement>} - 'Download' button
  */
-export function downloadBtn(server: Servers): JQuery<HTMLElement> {
+export function downloadBtn(server: Server): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
         episodes = [];
@@ -91,7 +91,7 @@ export function downloadBtn(server: Servers): JQuery<HTMLElement> {
  * episodes checklist, quality preference and downloader
  * select before the user downloads.
  * @param {string} name - Name of the current anime
- * @returns {string} Episode Select Modal
+ * @returns {JQuery<HTMLElement>} - Episode Select Modal
  */
 export function epModal(name: string): JQuery<HTMLElement> {
     // We wil start by loading the template from an external file.
