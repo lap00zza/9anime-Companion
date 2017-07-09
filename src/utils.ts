@@ -18,7 +18,7 @@ export function dedent(data: string): string {
  * @param {string} filename
  * @returns {string}
  */
-export function fileSafeString (filename: string): string {
+export function fileSafeString(filename: string): string {
     let re = /[\\/<>*?:"|]/gi;
     return filename.replace(re, "");
 }
@@ -29,7 +29,7 @@ export function fileSafeString (filename: string): string {
  * @param {string} num - The episode id
  * @returns {string} - The 3 digit episode id
  */
-export function pad (num: string): string {
+export function pad(num: string): string {
     if (num.length >= 3) {
         return num;
     } else {
