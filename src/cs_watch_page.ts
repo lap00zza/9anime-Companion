@@ -1,6 +1,7 @@
 // TODO: implement settings loader
 import * as $ from "jquery";
-import UtilityBar from "./utility_bar";
+import * as DownloadAll from "./download_all";
+import * as UtilityBar from "./utility_bar";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 
@@ -13,10 +14,11 @@ let currentEpisode = $("#servers").find(".episodes > li > a.active").data("base"
 // res* -> resize*
 // TODO: is minimal mode actually required?
 let settings = {
+    downloadAll: true,
     remAds: true,
-    remComments: true,
+    remComments: false,
     remInfo: false,
-    remSuggested: true,
+    remSuggested: false,
     resPlayer: true,
     utilityBar: true,
 };
@@ -65,5 +67,22 @@ if (settings.remInfo) {
 }
 
 if (settings.utilityBar) {
-    $("#player").parent().append(new UtilityBar(animeName, [], currentEpisode).generate());
+    $("#player").parent().append(UtilityBar.template(animeName, currentEpisode, []));
+}
+
+if (settings.downloadAll) {
+    $("body").append(DownloadAll.epModal(animeName));
+
+    let servers = $(".server.row > label");
+    for (let server of servers) {
+        let serverLabel = $(server).text();
+
+        // Basically what we are doing here is testing
+        // the labels and adding appropriate dl buttons.
+        if (/RapidVideo/i.test(serverLabel)) {
+            $(server).append(DownloadAll.generateDlBtn(DownloadAll.Servers.RapidVideo));
+        } else if (/Server\s+F/i.test(serverLabel)) {
+            $(server).append(DownloadAll.generateDlBtn(DownloadAll.Servers.Default));
+        }
+    }
 }

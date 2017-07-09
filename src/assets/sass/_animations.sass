@@ -1,0 +1,11 @@
+// All animation mixins should start with "animation__"
+@mixin animation__slide_down($amount)
+  @keyframes slide_down
+    from
+      margin: 0 auto
+    to
+      margin: $amount auto
+
+  animation: slide_down
+  animation-duration: 500ms
+  animation-fill-mode: forwards

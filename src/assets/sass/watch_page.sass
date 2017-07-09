@@ -1,4 +1,9 @@
-// All the styles should be prefixed with nac__
+@import "animations"
+// NOTE:
+// 1. Separate each block by 2 spaces
+// 2. Within a block separate each group by 1 space
+//
+// All the styles should be prefixed with "nac__"
 // why nac and not 9ac? because css cant have
 // numbers as selectors
 #nac__utility-bar
@@ -12,3 +17,75 @@
     max-height: 16px
     margin: 2px 5px 2px 0
 
+
+// The 'Download All' buttons that are added
+// for 9anime and RapidVideo servers.
+.nac__dl-all
+  border: 1px solid #555
+  border-radius: 2px
+  background-color: #16151c
+
+  margin-top: 0
+  margin-left: 5px
+  @media screen and (min-width: 768px)
+    margin-top: 5px
+    margin-left: 0
+
+  &:hover
+    background-color: #111
+
+  &:active
+    background-color: #151515
+
+
+// This is the ep select modal. The top id
+// is the modal overlay, ie. the part that
+// darkens the page. On this overlay the
+// modal container will be present
+#nac__dl-all__ep-modal
+  height: 100%
+  width: 100%
+  background-color: rgba(0,0,0,0.7)
+
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 100
+
+  .container
+    @include animation__slide_down(15%)
+    padding: 10px
+    width: 60%
+    max-width: 800px
+    min-width: 100px
+    margin: 15% auto
+    box-sizing: border-box
+
+    position: relative
+    background-color: #16151c
+    color: #9a9a9a
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+
+    a
+      cursor: pointer
+
+    .header
+      border-bottom: 1px solid #9a9a9a
+      padding-bottom: 5px
+
+    .body
+      height: 100px
+      overflow-y: auto
+
+    .footer
+      border-top: 1px solid #9a9a9a
+      padding-top: 5px
+
+    .footer__item
+      display: inline-block
+
+    .nac__dl-all__episode
+      display: inline-block
+      background: #472757
+      color: #dadada
+      margin: 3px

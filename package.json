@@ -19,6 +19,7 @@
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.8",
+    "html-loader": "^0.4.5",
     "run-sequence": "^2.0.0",
     "ts-lint": "^4.5.1",
     "ts-loader": "^2.2.2",
