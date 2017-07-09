@@ -44,7 +44,7 @@ function hideEpModal(): void {
  *      Allowed types are 9anime and RapidVideo.
  * @returns {JQuery<HTMLElement>} 'Download' button
  */
-export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
+export function downloadBtn(server: Servers): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
         episodes = [];
@@ -53,7 +53,7 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
         // TODO: maybe all of this should be generated only once or somehow cached
         // Every time the 'Download' button is clicked,
         // all the episodes for the current server are
-        // fetched and added to the dlEpisodeIds.
+        // fetched and added to "episodes".
         let epLinks = $(e.currentTarget).parents(".server.row").find(".episodes > li > a");
         for (let ep of epLinks) {
             let id = $(ep).data("id");
@@ -66,9 +66,9 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
             }
         }
 
-        // Then we iterate through dlEpisodeIds and add the
-        // episode to the epSelectModal. The user can then
-        // take further action.
+        // Then we iterate through "episodes" and add each
+        // episode to the "epModal". The user can then take
+        // further action.
         let modalBody = $("#nac__dl-all__ep-modal").find(".body");
         // Delete the earlier episodes and start fresh
         modalBody.empty();
@@ -87,9 +87,9 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
 }
 
 /**
- * Returns string template of a modal which will be used for
- * displaying the episodes checklist, quality preference and
- * downloader select before the user downloads.
+ * Returns a modal which will be used for displaying the
+ * episodes checklist, quality preference and downloader
+ * select before the user downloads.
  * @param {string} name - Name of the current anime
  * @returns {string} Episode Select Modal
  */

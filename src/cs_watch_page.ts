@@ -1,6 +1,6 @@
 // TODO: implement settings loader
 import * as $ from "jquery";
-import {epModal, generateDlBtn, Servers} from "./download_all";
+import {downloadBtn, epModal, Servers} from "./download_all";
 import utilityBar from "./utility_bar";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
@@ -80,9 +80,9 @@ if (settings.downloadAll) {
         // Basically what we are doing here is testing
         // the labels and adding appropriate dl buttons.
         if (/RapidVideo/i.test(serverLabel)) {
-            $(server).append(generateDlBtn(Servers.RapidVideo));
+            $(server).append(downloadBtn(Servers.RapidVideo));
         } else if (/Server\s+F/i.test(serverLabel)) {
-            $(server).append(generateDlBtn(Servers.Default));
+            $(server).append(downloadBtn(Servers.Default));
         }
     }
 }
