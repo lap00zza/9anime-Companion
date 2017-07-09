@@ -5,6 +5,7 @@ var gutil = require("gulp-util");
 var del = require("del");
 var runSequence = require("run-sequence");
 var webpack = require("webpack");
+var sass = require("gulp-sass")
 
 gulp.task("webpack", function (callback) {
     webpack(require("./webpack.config"), function (err, stats) {
@@ -30,8 +31,14 @@ gulp.task("make_chrome", function (callback) {
     runSequence("webpack", "clean_chromium", "copy_chromium_files", callback);
 });
 
+gulp.task("sass", function () {
+    return gulp.src("src/assets/sass/**/*.sass")
+        .pipe(sass())
+        .pipe(gulp.dest("src/assets/css"));
+});
+
 // The default gulp task that runs when we
 // just type `gulp`
 gulp.task("default", function (callback) {
-    runSequence("make_chrome", callback);
+    runSequence("sass", "make_chrome", callback);
 })
