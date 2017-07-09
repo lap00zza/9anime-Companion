@@ -18,7 +18,7 @@ interface IEpisode {
 // This array hold's all the id's of the episodes of
 // a particular server (ex: RapidVideo or 9anime) of
 // the current anime.
-let Episodes: IEpisode[] = [];
+let episodes: IEpisode[] = [];
 let selectedEpisodes: IEpisode[] = [];
 
 // 9anime Companion can only download from 1 server at
@@ -44,7 +44,7 @@ export function hideEpModal(): void {
 export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
-        Episodes = [];
+        episodes = [];
         currentServer = $(e.currentTarget).data("type");
 
         // TODO: maybe all of this should be generated only once or somehow cached
@@ -56,7 +56,7 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
             let id = $(ep).data("id");
             let num = $(ep).data("base");
             if (id && num) {
-                Episodes.push({
+                episodes.push({
                     id, /* short hand property. "id" means id: id */
                     num: utils.pad(num),
                 });
@@ -69,7 +69,7 @@ export function generateDlBtn(server: Servers): JQuery<HTMLElement> {
         let modalBody = $("#nac__dl-all__ep-modal").find(".body");
         modalBody.empty();
         /* delete the earlier episodes and start fresh */
-        for (let ep of Episodes) {
+        for (let ep of episodes) {
             let epSpan = $(
                 `<span class="nac__dl-all__episode">
                     <input type="checkbox" id="${ep.id}" data-num="${ep.num}">
