@@ -31,7 +31,7 @@ function a(t: string, e: string): string {
 }
 
 // [*]
-export function generateToken(data: any, initialState = 0): number {
+export function generateToken(data: { [key: string]: string | number }, initialState = 0): number {
     let keys = Object.keys(data);
     let _ = s(DD) + initialState;
     for (let key of keys) {
@@ -46,7 +46,7 @@ interface IGrabberParams {
     ts: string;
     id: string;
     update: number;
-    _?: number; /* this is the token */
+    [key: string]: string | number; /* excess property; used mainly for _ */
 }
 
 // The response structure of the Grabber.
@@ -63,7 +63,15 @@ interface IGrabber {
     type: string;
 }
 
+/**
+ * Query the 9anime "episode/info" endpoint and get grabber target.
+ * This target will later be used to fetch the episode links.
+ * @param {IGrabberParams} params
+ *      ts, id and update parameter. Note: update is always 0.
+ * @returns {Promise<T>}
+ */
 export function grabber(params: IGrabberParams): Promise<IGrabber> {
+    // this is the token
     params._ = generateToken(params);
     return new Promise((resolve, reject) => {
         $

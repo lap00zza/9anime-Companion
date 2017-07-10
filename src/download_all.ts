@@ -43,6 +43,7 @@ function hideEpModal(): void {
  * @param {Server} server
  *      The server from which episodes will be downloaded.
  *      Allowed types are 9anime and RapidVideo.
+ * @param {string} animeName - Name of the current anime.
  * @returns {JQuery<HTMLElement>} - 'Download' button
  */
 export function downloadBtn(server: Server, animeName: string): JQuery<HTMLElement> {
@@ -99,22 +100,22 @@ export function epModal(name: string): JQuery<HTMLElement> {
     let template = require("html-loader!./templates/dlAll_epModal.html");
     let modal = $(template);
 
-    // Add the anime name to the "header"
+    // 1> Add the anime name to the "header"
     modal.find(".title").text("Download " + name + " episodes:");
 
-    // => When the overlay is clicked, the modal hides
+    // 2> When the overlay is clicked, the modal hides
     modal.on("click", e => {
         if (e.target === modal[0]) {
             hideEpModal();
         }
     });
 
-    // => Bind functionality for the "Select All" button
+    // 3> Bind functionality for the "Select All" button
     modal.find("#nac__dl-all__select-all").on("click", () => {
         $("#nac__dl-all__ep-modal").find(".body input[type='checkbox']").prop("checked", true);
     });
 
-    // => Bind functionality for the "Download" button
+    // 4> Bind functionality for the "Download" button
     modal.find("#nac__dl-all__download").on("click", () => {
         selectedEpisodes = [];
         // First, we get all the episodes that are
@@ -148,6 +149,6 @@ function downloader(): void {
             ts: "1499673600",
             update: 0,
         })
-        .then(resp => console.log(resp))
+        .then(resp => console.info(resp))
         .catch(err => console.debug(err));
 }
