@@ -46,6 +46,7 @@
   height: 100%
   width: 100%
   background-color: rgba(0,0,0,0.7)
+  padding-top: 25px
 
   position: fixed
   top: 0
@@ -53,10 +54,8 @@
   z-index: 100
 
   .container
-    @include animation__slide_down(15%)
+    @include animation__slide_down(50px)
     position: absolute
-    top: 0
-    bottom: 0
     left: 0
     right: 0
 
@@ -64,7 +63,7 @@
     max-width: 480px
 
     height: 100%
-    max-height: 580px
+    max-height: 480px
 
     background-color: #16151c
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2)
@@ -82,17 +81,23 @@
     .body
       margin-top: 10px
       overflow-y: scroll
-      max-height: 360px
+      max-width: 455px
+      height: 260px
       padding: 20px
       background-color: rgba(0,0,0,0.25)
       border-radius: 5px
 
+      display: flex
+      flex-wrap: wrap
+
       .nac__dl-all__episode
-        display: block
+        margin-left: 5px
+        margin-right: 5px
 
     .footer
       margin-top: 10px
       text-align: center
+      display: block
 
       &__item
         display: inline-block
