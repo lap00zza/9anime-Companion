@@ -80,9 +80,9 @@ if (settings.downloadAll) {
         // Basically what we are doing here is testing
         // the labels and adding appropriate dl buttons.
         if (/RapidVideo/i.test(serverLabel)) {
-            $(server).append(downloadBtn(Server.RapidVideo));
+            $(server).append(downloadBtn(Server.RapidVideo, animeName));
         } else if (/Server\s+F/i.test(serverLabel)) {
-            $(server).append(downloadBtn(Server.Default));
+            $(server).append(downloadBtn(Server.Default, animeName));
         }
     }
 }
