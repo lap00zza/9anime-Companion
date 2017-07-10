@@ -1,5 +1,4 @@
-<h2>This project is currently NOT BEING MAINTAINED as I am busy with something else.</h2>
-<p>So I won't respond to the issues for now. I hope to continue working on it again from July. If you want to work on it, just fork it :)</p>
+9anime Companion is getting a rewrite. Check [rewrite/typescript](https://github.com/lap00zza/9anime-Companion/tree/rewrite/typescript). All PR's are welcome.
 <hr>
 <p><strong>IMPORTANT:</strong> If you are looking for download all fix, check here: https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047</p>
 <hr>
