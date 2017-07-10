@@ -45,7 +45,7 @@ function hideEpModal(): void {
  *      Allowed types are 9anime and RapidVideo.
  * @returns {JQuery<HTMLElement>} - 'Download' button
  */
-export function downloadBtn(server: Server): JQuery<HTMLElement> {
+export function downloadBtn(server: Server, animeName: string): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
         episodes = [];
@@ -77,7 +77,7 @@ export function downloadBtn(server: Server): JQuery<HTMLElement> {
             let epSpan = $(
                 `<span class="nac__dl-all__episode">
                     <input type="checkbox" id="${ep.id}" data-num="${ep.num}">
-                    <label for="${ep.id}">${ep.num}</label>
+                    <label for="${ep.id}">${animeName}: Ep. ${ep.num}</label>
                 </span>`);
             modalBody.append(epSpan);
         }
@@ -99,8 +99,8 @@ export function epModal(name: string): JQuery<HTMLElement> {
     let template = require("html-loader!./templates/dlAll_epModal.html");
     let modal = $(template);
 
-    // => Add the anime name to the "header"
-    modal.find(".title").text(name);
+    // Add the anime name to the "header"
+    modal.find(".title").text("Download " + name + " episodes:");
 
     // => When the overlay is clicked, the modal hides
     modal.on("click", e => {
