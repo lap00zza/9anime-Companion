@@ -1,5 +1,6 @@
 declare function require(arg: string): string;
 import * as $ from "jquery";
+import * as api from "./api";
 import * as utils from "./utils";
 
 // The list of servers that 9anime Companion can
@@ -101,19 +102,19 @@ export function epModal(name: string): JQuery<HTMLElement> {
     // Add the anime name to the "header"
     modal.find(".title").text("Download " + name + " episodes:");
 
-    // When the overlay is clicked, the modal hides
+    // => When the overlay is clicked, the modal hides
     modal.on("click", e => {
         if (e.target === modal[0]) {
             hideEpModal();
         }
     });
 
-    // Bind functionality for the "Select All" button
+    // => Bind functionality for the "Select All" button
     modal.find("#nac__dl-all__select-all").on("click", () => {
         $("#nac__dl-all__ep-modal").find(".body input[type='checkbox']").prop("checked", true);
     });
 
-    // Bind functionality for the "Download" button
+    // => Bind functionality for the "Download" button
     modal.find("#nac__dl-all__download").on("click", () => {
         selectedEpisodes = [];
         // First, we get all the episodes that are
@@ -128,7 +129,8 @@ export function epModal(name: string): JQuery<HTMLElement> {
                 });
             });
         // And... let it rip! We start downloading.
-        if (!isDownloading) {
+        if (!isDownloading && selectedEpisodes.length > 0) {
+            isDownloading = true;
             downloader();
         }
     });
@@ -140,4 +142,12 @@ export function epModal(name: string): JQuery<HTMLElement> {
 
 function downloader(): void {
     console.info("Downloading...", selectedEpisodes);
+    api
+        .grabber({
+            id: selectedEpisodes[0].id,
+            ts: "1499673600",
+            update: 0,
+        })
+        .then(resp => console.log(resp))
+        .catch(err => console.debug(err));
 }
