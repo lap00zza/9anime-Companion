@@ -31,5 +31,5 @@ module.exports = {
     resolve: {
         // Add `.ts` as a resolvable extension.
         extensions: [".ts"]
-    },
+    }
 };
