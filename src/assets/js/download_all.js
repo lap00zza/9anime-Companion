@@ -239,11 +239,11 @@ function downloadFiles(ts, episodes, name, quality = "360p", baseUrl = "https://
 
                                         } else {
                                             // We want to make sure that title is properly encoded for the URL
-                                            // var downloadTitle = encodeURIComponent(
-                                            //     `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
-                                            // );
-                                            // var downloadUrl = fileUrl + "&title=" + downloadTitle;
-                                            episodeLinks.push(fileUrl);
+                                            var downloadTitle = encodeURIComponent(
+                                                `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
+                                            );
+                                            var downloadUrl = fileUrl + "&title=" + downloadTitle;
+                                            episodeLinks.push(downloadUrl);
                                         }
                                     }
                                 });
