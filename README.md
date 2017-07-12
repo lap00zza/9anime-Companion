@@ -16,7 +16,7 @@
     git checkout rewrite/typescript
     npm install
     ```
-4. Then `gulp make_chrome`. Check the `dist/chromium` for the built extension.
+4. Then `gulp` to comile sass and make extension. Check the `dist/chromium` for the built extension.
 
 ## License
 MIT
