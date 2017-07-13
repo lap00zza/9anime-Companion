@@ -30,6 +30,11 @@ let currentServer: Server = Server.Default;
 // A boolean flag to track if download is in progress.
 let isDownloading = false;
 
+// We need this value while sending API requests. This
+// must be set before sending out any API calls.
+let ts = "";
+let animeName = ""; /* name of the current anime */
+
 function showEpModal(): void {
     $("#nac__dl-all__ep-modal").show();
 }
@@ -38,15 +43,31 @@ function hideEpModal(): void {
     $("#nac__dl-all__ep-modal").hide();
 }
 
+interface ISetupKwargs {
+    name: string;
+    ts: string;
+}
+
+/**
+ * This function is very important. It must be called
+ * before using any functions from this module. Its
+ * sets a few important variables like animeName and
+ * ts that are required by the functions.
+ * @param {ISetupKwargs} kwargs
+ */
+export function setup(kwargs: ISetupKwargs) {
+    animeName = kwargs.name;
+    ts = kwargs.ts;
+}
+
 /**
  * Returns a 'Download' button.
  * @param {Server} server
  *      The server from which episodes will be downloaded.
  *      Allowed types are 9anime and RapidVideo.
- * @param {string} animeName - Name of the current anime.
  * @returns {JQuery<HTMLElement>} - 'Download' button
  */
-export function downloadBtn(server: Server, animeName: string): JQuery<HTMLElement> {
+export function downloadBtn(server: Server): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
         episodes = [];
@@ -76,6 +97,7 @@ export function downloadBtn(server: Server, animeName: string): JQuery<HTMLEleme
         modalBody.empty();
         for (let ep of episodes) {
             let epSpan = $(
+                // TODO: do we really need the animeName in the download box? looks a bit crowded
                 `<span class="nac__dl-all__episode">
                     <input type="checkbox" id="${ep.id}" data-num="${ep.num}">
                     <label for="${ep.id}">${animeName}: Ep. ${ep.num}</label>
@@ -146,7 +168,7 @@ function downloader(): void {
     api
         .grabber({
             id: selectedEpisodes[0].id,
-            ts: "1499673600",
+            ts,
             update: 0,
         })
         .then(resp => console.info(resp))
