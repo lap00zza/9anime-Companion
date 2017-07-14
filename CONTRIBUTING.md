@@ -3,7 +3,7 @@
 This module is responsible for the Download All functionality.
 Here is a brief overview of how it works:
 
-1. setup function is called to set the `animeName` and the `ts`<sup>[1](#myfootnote1)</sup> values.
+1. setup function is called to set the `animeName` and the `ts`<sup>[[1]](#myfootnote1)</sup> values.
 2. The episode select modal is then attached to the DOM.
 3. The `Download All` (or dlAll) buttons are attached to the DOM.
 dlAll buttons have a dataset called type which identifies which
@@ -25,5 +25,6 @@ RapidVideo and Default.
 you are downloading from F2, you cant queue more episodes from F4 or
 RapidVideo until the current queue is over.
 
-<a name="myfootnote1">1</a> ts is a arbitrary value that 9anime adds for each anime. This value is
+<hr>
+<a name="myfootnote1">[1]</a> ts is a arbitrary value that 9anime adds for each anime. This value is
 needed when sending requests to the 9anime API.
