@@ -1,6 +1,6 @@
 // TODO: implement settings loader
 import * as $ from "jquery";
-import {downloadBtn, epModal, Server, setup} from "./download_all";
+import * as dlAll from "./download_all";
 import utilityBar from "./utility_bar";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
@@ -71,14 +71,19 @@ if (settings.utilityBar) {
 }
 
 if (settings.downloadAll) {
+    // NOTE:
+    // "dlAll" means downloadAll. Its a short form.
+    // We will use quite a bit of these throughout
+    // 9anime Companion.
+
     let body = $("body");
     let servers = $(".server.row > label");
 
-    setup({
+    dlAll.setup({
         name: animeName,
         ts: body.data("ts"),
     });
-    body.append(epModal());
+    body.append(dlAll.epModal());
 
     for (let server of servers) {
         let serverLabel = $(server).text();
@@ -86,9 +91,9 @@ if (settings.downloadAll) {
         // Basically what we are doing here is testing
         // the labels and adding appropriate dl buttons.
         if (/RapidVideo/i.test(serverLabel)) {
-            $(server).append(downloadBtn(Server.RapidVideo));
+            $(server).append(dlAll.downloadBtn(dlAll.Server.RapidVideo));
         } else if (/Server\s+F/i.test(serverLabel)) {
-            $(server).append(downloadBtn(Server.Default));
+            $(server).append(dlAll.downloadBtn(dlAll.Server.Default));
         }
     }
 }
