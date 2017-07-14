@@ -97,7 +97,7 @@ interface IlinksParams {
 }
 
 interface ILinks {
-    data: [{file: string, label: string, type: string}];
+    data: [{ file: string, label: string, type: string }];
     error: number;
     token: string;
 }

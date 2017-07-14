@@ -4,7 +4,7 @@ import * as utils from "./utils";
 let redditLogo = chrome.extension.getURL("assets/images/reddit-icon.png");
 let malLogo = chrome.extension.getURL("assets/images/mal-icon.png");
 
-interface IKwargs {
+interface IUtilityBarOptionalParams {
     episode?: string; /* Optional */
     altNames?: string[]; /* Optional */
 }
@@ -12,11 +12,13 @@ interface IKwargs {
 /**
  * Returns a string template of the Utility Bar.
  * @param {string} name - Name of the current anime
- * @param {object} kwargs - optional parameters
- * @returns {string} Utility Bar
+ * @param params
+ *      Optional parameters for the Utility Bar.
+ * @returns
+ *      The Utility Bar
  */
-export default function utilityBar(name: string, kwargs: IKwargs = {}): string {
-    let redditSearchUrl = new RedditDiscussion(name, kwargs.episode, kwargs.altNames).url();
+export default function utilityBar(name: string, params: IUtilityBarOptionalParams = {}): string {
+    let redditSearchUrl = new RedditDiscussion(name, params.episode, params.altNames).url();
     let malSearchUrl = "https://myanimelist.net/anime.php?q=" + name;
 
     return utils.dedent(

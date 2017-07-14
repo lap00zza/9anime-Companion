@@ -89,6 +89,7 @@ interface ISetupOptions {
  * sets a few important variables like animeName and
  * ts that are required by the functions.
  * @param options
+ *      name and ts parameters
  */
 export function setup(options: ISetupOptions) {
     animeName = options.name;
@@ -100,7 +101,8 @@ export function setup(options: ISetupOptions) {
  * @param {Server} server
  *      The server from which episodes will be downloaded.
  *      Allowed types are 9anime and RapidVideo.
- * @returns {JQuery<HTMLElement>} - 'Download' button
+ * @returns
+ *      A nicely generated 'Download' button
  */
 export function downloadBtn(server: Server): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
@@ -150,7 +152,8 @@ export function downloadBtn(server: Server): JQuery<HTMLElement> {
  * Returns a modal which will be used for displaying the
  * episodes checklist, quality preference and downloader
  * select before the user downloads.
- * @returns {JQuery<HTMLElement>} - Episode Select Modal
+ * @returns
+ *      The Episode Select Modal
  */
 export function epModal(): JQuery<HTMLElement> {
     // We wil start by loading the template from an external file.

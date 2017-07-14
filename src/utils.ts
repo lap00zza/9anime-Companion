@@ -19,7 +19,7 @@
  * quite often.
  */
 interface IGenericObject {
-    [key: string]: string|number;
+    [key: string]: string | number;
 }
 
 /**
@@ -69,7 +69,7 @@ export function pad(num: string): string {
  * A simple helper function that merges 2 objects.
  * @returns The merged object
  */
-export function mergeObject (obj1: IGenericObject, obj2: IGenericObject): IGenericObject {
+export function mergeObject(obj1: IGenericObject, obj2: IGenericObject): IGenericObject {
     for (let b in obj2) {
         if (obj2.hasOwnProperty(b)) {
             obj1[b] = obj2[b];
@@ -93,7 +93,7 @@ let parser = document.createElement("a");
 export function decomposeURL(uriString: string): [string, IGenericObject] {
     parser.href = uriString;
     let searchParams: IGenericObject = {};
-    let url =  parser.protocol + "//" + parser.hostname + parser.pathname;
+    let url = parser.protocol + "//" + parser.hostname + parser.pathname;
 
     // query string contains a '?' followed by
     // the parameters of the URL. We don't need
