@@ -16,10 +16,9 @@ interface IEpisode {
     num: string; /* The  digit episode number. ex: 001 */
 }
 
-// This array hold's all the id's of the episodes of
-// a particular server (ex: RapidVideo or 9anime) of
-// the current anime.
-let episodes: IEpisode[] = [];
+// The episodes that the users selected in the epModal
+// are stored here. These are the episodes that will be
+// downloaded.
 let selectedEpisodes: IEpisode[] = [];
 
 // 9anime Companion can only download from 1 server at
@@ -31,9 +30,12 @@ let currentServer: Server = Server.Default;
 let isDownloading = false;
 
 // We need this value while sending API requests. This
-// must be set before sending out any API calls.
+// is set by the `setup()` method.
 let ts = "";
-let animeName = ""; /* name of the current anime */
+
+// Name of the current anime. This is set by the `setup()`
+// method.
+let animeName = "";
 
 function showEpModal(): void {
     $("#nac__dl-all__ep-modal").show();
@@ -70,7 +72,9 @@ export function setup(kwargs: ISetupKwargs) {
 export function downloadBtn(server: Server): JQuery<HTMLElement> {
     let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
-        episodes = [];
+        // This array hold's all the the episodes of the current
+        // anime for a particular server (ex: RapidVideo, F2, F4)
+        let episodes: IEpisode[] = [];
         currentServer = $(e.currentTarget).data("type");
 
         // TODO: maybe all of this should be generated only once or somehow cached
@@ -114,16 +118,15 @@ export function downloadBtn(server: Server): JQuery<HTMLElement> {
  * Returns a modal which will be used for displaying the
  * episodes checklist, quality preference and downloader
  * select before the user downloads.
- * @param {string} name - Name of the current anime
  * @returns {JQuery<HTMLElement>} - Episode Select Modal
  */
-export function epModal(name: string): JQuery<HTMLElement> {
+export function epModal(): JQuery<HTMLElement> {
     // We wil start by loading the template from an external file.
     let template = require("html-loader!./templates/dlAll_epModal.html");
     let modal = $(template);
 
     // 1> Add the anime name to the "header"
-    modal.find(".title").text("Download " + name + " episodes:");
+    modal.find(".title").text("Download " + animeName + " episodes:");
 
     // 2> When the overlay is clicked, the modal hides
     modal.on("click", e => {
@@ -163,14 +166,38 @@ export function epModal(name: string): JQuery<HTMLElement> {
     return modal;
 }
 
+/**
+ * This function requeue's the downloader to run every
+ * 2 seconds to avoid overloading the 9anime API and/or
+ * getting our IP flagged as bot.
+ */
+function requeue(): void {
+    if (selectedEpisodes.length > 0) {
+        setTimeout(downloader, 2000);
+    } else {
+        // All downloads over
+        isDownloading = false;
+    }
+}
+
+/**
+ * The boss function. It handles the entire downloading
+ * process.
+ */
 function downloader(): void {
-    console.info("Downloading...", selectedEpisodes);
-    api
-        .grabber({
-            id: selectedEpisodes[0].id,
-            ts,
-            update: 0,
-        })
-        .then(resp => console.info(resp))
-        .catch(err => console.debug(err));
+    let ep = selectedEpisodes.shift();
+    if (ep) {
+        console.info("Downloading: ", ep.num);
+        api
+            .grabber({
+                id: ep.id,
+                ts,
+                update: 0,
+            })
+            .then(resp => console.info(resp))
+            .catch(err => console.debug(err))
+            // The last then acts like a finally.
+            // It will always run no matter what.
+            .then(() => requeue());
+    }
 }

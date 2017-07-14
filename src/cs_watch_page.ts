@@ -78,7 +78,7 @@ if (settings.downloadAll) {
         name: animeName,
         ts: body.data("ts"),
     });
-    body.append(epModal(animeName));
+    body.append(epModal());
 
     for (let server of servers) {
         let serverLabel = $(server).text();
