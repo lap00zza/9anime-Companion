@@ -1,3 +1,35 @@
+/**
+ * Konichiwa~
+ * This module is responsible for the Download All functionality.
+ * Here is a brief overview of how it works:
+ * 1. setup function is called to set the "animeName" and the "ts"* values.
+ * 2. The episode select modal is then attached to the DOM.
+ * 3. The "Download All" (or dlAll) buttons are attached to the DOM.
+ *    dlAll buttons have a dataset called type which identifies which
+ *    server they are supposed to download from. Server types are
+ *    RapidVideo and Default.
+ * 4. When the Download All button is clicked, the following happens
+ *    1. "currentServer" is set to the type on the button.
+ *    2. All the episodes for that server (on the 9anime page) are added
+ *       to an array.
+ *    3. The array is the used to populate the episode select modal.
+ *    4. The user can then then chose which episode they want to download,
+ *       along with a few other options like quality, downloader etc on
+ *       the modal and click on the Download button.
+ *    5. Selected episodes are added to another array, and the downloader()
+ *       method is invoked which takes care of the rest :)
+ *
+ * Design choices:
+ * 1. Downloads can be queued only from 1 server. What this means is, if
+ *    you are downloading from F2, you cant queue more episodes from F4 or
+ *    RapidVideo until the current queue is over.
+ *
+ * *ts is a arbitrary value that 9anime adds for each anime. This value is
+ * needed when sending requests to the 9anime API.
+ *
+ * Thanks for deciding to contribute/read :) You are awesome!
+ */
+
 declare function require(arg: string): string;
 import * as $ from "jquery";
 import * as api from "./api";
@@ -24,6 +56,7 @@ let selectedEpisodes: IEpisode[] = [];
 // 9anime Companion can only download from 1 server at
 // a time. This variable holds the type of server from
 // which we are currently downloading/will download.
+// Defaults to Server.Default which is the 9anime server.
 let currentServer: Server = Server.Default;
 
 // A boolean flag to track if download is in progress.
@@ -45,7 +78,7 @@ function hideEpModal(): void {
     $("#nac__dl-all__ep-modal").hide();
 }
 
-interface ISetupKwargs {
+interface ISetupOptions {
     name: string;
     ts: string;
 }
@@ -55,11 +88,11 @@ interface ISetupKwargs {
  * before using any functions from this module. Its
  * sets a few important variables like animeName and
  * ts that are required by the functions.
- * @param {ISetupKwargs} kwargs
+ * @param options
  */
-export function setup(kwargs: ISetupKwargs) {
-    animeName = kwargs.name;
-    ts = kwargs.ts;
+export function setup(options: ISetupOptions) {
+    animeName = options.name;
+    ts = options.ts;
 }
 
 /**
@@ -108,7 +141,6 @@ export function downloadBtn(server: Server): JQuery<HTMLElement> {
                 </span>`);
             modalBody.append(epSpan);
         }
-        console.info(currentServer);
         showEpModal();
     });
     return btn;
@@ -142,22 +174,27 @@ export function epModal(): JQuery<HTMLElement> {
 
     // 4> Bind functionality for the "Download" button
     modal.find("#nac__dl-all__download").on("click", () => {
-        selectedEpisodes = [];
-        // First, we get all the episodes that are
-        // checked in the modal and push these to
-        // selectedEpisodes.
-        $("#nac__dl-all__ep-modal")
-            .find(".body input[type='checkbox']:checked")
-            .each((i, el) => {
-                selectedEpisodes.push({
-                    id: $(el).attr("id") || "",
-                    num: $(el).data("num"),
+        if (!isDownloading) {
+            selectedEpisodes = [];
+            // First, we get all the checked episodes in the
+            // modal and push these to selectedEpisodes.
+            $("#nac__dl-all__ep-modal")
+                .find(".body input[type='checkbox']:checked")
+                .each((i, el) => {
+                    selectedEpisodes.push({
+                        id: $(el).attr("id") || "",
+                        num: $(el).data("num"),
+                    });
                 });
-            });
-        // And... let it rip! We start downloading.
-        if (!isDownloading && selectedEpisodes.length > 0) {
-            isDownloading = true;
-            downloader();
+            // And... let it rip! We start downloading.
+            if (selectedEpisodes.length > 0) {
+                // TODO: disable inputs
+                isDownloading = true;
+                downloader();
+            } else {
+                // TODO: shake the epModal
+                console.info("You need to select some episodes");
+            }
         }
     });
 
@@ -180,6 +217,19 @@ function requeue(): void {
     }
 }
 
+function getLinks9a(data: api.IGrabber) {
+    api
+        .links9a(data.grabber, {
+            ts,
+            id: data.params.id,
+            mobile: 0,
+            options: data.params.options,
+            token: data.params.token,
+        })
+        .then(resp => console.info(resp))
+        .catch(err => console.debug(err));
+}
+
 /**
  * The boss function. It handles the entire downloading
  * process.
@@ -187,14 +237,25 @@ function requeue(): void {
 function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
-        console.info("Downloading: ", ep.num);
+        console.info("Downloading:", ep.num);
         api
             .grabber({
                 id: ep.id,
                 ts,
                 update: 0,
             })
-            .then(resp => console.info(resp))
+            .then(resp => {
+                // Server can either be RapidVideo or Default.
+                // For Default, we make use of switch default.
+                switch (currentServer) {
+                    case Server.RapidVideo:
+                        // RapidVideo
+                        break;
+                    default:
+                        getLinks9a(resp);
+                        break;
+                }
+            })
             .catch(err => console.debug(err))
             // The last then acts like a finally.
             // It will always run no matter what.

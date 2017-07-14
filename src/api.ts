@@ -1,5 +1,6 @@
 // This module contains all the api calls.
 import * as $ from "jquery";
+import * as utils from "./utils";
 
 // The parts/functions marked as [*] are part of
 // 9anime encryption scheme. If they make no sense
@@ -45,12 +46,12 @@ export function generateToken(data: { [key: string]: string | number }, initialS
 interface IGrabberParams {
     ts: string;
     id: string;
-    update: number;
-    [key: string]: string | number; /* excess property; used mainly for _ */
+    update: number; /* this is 0 is most cases */
+    [key: string]: string | number; /* excess property used for _ */
 }
 
 // The response structure of the Grabber.
-interface IGrabber {
+export interface IGrabber {
     grabber: string;
     name: string;
     params: {
@@ -66,12 +67,13 @@ interface IGrabber {
 /**
  * Query the 9anime "episode/info" endpoint and get grabber target.
  * This target will later be used to fetch the episode links.
- * @param {IGrabberParams} params
+ * @param params
  *      ts, id and update parameter. Note: update is always 0.
- * @returns {Promise<T>}
+ * @returns
+ *      Promise which resolves to an object with interface IGrabber.
  */
 export function grabber(params: IGrabberParams): Promise<IGrabber> {
-    // this is the token
+    // [*] this is the token
     params._ = generateToken(params);
     return new Promise((resolve, reject) => {
         $
@@ -79,6 +81,53 @@ export function grabber(params: IGrabberParams): Promise<IGrabber> {
                 data: params,
                 dataType: "json",
                 url: "/ajax/episode/info?",
+            })
+            .done(resp => resolve(resp))
+            .fail(err => reject(err));
+    });
+}
+
+interface IlinksParams {
+    ts: string;
+    id: string;
+    options: string;
+    token: string;
+    mobile: number; /* this is 0 is most cases */
+    [key: string]: string | number; /* excess property used for _ */
+}
+
+interface ILinks {
+    data: [{file: string, label: string, type: string}];
+    error: number;
+    token: string;
+}
+
+/**
+ * Query the 9anime grabber and fetch the episode links.
+ * @param uri
+ *      The grabber uri.
+ * @param data
+ *      ts, id, options, token and mobile parameters.
+ *      Note: mobile is always 0.
+ * @returns
+ *      A promise which resolves to an object of type ILinks.
+ */
+export function links9a(uri: string, data: IlinksParams): Promise<ILinks> {
+    // The uri is something like this https://9anime.to/grabber-api/?server=21.
+    // We need the url part of it to send the next request and the search param
+    // part of it (ie server=21) to generate the token. So we decompose the uri
+    // and merge the searchParams with the data.
+    let decomposed = utils.decomposeURL(uri);
+    let initState = s(a(DD + decomposed[0], ""));
+    let merged = utils.mergeObject(data, decomposed[1]);
+    merged._ = generateToken(merged, initState);
+
+    return new Promise((resolve, reject) => {
+        $
+            .ajax({
+                data: merged,
+                dataType: "json",
+                url: decomposed[0],
             })
             .done(resp => resolve(resp))
             .fail(err => reject(err));
