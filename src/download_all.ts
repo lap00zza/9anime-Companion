@@ -1,31 +1,8 @@
 /**
  * Konichiwa~
- * This module is responsible for the Download All functionality.
- * Here is a brief overview of how it works:
- * 1. setup function is called to set the "animeName" and the "ts"* values.
- * 2. The episode select modal is then attached to the DOM.
- * 3. The "Download All" (or dlAll) buttons are attached to the DOM.
- *    dlAll buttons have a dataset called type which identifies which
- *    server they are supposed to download from. Server types are
- *    RapidVideo and Default.
- * 4. When the Download All button is clicked, the following happens
- *    1. "currentServer" is set to the type on the button.
- *    2. All the episodes for that server (on the 9anime page) are added
- *       to an array.
- *    3. The array is the used to populate the episode select modal.
- *    4. The user can then then chose which episode they want to download,
- *       along with a few other options like quality, downloader etc on
- *       the modal and click on the Download button.
- *    5. Selected episodes are added to another array, and the downloader()
- *       method is invoked which takes care of the rest :)
  *
- * Design choices:
- * 1. Downloads can be queued only from 1 server. What this means is, if
- *    you are downloading from F2, you cant queue more episodes from F4 or
- *    RapidVideo until the current queue is over.
- *
- * *ts is a arbitrary value that 9anime adds for each anime. This value is
- * needed when sending requests to the 9anime API.
+ * For a brief overview of this module, see
+ * https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/CONTRIBUTING.md#download_allts
  *
  * Thanks for deciding to contribute/read :) You are awesome!
  */
@@ -69,6 +46,28 @@ let ts = "";
 // Name of the current anime. This is set by the `setup()`
 // method.
 let animeName = "";
+
+// We disable the no-any rule only for these the variables
+// downloadQuality and downloadMethod. Why? because jQuery
+// val() can return 4 different types of values depending
+// on the context - string, string[], number, undefined.
+/* tslint:disable:no-any */
+
+// The preferred quality of the files to download. Valid
+// quality values are: 360p, 480p, 720p, 1080p. These
+// are not checked per se but are the qualities that
+// 9anime keeps.
+let downloadQuality: any = "360p";
+
+// The download method. There are 2. Default- which means
+// that files will be downloaded via the browser downloader
+// and External- which means the links will be displayed
+// in a popup for the users. (Links can then be used with
+// external download managers.)
+let downloadMethod: any = "browser";
+
+// Re-enable the no-any rule. It must not be disabled again.
+/* tslint:enable:no-any */
 
 function showEpModal(): void {
     $("#nac__dl-all__ep-modal").show();
@@ -192,6 +191,8 @@ export function epModal(): JQuery<HTMLElement> {
             // And... let it rip! We start downloading.
             if (selectedEpisodes.length > 0) {
                 // TODO: disable inputs
+                downloadQuality = $("#nac__dl-all__quality").val() || "360p";
+                downloadMethod = $("#nac__dl-all__method").val() || "browser";
                 isDownloading = true;
                 downloader();
             } else {
@@ -229,7 +230,9 @@ function getLinks9a(data: api.IGrabber) {
             options: data.params.options,
             token: data.params.token,
         })
-        .then(resp => console.info(resp))
+        .then(resp => {
+            console.info(resp);
+        })
         .catch(err => console.debug(err));
 }
 

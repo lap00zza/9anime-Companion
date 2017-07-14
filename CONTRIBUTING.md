@@ -12,12 +12,12 @@ RapidVideo and Default.
 4. When the Download All button is clicked, the following happens
     1. `currentServer` is set to the type on the button.
     2. All the episodes for that server (on the 9anime page) are added
-       to an array.
-    3. The array is the used to populate the episode select modal.
+       to an array called `episodes`.
+    3. `episodes` is then used to populate the episode select modal.
     4. The user can then then chose which episode they want to download,
        along with a few other options like quality, downloader etc on
        the modal and click on the Download button.
-    5. Selected episodes are added to another array, and the downloader()
+    5. Selected episodes are added to another array, and the `downloader()`
        method is invoked which takes care of the rest :smile:
 
 #### Design choices:
