@@ -1,6 +1,6 @@
-var path = require("path");
-var fs = require("fs");
-var webpack = require("webpack");
+let path = require("path");
+let fs = require("fs");
+let webpack = require("webpack");
 
 module.exports = {
     cache: true,

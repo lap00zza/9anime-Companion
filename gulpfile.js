@@ -1,11 +1,11 @@
 // TODO: webpack preset env
 
-var gulp = require("gulp");
-var gutil = require("gulp-util");
-var del = require("del");
-var runSequence = require("run-sequence");
-var webpack = require("webpack");
-var sass = require("gulp-sass")
+let gulp = require("gulp");
+let gutil = require("gulp-util");
+let del = require("del");
+let runSequence = require("run-sequence");
+let webpack = require("webpack");
+let sass = require("gulp-sass");
 
 gulp.task("webpack", function (callback) {
     webpack(require("./webpack.config"), function (err, stats) {
