@@ -59,9 +59,9 @@ let animeName = "";
 // 9anime keeps.
 let downloadQuality: any = "360p";
 
-// The download method. There are 2. Default- which means
+// The download method. There are 2. browser- which means
 // that files will be downloaded via the browser downloader
-// and External- which means the links will be displayed
+// and external- which means the links will be displayed
 // in a popup for the users. (Links can then be used with
 // external download managers.)
 let downloadMethod: any = "browser";
