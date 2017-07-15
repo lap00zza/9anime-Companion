@@ -13,15 +13,19 @@
     "url": "https://github.com/lap00zza/9anime-Companion"
   },
   "scripts": {
+    "test": "jest test",
     "linter": "tslint -c tslint.json ./src/**/*.ts"
   },
   "devDependencies": {
+    "@types/jest": "^20.0.2",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
     "gulp-util": "^3.0.8",
     "html-loader": "^0.4.5",
+    "jest": "^20.0.4",
     "run-sequence": "^2.0.0",
+    "ts-jest": "^20.0.7",
     "ts-lint": "^4.5.1",
     "ts-loader": "^2.2.2",
     "typescript": "^2.4.1",
@@ -31,5 +35,17 @@
     "@types/chrome": "0.0.47",
     "@types/jquery": "^3.2.6",
     "jquery": "^3.2.1"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/test/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }

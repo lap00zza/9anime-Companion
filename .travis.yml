@@ -5,4 +5,5 @@ before_script:
   - npm install
 script:
   - npm run linter
+  - npm run test
   - gulp
