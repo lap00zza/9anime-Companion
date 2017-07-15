@@ -5,12 +5,13 @@ The following is a set of guidelines for contributing to 9anime Companion
 
 ### Table of Contents
 * [Goal](#goal)
-* [How Can I Contribute?](#how-can-i-contribute?)
+* [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting bugs](#reporting-bugs)
+  * [Suggesting enhancements/features](#suggesting-enhancementsfeatures)
   * [Pull Requests](#pull-requests)
 * [Styleguides](#styleguides)
-  * [Git Commit Messages](#git-commit-messages)
-  * [Documentation](#documentation)
+* [Overview of modules](#overview-of-modules)
+  * [download_all.ts](#download_allts)
 
 ## Goal
 9anime Companion aims to give users meaningful features which are not implemented by 9anime.
