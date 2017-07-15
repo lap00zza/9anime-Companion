@@ -1,8 +1,8 @@
 /**
  * Konichiwa~
  *
- * For a brief overview of this module, see
- * https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/CONTRIBUTING.md#download_allts
+ * @file Responsible for the Download All functionality.
+ * @see {@link https://git.io/vQdkU} for a brief overview.
  *
  * Thanks for deciding to contribute/read :) You are awesome!
  */
@@ -12,13 +12,43 @@ import * as $ from "jquery";
 import * as api from "./api";
 import * as utils from "./utils";
 
-// The list of servers that 9anime Companion can
-// currently download from. PR's are welcome to
-// help expand the server pool.
+/**
+ * The list of servers that 9anime Companion can
+ * currently download from. PR's are welcome to
+ * help expand the server pool.
+ */
 export enum Server {
     "Default", /* default means the 9anime server */
     "RapidVideo",
 }
+
+/**
+ * The available download qualities.
+ * Items here **must** match the items in the dlAll_epModal.html file.
+ */
+export enum DownloadQuality {
+    "360p",
+    "480p",
+    "720p",
+    "1080p",
+}
+
+type DownloadQualityKeys = "360p" | "480p" | "720p" | "1080p";
+
+/**
+ * The available download methods. There are 2:
+ * - Browser: files will be downloaded via the browser downloader
+ * - External: links will be displayed in a popup for the users.
+ *   (Links can then be used with external download managers.)
+ *
+ * Items here **must** match the items in the dlAll_epModal.html file.
+ */
+enum DownloadMethod {
+    "Browser",
+    "External",
+}
+
+type DownloadMethodKeys = "Browser" | "External";
 
 interface IEpisode {
     id: string; /* The actual episode id. ex: 42m48j */
@@ -47,27 +77,17 @@ let ts = "";
 // method.
 let animeName = "";
 
-// We disable the no-any rule only for these the variables
-// downloadQuality and downloadMethod. Why? because jQuery
-// val() can return 4 different types of values depending
-// on the context - string, string[], number, undefined.
-/* tslint:disable:no-any */
+/**
+ * The preferred quality of the files to download.
+ * @default Quality["360p"]
+ */
+let downloadQuality: DownloadQuality = DownloadQuality["360p"];
 
-// The preferred quality of the files to download. Valid
-// quality values are: 360p, 480p, 720p, 1080p. These
-// are not checked per se but are the qualities that
-// 9anime keeps.
-let downloadQuality: any = "360p";
-
-// The download method. There are 2. browser- which means
-// that files will be downloaded via the browser downloader
-// and external- which means the links will be displayed
-// in a popup for the users. (Links can then be used with
-// external download managers.)
-let downloadMethod: any = "browser";
-
-// Re-enable the no-any rule. It must not be disabled again.
-/* tslint:enable:no-any */
+/**
+ * The preferred download method.
+ * @default DownloadMethod.Browser
+ */
+let downloadMethod: DownloadMethod = DownloadMethod.Browser;
 
 function showEpModal(): void {
     $("#nac__dl-all__ep-modal").show();
@@ -191,8 +211,10 @@ export function epModal(): JQuery<HTMLElement> {
             // And... let it rip! We start downloading.
             if (selectedEpisodes.length > 0) {
                 // TODO: disable inputs
-                downloadQuality = $("#nac__dl-all__quality").val() || "360p";
-                downloadMethod = $("#nac__dl-all__method").val() || "browser";
+                downloadQuality = DownloadQuality[$("#nac__dl-all__quality").val() as DownloadQualityKeys]
+                    || DownloadQuality["360p"];
+                downloadMethod = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys]
+                    || DownloadMethod.Browser;
                 isDownloading = true;
                 downloader();
             } else {
@@ -205,6 +227,35 @@ export function epModal(): JQuery<HTMLElement> {
     // When the modal is first attached, it should be hidden.
     modal.hide();
     return modal;
+}
+
+/**
+ * This function returns a episode of users preferred quality, or,
+ * if preferred quality is missing, returns the next lower quality.
+ * @param pref
+ *      The preferred quality. Must be of type Quality.
+ * @param episodes
+ *      The list of episodes from which we choose an episode
+ *      with the preferred quality.
+ * @returns
+ *      A episode with preferred quality or the next lower
+ *      quality. If there are no lower qualities then null
+ *      is returned.
+ * @see {@link https://git.io/vQdkt} for the unit tests.
+ */
+export function autoFallback(pref: DownloadQuality, episodes: api.IFile[]): api.IFile | null {
+    // Start at the preferred quality, the count down.
+    for (let i = pref; i >= DownloadQuality["360p"]; i--) {
+        // for each "quality" we loop through episodes
+        // and see if we find a suitable match.
+        for (let episode of episodes) {
+            if (episode.label === DownloadQuality[i]) {
+                return episode;
+            }
+        }
+    }
+    // Meaning fallback failed
+    return null;
 }
 
 /**
@@ -232,6 +283,15 @@ function getLinks9a(data: api.IGrabber) {
         })
         .then(resp => {
             console.info(resp);
+            // downloadMethod can either be browser or external.
+            // For browser, we make use of the default case.
+            switch (downloadMethod) {
+                case DownloadMethod.External:
+                    break;
+                default:
+                    let file = autoFallback(downloadQuality, resp.data);
+                    break;
+            }
         })
         .catch(err => console.debug(err));
 }
@@ -252,7 +312,7 @@ function downloader(): void {
             })
             .then(resp => {
                 // Server can either be RapidVideo or Default.
-                // For Default, we make use of switch default.
+                // For Default, we make use of default case.
                 switch (currentServer) {
                     case Server.RapidVideo:
                         // RapidVideo

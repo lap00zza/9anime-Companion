@@ -87,6 +87,7 @@ export function grabber(params: IGrabberParams): Promise<IGrabber> {
     });
 }
 
+// Parameters structure of links9a method.
 interface IlinksParams {
     ts: string;
     id: string;
@@ -96,8 +97,15 @@ interface IlinksParams {
     [key: string]: string | number; /* excess property used for _ */
 }
 
-interface ILinks {
-    data: [{ file: string, label: string, type: string }];
+export interface IFile {
+    file: string;
+    label: string;
+    type: string;
+}
+
+// Response structure of links9a method.
+interface IFileList {
+    data: IFile[];
     error: number;
     token: string;
 }
@@ -112,7 +120,7 @@ interface ILinks {
  * @returns
  *      A promise which resolves to an object of type ILinks.
  */
-export function links9a(uri: string, data: IlinksParams): Promise<ILinks> {
+export function links9a(uri: string, data: IlinksParams): Promise<IFileList> {
     // The uri is something like this https://9anime.to/grabber-api/?server=21.
     // We need the url part of it to send the next request and the search param
     // part of it (ie server=21) to generate the token. So we decompose the uri
