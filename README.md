@@ -28,6 +28,6 @@ This is the rewrite branch. Contributions are welcome :smile:
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/CONTRIBUTING.md)
 
 ## License
-[MIT](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/README.md)
+[MIT](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/LICENSE)
 
 Copyright (c) 2017 Jewel Mahanta
