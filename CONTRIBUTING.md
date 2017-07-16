@@ -35,6 +35,9 @@ Before suggesting an enhancement/feature, please do a quick search in the [Issue
 * Typescript: [Microsoft Typescript Styleguide](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines)
 
 ## Overview of modules
+### Remember
+* Most, if not all, modules have a `setup()` method. This basically acts like a constructor and set the variables necessary for the module to work.
+
 ### download_all.ts
 This module is responsible for the Download All functionality.
 Here is a brief overview of how it works:

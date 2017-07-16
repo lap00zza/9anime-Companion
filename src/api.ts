@@ -1,4 +1,11 @@
-// This module contains all the api calls.
+/**
+ * Konichiwa~
+ *
+ * This module contains all the api calls. This includes calls
+ * to the 9anime API and the MAL api. This module also takes
+ * care of the 9anime encryption scheme.
+ */
+
 import * as $ from "jquery";
 import * as utils from "./utils";
 
@@ -39,7 +46,27 @@ export function generateToken(data: { [key: string]: string | number }, initialS
         let trans = a(DD + key, data[key].toString());
         _ += s(trans);
     }
-    return _;
+    // 16-07-2017
+    // 9anime subtracted 30 from the token.
+    return _ - 30;
+}
+
+// ***
+
+let baseUrl = "https://9anime.to";
+
+interface ISetupOptions {
+    baseUrl: string;
+}
+
+/**
+ * This function is very important. It must be called
+ * before using any functions from this module.
+ * @param options
+ *      baseUrl parameter
+ */
+export function setup(options: ISetupOptions) {
+    baseUrl = options.baseUrl;
 }
 
 // The parameters structure for grabber.
@@ -80,7 +107,7 @@ export function grabber(params: IGrabberParams): Promise<IGrabber> {
             .ajax({
                 data: params,
                 dataType: "json",
-                url: "/ajax/episode/info?",
+                url: baseUrl + "/ajax/episode/info?",
             })
             .done(resp => resolve(resp))
             .fail(err => reject(err));
@@ -97,13 +124,23 @@ interface IlinksParams {
     [key: string]: string | number; /* excess property used for _ */
 }
 
+/**
+ * Represents a episode file. Has these properties:
+ * file - is the url of the file
+ * label - is the quality of the file; ex: 360p, 480p
+ * type - is the file type; ex: mp4
+ */
 export interface IFile {
     file: string;
     label: string;
     type: string;
 }
 
-// Response structure of links9a method.
+/**
+ * Response structure of links9a method. "data" holds a list
+ * of objects. Each object, lets call them file, represents
+ * a quality for the episode.
+ */
 interface IFileList {
     data: IFile[];
     error: number;

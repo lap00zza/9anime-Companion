@@ -5,6 +5,7 @@ let webpack = require("webpack");
 module.exports = {
     cache: true,
     entry: {
+        background: "./src/background.ts",
         cs_watch_page: "./src/cs_watch_page.ts"
     },
     module: {

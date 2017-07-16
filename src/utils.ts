@@ -1,26 +1,11 @@
 /**
  * Konichiwa~
- * Before you make any changes please consider the following:
  *
- * 1. utils houses the utility functions that can be reused
- *    anywhere. If you want to add a specialized/single
- *    use-case function, utils is not the place for it.
- * 2. Comments are a must in JSDoc style. But dont specify
- *    the types. We are using typescript which render JSDoc
- *    types useless. Remember to briefly explain the params
- *    and the return value (if any).
- *
- * Thanks for deciding to contribute/read :) You are awesome!
+ * This module contains the utility functions that are used
+ * by content script, background script and the popup.
  */
 
-/**
- * Defines a generic object with key, value as strings.
- * Since TS needs a index signature, we will use this
- * quite often.
- */
-interface IGenericObject {
-    [key: string]: string | number;
-}
+import { IGenericObject } from "./common";
 
 /**
  * A simple helper function to remove the leading
@@ -81,7 +66,6 @@ export function mergeObject(obj1: IGenericObject, obj2: IGenericObject): IGeneri
 let parser = document.createElement("a");
 /**
  * Returns a [url, searchParams] tuple from a uri string.
- * Remember, tuple is basically a fixed length array.
  * Credits to jlong for this implementation idea:
  * https://gist.github.com/jlong/2428561
  * @param uriString

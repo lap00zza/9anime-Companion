@@ -24,6 +24,10 @@
     }
   ],
 
+  "background": {
+    "page": "background.html"
+  },
+
   "browser_action": {
     "default_icon": "assets/images/icon.png"
   },
