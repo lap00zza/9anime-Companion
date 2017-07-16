@@ -48,9 +48,6 @@ export type DownloadMethodKeys = "Browser" | "External";
  * Since TS needs a index signature, we will use this
  * quite often.
  *
- * NOTE: DON'T DECLARE ANYTHING ELSE AS ANY OR YOUR PR
- * WILL BE REJECTED IMMEDIATELY.
- *
  * @todo this might be better of as union instead of any
  */
 export interface IGenericObject {

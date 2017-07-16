@@ -100,21 +100,19 @@ export function fileName(file: api.IFile, episode: IEpisode): string {
 }
 
 /**
- * This function returns a file of users preferred quality from
- * a list of files, or, if preferred quality is missing, returns
- * the next lower quality.
+ * Returns a file of users preferred quality from a list of files,
+ * or, if preferred quality is missing, returns the next lower
+ * quality. If there are no lower qualities then null is returned.
  * @param pref
- *      The preferred quality. Must be of type DownloadQuality.
+ *      The preferred quality.
  * @param files
- *      The list of files from which we choose an file with the
- *      preferred quality.
+ *      The list of files from which we choose.
  * @returns
  *      A file with preferred quality or the next lower quality.
- *      If there are no lower qualities then null is returned.
  * @see {@link https://git.io/vQdkt} for the unit tests.
  */
 export function autoFallback(pref: DownloadQuality, files: api.IFile[]): api.IFile | null {
-    // Start at the preferred quality, the count down.
+    // Start at the preferred quality, then count down.
     for (let i = pref; i >= DownloadQuality["360p"]; i--) {
         // for each "quality" we loop through episodes
         // and see if we find a suitable match.
@@ -208,6 +206,12 @@ export function downloader(): void {
     }
 }
 
+/**
+ * Triggers the download process.
+ * @param baseUrl
+ *      The baseUrl of the 9anime site.
+ *      Ex: https://9anime.to, https://9anime.is etc
+ */
 export function start(baseUrl: string): Promise<Intent> {
     api.setup({
         baseUrl,

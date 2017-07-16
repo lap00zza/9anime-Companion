@@ -32,12 +32,10 @@ let currentServer: Server =  Server.Default;
 // A boolean flag to track if download is in progress.
 let isDownloading = false;
 
-// We need this value while sending API requests. This
-// is set by the `setup()` method.
+// We need this value while sending API requests.
 let ts = "";
 
-// Name of the current anime. This is set by the `setup()`
-// method.
+// Name of the current anime.
 let animeName = "";
 
 interface ISetupOptions {
