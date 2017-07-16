@@ -136,7 +136,7 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
             token: data.params.token,
         })
         .then(resp => {
-            console.log(resp);
+            // console.log(resp);
             // downloadMethod can either be Browser or External.
             // For Browser, we make use of the default case.
             switch (downloadMethod) {
@@ -145,7 +145,7 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                 default:
                     let file = autoFallback(downloadQuality, resp.data);
                     if (file) {
-                        console.log(file);
+                        // console.log(file);
                         let filename = utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}.${file.type}`);
                         chrome.downloads.download({
                             conflictAction: "uniquify",
