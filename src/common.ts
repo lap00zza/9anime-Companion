@@ -6,7 +6,9 @@
 
 /**
  * The list of servers that 9anime Companion can
- * currently download from.
+ * currently download from. Currently they are:
+ * - Default: 9anime Server (F2, F4 etc)
+ * - RapidVideo
  */
 export enum Server {
     "Default", /* default means the 9anime server */

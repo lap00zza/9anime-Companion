@@ -4,6 +4,7 @@
  * This is responsible for the Download All core functionality.
  * Chrome does not allow content scripts to download, that's why
  * the functionality had to be split.
+ *
  * @see {@link https://git.io/vQdkU} for a brief overview.
  */
 
@@ -17,25 +18,33 @@ import {
 } from  "./common";
 import * as utils from "./utils";
 
-// The episodes that the users selected in the epModal
-// are stored here. These are the episodes that will be
-// downloaded.
-let selectedEpisodes: IEpisode[] = [];
-
-// A boolean flag to track if download is in progress.
-let isDownloading = false;
-
-// We need this value while sending API requests. This
-// is set by the `setup()` method.
+// We need this value while sending API requests.
 let ts = "";
 
-// Name of the current anime. This is set by the `setup()`
-// method.
+// Name of the current anime.
 let animeName = "";
 
-//
+/**
+ * resolver and rejecter holds the references to the resolve
+ * and reject callbacks of the start method. These are then
+ * later called as required.
+ */
 let resolver: (value?: Intent) => void;
 let rejecter: (value?: Intent) => void;
+
+/**
+ * The episodes that the users selected in the epModal
+ * are stored here. These are the episodes that will be
+ * downloaded.
+ * @default []
+ */
+let selectedEpisodes: IEpisode[] = [];
+
+/**
+ * A boolean flag to track if download is in progress.
+ * @default false
+ */
+let isDownloading = false;
 
 /**
  * 9anime Companion can only download from 1 server at
@@ -80,6 +89,14 @@ export function setup(options: ISetupOptions) {
     downloadQuality = options.quality;
     selectedEpisodes = options.selectedEpisodes;
     ts = options.ts;
+}
+
+/**
+ * A simple helper function that generates a filename.
+ * @returns filename
+ */
+export function fileName(file: api.IFile, episode: IEpisode): string {
+    return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}.${file.type}`);
 }
 
 /**
@@ -146,10 +163,9 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                     let file = autoFallback(downloadQuality, resp.data);
                     if (file) {
                         // console.log(file);
-                        let filename = utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}.${file.type}`);
                         chrome.downloads.download({
                             conflictAction: "uniquify",
-                            filename,
+                            filename: fileName(file, episode),
                             url: file.file,
                         });
                     }

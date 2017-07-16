@@ -3,6 +3,7 @@
  *
  * => Part of Content Script
  * This is responsible for the Download All widgets/components.
+ *
  * @see {@link https://git.io/vQdkU} for a brief overview.
  */
 
