@@ -24,6 +24,15 @@ This is the rewrite branch. Contributions are welcome :smile:
 4. Then run `gulp` to compile sass and make extension. Check the `dist/chromium` for the built extension.
 5. *Optional:* since the project is in Typescript, be sure to use a editor like [VSCode](https://code.visualstudio.com/) to take full advantage.
 
+## Progress Tracker
+- [x] Download All
+- [ ] Ad and Popup Remover/Blocker (**done partially**)
+- [ ] MyAnimeList Integration
+- [ ] Recently Watched List
+- [ ] Pinned Anime List
+
+and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31
+
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/CONTRIBUTING.md)
 
