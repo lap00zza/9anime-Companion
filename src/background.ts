@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 ts: message.ts,
             });
             dlAll.start(message.baseUrl).then(resp => {
-                sendMessage(sender, {intent: resp});
+                sendMessage(sender, resp);
             });
             break;
         default:

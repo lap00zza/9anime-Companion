@@ -13,10 +13,15 @@ import {
     DownloadMethod,
     DownloadQuality,
     IEpisode,
+    IGenericObject,
     Intent,
     Server,
 } from  "./common";
 import * as utils from "./utils";
+
+interface IDownloadPromise extends IGenericObject {
+    intent: Intent;
+}
 
 // We need this value while sending API requests.
 let ts = "";
@@ -29,8 +34,16 @@ let animeName = "";
  * and reject callbacks of the start method. These are then
  * later called as required.
  */
-let resolver: (value?: Intent) => void;
-let rejecter: (value?: Intent) => void;
+let resolver: (value?: IDownloadPromise) => void;
+let rejecter: (value?: IDownloadPromise) => void;
+
+/**
+ * This variable holds all links when method external is selected.
+ * The links are then resolved via promise which then shows up in
+ * the users tab.
+ * @see getLinks9a
+ */
+let aggregateLinks = "";
 
 /**
  * The episodes that the users selected in the epModal
@@ -93,10 +106,22 @@ export function setup(options: ISetupOptions) {
 
 /**
  * A simple helper function that generates a filename.
+ * @param file
+ *      The current episode file for which we are generating
+ *      the file name.
+ * @param episode
+ *      episode data, i.e: id and num
+ * @param ext
+ *      A boolean value which means should extension (ex: mp4)
+ *      be part of the title. Defaults to true.
  * @returns filename
  */
-export function fileName(file: api.IFile, episode: IEpisode): string {
-    return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}.${file.type}`);
+export function fileName(file: api.IFile, episode: IEpisode, ext = true): string {
+    if (ext) {
+        return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}.${file.type}`);
+    } else {
+        return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}`);
+    }
 }
 
 /**
@@ -137,7 +162,18 @@ function requeue(): void {
     } else {
         // All downloads over
         isDownloading = false;
-        resolver(Intent.Download_Complete);
+
+        // Resolve the Download Promise.
+        if (method === DownloadMethod.Browser) {
+            resolver({
+                intent: Intent.Download_Complete,
+            });
+        } else {
+            resolver({
+                intent: Intent.Download_Complete,
+                links: aggregateLinks,
+            });
+        }
     }
 }
 
@@ -152,13 +188,16 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
         })
         .then(resp => {
             // console.log(resp);
+            let file = autoFallback(quality, resp.data);
             // downloadMethod can either be Browser or External.
             // For Browser, we make use of the default case.
             switch (method) {
                 case DownloadMethod.External:
+                    if (file) {
+                        aggregateLinks += `${file.file}&title=${fileName(file, episode, false)}&type=${file.type}\n`;
+                    }
                     break;
                 default:
-                    let file = autoFallback(quality, resp.data);
                     if (file) {
                         // console.log(file);
                         chrome.downloads.download({
@@ -170,7 +209,9 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                     break;
             }
         })
-        .catch(err => console.debug(err));
+        .catch(err => console.debug(err))
+        // The last then acts like a finally.
+        .then(() => requeue());
 }
 
 /**
@@ -191,20 +232,18 @@ export function downloader(): void {
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
                 switch (server) {
-                    case Server.RapidVideo:
-                        // RapidVideo
-                        // When this is selected, additional permissions must be
-                        // asked to be able to access that domain.
-                        break;
+                    // TODO: lets do the RapidVideo bit later
+                    // case Server.RapidVideo:
+                    //     // RapidVideo
+                    //     // When this is selected, additional permissions must be
+                    //     // asked to be able to access that domain.
+                    //     break;
                     default:
                         getLinks9a(resp, ep as IEpisode);
                         break;
                 }
             })
-            .catch(err => console.debug(err))
-            // The last then acts like a finally.
-            // It will always run no matter what.
-            .then(() => requeue());
+            .catch(err => console.debug(err));
     }
 }
 
@@ -214,7 +253,7 @@ export function downloader(): void {
  *      The baseUrl of the 9anime site.
  *      Ex: https://9anime.to, https://9anime.is etc
  */
-export function start(baseUrl: string): Promise<Intent> {
+export function start(baseUrl: string): Promise<IDownloadPromise> {
     api.setup({
         baseUrl,
     });

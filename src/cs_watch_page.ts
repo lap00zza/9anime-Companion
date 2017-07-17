@@ -91,10 +91,12 @@ if (settings.downloadAll) {
 
         // Basically what we are doing here is testing
         // the labels and adding appropriate dl buttons.
-        if (/RapidVideo/i.test(serverLabel)) {
-            $(server).append(dlAll.downloadBtn(Server.RapidVideo));
-        } else if (/Server\s+F/i.test(serverLabel)) {
+        if (/Server\s+F/i.test(serverLabel)) {
             $(server).append(dlAll.downloadBtn(Server.Default));
         }
+        // TODO: lets do the RapidVideo bit later
+        // else if (/RapidVideo/i.test(serverLabel)) {
+        //     $(server).append(dlAll.downloadBtn(Server.RapidVideo));
+        // }
     }
 }

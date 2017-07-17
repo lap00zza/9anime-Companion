@@ -197,7 +197,7 @@ export function epModal(): JQuery<HTMLElement> {
  */
 chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     if (message.intent === Intent.Download_Complete) {
-        console.info("Download Complete");
+        console.info("Download Complete", message);
         isDownloading = false;
     }
 });
