@@ -29,6 +29,8 @@ import * as utils from "./utils";
  */
 let server: Server =  Server.Default;
 
+let method: DownloadMethod = DownloadMethod.Browser;
+
 // A boolean flag to track if download is in progress.
 let isDownloading = false;
 
@@ -217,7 +219,7 @@ export function epModal(): JQuery<HTMLElement> {
                 // DownloadQuality and DownloadMethod types.
                 let quality: DownloadQuality = DownloadQuality[$("#nac__dl-all__quality").val() as DownloadQualityKeys]
                     || DownloadQuality["360p"];
-                let method: DownloadMethod = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys]
+                method = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys]
                     || DownloadMethod.Browser;
 
                 isDownloading = true;
@@ -256,8 +258,10 @@ export function epModal(): JQuery<HTMLElement> {
 chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     if (message.intent === Intent.Download_Complete) {
         console.info("Download Complete", message);
-        $("#nac__dl-all__links").text(message.links);
-        showModal("#nac__dl-all__links-modal");
+        if (method === DownloadMethod.External) {
+            $("#nac__dl-all__links").text(message.links);
+            showModal("#nac__dl-all__links-modal");
+        }
         isDownloading = false;
         enableInputs();
     }
