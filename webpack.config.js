@@ -21,7 +21,7 @@ module.exports = {
     },
     output: {
         filename: "[name].bundle.js",
-        path: path.resolve(__dirname, "src/build")
+        path: path.resolve(__dirname, "src/build/js")
     },
     plugins: [
         new webpack.BannerPlugin({

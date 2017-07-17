@@ -35,7 +35,7 @@ gulp.task("make_chrome", function (callback) {
 gulp.task("sass", function () {
     return gulp.src("src/assets/sass/**/*.sass")
         .pipe(sass())
-        .pipe(gulp.dest("src/assets/css"));
+        .pipe(gulp.dest("src/build/css"));
 });
 
 // The default gulp task that runs when we

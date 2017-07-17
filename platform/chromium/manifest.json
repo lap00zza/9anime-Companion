@@ -18,8 +18,8 @@
   "content_scripts": [
     {
       "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
-      "js": ["build/cs_watch_page.bundle.js"],
-      "css": ["assets/css/watch_page.css"],
+      "js": ["build/js/cs_watch_page.bundle.js"],
+      "css": ["build/css/watch_page.css"],
       "run_at": "document_end"
     }
   ],
