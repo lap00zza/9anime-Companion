@@ -1,4 +1,12 @@
+// Konichiwa~
+// This file is responsible for styling the /watch/
+// pages of 9anime. So things like the utility bar,
+// download all modals etc are part of this file. If
+// you want to contribute, please make sure to study
+// the pattern we use in this file.
+
 @import "animations"
+
 // NOTE:
 // 1. Separate each block by 2 spaces
 // 2. Within a block separate each group by 1 space
@@ -6,6 +14,79 @@
 // All the styles should be prefixed with "nac__"
 // why nac and not 9ac? because css cant have
 // numbers as selectors
+
+
+// Common animation classes
+.shake
+  @include animation__shake
+
+.fade_in
+  @include animation__fade-in
+
+.fade_out
+  @include animation__fade-out
+
+
+// This represents a generic modal.
+// Original implementation by @yumiris
+//
+// The parent class is the modal overlay, ie.
+// the part that darkens the page. On this
+// overlay the modal container is present
+.nac__modal
+  height: 100%
+  width: 100%
+  background-color: rgba(0, 0, 0, 0.7)
+  //padding-top: 25px
+
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 100
+
+  .container
+    padding: 25px
+    margin: 50px auto
+    border-radius: 2px
+    position: relative
+
+    width: 100%
+    max-width: 480px
+    height: 100%
+    max-height: 480px
+
+    background-color: #16151c
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2)
+
+    a
+      cursor: pointer
+
+    .header
+      border-bottom: 1px solid #9a9a9a
+      padding-bottom: 5px
+
+    .body
+      margin-top: 10px
+      overflow-y: auto
+      max-width: 455px
+      height: 260px
+      padding: 20px
+      background-color: rgba(0, 0, 0, 0.25)
+      border-radius: 5px
+
+      display: flex
+      flex-wrap: wrap
+
+    .footer
+      margin-top: 10px
+      text-align: center
+      display: block
+
+      &__item
+        display: inline-block
+        width: 100px
+
+
 #nac__utility-bar
   margin-top: 10px !important
 
@@ -40,69 +121,15 @@
     background: #222
     color: #888
 
-// This is the ep select modal. The top id
-// is the modal overlay, ie. the part that
-// darkens the page. On this overlay the
-// modal container will be present
+// This is the ep select modal.
 #nac__dl-all__ep-modal
-  height: 100%
-  width: 100%
-  background-color: rgba(0, 0, 0, 0.7)
-  padding-top: 25px
-
-  position: fixed
-  top: 0
-  left: 0
-  z-index: 100
-
   .container
-    margin: 50px auto
-    position: relative
-
-    width: 100%
-    max-width: 480px
-
-    height: 100%
-    max-height: 480px
-
-    background-color: #16151c
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2)
-
-    padding: 25px
-    border-radius: 2px
-
-    a
-      cursor: pointer
-
-    .header
-      border-bottom: 1px solid #9a9a9a
-      padding-bottom: 5px
-
     .body
-      margin-top: 10px
-      overflow-y: scroll
-      max-width: 455px
-      height: 260px
-      padding: 20px
-      background-color: rgba(0, 0, 0, 0.25)
-      border-radius: 5px
-
-      display: flex
-      flex-wrap: wrap
-
       .nac__dl-all__episode
         margin-left: 5px
         margin-right: 5px
 
     .footer
-      margin-top: 10px
-      text-align: center
-      display: block
-
-      &__item
-        display: inline-block
-        width: 100px
-
       &__options
         margin-top: 10px
 
@@ -126,13 +153,35 @@
         &:hover
           background: #332041
 
+// The links modal.
+#nac__dl-all__links-modal
+  .container
+    // The height needs to be a little less
+    // than 480px since we only have 1 button.
+    max-height: 400px
+    .body
+      // Don't need the 20px padding. The textarea
+      // should cover entire body.
+      padding: 0
+      textarea
+        background: transparent
+        resize: none
+        height: 100%
+        width: 100%
+    .footer
+      // Need to make the button a bit wider since
+      // it has quite a bit of text.
+      &__item
+        width: 150px
+        #nac__dl-all__copy-links
+          border: 0
+          padding: 10px
+          background: rgba(0, 0, 0, 0.25)
+          img
+            height: 20px
+            width: 20px
 
-// Common animation classes
-.shake
-  @include animation__shake
-
-.fade_in
-  @include animation__fade-in
-
-.fade_out
-  @include animation__fade-out
+          &:hover
+            box-shadow: 0 2px 5px rgba(0,0,0,.4)
+          &:active
+            box-shadow: 0 0 0

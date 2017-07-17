@@ -85,6 +85,7 @@ if (settings.downloadAll) {
         ts: body.data("ts"),
     });
     body.append(dlAll.epModal());
+    body.append(dlAll.linksModal());
 
     for (let server of servers) {
         let serverLabel = $(server).text();

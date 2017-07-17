@@ -13,14 +13,14 @@ import {
     DownloadMethod,
     DownloadQuality,
     IEpisode,
-    IGenericObject,
     Intent,
     Server,
 } from  "./common";
 import * as utils from "./utils";
 
-interface IDownloadPromise extends IGenericObject {
+interface IDownloadPromise {
     intent: Intent;
+    links?: string;
 }
 
 // We need this value while sending API requests.

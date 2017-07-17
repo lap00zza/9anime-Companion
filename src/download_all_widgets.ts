@@ -56,29 +56,30 @@ export function setup(options: ISetupOptions) {
     ts = options.ts;
 }
 
-function showEpModal(): void {
-    let epModal = $("#nac__dl-all__ep-modal");
-    $(epModal).show();
-    $(epModal).find(".container").addClass("fade_in");
+// *** Animations ***
+function showModal(selector: string): void {
+    let modal = $(selector);
+    $(modal).show();
+    $(modal).find(".container").addClass("fade_in");
     setTimeout(() => {
-        $(epModal).find(".container").removeClass("fade_in");
+        $(modal).find(".container").removeClass("fade_in");
     }, 500);
 }
 
-function hideEpModal(): void {
-    let epModal = $("#nac__dl-all__ep-modal");
-    $(epModal).find(".container").addClass("fade_out");
+function hideModal(selector: string): void {
+    let modal = $(selector);
+    $(modal).find(".container").addClass("fade_out");
     setTimeout(() => {
-        $(epModal).find(".container").removeClass("fade_out");
-        $(epModal).hide();
+        $(modal).find(".container").removeClass("fade_out");
+        $(modal).hide();
     }, 500);
 }
 
-function shakeEpModal(): void {
-    let epModal = $("#nac__dl-all__ep-modal");
-    $(epModal).find(".container").addClass("shake");
+function shakeModal(selector: string): void {
+    let modal = $(selector);
+    $(modal).find(".container").addClass("shake");
     setTimeout(() => {
-        $(epModal).find(".container").removeClass("shake");
+        $(modal).find(".container").removeClass("shake");
     }, 820);
 }
 
@@ -137,9 +138,33 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
                 </span>`);
             modalBody.append(epSpan);
         }
-        showEpModal();
+        showModal("#nac__dl-all__ep-modal");
     });
     return btn;
+}
+
+export function linksModal(): JQuery<HTMLElement> {
+    let template = require("html-loader!./templates/dlAll_linksModal.html");
+    let modal = $(template);
+    let clipboardIcon = chrome.extension.getURL("assets/images/clipboard.png");
+
+    // 1> Add the clipboard icon to the button
+    modal.find("#nac__dl-all__copy-links > img").attr("src", clipboardIcon);
+
+    // 2> When the overlay is clicked, the modal hides
+    modal.on("click", e => {
+        if (e.target === modal[0]) {
+            hideModal("#nac__dl-all__links-modal");
+        }
+    });
+
+    // 3> Bind functionality to the 'Copy to clipboard' button.
+    modal.find("#nac__dl-all__copy-links").on("click", () => {
+        $("#nac__dl-all__links").select();
+        document.execCommand("copy");
+    });
+    modal.hide();
+    return modal;
 }
 
 /**
@@ -160,7 +185,7 @@ export function epModal(): JQuery<HTMLElement> {
     // 2> When the overlay is clicked, the modal hides
     modal.on("click", e => {
         if (e.target === modal[0]) {
-            hideEpModal();
+            hideModal("#nac__dl-all__ep-modal");
         }
     });
 
@@ -173,6 +198,7 @@ export function epModal(): JQuery<HTMLElement> {
     modal.find("#nac__dl-all__download").on("click", () => {
         if (!isDownloading) {
             let selectedEpisodes: IEpisode[] = [];
+
             // First, we get all the checked episodes in the
             // modal and push these to selectedEpisodes.
             $("#nac__dl-all__ep-modal")
@@ -183,6 +209,7 @@ export function epModal(): JQuery<HTMLElement> {
                         num: $(el).data("num"),
                     });
                 });
+
             // And... let it rip!
             if (selectedEpisodes.length > 0) {
                 // This part might look a bit complex but what its actually
@@ -213,7 +240,7 @@ export function epModal(): JQuery<HTMLElement> {
                 });
             } else {
                 // Gotta select some episodes!!!
-                shakeEpModal();
+                shakeModal("#nac__dl-all__ep-modal");
             }
         }
     });
@@ -229,6 +256,8 @@ export function epModal(): JQuery<HTMLElement> {
 chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     if (message.intent === Intent.Download_Complete) {
         console.info("Download Complete", message);
+        $("#nac__dl-all__links").text(message.links);
+        showModal("#nac__dl-all__links-modal");
         isDownloading = false;
         enableInputs();
     }
