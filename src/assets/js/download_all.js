@@ -73,7 +73,7 @@ function generate_token(data, initial_state = 0) {
         // console.log(trans);
         _ += s(trans);
     }
-    return _;
+    return _ - 30;
 }
 // --- End Token Generation
 
