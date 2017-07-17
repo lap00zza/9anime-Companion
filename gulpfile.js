@@ -6,6 +6,7 @@ let del = require("del");
 let runSequence = require("run-sequence");
 let webpack = require("webpack");
 let sass = require("gulp-sass");
+let zip = require("gulp-zip");
 
 gulp.task("webpack", function (callback) {
     webpack(require("./webpack.config"), function (err, stats) {
@@ -43,3 +44,14 @@ gulp.task("sass", function () {
 gulp.task("default", function (callback) {
     runSequence("sass", "make_chrome", callback);
 })
+
+// A utility task to help zip up the built files.
+// This task should be called after running the
+// default task.
+gulp.task("zip_chrome", function () {
+    gulp.src([
+        "dist/chromium/**/*"
+    ])
+        .pipe(zip("9anime_Companion_chrome.zip"))
+        .pipe(gulp.dest("dist"));
+});
