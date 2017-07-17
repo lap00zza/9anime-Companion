@@ -82,6 +82,14 @@ function shakeEpModal(): void {
     }, 820);
 }
 
+function disableInputs(): void {
+    $(".nac__dl-all").attr("disabled", "disabled");
+}
+
+function enableInputs(): void {
+    $(".nac__dl-all").removeAttr("disabled");
+}
+
 /**
  * Returns a 'Download' button.
  * @param {Server} targetServer
@@ -177,7 +185,6 @@ export function epModal(): JQuery<HTMLElement> {
                 });
             // And... let it rip!
             if (selectedEpisodes.length > 0) {
-                // TODO: disable inputs
                 // This part might look a bit complex but what its actually
                 // doing is mapping the select value in the modal to
                 // DownloadQuality and DownloadMethod types.
@@ -185,7 +192,10 @@ export function epModal(): JQuery<HTMLElement> {
                     || DownloadQuality["360p"];
                 let method: DownloadMethod = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys]
                     || DownloadMethod.Browser;
+
                 isDownloading = true;
+                // hideEpModal();
+                disableInputs();
 
                 // Well since content scripts cant really download
                 // we will send a message to the background script
@@ -220,5 +230,6 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     if (message.intent === Intent.Download_Complete) {
         console.info("Download Complete", message);
         isDownloading = false;
+        enableInputs();
     }
 });
