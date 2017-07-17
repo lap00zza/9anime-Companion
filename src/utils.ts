@@ -74,9 +74,9 @@ let parser = document.createElement("a");
  * @returns
  *      The tuple [url, searchParams]
  */
-export function decomposeURL(uriString: string): [string, IGenericObject] {
+export function decomposeURL(uriString: string): [string, {[key: string]: string}] {
     parser.href = uriString;
-    let searchParams: IGenericObject = {};
+    let searchParams: {[key: string]: string} = {};
     let url = parser.protocol + "//" + parser.hostname + parser.pathname;
 
     // query string contains a '?' followed by

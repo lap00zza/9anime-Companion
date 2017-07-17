@@ -27,7 +27,7 @@ import * as utils from "./utils";
  * which we are currently downloading/will download.
  * @default Server.Default
  */
-let currentServer: Server =  Server.Default;
+let server: Server =  Server.Default;
 
 // A boolean flag to track if download is in progress.
 let isDownloading = false;
@@ -66,19 +66,19 @@ function hideEpModal(): void {
 
 /**
  * Returns a 'Download' button.
- * @param {Server} server
+ * @param {Server} targetServer
  *      The server from which episodes will be downloaded.
- *      Allowed types are 9anime and RapidVideo.
+ *      Allowed types are Server.Default and Server.RapidVideo.
  * @returns
  *      A nicely generated 'Download' button
  */
-export function downloadBtn(server: Server): JQuery<HTMLElement> {
-    let btn = $(`<button data-type="${server}" class="nac__dl-all">Download</button>`);
+export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
+    let btn = $(`<button data-type="${targetServer}" class="nac__dl-all">Download</button>`);
     btn.on("click", e => {
         // This array hold's all the the episodes of the current
         // anime for a particular server (ex: RapidVideo, F2, F4)
         let episodes: IEpisode[] = [];
-        currentServer = $(e.currentTarget).data("type");
+        server = $(e.currentTarget).data("type");
 
         // TODO: maybe all of this should be generated only once or somehow cached
         // Every time the 'Download' button is clicked,
@@ -173,7 +173,7 @@ export function epModal(): JQuery<HTMLElement> {
                     animeName,
                     // Note: location.origin is not supported in all browser
                     baseUrl: window.location.origin,
-                    currentServer,
+                    server,
                     intent: Intent.Download_All,
                     method,
                     quality,
@@ -192,6 +192,9 @@ export function epModal(): JQuery<HTMLElement> {
     return modal;
 }
 
+/**
+ * This part will notify us when the downloads are complete.
+ */
 chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     if (message.intent === Intent.Download_Complete) {
         console.info("Download Complete");

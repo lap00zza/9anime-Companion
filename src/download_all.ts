@@ -52,26 +52,26 @@ let isDownloading = false;
  * which we are currently downloading/will download.
  * @default Server.Default
  */
-let currentServer: Server = Server.Default;
+let server: Server = Server.Default;
 
 /**
  * The preferred quality of the files to download.
  * @default Quality["360p"]
  */
-let downloadQuality: DownloadQuality = DownloadQuality["360p"];
+let quality: DownloadQuality = DownloadQuality["360p"];
 
 /**
  * The preferred download method.
  * @default DownloadMethod.Browser
  */
-let downloadMethod: DownloadMethod = DownloadMethod.Browser;
+let method: DownloadMethod = DownloadMethod.Browser;
 
 interface ISetupOptions {
     animeName: string;
-    currentServer: Server;
     method: DownloadMethod;
     quality: DownloadQuality;
     selectedEpisodes: IEpisode[];
+    server: Server;
     ts: string;
 }
 
@@ -84,10 +84,10 @@ interface ISetupOptions {
  */
 export function setup(options: ISetupOptions) {
     animeName = options.animeName;
-    currentServer = options.currentServer;
-    downloadMethod = options.method;
-    downloadQuality = options.quality;
+    method = options.method;
+    quality = options.quality;
     selectedEpisodes = options.selectedEpisodes;
+    server = options.server;
     ts = options.ts;
 }
 
@@ -154,11 +154,11 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
             // console.log(resp);
             // downloadMethod can either be Browser or External.
             // For Browser, we make use of the default case.
-            switch (downloadMethod) {
+            switch (method) {
                 case DownloadMethod.External:
                     break;
                 default:
-                    let file = autoFallback(downloadQuality, resp.data);
+                    let file = autoFallback(quality, resp.data);
                     if (file) {
                         // console.log(file);
                         chrome.downloads.download({
@@ -190,9 +190,11 @@ export function downloader(): void {
             .then(resp => {
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
-                switch (currentServer) {
+                switch (server) {
                     case Server.RapidVideo:
                         // RapidVideo
+                        // When this is selected, additional permissions must be
+                        // asked to be able to access that domain.
                         break;
                     default:
                         getLinks9a(resp, ep as IEpisode);

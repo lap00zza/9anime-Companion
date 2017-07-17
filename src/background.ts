@@ -4,7 +4,7 @@
  * This is the background script.
  */
 
-import {IGenericObject, Intent, IRuntimeMessage} from "./common";
+import {Intent, IRuntimeMessage} from "./common";
 import * as dlAll from "./download_all";
 
 /***
@@ -13,7 +13,7 @@ import * as dlAll from "./download_all";
  * @param sender
  * @param data
  */
-function sendMessage(sender: chrome.runtime.MessageSender, data: IGenericObject) {
+function sendMessage(sender: chrome.runtime.MessageSender, data: IRuntimeMessage) {
     if (sender.tab && sender.tab.id) {
         chrome.tabs.sendMessage(sender.tab.id, data);
     }
@@ -29,10 +29,10 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
         case Intent.Download_All:
             dlAll.setup({
                 animeName: message.animeName,
-                currentServer: message.currentServer,
                 method: message.method,
                 quality: message.quality,
                 selectedEpisodes: message.selectedEpisodes,
+                server: message.server,
                 ts: message.ts,
             });
             dlAll.start(message.baseUrl).then(resp => {
