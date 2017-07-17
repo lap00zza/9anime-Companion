@@ -52,10 +52,8 @@
   z-index: 100
 
   .container
-    @include animation__slide_down(50px)
-    position: absolute
-    left: 0
-    right: 0
+    margin: 50px auto
+    position: relative
 
     width: 100%
     max-width: 480px
@@ -123,3 +121,14 @@
 
         &:hover
           background: #332041
+
+
+// Common animation classes
+.shake
+  @include animation__shake
+
+.fade_in
+  @include animation__fade-in
+
+.fade_out
+  @include animation__fade-out

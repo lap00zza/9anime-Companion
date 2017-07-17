@@ -1,11 +1,40 @@
 // All animation mixins should start with "animation__"
-@mixin animation__slide_down($amount)
-  @keyframes slide_down
+@mixin animation__fade-in
+  @keyframes fade-in
     from
-      margin: 0 auto
+      top: -300px
+      opacity: 0
     to
-      margin: $amount auto
+      top: 0
+      opacity: 1
 
-  animation: slide_down
-  animation-duration: 500ms
+  animation: fade-in
+  animation-duration: 0.5s
   animation-fill-mode: forwards
+
+@mixin animation__fade-out
+  @keyframes fade-out
+    from
+      top: 0
+      opacity: 1
+    to
+      top: -300px
+      opacity: 0
+
+  animation: fade-out
+  animation-duration: 0.5s
+  animation-fill-mode: forwards
+
+@mixin animation__shake
+  @keyframes shake
+    10%, 90%
+      transform: translate3d(-1px, 0, 0)
+    20%, 80%
+      transform: translate3d(2px, 0, 0)
+    30%, 50%, 70%
+      transform: translate3d(-4px, 0, 0)
+    40%, 60%
+      transform: translate3d(4px, 0, 0)
+
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+  transform: translate3d(0, 0, 0)

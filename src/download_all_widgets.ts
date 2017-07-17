@@ -57,11 +57,29 @@ export function setup(options: ISetupOptions) {
 }
 
 function showEpModal(): void {
-    $("#nac__dl-all__ep-modal").show();
+    let epModal = $("#nac__dl-all__ep-modal");
+    $(epModal).show();
+    $(epModal).find(".container").addClass("fade_in");
+    setTimeout(() => {
+        $(epModal).find(".container").removeClass("fade_in");
+    }, 500);
 }
 
 function hideEpModal(): void {
-    $("#nac__dl-all__ep-modal").hide();
+    let epModal = $("#nac__dl-all__ep-modal");
+    $(epModal).find(".container").addClass("fade_out");
+    setTimeout(() => {
+        $(epModal).find(".container").removeClass("fade_out");
+        $(epModal).hide();
+    }, 500);
+}
+
+function shakeEpModal(): void {
+    let epModal = $("#nac__dl-all__ep-modal");
+    $(epModal).find(".container").addClass("shake");
+    setTimeout(() => {
+        $(epModal).find(".container").removeClass("shake");
+    }, 820);
 }
 
 /**
@@ -160,6 +178,9 @@ export function epModal(): JQuery<HTMLElement> {
             // And... let it rip!
             if (selectedEpisodes.length > 0) {
                 // TODO: disable inputs
+                // This part might look a bit complex but what its actually
+                // doing is mapping the select value in the modal to
+                // DownloadQuality and DownloadMethod types.
                 let quality: DownloadQuality = DownloadQuality[$("#nac__dl-all__quality").val() as DownloadQualityKeys]
                     || DownloadQuality["360p"];
                 let method: DownloadMethod = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys]
@@ -181,8 +202,8 @@ export function epModal(): JQuery<HTMLElement> {
                     ts,
                 });
             } else {
-                // TODO: shake the epModal
-                console.info("You need to select some episodes");
+                // Gotta select some episodes!!!
+                shakeEpModal();
             }
         }
     });
