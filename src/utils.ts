@@ -43,6 +43,9 @@ export function fileSafeString(filename: string): string {
  *      The 3 digit episode id
  */
 export function pad(num: string): string {
+    if (num === "") {
+        throw new Error("num can't be a blank string");
+    }
     if (num.length >= 3) {
         return num;
     } else {
