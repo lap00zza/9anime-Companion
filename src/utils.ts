@@ -103,3 +103,13 @@ export function decomposeURL(uriString: string): [string, {[key: string]: string
     }
     return [url, searchParams];
 }
+
+export function notify(title: string, message: string): void {
+    let opt = {
+        iconUrl: chrome.extension.getURL("assets/images/notification_icon.png"),
+        type: "basic",
+        title,
+        message,
+    };
+    chrome.notifications.create(opt);
+}
