@@ -6,6 +6,7 @@
 
 import {Intent, IRuntimeMessage, Settings} from "./common";
 import * as dlAll from "./download_all";
+import RedditDiscussion from "./reddit_discussion";
 
 /***
  * This is the background listener. It listens to the messages sent
@@ -27,6 +28,17 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 ts: message.ts,
             };
             dlAll.start(message.baseUrl, setupOptions);
+            break;
+        case Intent.Reddit_Discussion:
+            let redditSearchUrl = new RedditDiscussion(message.name, message.episode, message.altNames).url();
+            chrome.tabs.create({
+                url: redditSearchUrl,
+            });
+            break;
+        case Intent.MAL_Search:
+            chrome.tabs.create({
+                url: "https://myanimelist.net/anime.php?q=" + message.name,
+            });
             break;
         default:
             console.info("Intent not valid");

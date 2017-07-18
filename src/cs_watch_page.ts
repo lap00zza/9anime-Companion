@@ -1,4 +1,5 @@
-// TODO: implement settings loader
+// TODO: find a better way to render templates instead of jquery
+
 import * as $ from "jquery";
 import {ISettings, Server} from "./common";
 import * as dlAll from "./download_all_widgets";
@@ -10,7 +11,6 @@ console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 let title = $("h1.title");
 let serverDiv = $("#servers");
 let animeName = title.text();
-let currentEpisode = serverDiv.find(".episodes > li > a.active").data("base");
 
 loadSettings([
     "downloadAll",
@@ -65,7 +65,7 @@ loadSettings([
     }
 
     if (settings.utilityBar) {
-        $("#player").parent().append(utilityBar(animeName, {episode: currentEpisode}));
+        $("#player").parent().append(utilityBar(animeName));
     }
 
     if (settings.downloadAll) {
@@ -99,5 +99,4 @@ loadSettings([
             // }
         }
     }
-
 });
