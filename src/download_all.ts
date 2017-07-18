@@ -86,6 +86,10 @@ interface ISetupOptions {
 
 // Setup
 export function setup(options: ISetupOptions) {
+    // first we clear off the previous aggregate links
+    aggregateLinks = "";
+
+    // Then we setup
     animeName = options.animeName;
     method = options.method;
     quality = options.quality;
