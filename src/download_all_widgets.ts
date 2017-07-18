@@ -21,23 +21,12 @@ import {
 } from  "./common";
 import * as utils from "./utils";
 
-/**
- * 9anime Companion can only download from 1 server at
- * a time. This variable holds the type of server from
- * which we are currently downloading/will download.
- * @default Server.Default
- */
-let server: Server =  Server.Default;
-
+// see download_all.ts to understand what the variables
+// below mean.
+let server: Server = Server.Default;
 let method: DownloadMethod = DownloadMethod.Browser;
-
-// A boolean flag to track if download is in progress.
 let isDownloading = false;
-
-// We need this value while sending API requests.
 let ts = "";
-
-// Name of the current anime.
 let animeName = "";
 
 interface ISetupOptions {
@@ -45,14 +34,7 @@ interface ISetupOptions {
     ts: string;
 }
 
-/**
- * This function is very important. It must be called
- * before using any functions from this module. Its
- * sets a few important variables like animeName and
- * ts that are required by the functions.
- * @param options
- *      name and ts parameters
- */
+// Setup
 export function setup(options: ISetupOptions) {
     animeName = options.name;
     ts = options.ts;
@@ -145,6 +127,12 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
     return btn;
 }
 
+/**
+ * Returns a modal which will be used for displaying links
+ * when download method external is chosen.
+ * @returns
+ *      The Links Modal
+ */
 export function linksModal(): JQuery<HTMLElement> {
     let template = require("html-loader!./templates/dlAll_linksModal.html");
     let modal = $(template);
@@ -165,6 +153,7 @@ export function linksModal(): JQuery<HTMLElement> {
         $("#nac__dl-all__links").select();
         document.execCommand("copy");
     });
+
     modal.hide();
     return modal;
 }
@@ -182,7 +171,7 @@ export function epModal(): JQuery<HTMLElement> {
     let modal = $(template);
 
     // 1> Add the anime name to the "header"
-    modal.find(".title").text("Download " + animeName + " episodes:");
+    modal.find(".title").text(`Download ${animeName} episodes:`);
 
     // 2> When the overlay is clicked, the modal hides
     modal.on("click", e => {

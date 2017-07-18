@@ -88,13 +88,7 @@ interface ISetupOptions {
     ts: string;
 }
 
-/**
- * This function is very important. It must be called
- * before using any functions from this module.
- * @param options
- *      name, baseUrl, currentServer, selectedEpisodes
- *      and ts parameters
- */
+// Setup
 export function setup(options: ISetupOptions) {
     animeName = options.animeName;
     method = options.method;
@@ -107,13 +101,12 @@ export function setup(options: ISetupOptions) {
 /**
  * A simple helper function that generates a filename.
  * @param file
- *      The current episode file for which we are generating
- *      the file name.
+ *      The current episode file
  * @param episode
  *      episode data, i.e: id and num
  * @param ext
- *      A boolean value which means should extension (ex: mp4)
- *      be part of the title. Defaults to true.
+ *      boolean value; should extension (ex: mp4) be part
+ *      of the title. Defaults to true.
  * @returns filename
  */
 export function fileName(file: api.IFile, episode: IEpisode, ext = true): string {
@@ -187,7 +180,6 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
             token: data.params.token,
         })
         .then(resp => {
-            // console.log(resp);
             let file = autoFallback(quality, resp.data);
             // downloadMethod can either be Browser or External.
             // For Browser, we make use of the default case.
@@ -199,7 +191,6 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                     break;
                 default:
                     if (file) {
-                        // console.log(file);
                         chrome.downloads.download({
                             conflictAction: "uniquify",
                             filename: fileName(file, episode),
@@ -221,7 +212,6 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
 export function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
-        console.info("Downloading:", ep.num);
         api
             .grabber({
                 id: ep.id,

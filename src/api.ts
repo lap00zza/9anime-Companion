@@ -59,12 +59,7 @@ interface ISetupOptions {
     baseUrl: string;
 }
 
-/**
- * This function is very important. It must be called
- * before using any functions from this module.
- * @param options
- *      baseUrl parameter
- */
+// Setup
 export function setup(options: ISetupOptions) {
     baseUrl = options.baseUrl;
 }
