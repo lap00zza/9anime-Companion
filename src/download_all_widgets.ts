@@ -68,11 +68,19 @@ function shakeModal(selector: string): void {
 }
 
 function disableInputs(): void {
-    $(".nac__dl-all").attr("disabled", "disabled");
+    $(".nac__dl-all__btn").attr("disabled", "disabled");
 }
 
 function enableInputs(): void {
-    $(".nac__dl-all").removeAttr("disabled");
+    $(".nac__dl-all__btn").removeAttr("disabled");
+}
+
+export function statusBar() {
+    return`
+    <div class="nac__dl-all__status-bar" style="display: none;">
+        <span>Status:</span>
+        <div id="nac__dl-all__status">ready to download...</div>
+    </div>`;
 }
 
 /**
@@ -84,7 +92,7 @@ function enableInputs(): void {
  *      A nicely generated 'Download' button
  */
 export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
-    let btn = $(`<button data-type="${targetServer}" class="nac__dl-all">Download</button>`);
+    let btn = $(`<button data-type="${targetServer}" class="nac__dl-all__btn">Download</button>`);
     btn.on("click", e => {
         // This array hold's all the the episodes of the current
         // anime for a particular server (ex: RapidVideo, F2, F4)
@@ -190,6 +198,13 @@ export function epModal(): JQuery<HTMLElement> {
         if (!isDownloading) {
             let selectedEpisodes: IEpisode[] = [];
 
+            // This part might look a bit complex but what its actually doing is
+            // mapping the select value in the modal to DownloadQuality and
+            // DownloadMethod types.
+            let quality: DownloadQuality = DownloadQuality[$("#nac__dl-all__quality").val() as DownloadQualityKeys]
+                || DownloadQuality["360p"];
+            method = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys] || DownloadMethod.Browser;
+
             // First, we get all the checked episodes in the
             // modal and push these to selectedEpisodes.
             $("#nac__dl-all__ep-modal")
@@ -203,17 +218,10 @@ export function epModal(): JQuery<HTMLElement> {
 
             // And... let it rip!
             if (selectedEpisodes.length > 0) {
-                // This part might look a bit complex but what its actually
-                // doing is mapping the select value in the modal to
-                // DownloadQuality and DownloadMethod types.
-                let quality: DownloadQuality = DownloadQuality[$("#nac__dl-all__quality").val() as DownloadQualityKeys]
-                    || DownloadQuality["360p"];
-                method = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys]
-                    || DownloadMethod.Browser;
-
                 isDownloading = true;
-                // hideEpModal();
+                hideModal("#nac__dl-all__ep-modal");
                 disableInputs();
+                $(".nac__dl-all__status-bar").show();
 
                 // Well since content scripts cant really download
                 // we will send a message to the background script
@@ -245,13 +253,20 @@ export function epModal(): JQuery<HTMLElement> {
  * This part will notify us when the downloads are complete.
  */
 chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
-    if (message.intent === Intent.Download_Complete) {
-        console.info("Download Complete", message);
-        if (method === DownloadMethod.External) {
-            $("#nac__dl-all__links").text(message.links);
-            showModal("#nac__dl-all__links-modal");
-        }
-        isDownloading = false;
-        enableInputs();
+    switch (message.intent) {
+        case Intent.Download_Complete:
+            if (method === DownloadMethod.External) {
+                $("#nac__dl-all__links").text(message.links);
+                showModal("#nac__dl-all__links-modal");
+            }
+            $(".nac__dl-all__status-bar").hide();
+            isDownloading = false;
+            enableInputs();
+            break;
+        case Intent.Download_Status:
+            $("#nac__dl-all__status").text(message.status);
+            break;
+        default:
+            break;
     }
 });

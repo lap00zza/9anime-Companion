@@ -71,6 +71,7 @@ export interface IEpisode {
 export enum Intent {
     "Download_All",
     "Download_Complete",
+    "Download_Status",
 }
 
 export interface IRuntimeMessage extends IGenericObject {

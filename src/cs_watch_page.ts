@@ -84,6 +84,7 @@ if (settings.downloadAll) {
         name: animeName,
         ts: body.data("ts"),
     });
+    $("#servers").prepend(dlAll.statusBar());
     body.append(dlAll.epModal());
     body.append(dlAll.linksModal());
 

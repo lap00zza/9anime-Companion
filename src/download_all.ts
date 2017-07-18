@@ -5,6 +5,12 @@
  * Chrome does not allow content scripts to download, that's why
  * the functionality had to be split.
  *
+ * IMPORTANT:
+ * 9ac **DOES NOT** support queues for download. So if you are
+ * trying to download from multiple tabs, chances are your
+ * downloads might not go as expected. Please wait till one set
+ * of download is over before starting again.
+ *
  * @see {@link https://git.io/vQdkU} for a brief overview.
  */
 
@@ -14,14 +20,10 @@ import {
     DownloadQuality,
     IEpisode,
     Intent,
+    IRuntimeMessage,
     Server,
 } from  "./common";
 import * as utils from "./utils";
-
-interface IDownloadPromise {
-    intent: Intent;
-    links?: string;
-}
 
 // We need this value while sending API requests.
 let ts = "";
@@ -29,13 +31,12 @@ let ts = "";
 // Name of the current anime.
 let animeName = "";
 
-/**
- * resolver and rejecter holds the references to the resolve
- * and reject callbacks of the start method. These are then
- * later called as required.
- */
-let resolver: (value?: IDownloadPromise) => void;
-let rejecter: (value?: IDownloadPromise) => void;
+// We will use this to send message to tabs.
+let sender: chrome.runtime.MessageSender;
+
+// Keeps track of the download cycles. Each cycle starts
+// at downloader and end before requeue is called.
+let inProgress = false;
 
 /**
  * This variable holds all links when method external is selected.
@@ -52,12 +53,6 @@ let aggregateLinks = "";
  * @default []
  */
 let selectedEpisodes: IEpisode[] = [];
-
-/**
- * A boolean flag to track if download is in progress.
- * @default false
- */
-let isDownloading = false;
 
 /**
  * 9anime Companion can only download from 1 server at
@@ -84,6 +79,7 @@ interface ISetupOptions {
     method: DownloadMethod;
     quality: DownloadQuality;
     selectedEpisodes: IEpisode[];
+    sender: chrome.runtime.MessageSender; /* we need this to send messages to tab */
     server: Server;
     ts: string;
 }
@@ -94,8 +90,16 @@ export function setup(options: ISetupOptions) {
     method = options.method;
     quality = options.quality;
     selectedEpisodes = options.selectedEpisodes;
+    sender = options.sender;
     server = options.server;
     ts = options.ts;
+}
+
+// Send messages to the tab/content script.
+function sendMessage(message: IRuntimeMessage) {
+    if (sender.tab && sender.tab.id) {
+        chrome.tabs.sendMessage(sender.tab.id, message);
+    }
 }
 
 /**
@@ -153,16 +157,19 @@ function requeue(): void {
     if (selectedEpisodes.length > 0) {
         setTimeout(downloader, 2000);
     } else {
-        // All downloads over
-        isDownloading = false;
+        // Send the last status message!
+        sendMessage({
+            intent: Intent.Download_Status,
+            status: "All done!",
+        });
 
-        // Resolve the Download Promise.
+        // Send the final intent!
         if (method === DownloadMethod.Browser) {
-            resolver({
+            sendMessage({
                 intent: Intent.Download_Complete,
             });
         } else {
-            resolver({
+            sendMessage({
                 intent: Intent.Download_Complete,
                 links: aggregateLinks,
             });
@@ -186,8 +193,13 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
             switch (method) {
                 case DownloadMethod.External:
                     if (file) {
-                        aggregateLinks += `${file.file}&title=${fileName(file, episode, false)}&type=${file.type}\n`;
+                        // the "?" is important after file.file
+                        aggregateLinks += `${file.file}?title=${fileName(file, episode, false)}&type=${file.type}\n`;
                     }
+                    sendMessage({
+                        intent: Intent.Download_Status,
+                        status: `Completed ${animeName} E${episode.num}`,
+                    });
                     break;
                 default:
                     if (file) {
@@ -197,12 +209,25 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                             url: file.file,
                         });
                     }
+                    sendMessage({
+                        intent: Intent.Download_Status,
+                        status: `Completed ${animeName} E${episode.num}`,
+                    });
                     break;
             }
         })
-        .catch(err => console.debug(err))
+        .catch(err => {
+            console.debug(err);
+            sendMessage({
+                intent: Intent.Download_Status,
+                status: `Failed ${animeName} E${episode.num}`,
+            });
+        })
         // The last then acts like a finally.
-        .then(() => requeue());
+        .then(() => {
+            inProgress = false;
+            requeue();
+        });
 }
 
 /**
@@ -212,6 +237,11 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
 export function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
+        inProgress = true;
+        sendMessage({
+            intent: Intent.Download_Status,
+            status: `Downloading ${animeName} E${ep.num}`,
+        });
         api
             .grabber({
                 id: ep.id,
@@ -242,14 +272,19 @@ export function downloader(): void {
  * @param baseUrl
  *      The baseUrl of the 9anime site.
  *      Ex: https://9anime.to, https://9anime.is etc
+ * @param setupOptions
+ *      Setup options for download all
  */
-export function start(baseUrl: string): Promise<IDownloadPromise> {
-    api.setup({
+export function start(baseUrl: string, setupOptions: ISetupOptions): void {
+    // NOTE:
+    // 9ac **DOES NOT** support queues for download. So if you
+    // are trying to download from multiple tabs, chances are
+    // yor downloads might not go as expected. Please wait till
+    // one set of download is over before starting again.
+    api.setup({ /* setup the API */
         baseUrl,
     });
-    downloader();
-    return new Promise((resolve, reject) => {
-        resolver = resolve;
-        rejecter = reject;
-    });
+    setup(setupOptions); /* setup download all */
+    downloader(); /* trigger download */
+    utils.notify("Starting downloads", "Sit tight!");
 }
