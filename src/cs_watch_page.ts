@@ -21,13 +21,16 @@ loadSettings([
     "resPlayer",
     "utilityBar",
 ]).then((settings: ISettings) => {
-    // Remove visible ads from the DOM.
-    // This does not block ads.
+    // Remove visible ads from the DOM. This does not block
+    // ads. Remember: 9ac DOES NOT block ads, just removes
+    // what it can. 9ac should be coupled with uBlock Origin
+    // to get zero ads/popups.
     if (settings.remAds) {
         console.info("Removing ads");
         // Contains the known ad selectors.
         let adsSelectors = [
             ".a_d",
+            ".ads",
             ".sidebar",
         ];
         for (let i of adsSelectors) {
