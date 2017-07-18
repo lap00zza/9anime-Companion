@@ -5,6 +5,37 @@
  */
 
 /**
+ * The available settings in 9anime Companion along with
+ * the default values.
+ * rem* -> remove*
+ * res* -> resize*
+ */
+export const Settings = {
+    downloadAll: true,
+    remAds: true,
+    remComments: false,
+    remInfo: false,
+    remSuggested: false,
+    resPlayer: true,
+    utilityBar: true,
+};
+
+/**
+ * The interface representing a settings object. Useful
+ * when used with loadSettings to quickly find out what
+ * all settings can be present.
+ */
+export interface ISettings {
+    downloadAll?: boolean;
+    remAds?: boolean;
+    remComments?: boolean;
+    remInfo?: boolean;
+    remSuggested?: boolean;
+    resPlayer?: boolean;
+    utilityBar?: boolean;
+}
+
+/**
  * The list of servers that 9anime Companion can
  * currently download from. Currently they are:
  * - Default: 9anime Server (F2, F4 etc)

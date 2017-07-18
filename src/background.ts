@@ -4,7 +4,7 @@
  * This is the background script.
  */
 
-import {Intent, IRuntimeMessage} from "./common";
+import {Intent, IRuntimeMessage, Settings} from "./common";
 import * as dlAll from "./download_all";
 
 /***
@@ -32,4 +32,20 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             console.info("Intent not valid");
             break;
     }
+});
+
+chrome.runtime.onInstalled.addListener(details => {
+    console.info("%cSaving default settings to localStorage", "color: lightgreen");
+    chrome.storage.local.set(Settings);
+   // switch (details.reason) {
+   //     case "install":
+   //         console.info("%cNew install: Saving default settings to localStorage", "lightgreen");
+   //         chrome.storage.local.set(Settings);
+   //         break;
+   //     case "update":
+   //         console.info("update");
+   //         break;
+   //     default:
+   //         break;
+   // }
 });

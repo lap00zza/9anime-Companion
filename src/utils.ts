@@ -5,7 +5,7 @@
  * by content script, background script and the popup.
  */
 
-import { IGenericObject } from "./common";
+import { IGenericObject, ISettings} from "./common";
 
 /**
  * A simple helper function to remove the leading
@@ -112,4 +112,12 @@ export function notify(title: string, message: string): void {
         message,
     };
     chrome.notifications.create(opt);
+}
+
+export function loadSettings(key: string | string[]): Promise<ISettings> {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(key, result => {
+           resolve(result);
+        });
+    });
 }
