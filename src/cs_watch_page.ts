@@ -75,6 +75,10 @@ loadSettings([
         for (let i of adsSelectors) {
             $(i).remove();
         }
+        // This line below refers to the alert just above the player.
+        // If we dont make float none, once we remove the sidebar, the
+        // player slides down when the width of the window decreases.
+        $("#movie").find("div.container.player-wrapper > div > div.col-xs-24").css({float: "none"});
     }
 
     if (settings.resPlayer) {
