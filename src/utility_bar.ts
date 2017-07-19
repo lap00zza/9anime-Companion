@@ -7,11 +7,11 @@ let malLogo = chrome.extension.getURL("assets/images/mal-icon.png");
 
 /**
  * Returns a string template of the Utility Bar.
- * @param {string} name - Name of the current anime
+ * @param {string} animeName - Name of the current anime
  * @returns
  *      The Utility Bar
  */
-export default function utilityBar(name: string): JQuery<HTMLElement> {
+export default function utilityBar(animeName: string): JQuery<HTMLElement> {
     let template = require("html-loader!./templates/utilityBar.html");
     let bar = $(template);
 
@@ -28,13 +28,13 @@ export default function utilityBar(name: string): JQuery<HTMLElement> {
         chrome.runtime.sendMessage({
             episode,
             intent: Intent.Reddit_Discussion,
-            name,
+            animeName,
         });
     });
     malSearch.on("click", () => {
         chrome.runtime.sendMessage({
             intent: Intent.MAL_Search,
-            name,
+            animeName,
         });
     });
     return bar;

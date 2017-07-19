@@ -29,17 +29,20 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             };
             dlAll.start(message.baseUrl, setupOptions);
             break;
+
         case Intent.Reddit_Discussion:
-            let redditSearchUrl = new RedditDiscussion(message.name, message.episode, message.altNames).url();
+            let redditSearchUrl = new RedditDiscussion(message.animeName, message.episode, message.altNames).url();
             chrome.tabs.create({
                 url: redditSearchUrl,
             });
             break;
+
         case Intent.MAL_Search:
             chrome.tabs.create({
-                url: "https://myanimelist.net/anime.php?q=" + message.name,
+                url: "https://myanimelist.net/anime.php?q=" + message.animeName,
             });
             break;
+
         default:
             console.info("Intent not valid");
             break;
