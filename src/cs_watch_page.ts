@@ -34,7 +34,7 @@ registerRecent(); /* register once at page load */
 // no direct way to track them. Instead, we poll history.state
 // every 10 seconds and register if id was changed.
 //
-// NOTE: this means you need to be on a episode of at-least 10
+// NOTE: this means you need to be on a episode for at-least 10
 // seconds to be counted and additional 10 seconds to be added
 // to list. So 20 seconds :).
 setInterval(() => {
@@ -43,7 +43,7 @@ setInterval(() => {
         if (newEpId !== recentEpId) {
             recentEpId = newEpId;
             recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
-            console.info(`%cUpdate recent to ${recentEpNum}`, "color: yellow;");
+            console.info(`%cUpdated recent to ${recentEpNum}`, "color: yellow;");
             registerRecent();
         }
     }

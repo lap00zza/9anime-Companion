@@ -29,6 +29,23 @@ let isDownloading = false;
 let ts = "";
 let animeName = "";
 
+// Contains most of the selectors used. Can be
+// used to quickly access the required selectors
+// without having to remember the names.
+const selectors = {
+    copyLinks:  "#nac__dl-all__copy-links",     /* linksModal */
+    dlBtn:      ".nac__dl-all__btn",            /* Page */
+    download:   "#nac__dl-all__download",       /* epModal */
+    epModal:    "#nac__dl-all__ep-modal",       /* epModal */
+    links:      "#nac__dl-all__links",          /* linksModal */
+    linksModal: "#nac__dl-all__links-modal",    /* linksModal */
+    method:     "#nac__dl-all__method",         /* epModal */
+    quality:    "#nac__dl-all__quality",        /* epModal */
+    selectAll:  "#nac__dl-all__select-all",     /* linksModal */
+    status:     "#nac__dl-all__status",         /* Page */
+    statusBar:  ".nac__dl-all__status-bar",     /* Page */
+};
+
 interface ISetupOptions {
     name: string;
     ts: string;
@@ -68,15 +85,15 @@ function shakeModal(selector: string): void {
 }
 
 function disableInputs(): void {
-    $(".nac__dl-all__btn").attr("disabled", "disabled");
+    $(selectors.dlBtn).attr("disabled", "disabled");
 }
 
 function enableInputs(): void {
-    $(".nac__dl-all__btn").removeAttr("disabled");
+    $(selectors.dlBtn).removeAttr("disabled");
 }
 
 export function statusBar() {
-    return`
+    return `
     <div class="nac__dl-all__status-bar" style="display: none;">
         <span>Status:</span>
         <div id="nac__dl-all__status">ready to download...</div>
@@ -118,7 +135,7 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
         // Then we iterate through "episodes" and add each
         // episode to the "epModal". The user can then take
         // further action.
-        let modalBody = $("#nac__dl-all__ep-modal").find(".body");
+        let modalBody = $(selectors.epModal).find(".body");
         // Delete the earlier episodes and start fresh
         modalBody.empty();
         for (let ep of episodes) {
@@ -130,7 +147,7 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
                 </span>`);
             modalBody.append(epSpan);
         }
-        showModal("#nac__dl-all__ep-modal");
+        showModal(selectors.epModal);
     });
     return btn;
 }
@@ -147,18 +164,18 @@ export function linksModal(): JQuery<HTMLElement> {
     let clipboardIcon = chrome.extension.getURL("assets/images/clipboard.png");
 
     // 1> Add the clipboard icon to the button
-    modal.find("#nac__dl-all__copy-links > img").attr("src", clipboardIcon);
+    modal.find(selectors.copyLinks).find("img").attr("src", clipboardIcon);
 
     // 2> When the overlay is clicked, the modal hides
     modal.on("click", e => {
         if (e.target === modal[0]) {
-            hideModal("#nac__dl-all__links-modal");
+            hideModal(selectors.linksModal);
         }
     });
 
     // 3> Bind functionality to the 'Copy to clipboard' button.
-    modal.find("#nac__dl-all__copy-links").on("click", () => {
-        $("#nac__dl-all__links").select();
+    modal.find(selectors.copyLinks).on("click", () => {
+        $(selectors.links).select();
         document.execCommand("copy");
     });
 
@@ -184,30 +201,30 @@ export function epModal(): JQuery<HTMLElement> {
     // 2> When the overlay is clicked, the modal hides
     modal.on("click", e => {
         if (e.target === modal[0]) {
-            hideModal("#nac__dl-all__ep-modal");
+            hideModal(selectors.epModal);
         }
     });
 
     // 3> Bind functionality for the "Select All" button
-    modal.find("#nac__dl-all__select-all").on("click", () => {
-        $("#nac__dl-all__ep-modal").find(".body input[type='checkbox']").prop("checked", true);
+    modal.find(selectors.selectAll).on("click", () => {
+        $(selectors.epModal).find(".body input[type='checkbox']").prop("checked", true);
     });
 
     // 4> Bind functionality for the "Download" button
-    modal.find("#nac__dl-all__download").on("click", () => {
+    modal.find(selectors.download).on("click", () => {
         if (!isDownloading) {
             let selectedEpisodes: IEpisode[] = [];
 
             // This part might look a bit complex but what its actually doing is
             // mapping the select value in the modal to DownloadQuality and
             // DownloadMethod types.
-            let quality: DownloadQuality = DownloadQuality[$("#nac__dl-all__quality").val() as DownloadQualityKeys]
+            let quality: DownloadQuality = DownloadQuality[$(selectors.quality).val() as DownloadQualityKeys]
                 || DownloadQuality["360p"];
-            method = DownloadMethod[$("#nac__dl-all__method").val() as DownloadMethodKeys] || DownloadMethod.Browser;
+            method = DownloadMethod[$(selectors.method).val() as DownloadMethodKeys] || DownloadMethod.Browser;
 
             // First, we get all the checked episodes in the
             // modal and push these to selectedEpisodes.
-            $("#nac__dl-all__ep-modal")
+            $(selectors.epModal)
                 .find(".body input[type='checkbox']:checked")
                 .each((i, el) => {
                     selectedEpisodes.push({
@@ -219,9 +236,9 @@ export function epModal(): JQuery<HTMLElement> {
             // And... let it rip!
             if (selectedEpisodes.length > 0) {
                 isDownloading = true;
-                hideModal("#nac__dl-all__ep-modal");
+                hideModal(selectors.epModal);
                 disableInputs();
-                $(".nac__dl-all__status-bar").show();
+                $(selectors.statusBar).show();
 
                 // Well since content scripts cant really download
                 // we will send a message to the background script
@@ -239,7 +256,7 @@ export function epModal(): JQuery<HTMLElement> {
                 });
             } else {
                 // Gotta select some episodes!!!
-                shakeModal("#nac__dl-all__ep-modal");
+                shakeModal(selectors.epModal);
             }
         }
     });
@@ -256,15 +273,16 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     switch (message.intent) {
         case Intent.Download_Complete:
             if (method === DownloadMethod.External) {
-                $("#nac__dl-all__links").text(message.links);
-                showModal("#nac__dl-all__links-modal");
+                // Display the aggregate links.
+                $(selectors.links).text(message.links);
+                showModal(selectors.linksModal);
             }
-            $(".nac__dl-all__status-bar").hide();
+            $(selectors.statusBar).hide();
             isDownloading = false;
             enableInputs();
             break;
         case Intent.Download_Status:
-            $("#nac__dl-all__status").text(message.status);
+            $(selectors.status).text(message.status);
             break;
         default:
             break;

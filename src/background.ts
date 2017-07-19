@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 epNum: message.epNum,
                 path: message.path,
                 timestamp: new Date().toISOString(),
-            }, 5000);
+            });
             break;
 
         default:

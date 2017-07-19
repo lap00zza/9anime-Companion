@@ -85,7 +85,7 @@ interface ISetupOptions {
 }
 
 // Setup
-export function setup(options: ISetupOptions) {
+export function setup(options: ISetupOptions): void {
     // first we clear off the previous aggregate links
     aggregateLinks = "";
 
@@ -99,11 +99,24 @@ export function setup(options: ISetupOptions) {
     ts = options.ts;
 }
 
-// Send messages to the tab/content script.
-function sendMessage(message: IRuntimeMessage) {
+/**
+ * Send messages to the tab/content script.
+ */
+function sendMessage(message: IRuntimeMessage): void {
     if (sender.tab && sender.tab.id) {
         chrome.tabs.sendMessage(sender.tab.id, message);
     }
+}
+
+/**
+ * A simple wrapper around sendMessage
+ * @see sendMessage
+ */
+function status(message: string): void {
+    sendMessage({
+        intent: Intent.Download_Status,
+        status: message,
+    });
 }
 
 /**
@@ -162,10 +175,7 @@ function requeue(): void {
         setTimeout(downloader, 2000);
     } else {
         // Send the last status message!
-        sendMessage({
-            intent: Intent.Download_Status,
-            status: "All done!",
-        });
+        status("All done!");
 
         // Send the final intent!
         if (method === DownloadMethod.Browser) {
@@ -181,7 +191,7 @@ function requeue(): void {
     }
 }
 
-function getLinks9a(data: api.IGrabber, episode: IEpisode) {
+function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
     api
         .links9a(data.grabber, {
             ts,
@@ -200,10 +210,7 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                         // the "?" is important after file.file
                         aggregateLinks += `${file.file}?title=${fileName(file, episode, false)}&type=${file.type}\n`;
                     }
-                    sendMessage({
-                        intent: Intent.Download_Status,
-                        status: `Completed ${animeName} E${episode.num}`,
-                    });
+                    status(`Completed ${animeName} E${episode.num}`);
                     break;
                 default:
                     if (file) {
@@ -213,19 +220,13 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode) {
                             url: file.file,
                         });
                     }
-                    sendMessage({
-                        intent: Intent.Download_Status,
-                        status: `Completed ${animeName} E${episode.num}`,
-                    });
+                    status(`Completed ${animeName} E${episode.num}`);
                     break;
             }
         })
         .catch(err => {
             console.debug(err);
-            sendMessage({
-                intent: Intent.Download_Status,
-                status: `Failed ${animeName} E${episode.num}`,
-            });
+            status(`Failed ${animeName} E${episode.num}`);
         })
         // The last then acts like a finally.
         .then(() => {
@@ -242,10 +243,7 @@ export function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
         inProgress = true;
-        sendMessage({
-            intent: Intent.Download_Status,
-            status: `Downloading ${animeName} E${ep.num}`,
-        });
+        status(`Downloading ${animeName} E${ep.num}`);
         api
             .grabber({
                 id: ep.id,
