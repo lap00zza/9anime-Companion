@@ -28,7 +28,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 - [x] Download All
 - [ ] Ad and Popup Remover/Blocker (**done partially**)
 - [ ] MyAnimeList Integration
-- [ ] Recently Watched List
+- [ ] Recently Watched List (**API done, UI left**)
 - [ ] Pinned Anime List
 
 and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31

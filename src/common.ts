@@ -105,6 +105,7 @@ export enum Intent {
     "Download_Status",
     "MAL_Search",
     "Reddit_Discussion",
+    "Recently_Watched_Add",
 }
 
 export interface IRuntimeMessage extends IGenericObject {

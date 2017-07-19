@@ -6,6 +6,7 @@
     "src/cs_watch_page.ts",
     "src/download_all.ts",
     "src/common.ts",
+    "src/recently_watched.ts",
     "src/reddit_discussion.ts",
     "src/utility_bar.ts",
     "src/utils.ts"

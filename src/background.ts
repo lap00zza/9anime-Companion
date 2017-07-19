@@ -6,6 +6,7 @@
 
 import {Intent, IRuntimeMessage, Settings} from "./common";
 import * as dlAll from "./download_all";
+import {register} from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
 
 /***
@@ -41,6 +42,17 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             chrome.tabs.create({
                 url: "https://myanimelist.net/anime.php?q=" + message.animeName,
             });
+            break;
+
+        case Intent.Recently_Watched_Add:
+            register({
+                animeId: message.animeId,
+                animeName: message.animeName,
+                epId: message.epId,
+                epNum: message.epNum,
+                path: message.path,
+                timestamp: new Date().toISOString(),
+            }, 5000);
             break;
 
         default:

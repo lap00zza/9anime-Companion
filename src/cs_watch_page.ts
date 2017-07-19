@@ -1,7 +1,7 @@
 // TODO: find a better way to render templates instead of jquery
 
 import * as $ from "jquery";
-import {ISettings, Server} from "./common";
+import {Intent, ISettings, Server} from "./common";
 import * as dlAll from "./download_all_widgets";
 import utilityBar from "./utility_bar";
 import {loadSettings} from "./utils";
@@ -11,7 +11,46 @@ console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 let title = $("h1.title");
 let serverDiv = $("#servers");
 let animeName = title.text();
+let animeId = $("#movie").data("id");
 
+/* --- Register recently watched --- */
+// See "recently_watched.ts" to find out
+// how this part works.
+let recentEpId = serverDiv.find(".episodes > li > a.active").data("id");
+let recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+function registerRecent() {
+    chrome.runtime.sendMessage({
+        animeId,
+        animeName,
+        epId: recentEpId,
+        epNum: recentEpNum,
+        intent: Intent.Recently_Watched_Add,
+        path: window.location.pathname,
+    });
+}
+registerRecent(); /* register once at page load */
+// We also track the episodes that are changed after opening
+// a page. Since the episodes are loaded via ajax, there is
+// no direct way to track them. Instead, we poll history.state
+// every 10 seconds and register if id was changed.
+//
+// NOTE: this means you need to be on a episode of at-least 10
+// seconds to be counted and additional 10 seconds to be added
+// to list. So 20 seconds :).
+setInterval(() => {
+    if (history.state && history.state.name) {
+        let newEpId = history.state.name;
+        if (newEpId !== recentEpId) {
+            recentEpId = newEpId;
+            recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+            console.info(`%cUpdate recent to ${recentEpNum}`, "color: yellow;");
+            registerRecent();
+        }
+    }
+}, 10000);
+/* --- ^.^ --- */
+
+/* --- Page actions based on settings --- */
 loadSettings([
     "downloadAll",
     "remAds",
