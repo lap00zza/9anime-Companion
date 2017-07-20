@@ -50,8 +50,8 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 animeName: message.animeName,
                 epId: message.epId,
                 epNum: message.epNum,
-                path: message.path,
                 timestamp: new Date().toISOString(),
+                url: message.url,
             });
             break;
 

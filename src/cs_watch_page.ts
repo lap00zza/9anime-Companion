@@ -16,6 +16,7 @@ let animeId = $("#movie").data("id");
 /* --- Register recently watched --- */
 // See "recently_watched.ts" to find out
 // how this part works.
+// TODO: maybe use data("comment") instead of data("base").
 let recentEpId = serverDiv.find(".episodes > li > a.active").data("id");
 let recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
 function registerRecent() {
@@ -25,7 +26,7 @@ function registerRecent() {
         epId: recentEpId,
         epNum: recentEpNum,
         intent: Intent.Recently_Watched_Add,
-        path: window.location.pathname,
+        url: $("link[rel='canonical']").attr("href"),
     });
 }
 registerRecent(); /* register once at page load */

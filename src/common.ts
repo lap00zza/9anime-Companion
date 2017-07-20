@@ -41,12 +41,12 @@ export interface IRecentlyWatched {
     animeName: string;  /* anime name */
     epId: string;       /* episode ID */
     epNum: string;      /* episode number */
-    // since all the anime start with "https://9anime.to", we
-    // only store the part after it, example:
-    // "/watch/boruto-naruto-next-generations.97vm/zwz4xw"
-    // This way if one of the domain is down, we can use the
-    // other ones, ex: 9anime.is instead of 9anime.to.
-    path: string;
+    // url is the canonical url. So for example:
+    //   > https://9anime.to/watch/shirobako.jv63/37rnxr
+    // url will only store:
+    //   > "https://9anime.to/watch/shirobako.jv63"
+    // The "/37rnxr" part is added from the epId.
+    url: string;        /* The canonical url, without epId */
     timestamp: string;
 }
 

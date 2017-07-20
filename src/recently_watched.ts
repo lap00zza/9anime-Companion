@@ -60,7 +60,12 @@ export function getList(items = 10): IRecentlyWatched[] {
  * @param params
  *      id, name and path
  */
-function addToList(params: IRecentlyWatched): void {
+export function addToList(params: IRecentlyWatched): void {
+    // Check if all properties are present.
+    if (!params.animeId || !params.animeName || !params.epId || !params.epNum || !params.url) {
+        throw new Error("[Recently Watched] [Error] All properties must be present.");
+    }
+
     let exist = false;
     // Check if same id exists. If it does then
     // change epId, epNum and ts. else push.
@@ -78,8 +83,8 @@ function addToList(params: IRecentlyWatched): void {
             animeName: params.animeName,
             epId: params.epId,
             epNum: params.epNum,
-            path: params.path,
             timestamp: params.timestamp,
+            url: params.url,
         });
     }
     commit();
@@ -94,9 +99,9 @@ function addToList(params: IRecentlyWatched): void {
  *      id, name and path
  * @param countDuration
  *      The duration after which anime is counted.
- *      Defaults to 10000 (or 10 sec).
+ *      Defaults to 5000 (or 5 sec).
  */
-export function register(params: IRecentlyWatched, countDuration: number = 10000): void {
+export function register(params: IRecentlyWatched, countDuration: number = 5000): void {
     // TODO: will a timeout really prevent unwanted additions to list?
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => addToList(params), countDuration);

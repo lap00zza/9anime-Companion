@@ -10,15 +10,14 @@ chrome.runtime.sendMessage({
 
     resp.forEach(item => {
         let episodeDiv = "";
-        let url = "";
+        let url = item.url;
 
-        // Not all item's have epNum. If epNum is not present
-        // we just show the animeName.
+        // If epNum is not present we just show the animeName.
+        // If epId is not present, the url wont have the `/epId`
+        // part appended at the end.
         if (item.epNum && item.epId) {
             episodeDiv = `<span class="episode">E${item.epNum}</span>`;
-            url = `https://9anime.to${item.path}/${item.epId}`;
-        } else {
-            url = `https://9anime.to${item.path}`;
+            url += `/${item.epId}`;
         }
         listItems +=
             // The idea is to make it have a flex display.
