@@ -15,11 +15,17 @@ The following is a set of guidelines for contributing to 9anime Companion
 9anime Companion aims to give users meaningful features which are not implemented by 9anime.
 
 ## How Can I Contribute?
+> :information_source: **Remember to fill in the template**. You will get the template whenever you open a new issue/pr.
+
 ### Reporting bugs
-Before reporting a bug, please do a quick search in the [Issue Tracker](https://github.com/lap00zza/9anime-Companion/issues). If there are no duplicates then file a new issue. Be sure to include a proper description and steps to reproduce the issue.
+* Before reporting a bug, please do a quick search in the [Issue Tracker](https://github.com/lap00zza/9anime-Companion/issues).
+* If there are no duplicates then file a new issue.
+* Be sure to include a proper description and steps to reproduce the issue.
 
 ### Suggesting enhancements/features
-Before suggesting an enhancement/feature, please do a quick search in the [Issue Tracker](https://github.com/lap00zza/9anime-Companion/issues). If there are no duplicates then file a new issue and prefix `Enhancement:` or `Suggestion:` on the title. Be sure to include a proper description as well.
+* Before suggesting an enhancement/feature, please do a quick search in the [Issue Tracker](https://github.com/lap00zza/9anime-Companion/issues).
+* If there are no duplicates then file a new issue.
+* Be sure to include a proper description as well.
 
 ### Pull Requests
 * Follow the [styleguides](#styleguides) as much as you can. Use `npm run linter` periodically to check.
@@ -33,7 +39,3 @@ Before suggesting an enhancement/feature, please do a quick search in the [Issue
 * Git Commit Messages: [Angular JS Commit Guide](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit)
 * Documentation: [JSDoc](http://usejsdoc.org/)
 * Typescript: [Microsoft Typescript Styleguide](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines)
-
-<hr>
-<a name="myfootnote1">[1]</a> ts is a arbitrary value that 9anime adds for each anime. This value is
-needed when sending requests to the 9anime API.
