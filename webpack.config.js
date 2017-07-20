@@ -31,7 +31,7 @@ module.exports = {
         })
     ],
     resolve: {
-        // Add `.ts` as a resolvable extension.
-        extensions: [".ts"]
+        // Add .ts and .js as resolvable extensions.
+        extensions: [".ts", ".js"]
     }
 };

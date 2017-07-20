@@ -201,6 +201,7 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
             token: data.params.token,
         })
         .then(resp => {
+            // console.log(resp);
             let file = autoFallback(quality, resp.data);
             // downloadMethod can either be Browser or External.
             // For Browser, we make use of the default case.
@@ -251,6 +252,7 @@ export function downloader(): void {
                 update: 0,
             })
             .then(resp => {
+                // console.log(resp);
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
                 switch (server) {

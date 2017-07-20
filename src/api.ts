@@ -6,7 +6,8 @@
  * care of the 9anime encryption scheme.
  */
 
-import * as $ from "jquery";
+// axios because jquery is too big for just ajax
+import axios from "axios";
 import * as utils from "./utils";
 
 // The parts/functions marked as [*] are part of
@@ -98,14 +99,13 @@ export function grabber(params: IGrabberParams): Promise<IGrabber> {
     // [*] this is the token
     params._ = generateToken(params);
     return new Promise((resolve, reject) => {
-        $
-            .ajax({
-                data: params,
-                dataType: "json",
-                url: baseUrl + "/ajax/episode/info?",
+        axios
+            .get(baseUrl + "/ajax/episode/info?", {
+                params,
+                responseType: "json",
             })
-            .done(resp => resolve(resp))
-            .fail(err => reject(err));
+            .then(resp => resolve(resp.data))
+            .catch(err => reject(err));
     });
 }
 
@@ -163,13 +163,12 @@ export function links9a(uri: string, data: IlinksParams): Promise<IFileList> {
     merged._ = generateToken(merged, initState);
 
     return new Promise((resolve, reject) => {
-        $
-            .ajax({
-                data: merged,
-                dataType: "json",
-                url: decomposed[0],
+        axios
+            .get(decomposed[0], {
+                params: merged,
+                responseType: "json",
             })
-            .done(resp => resolve(resp))
-            .fail(err => reject(err));
+            .then(resp => resolve(resp.data))
+            .catch(err => reject(err));
     });
 }
