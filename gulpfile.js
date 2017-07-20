@@ -23,6 +23,7 @@ gulp.task("clean_chromium", function () {
 gulp.task("copy_chromium_files", function () {
     return gulp.src([
         "src/background.html",
+        "src/popup.html",
         "src/**/*.{bundle.js,png,css}",
         "platform/chromium/**/*"
     ])

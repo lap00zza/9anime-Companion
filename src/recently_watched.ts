@@ -12,20 +12,7 @@
  *
  * @todo should the list have a hard limit on items?
  */
-
-interface IRecentlyWatched {
-    animeId: string;    /* 9anime ID of this anime */
-    animeName: string;  /* anime name */
-    epId: string;       /* episode ID */
-    epNum: string;      /* episode number */
-    // since all the anime start with "https://9anime.to", we
-    // only store the part after it, example:
-    // "/watch/boruto-naruto-next-generations.97vm/zwz4xw"
-    // This way if one of the domain is down, we can use the
-    // other ones, ex: 9anime.is instead of 9anime.to.
-    path: string;
-    timestamp: string;
-}
+import {IRecentlyWatched} from "./common";
 
 let watchList: IRecentlyWatched[] = [];
 let timeoutId: number;

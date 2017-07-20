@@ -6,7 +6,8 @@ module.exports = {
     cache: true,
     entry: {
         background: "./src/background.ts",
-        cs_watch_page: "./src/cs_watch_page.ts"
+        cs_watch_page: "./src/cs_watch_page.ts",
+        popup: "./src/popup.ts"
     },
     module: {
         rules: [

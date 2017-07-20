@@ -6,7 +6,7 @@
 
 import {Intent, IRuntimeMessage, Settings} from "./common";
 import * as dlAll from "./download_all";
-import {register} from "./recently_watched";
+import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
 
 /***
@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             break;
 
         case Intent.Recently_Watched_Add:
-            register({
+            recentlyWatched.register({
                 animeId: message.animeId,
                 animeName: message.animeName,
                 epId: message.epId,
@@ -55,6 +55,9 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             });
             break;
 
+        case Intent.Recently_Watched_List:
+            sendResponse(recentlyWatched.getList());
+            break;
         default:
             console.info("Intent not valid");
             break;
