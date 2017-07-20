@@ -36,7 +36,11 @@ function commit(): void {
 }
 
 /**
- * Get the recently watched anime's.
+ * Get the recently watched anime's. Remember, getList returns
+ * anime's from watchList which is stored in memory. It does
+ * not read it from chrome.local storage everytime. So if
+ * chrome.local storage is manually modified, the changes
+ * **WONT BE REFLECTED**.
  * @param items
  *      The amount of anime's to return.
  *      Defaults to 10.
@@ -74,7 +78,7 @@ export function addToList(params: IRecentlyWatched): void {
             exist = true;
             item.epId = params.epId;
             item.epNum = params.epNum;
-            item.timestamp = params.timestamp;
+            item.timestamp = params.timestamp || new Date().toISOString();
         }
     }
     if (!exist) {
@@ -83,7 +87,7 @@ export function addToList(params: IRecentlyWatched): void {
             animeName: params.animeName,
             epId: params.epId,
             epNum: params.epNum,
-            timestamp: params.timestamp,
+            timestamp: params.timestamp || new Date().toISOString(),
             url: params.url,
         });
     }

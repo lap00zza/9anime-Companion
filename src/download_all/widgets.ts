@@ -177,6 +177,8 @@ export function linksModal(): JQuery<HTMLElement> {
         document.execCommand("copy");
     });
 
+    // When the modal is first attached, it should be hidden.
+    // Not to be confused with hideModal() function.
     modal.hide();
     return modal;
 }
@@ -260,6 +262,7 @@ export function epModal(): JQuery<HTMLElement> {
     });
 
     // When the modal is first attached, it should be hidden.
+    // Not to be confused with hideModal() function.
     modal.hide();
     return modal;
 }
