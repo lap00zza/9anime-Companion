@@ -20,6 +20,7 @@ export const Settings = {
     utilityBar: true,
 };
 
+// --- INTERFACES ---
 /**
  * The interface representing a settings object. Useful
  * when used with loadSettings to quickly find out what
@@ -35,6 +36,46 @@ export interface ISettings {
     utilityBar?: boolean;
 }
 
+export interface IRecentlyWatched {
+    animeId: string;    /* 9anime ID of this anime */
+    animeName: string;  /* anime name */
+    epId: string;       /* episode ID */
+    epNum: string;      /* episode number */
+    // since all the anime start with "https://9anime.to", we
+    // only store the part after it, example:
+    // "/watch/boruto-naruto-next-generations.97vm/zwz4xw"
+    // This way if one of the domain is down, we can use the
+    // other ones, ex: 9anime.is instead of 9anime.to.
+    path: string;
+    timestamp: string;
+}
+
+/**
+ * Defines a generic object with key, value as strings.
+ * Since TS needs a index signature, we will use this
+ * quite often.
+ *
+ * @todo this might be better of as union instead of any
+ */
+export interface IGenericObject {
+    /* tslint:disable:no-any */
+    [key: string]: any;
+    /* tslint:enable:no-any */
+}
+
+/**
+ * Each episode is represented at large by this interface.
+ */
+export interface IEpisode {
+    id: string; /* The actual episode id. ex: 42m48j */
+    num: string; /* The 3 digit episode number. ex: 001 */
+}
+
+export interface IRuntimeMessage extends IGenericObject {
+    intent: Intent;
+}
+
+// --- ENUMS ---
 /**
  * The list of servers that 9anime Companion can
  * currently download from. Currently they are:
@@ -75,27 +116,6 @@ export enum DownloadMethod {
 export type DownloadMethodKeys = "Browser" | "External";
 
 /**
- * Defines a generic object with key, value as strings.
- * Since TS needs a index signature, we will use this
- * quite often.
- *
- * @todo this might be better of as union instead of any
- */
-export interface IGenericObject {
-    /* tslint:disable:no-any */
-    [key: string]: any;
-    /* tslint:enable:no-any */
-}
-
-/**
- * Each episode is represented at large by this interface.
- */
-export interface IEpisode {
-    id: string; /* The actual episode id. ex: 42m48j */
-    num: string; /* The 3 digit episode number. ex: 001 */
-}
-
-/**
  * A collection of intents that the background can
  * understand. Intents other than these are not valid.
  */
@@ -106,8 +126,5 @@ export enum Intent {
     "MAL_Search",
     "Reddit_Discussion",
     "Recently_Watched_Add",
-}
-
-export interface IRuntimeMessage extends IGenericObject {
-    intent: Intent;
+    "Recently_Watched_List",
 }
