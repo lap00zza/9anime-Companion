@@ -34,7 +34,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31
 
 ## Want to contribute?
-Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/CONTRIBUTING.md)
+Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/.github/CONTRIBUTING.md)
 
 ## License
 [MIT](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/LICENSE)
