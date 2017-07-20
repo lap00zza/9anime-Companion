@@ -112,6 +112,7 @@
   #nac__dl-all__status
     display: inline-block
 
+
 // The 'Download All' buttons that are added
 // for 9anime and RapidVideo servers.
 .nac__dl-all__btn
@@ -135,6 +136,7 @@
     background: #222
     color: #888
 
+
 // This is the ep select modal.
 #nac__dl-all__ep-modal
 
@@ -153,6 +155,7 @@
           border: 1px solid rgba(255, 255, 255, 0.25)
           margin-left: 5px
 
+      // This is the download button
       #nac__dl-all__download
         width: 100%
         padding-top: 10px
@@ -168,12 +171,14 @@
         &:hover
           background: #332041
 
+
 // The links modal.
 #nac__dl-all__links-modal
   .container
     // The height needs to be a little less
     // than 480px since we only have 1 button.
     max-height: 400px
+
     .body
       // Don't need the 20px padding. The textarea
       // should cover entire body.
@@ -183,11 +188,14 @@
         resize: none
         height: 100%
         width: 100%
+
     .footer
       // Need to make the button a bit wider since
       // it has quite a bit of text.
       &__item
         width: 150px
+
+        // This is the copy to clipboard button
         #nac__dl-all__copy-links
           border: 0
           padding: 10px
