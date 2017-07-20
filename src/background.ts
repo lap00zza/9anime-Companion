@@ -5,7 +5,7 @@
  */
 
 import {Intent, IRuntimeMessage, Settings} from "./common";
-import * as dlAll from "./download_all";
+import * as dlAll from "./download_all/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
 

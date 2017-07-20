@@ -1,5 +1,5 @@
 /* global test, expect */
-const autoFallback = require("../src/download_all").autoFallback
+const autoFallback = require("../src/download_all/core").autoFallback
 const Quality = require("../src/common").DownloadQuality
 
 

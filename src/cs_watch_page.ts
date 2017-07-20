@@ -2,7 +2,7 @@
 
 import * as $ from "jquery";
 import {Intent, ISettings, Server} from "./common";
-import * as dlAll from "./download_all_widgets";
+import * as dlAll from "./download_all/widgets";
 import utilityBar from "./utility_bar";
 import {loadSettings} from "./utils";
 

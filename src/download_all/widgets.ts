@@ -3,8 +3,6 @@
  *
  * => Part of Content Script
  * This is responsible for the Download All widgets/components.
- *
- * @see {@link https://git.io/vQdkU} for a brief overview.
  */
 
 declare function require(arg: string): string;
@@ -18,10 +16,10 @@ import {
     Intent,
     IRuntimeMessage,
     Server,
-} from  "./common";
-import * as utils from "./utils";
+} from  "../common";
+import * as utils from "../utils";
 
-// see download_all.ts to understand what the variables
+// see core.ts to understand what the variables
 // below mean.
 let server: Server = Server.Default;
 let method: DownloadMethod = DownloadMethod.Browser;
@@ -159,7 +157,7 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
  *      The Links Modal
  */
 export function linksModal(): JQuery<HTMLElement> {
-    let template = require("html-loader!./templates/dlAll_linksModal.html");
+    let template = require("html-loader!../templates/dlAll_linksModal.html");
     let modal = $(template);
     let clipboardIcon = chrome.extension.getURL("assets/images/clipboard.png");
 
@@ -192,7 +190,7 @@ export function linksModal(): JQuery<HTMLElement> {
  */
 export function epModal(): JQuery<HTMLElement> {
     // We wil start by loading the template from an external file.
-    let template = require("html-loader!./templates/dlAll_epModal.html");
+    let template = require("html-loader!../templates/dlAll_epModal.html");
     let modal = $(template);
 
     // 1> Add the anime name to the "header"

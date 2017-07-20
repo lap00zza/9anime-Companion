@@ -10,11 +10,9 @@
  * trying to download from multiple tabs, chances are your
  * downloads might not go as expected. Please wait till one set
  * of download is over before starting again.
- *
- * @see {@link https://git.io/vQdkU} for a brief overview.
  */
 
-import * as api from "./api";
+import * as api from "../api";
 import {
     DownloadMethod,
     DownloadQuality,
@@ -22,8 +20,8 @@ import {
     Intent,
     IRuntimeMessage,
     Server,
-} from  "./common";
-import * as utils from "./utils";
+} from  "../common";
+import * as utils from "../utils";
 
 // We need this value while sending API requests.
 let ts = "";
