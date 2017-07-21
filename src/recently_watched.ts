@@ -96,6 +96,27 @@ export function addToList(params: IRecentlyWatched): void {
 }
 
 /**
+ * Removes an item from the recently watched list.
+ * @param animeId
+ *      The animeId of the anime to be removed from
+ *      the recently watched list.
+ * @returns
+ *      true -> item removed
+ *      false -> failed to remove/not present
+ */
+export function removeFromList(animeId: string): boolean {
+    for (let i = 0; i < watchList.length; i++) {
+        if (watchList[i].animeId === animeId) {
+            // Remove 1 element at the index.
+            watchList.splice(i, 1);
+            commit();
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Register recently watched! It will call addToList after
  * a set countDuration so that only legit anime's are added
  * to watchList.

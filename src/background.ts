@@ -58,6 +58,11 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
         case Intent.Recently_Watched_List:
             sendResponse(recentlyWatched.getList());
             break;
+
+        case Intent.Recently_Watched_Remove:
+            sendResponse(recentlyWatched.removeFromList(message.animeId));
+            break;
+
         default:
             console.info("Intent not valid");
             break;

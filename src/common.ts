@@ -127,4 +127,5 @@ export enum Intent {
     "Reddit_Discussion",
     "Recently_Watched_Add",
     "Recently_Watched_List",
+    "Recently_Watched_Remove",
 }
