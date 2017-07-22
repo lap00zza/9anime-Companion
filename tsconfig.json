@@ -1,9 +1,9 @@
 {
   "files": [
-    "src/api.ts",
     "src/background.ts",
     "src/common.ts",
     "src/cs_watch_page.ts",
+    "src/download_all/api.ts",
     "src/download_all/core.ts",
     "src/download_all/widgets.ts",
     "src/popup.ts",

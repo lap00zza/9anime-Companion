@@ -1,14 +1,13 @@
 /**
  * Konichiwa~
  *
- * This module contains all the api calls. This includes calls
- * to the 9anime API and the MAL api. This module also takes
- * care of the 9anime encryption scheme.
+ * This module contains all the api calls related to download_all.
+ * This module also takes care of the 9anime encryption scheme.
  */
 
 // axios because jquery is too big for just ajax
 import axios from "axios";
-import * as utils from "./utils";
+import * as utils from "../utils";
 
 // The parts/functions marked as [*] are part of
 // 9anime encryption scheme. If they make no sense
@@ -52,8 +51,7 @@ export function generateToken(data: { [key: string]: string | number }, initialS
     return _ - 30;
 }
 
-// ***
-
+// *** 9anime API ***
 let baseUrl = "https://9anime.to";
 
 interface ISetupOptions {

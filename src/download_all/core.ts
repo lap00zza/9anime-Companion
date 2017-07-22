@@ -12,7 +12,6 @@
  * of download is over before starting again.
  */
 
-import * as api from "../api";
 import {
     DownloadMethod,
     DownloadQuality,
@@ -22,6 +21,7 @@ import {
     Server,
 } from  "../common";
 import * as utils from "../utils";
+import * as api from "./api";
 
 // We need this value while sending API requests.
 let ts = "";
