@@ -31,8 +31,7 @@
 // Original implementation by @yumiris
 //
 // The parent class is the modal overlay, ie.
-// the part that darkens the page. On this
-// overlay the modal container is present
+// the part that darkens the page.
 .nac__modal
   height: 100%
   width: 100%
@@ -44,6 +43,10 @@
   left: 0
   z-index: 100
 
+  a
+    cursor: pointer
+
+  // The actual modal.
   .container
     padding: 25px
     margin: 50px auto
@@ -58,35 +61,35 @@
     background-color: #16151c
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2)
 
-    a
-      cursor: pointer
+  // Top section of the modal
+  .header
+    border-bottom: 1px solid #9a9a9a
+    padding-bottom: 5px
 
-    .header
-      border-bottom: 1px solid #9a9a9a
-      padding-bottom: 5px
+  // Body of the modal.
+  .body
+    margin-top: 10px
+    overflow-y: auto
+    max-width: 455px
+    height: 260px
+    padding: 20px
+    background-color: rgba(0, 0, 0, 0.25)
+    border-radius: 5px
 
-    .body
-      margin-top: 10px
-      overflow-y: auto
-      max-width: 455px
-      height: 260px
-      padding: 20px
-      background-color: rgba(0, 0, 0, 0.25)
-      border-radius: 5px
+    display: flex
+    flex-wrap: wrap
+    align-items: flex-start
+    align-content: flex-start
 
-      display: flex
-      flex-wrap: wrap
-      align-items: flex-start
-      align-content: flex-start
+  // Bottom section of the modal
+  .footer
+    margin-top: 10px
+    text-align: center
+    display: block
 
-    .footer
-      margin-top: 10px
-      text-align: center
-      display: block
-
-      &__item
-        display: inline-block
-        width: 100px
+    &__item
+      display: inline-block
+      width: 100px
 
 
 #nac__utility-bar
@@ -139,37 +142,33 @@
 
 // This is the ep select modal.
 #nac__dl-all__ep-modal
+  .nac__dl-all__episode
+    margin-left: 5px
+    margin-right: 5px
 
-  .container
-    .body
-      .nac__dl-all__episode
-        margin-left: 5px
-        margin-right: 5px
+  .footer__options
+    margin-top: 10px
 
-    .footer
-      &__options
-        margin-top: 10px
+    select
+      background: transparent
+      border: 1px solid rgba(255, 255, 255, 0.25)
+      margin-left: 5px
 
-        select
-          background: transparent
-          border: 1px solid rgba(255, 255, 255, 0.25)
-          margin-left: 5px
+  // This is the download button
+  #nac__dl-all__download
+    width: 100%
+    padding-top: 10px
+    padding-bottom: 10px
+    text-align: center
+    color: white
+    background: #472757
 
-      // This is the download button
-      #nac__dl-all__download
-        width: 100%
-        padding-top: 10px
-        padding-bottom: 10px
-        text-align: center
-        color: white
-        background: #472757
+    border-radius: 2px
+    border: 0 solid rgba(0, 0, 0, 0.25)
+    border-bottom-width: 2px
 
-        border-radius: 2px
-        border: 0 solid rgba(0, 0, 0, 0.25)
-        border-bottom-width: 2px
-
-        &:hover
-          background: #332041
+    &:hover
+      background: #332041
 
 
 // The links modal.
@@ -179,32 +178,31 @@
     // than 480px since we only have 1 button.
     max-height: 400px
 
-    .body
-      // Don't need the 20px padding. The textarea
-      // should cover entire body.
-      padding: 0
-      textarea
-        background: transparent
-        resize: none
-        height: 100%
-        width: 100%
+  .body
+    // Don't need the 20px padding. The textarea
+    // should cover entire body.
+    padding: 0
+    textarea
+      background: transparent
+      resize: none
+      height: 100%
+      width: 100%
 
-    .footer
-      // Need to make the button a bit wider since
-      // it has quite a bit of text.
-      &__item
-        width: 150px
+  // Need to make the button a bit wider since
+  // it has quite a bit of text.
+  .footer__item
+    width: 150px
 
-        // This is the copy to clipboard button
-        #nac__dl-all__copy-links
-          border: 0
-          padding: 10px
-          background: rgba(0, 0, 0, 0.25)
-          img
-            height: 20px
-            width: 20px
+  // This is the copy to clipboard button
+  #nac__dl-all__copy-links
+    border: 0
+    padding: 10px
+    background: rgba(0, 0, 0, 0.25)
+    img
+      height: 20px
+      width: 20px
 
-          &:hover
-            box-shadow: 0 2px 5px rgba(0,0,0,.4)
-          &:active
-            box-shadow: 0 0 0
+    &:hover
+      box-shadow: 0 2px 5px rgba(0,0,0,.4)
+    &:active
+      box-shadow: 0 0 0
