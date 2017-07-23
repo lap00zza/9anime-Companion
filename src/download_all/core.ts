@@ -215,7 +215,9 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
                     if (file) {
                         chrome.downloads.download({
                             conflictAction: "uniquify",
-                            filename: fileName(file, episode),
+                            // this means, downloads will go to the 9anime Companion
+                            // subdirectory, inside the default download directory.
+                            filename: "9anime Companion/" + fileName(file, episode),
                             url: file.file,
                         });
                     }
