@@ -13,11 +13,32 @@ let serverDiv = $("#servers");
 let animeName = title.text();
 let animeId = $("#movie").data("id");
 
-/* --- Register recently watched --- */
-// See "recently_watched.ts" to find out
-// how this part works.
-// TODO: maybe use data("comment") instead of data("base").
+/* --- Track Episode Change --- */
+// This part tracks when episodes are changed after the page loads.
+// Since the episodes are loaded via ajax, there is no direct way
+// to track them. Instead, we poll history.state every 10 seconds
+// and if id was changed, a custom event "nac__Episode_Change" is
+// dispatched with the new episode id in it.
 let recentEpId = serverDiv.find(".episodes > li > a.active").data("id");
+setInterval(() => {
+    if (history.state && history.state.name) {
+        let newEpId = history.state.name;
+        if (newEpId !== recentEpId) {
+            document.dispatchEvent(new CustomEvent("nac__Episode_Change", {
+                detail: {
+                    newEpId,
+                },
+            }));
+            recentEpId = newEpId;
+        }
+    }
+}, 10000);
+/* --- ^.^ --- */
+
+/* --- Register recently watched --- */
+// See "recently_watched.ts" to find out how this part works.
+// TODO: maybe recently watched duration should be lowered
+// TODO: maybe use data("comment") instead of data("base").
 let recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
 function registerRecent() {
     chrome.runtime.sendMessage({
@@ -31,24 +52,12 @@ function registerRecent() {
 }
 registerRecent(); /* register once at page load */
 // We also track the episodes that are changed after opening
-// a page. Since the episodes are loaded via ajax, there is
-// no direct way to track them. Instead, we poll history.state
-// every 10 seconds and register if id was changed.
-//
-// NOTE: this means you need to be on a episode for at-least 10
-// seconds to be counted and additional 10 seconds to be added
-// to list. So 20 seconds :).
-setInterval(() => {
-    if (history.state && history.state.name) {
-        let newEpId = history.state.name;
-        if (newEpId !== recentEpId) {
-            recentEpId = newEpId;
-            recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
-            console.info(`%cUpdated recent to ${recentEpNum}`, "color: yellow;");
-            registerRecent();
-        }
-    }
-}, 10000);
+// a page.
+$(document).on("nac__Episode_Change", () => {
+    recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+    console.info(`%cUpdated recent to ${recentEpNum}`, "color: yellow;");
+    registerRecent();
+});
 /* --- ^.^ --- */
 
 /* --- Page actions based on settings --- */
