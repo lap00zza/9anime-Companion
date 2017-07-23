@@ -79,15 +79,15 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 chrome.runtime.onInstalled.addListener(details => {
     console.info("%cSaving default settings to localStorage", "color: lightgreen");
     chrome.storage.local.set(Settings);
-   // switch (details.reason) {
-   //     case "install":
-   //         console.info("%cNew install: Saving default settings to localStorage", "lightgreen");
-   //         chrome.storage.local.set(Settings);
-   //         break;
-   //     case "update":
-   //         console.info("update");
-   //         break;
-   //     default:
-   //         break;
-   // }
+    // switch (details.reason) {
+    //     case "install":
+    //         console.info("%cNew install: Saving default settings to localStorage", "lightgreen");
+    //         chrome.storage.local.set(Settings);
+    //         break;
+    //     case "update":
+    //         console.info("update");
+    //         break;
+    //     default:
+    //         break;
+    // }
 });
