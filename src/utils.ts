@@ -35,6 +35,19 @@ export function fileSafeString(filename: string): string {
 }
 
 /**
+ * Generates a slug from an anime name. The slug only contains
+ * letters a to z, number 0 to 9 and the character -.
+ * @param name
+ * @returns
+ *      slug
+ */
+export function getSlug(name: string): string {
+    let slugRe = /[^A-Za-z0-9\-]/g;
+    // the first replace replaces all spaces with -
+    return name.toLocaleLowerCase().replace(/\s/g, "-").replace(slugRe, "");
+}
+
+/**
  * Generates a 3 digit episode number from the given
  * number. This is helpful while sorting files.
  * @param num
