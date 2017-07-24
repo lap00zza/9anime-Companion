@@ -1,7 +1,7 @@
 // TODO: find a better way to render templates instead of jquery
 
 import * as $ from "jquery";
-import {Intent, ISettings, Server} from "./common";
+import {Intent, ISettings} from "./common";
 import * as dlAll from "./download_all/widgets";
 import utilityBar from "./utility_bar";
 import {loadSettings} from "./utils";
@@ -134,30 +134,9 @@ loadSettings([
         // "dlAll" means downloadAll. Its a short form.
         // We will use quite a bit of these throughout
         // 9anime Companion.
-
-        let body = $("body");
-        let servers = $(".server.row > label");
-
         dlAll.setup({
             name: animeName,
-            ts: body.data("ts"),
+            ts: $("body").data("ts"),
         });
-        serverDiv.prepend(dlAll.statusBar());
-        body.append(dlAll.epModal());
-        body.append(dlAll.linksModal());
-
-        for (let server of servers) {
-            let serverLabel = $(server).text();
-
-            // Basically what we are doing here is testing
-            // the labels and adding appropriate dl buttons.
-            if (/Server\s+F/i.test(serverLabel)) {
-                $(server).append(dlAll.downloadBtn(Server.Default));
-            }
-            // TODO: lets do the RapidVideo bit later
-            // else if (/RapidVideo/i.test(serverLabel)) {
-            //     $(server).append(dlAll.downloadBtn(Server.RapidVideo));
-            // }
-        }
     }
 });

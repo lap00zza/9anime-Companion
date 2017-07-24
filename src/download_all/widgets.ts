@@ -53,6 +53,27 @@ interface ISetupOptions {
 export function setup(options: ISetupOptions) {
     animeName = options.name;
     ts = options.ts;
+
+     // Rest of the setup process
+    let body = $("body");
+    let servers = $(".server.row > label");
+    $("#servers").prepend(statusBar());
+    body.append(epModal());
+    body.append(linksModal());
+
+     // attach the download all buttons to the server labels
+    for (let s of servers) {
+        let serverLabel = $(s).text();
+        // Basically what we are doing here is testing
+        // the labels and adding appropriate dl buttons.
+        if (/Server\s+F/i.test(serverLabel)) {
+            $(s).append(downloadBtn(Server.Default));
+        }
+        // TODO: lets do the RapidVideo bit later
+        // else if (/RapidVideo/i.test(serverLabel)) {
+        //     $(server).append(dlAll.downloadBtn(Server.RapidVideo));
+        // }
+    }
 }
 
 // *** Animations ***
