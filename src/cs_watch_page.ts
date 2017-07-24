@@ -12,24 +12,32 @@ let title = $("h1.title");
 let serverDiv = $("#servers");
 let animeName = title.text();
 let animeId = $("#movie").data("id");
+let currentEpId = serverDiv.find(".episodes > li > a.active").data("id");
+// TODO: maybe use data("comment") instead of data("base") for EpNum
+let currentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
 
 /* --- Track Episode Change --- */
+let epChangeCallbacks: Array<(newEpId: string, newEpNum: string) => void> = [];
+
 // This part tracks when episodes are changed after the page loads.
 // Since the episodes are loaded via ajax, there is no direct way
 // to track them. Instead, we poll history.state every 10 seconds
-// and if id was changed, a custom event "nac__Episode_Change" is
-// dispatched with the new episode id in it.
-let recentEpId = serverDiv.find(".episodes > li > a.active").data("id");
+// and if id was changed, callbacks in epChangeCallbacks are executed
+// with newEpId and newEpNum as the parameters.
 setInterval(() => {
     if (history.state && history.state.name) {
         let newEpId = history.state.name;
-        if (newEpId !== recentEpId) {
-            document.dispatchEvent(new CustomEvent("nac__Episode_Change", {
-                detail: {
-                    newEpId,
-                },
-            }));
-            recentEpId = newEpId;
+        if (newEpId !== currentEpId) {
+            let newEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+
+            /* update values. This HAS TO BE DONE FIRST. */
+            currentEpId = newEpId;
+            currentEpNum = newEpNum;
+
+            /* execute callbacks */
+            epChangeCallbacks.forEach(el => {
+                el.call(null, newEpId, newEpNum);
+            });
         }
     }
 }, 10000);
@@ -38,14 +46,12 @@ setInterval(() => {
 /* --- Register recently watched --- */
 // See "recently_watched.ts" to find out how this part works.
 // TODO: maybe recently watched duration should be lowered
-// TODO: maybe use data("comment") instead of data("base").
-let recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
 function registerRecent() {
     chrome.runtime.sendMessage({
         animeId,
         animeName,
-        epId: recentEpId,
-        epNum: recentEpNum,
+        epId: currentEpId,
+        epNum: currentEpNum,
         intent: Intent.Recently_Watched_Add,
         url: $("link[rel='canonical']").attr("href"),
     });
@@ -53,9 +59,8 @@ function registerRecent() {
 registerRecent(); /* register once at page load */
 // We also track the episodes that are changed after opening
 // a page.
-$(document).on("nac__Episode_Change", () => {
-    recentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
-    console.info(`%cUpdated recent to ${recentEpNum}`, "color: yellow;");
+epChangeCallbacks.push(() => {
+    console.info(`%cUpdated recent to ${currentEpNum}`, "color: yellow;");
     registerRecent();
 });
 /* --- ^.^ --- */
