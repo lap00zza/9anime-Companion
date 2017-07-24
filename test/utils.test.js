@@ -47,19 +47,37 @@ test("decomposeURL: should ignore params that are not proper", () => {
 })
 
 // [5]: getSlug
-test("getSlug: should generate a proper slug", () => {
+// test("getSlug: should generate a proper slug", () => {
+//     let testData = [{
+//         name: "Kono Subarashii Sekai ni Shukufuku wo! 2",
+//         slug: "kono-subarashii-sekai-ni-shukufuku-wo-2"
+//     }, {
+//         name: "Keijo!!!!!!!!",
+//         slug: "keijo"
+//     }, {
+//         name: "A    A    A",
+//         slug: "a----a----a"
+//     }]
+//
+//     testData.forEach(el => {
+//         expect(utils.getSlug(el.name)).toBe(el.slug)
+//     })
+// })
+
+// [6]: cleanAnimeName
+test("cleanAnimeName: should generate a clean title", () => {
     let testData = [{
-        name: "Kono Subarashii Sekai ni Shukufuku wo! 2",
-        slug: "kono-subarashii-sekai-ni-shukufuku-wo-2"
+        name: "Kono Subarashii (DUB)",
+        slug: "Kono Subarashii"
     }, {
-        name: "Keijo!!!!!!!!",
-        slug: "keijo"
+        name: "Keijo (SUB)",
+        slug: "Keijo"
     }, {
-        name: "A    A    A",
-        slug: "a----a----a"
+        name: "A (TV)(SUB)(DUB)",
+        slug: "A"
     }]
 
     testData.forEach(el => {
-        expect(utils.getSlug(el.name)).toBe(el.slug)
+        expect(utils.cleanAnimeName(el.name)).toBe(el.slug)
     })
 })

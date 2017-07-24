@@ -8,7 +8,7 @@ import {Intent, IRuntimeMessage, Settings} from "./common";
 import * as dlAll from "./download_all/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
-import {getSlug} from "./utils";
+import {cleanAnimeName} from "./utils";
 
 /***
  * This is the background listener. It listens to the messages sent
@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 
         case Intent.Find_In_Kitsu:
             chrome.tabs.create({
-                url: "https://kitsu.io/anime/" + getSlug(message.animeName),
+                url: "https://kitsu.io/anime?text=" + cleanAnimeName(message.animeName),
             });
             break;
 

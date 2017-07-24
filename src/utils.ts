@@ -5,7 +5,7 @@
  * by content script, background script and the popup.
  */
 
-import { IGenericObject, ISettings} from "./common";
+import {IGenericObject, ISettings} from "./common";
 
 /**
  * A simple helper function to remove the leading
@@ -34,17 +34,28 @@ export function fileSafeString(filename: string): string {
     return filename.replace(re, "");
 }
 
+// /**
+//  * Generates a slug from an anime name. The slug only contains
+//  * letters a to z, number 0 to 9 and the character -.
+//  * @param name
+//  * @returns
+//  *      slug
+//  */
+// export function getSlug(name: string): string {
+//     let slugRe = /[^A-Za-z0-9\-]/g;
+//     // the first replace replaces all spaces with -
+//     return name.toLocaleLowerCase().replace(/\s/g, "-").replace(slugRe, "");
+// }
+
 /**
- * Generates a slug from an anime name. The slug only contains
- * letters a to z, number 0 to 9 and the character -.
- * @param name
- * @returns
- *      slug
+ * Removes some of the modifiers like DUB, SUB etc that are
+ * present in anime titles.
+ * @param name - anime name
+ * @returns cleaned anime title
  */
-export function getSlug(name: string): string {
-    let slugRe = /[^A-Za-z0-9\-]/g;
-    // the first replace replaces all spaces with -
-    return name.toLocaleLowerCase().replace(/\s/g, "-").replace(slugRe, "");
+export function cleanAnimeName(name: string): string {
+    let modifierRe = /\(SUB\)|\(DUB\)|\(TV\)/gi;
+    return name.replace(modifierRe, "").trim();
 }
 
 /**
@@ -90,9 +101,9 @@ let parser = document.createElement("a");
  * @returns
  *      The tuple [url, searchParams]
  */
-export function decomposeURL(uriString: string): [string, {[key: string]: string}] {
+export function decomposeURL(uriString: string): [string, { [key: string]: string }] {
     parser.href = uriString;
-    let searchParams: {[key: string]: string} = {};
+    let searchParams: { [key: string]: string } = {};
     let url = parser.protocol + "//" + parser.hostname + parser.pathname;
 
     // query string contains a '?' followed by
@@ -130,7 +141,7 @@ export function notify(title: string, message: string): void {
 export function loadSettings(key: string | string[]): Promise<ISettings> {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(key, result => {
-           resolve(result);
+            resolve(result);
         });
     });
 }
