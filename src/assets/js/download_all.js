@@ -242,7 +242,7 @@ function downloadFiles(ts, episodes, name, quality = "360p", baseUrl = "https://
                                             var downloadTitle = encodeURIComponent(
                                                 `${generateFileSafeString(name)}` + ` - E${epNumber} (${quality})`
                                             );
-                                            var downloadUrl = fileUrl + "&title=" + downloadTitle;
+                                            var downloadUrl = fileUrl + "?title=" + downloadTitle;
                                             episodeLinks.push(downloadUrl);
                                         }
                                     }
