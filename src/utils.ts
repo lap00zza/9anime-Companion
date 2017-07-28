@@ -54,7 +54,7 @@ export function fileSafeString(filename: string): string {
  * @returns cleaned anime title
  */
 export function cleanAnimeName(name: string): string {
-    let modifierRe = /\(SUB\)|\(DUB\)|\(TV\)/gi;
+    let modifierRe = /\(SUB\)|\(DUB\)/gi;
     return name.replace(modifierRe, "").trim();
 }
 
