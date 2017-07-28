@@ -74,7 +74,7 @@ test("cleanAnimeName: should generate a clean title", () => {
         slug: "Keijo"
     }, {
         name: "A (TV)(SUB)(DUB)",
-        slug: "A"
+        slug: "A (TV)"
     }]
 
     testData.forEach(el => {
