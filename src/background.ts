@@ -1,11 +1,7 @@
 /**
  * Konichiwa~
  *
- * This is the background script. Few things to keep in mind:
- * 1. To convey to the content script that an error has occurred
- *    send null as the response. Nothing else. Detailed error
- *    messages should be shown as a notification right from this
- *    script.
+ * This is the background script.
  */
 
 import {Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
