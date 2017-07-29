@@ -1,14 +1,14 @@
 import * as $ from "jquery";
-import {Intent, IRecentlyWatched} from "./common";
+import {Intent, IRecentlyWatched, IRuntimeResponse} from "./common";
 
 let recentlyWatched = $("#nac__recently-watched");
 
 chrome.runtime.sendMessage({
     intent: Intent.Recently_Watched_List,
-}, (resp: IRecentlyWatched[]) => {
+}, (resp: IRuntimeResponse) => {
     let listItems = "";
 
-    resp.forEach(item => {
+    (resp.data as IRecentlyWatched[]).forEach(item => {
         let episodeDiv = "";
         let url = item.url;
 

@@ -1,21 +1,27 @@
 /**
  * Konichiwa~
  *
- * This is the background script.
+ * This is the background script. Few things to keep in mind:
+ * 1. To convey to the content script that an error has occurred
+ *    send null as the response. Nothing else. Detailed error
+ *    messages should be shown as a notification right from this
+ *    script.
  */
 
-import {Intent, IRuntimeMessage, Settings} from "./common";
+import {Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
 import * as dlAll from "./download_all/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
 import {cleanAnimeName} from "./utils";
+
+export type SendResponse = (param: IRuntimeResponse) => void;
 
 /***
  * This is the background listener. It listens to the messages sent
  * by content script and friends and act accordingly. It also sends
  * out messages to tabs/content scripts when required.
  */
-chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResponse: SendResponse) => {
     // Probably a validation for whether the required
     // object properties are present or missing?
     switch (message.intent) {
@@ -41,7 +47,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 
         case Intent.Find_In_Mal:
             chrome.tabs.create({
-                url: "https://myanimelist.net/anime.php?q=" + message.animeName,
+                url: "https://myanimelist.net/anime.php?q=" + cleanAnimeName(message.animeName),
             });
             break;
 
@@ -63,11 +69,16 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             break;
 
         case Intent.Recently_Watched_List:
-            sendResponse(recentlyWatched.getList());
+            sendResponse({
+                data: recentlyWatched.getList(),
+                success: true,
+            });
             break;
 
         case Intent.Recently_Watched_Remove:
-            sendResponse(recentlyWatched.removeFromList(message.animeId));
+            sendResponse({
+                success: recentlyWatched.removeFromList(message.animeId),
+            });
             break;
 
         default:

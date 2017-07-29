@@ -71,6 +71,17 @@ export interface IEpisode {
     num: string; /* The 3 digit episode number. ex: 001 */
 }
 
+/**
+ * This interface represents a response that is sent
+ * by the background script when a content script
+ * makes sends a message to it.
+ */
+export interface IRuntimeResponse {
+    success: boolean;   /* required; true or false */
+    data?: object;      /* data; if success */
+    err?: number;       /* error code; if fail */
+}
+
 export interface IRuntimeMessage extends IGenericObject {
     intent: Intent;
 }
