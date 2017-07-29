@@ -267,7 +267,10 @@ export function downloader(): void {
                         break;
                 }
             })
-            .catch(err => console.debug(err));
+            .catch(err => {
+                status(`Failed ${animeName} E${(ep as IEpisode).num}`);
+                console.debug(err.response);
+            });
     }
 }
 
