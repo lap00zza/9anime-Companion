@@ -257,9 +257,9 @@ export function epModal(): JQuery<HTMLElement> {
             // And... let it rip!
             if (selectedEpisodes.length > 0) {
                 isDownloading = true;
-                hideModal(selectors.epModal);
                 disableInputs();
-                $(selectors.statusBar).show();
+                hideModal(selectors.epModal);
+                $(selectors.statusBar).slideDown();
 
                 // Well since content scripts cant really download
                 // we will send a message to the background script
@@ -294,18 +294,23 @@ export function epModal(): JQuery<HTMLElement> {
 chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
     switch (message.intent) {
         case Intent.Download_Complete:
-            if (method === DownloadMethod.External) {
-                // Display the aggregate links.
+            // If method is external, display the aggregate links.
+            // We just need to make sure that if links are empty,
+            // which can happen if all the downloads failed, then
+            // we don't show the links modal.
+            if (method === DownloadMethod.External && message.links) {
                 $(selectors.links).text(message.links);
                 showModal(selectors.linksModal);
             }
-            $(selectors.statusBar).hide();
+            $(selectors.statusBar).slideUp();
             isDownloading = false;
             enableInputs();
             break;
+
         case Intent.Download_Status:
             $(selectors.status).text(message.status);
             break;
+
         default:
             break;
     }

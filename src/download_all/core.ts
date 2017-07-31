@@ -137,9 +137,10 @@ export function fileName(file: api.IFile, episode: IEpisode, ext = true): string
 }
 
 /**
- * Returns a file of users preferred quality from a list of files,
- * or, if preferred quality is missing, returns the next lower
- * quality. If there are no lower qualities then null is returned.
+ * Returns:
+ *  - a file of users preferred quality from a list of files,
+ *  - or, if preferred quality is missing, returns the next lower quality,
+ *  - or, ff there are no lower qualities then same quality is returned
  * @param pref
  *      The preferred quality.
  * @param files
@@ -159,7 +160,9 @@ export function autoFallback(pref: DownloadQuality, files: api.IFile[]): api.IFi
             }
         }
     }
-    // Meaning fallback failed
+    // Meaning fallback failed. This can happen
+    // if the preferred quality is invalid, ex:
+    // Quality["555p"] etc
     return null;
 }
 
@@ -209,7 +212,7 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
                         // the "?" is important after file.file
                         aggregateLinks += `${file.file}?title=${fileName(file, episode, false)}&type=${file.type}\n`;
                     }
-                    status(`Completed ${animeName} E${episode.num}`);
+                    status(`Completed ${episode.num}`);
                     break;
                 default:
                     if (file) {
@@ -221,13 +224,13 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
                             url: file.file,
                         });
                     }
-                    status(`Completed ${animeName} E${episode.num}`);
+                    status(`Completed ${episode.num}`);
                     break;
             }
         })
         .catch(err => {
             console.debug(err);
-            status(`Failed ${animeName} E${episode.num}`);
+            status(`Failed ${episode.num}`);
         })
         // The last then acts like a finally.
         .then(() => {
@@ -244,7 +247,7 @@ export function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
         inProgress = true;
-        status(`Downloading ${animeName} E${ep.num}`);
+        status(`Downloading ${ep.num}`);
         api
             .grabber({
                 id: ep.id,
@@ -268,8 +271,15 @@ export function downloader(): void {
                 }
             })
             .catch(err => {
-                status(`Failed ${animeName} E${(ep as IEpisode).num}`);
+                status(`Failed ${(ep as IEpisode).num}`);
                 console.debug(err.response);
+
+                // getLinks9a automatically requeue downloads, but
+                // that happens only after the download link is fetched.
+                // But what if the download fails after trying to get
+                // the grabber? We must requeue it again from here.
+                inProgress = false;
+                requeue();
             });
     }
 }

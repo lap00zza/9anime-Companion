@@ -39,7 +39,7 @@ describe("autoFallback", () => {
         expect(autoFallback(Quality["360p"], mockData)).toBe(mockData[0])
     })
 
-    test("don't fallback if invalid preferred quality", () => {
+    test("return null if invalid preferred quality", () => {
         let mockData = [
             {label: "360p", file: "1", type: "mp4"},
             {label: "480p", file: "2", type: "mp4"}
