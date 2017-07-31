@@ -1,0 +1,65 @@
+.nac__mal__btn
+  border: 0
+  border-radius: 2px
+  background-color: #51286A
+
+  &:hover
+    background-color: darken(#51286A, 5%)
+
+  &:active
+    background-color: lighten(#51286A, 5%)
+
+  &:disabled
+    background: #222
+    color: #888
+
+
+// This is the mal quick access widget that
+// is placed right below the player.
+#nac__mal__quick-access
+  position: relative
+  margin-top: 10px
+  max-width: 200px
+  min-height: 55px
+  height: 100%
+  padding: 5px
+  border: 1px solid #1e1e1e
+
+  // loader is the div that shows the puff svg
+  // image when we are readying the MAL integration.
+  .loader
+    position: absolute
+    top: 0
+    left: 0
+    padding: 5px
+
+    width: 100%
+    height: 100%
+    background-color: #08080b
+
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+
+#nac__mal__status-icon
+  position: absolute
+  right: 5px
+  bottom: 5px
+  height: 15px
+  width: 15px
+
+#nac__mal__watched-ep
+  border: 1px solid #5e5e5e
+  background-color: black
+  height: 16px
+
+#nac__mal__increment-ep
+  margin-left: 3px
+  height: 16px
+  width: 16px
+  border-radius: 50%
+  padding: 0
+
+#nac__mal__total-ep
+  margin-left: 3px

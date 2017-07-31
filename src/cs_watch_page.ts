@@ -3,6 +3,7 @@
 import * as $ from "jquery";
 import {Intent, ISettings} from "./common";
 import * as dlAll from "./download_all/widgets";
+import * as mal from "./MyAnimeList/widgets";
 import utilityBar from "./utility_bar";
 import {loadSettings} from "./utils";
 
@@ -17,13 +18,19 @@ let currentEpId = serverDiv.find(".episodes > li > a.active").data("id");
 let currentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
 
 /* --- Track Episode Change --- */
+/**
+ * Contains the callback functions which are executed when
+ * the episode on the current page is changed via ajax.
+ */
 let epChangeCallbacks: Array<(newEpId: string, newEpNum: string) => void> = [];
 
-// This part tracks when episodes are changed after the page loads.
-// Since the episodes are loaded via ajax, there is no direct way
-// to track them. Instead, we poll history.state every 10 seconds
-// and if id was changed, callbacks in epChangeCallbacks are executed
-// with newEpId and newEpNum as the parameters.
+/**
+ * This part tracks when episodes are changed after the page loads.
+ * Since the episodes are loaded via ajax, there is no direct way
+ * to track them. Instead, we poll history.state every second
+ * and if id was changed, callbacks in epChangeCallbacks are executed
+ * with newEpId and newEpNum as the parameters.
+ */
 setInterval(() => {
     if (history.state && history.state.name) {
         let newEpId = history.state.name;
@@ -40,7 +47,7 @@ setInterval(() => {
             });
         }
     }
-}, 10000);
+}, 1000);
 /* --- ^.^ --- */
 
 /* --- Register recently watched --- */
@@ -68,6 +75,7 @@ epChangeCallbacks.push(() => {
 /* --- Page actions based on settings --- */
 loadSettings([
     "downloadAll",
+    "myAnimeList",
     "remAds",
     "remComments",
     "remInfo",
@@ -138,5 +146,13 @@ loadSettings([
             name: animeName,
             ts: $("body").data("ts"),
         });
+    }
+
+    if (settings.myAnimeList) {
+        mal.setup({
+            animeName,
+            currentEpisode: currentEpNum,
+        });
+        epChangeCallbacks.push(mal.epTracker);
     }
 });

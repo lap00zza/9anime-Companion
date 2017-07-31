@@ -1,0 +1,99 @@
+// The status bar that shows information
+// about currently downloading files.
+.nac__dl-all__status-bar
+  margin-left: 10px
+  margin-bottom: 10px
+  #nac__dl-all__status
+    display: inline-block
+
+
+// The 'Download All' buttons that are added
+// for 9anime and RapidVideo servers.
+.nac__dl-all__btn
+  border: 1px solid #555
+  border-radius: 2px
+  background-color: #16151c
+
+  margin-top: 0
+  margin-left: 5px
+  @media screen and (min-width: 768px)
+    margin-top: 5px
+    margin-left: 0
+
+  &:hover
+    background-color: #111
+
+  &:active
+    background-color: #151515
+
+  &:disabled
+    background: #222
+    color: #888
+
+
+// This is the ep select modal.
+#nac__dl-all__ep-modal
+  .nac__dl-all__episode
+    margin-left: 5px
+    margin-right: 5px
+
+  .footer__options
+    margin-top: 10px
+
+    select
+      background: transparent
+      border: 1px solid rgba(255, 255, 255, 0.25)
+      margin-left: 5px
+
+  // This is the download button
+  #nac__dl-all__download
+    width: 100%
+    padding-top: 10px
+    padding-bottom: 10px
+    text-align: center
+    color: white
+    background: #472757
+
+    border-radius: 2px
+    border: 0 solid rgba(0, 0, 0, 0.25)
+    border-bottom-width: 2px
+
+    &:hover
+      background: #332041
+
+
+// The links modal.
+#nac__dl-all__links-modal
+  .container
+    // The height needs to be a little less
+    // than 480px since we only have 1 button.
+    max-height: 400px
+
+  .body
+    // Don't need the 20px padding. The textarea
+    // should cover entire body.
+    padding: 0
+    textarea
+      background: transparent
+      resize: none
+      height: 100%
+      width: 100%
+
+  // Need to make the button a bit wider since
+  // it has quite a bit of text.
+  .footer__item
+    width: 150px
+
+  // This is the copy to clipboard button
+  #nac__dl-all__copy-links
+    border: 0
+    padding: 10px
+    background: rgba(0, 0, 0, 0.25)
+    img
+      height: 20px
+      width: 20px
+
+    &:hover
+      box-shadow: 0 2px 5px rgba(0,0,0,.4)
+    &:active
+      box-shadow: 0 0 0

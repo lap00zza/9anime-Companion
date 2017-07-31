@@ -1,6 +1,9 @@
 # ignore JetBrains IDE files
 .idea/
 
+# Ignore the coverage for now
+coverage/
+
 # Dependency directories
 node_modules/
 
@@ -12,9 +15,6 @@ dist/
 
 # ignore macOS related files
 *.DS_Store
-
-# ignore css directory
-src/assets/css
 
 # Ignore the build directory
 src/build

@@ -6,6 +6,7 @@
 
 import {Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
 import * as dlAll from "./download_all/core";
+import * as mal from "./MyAnimeList/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
 import {cleanAnimeName} from "./utils";
@@ -77,6 +78,66 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             });
             break;
 
+        case Intent.MAL_QuickAdd:
+            mal
+                .quickAdd(message.animeId)
+                .then(() => sendResponse({
+                    success: true,
+                }))
+                .catch((err: number) => {
+                    sendResponse({
+                        success: false,
+                        err,
+                    });
+                });
+            // means we want to return the response
+            // asynchronously.
+            return true;
+
+        case Intent.MAL_QuickUpdate:
+            mal
+                .quickUpdate(message.animeId, message.episode)
+                .then(() => sendResponse({
+                    success: true,
+                }))
+                .catch((err: number) => {
+                    sendResponse({
+                        success: false,
+                        err,
+                    });
+                });
+            return true;
+
+        case Intent.MAL_Userlist:
+            mal
+                .getUserList()
+                .then(resp => sendResponse({
+                    data: resp,
+                    success: true,
+                }))
+                .catch((err: number) => {
+                    sendResponse({
+                        success: false,
+                        err,
+                    });
+                });
+            return true;
+
+        case Intent.MAL_Search:
+            mal
+                .search(message.animeName)
+                .then(resp => sendResponse({
+                    data: resp,
+                    success: true,
+                }))
+                .catch((err: number) => {
+                    sendResponse({
+                        success: false,
+                        err,
+                    });
+                });
+            return true;
+
         default:
             console.info("Intent not valid");
             break;
@@ -84,17 +145,21 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 });
 
 chrome.runtime.onInstalled.addListener(details => {
-    console.info("%cSaving default settings to localStorage", "color: lightgreen");
-    chrome.storage.local.set(Settings);
-    // switch (details.reason) {
-    //     case "install":
-    //         console.info("%cNew install: Saving default settings to localStorage", "lightgreen");
-    //         chrome.storage.local.set(Settings);
-    //         break;
-    //     case "update":
-    //         console.info("update");
-    //         break;
-    //     default:
-    //         break;
-    // }
+    // TODO: in 1.0, the old settings are better off deleted
+    // chrome.storage.local.clear();
+    switch (details.reason) {
+        case "install":
+            console.info(
+                "%cNew install: Saving default settings to localStorage",
+                "color: lightgreen");
+            chrome.storage.local.set(Settings);
+            break;
+        case "update":
+            console.info(
+                "%cUpdate: Preserving old settings and adding new ones",
+                "color: lightgreen");
+            break;
+        default:
+            break;
+    }
 });

@@ -12,6 +12,9 @@
  */
 export const Settings = {
     downloadAll: true,
+    malPassword: "",    /* used with MAL Integration */
+    malUsername: "",    /* used with MAL Integration */
+    myAnimeList: true,  /* used with MAL Integration */
     remAds: true,
     remComments: false,
     remInfo: false,
@@ -28,6 +31,9 @@ export const Settings = {
  */
 export interface ISettings {
     downloadAll?: boolean;
+    malPassword?: string;
+    malUsername?: string;
+    myAnimeList?: boolean;
     remAds?: boolean;
     remComments?: boolean;
     remInfo?: boolean;
@@ -48,6 +54,95 @@ export interface IRecentlyWatched {
     // The "/37rnxr" part is added from the epId.
     url: string;        /* The canonical url, without epId */
     timestamp: string;
+}
+
+/**
+ * All the AnimeValues properties for the MyAnimeList API.
+ * The interface was mapped from the specification given in
+ * {@link https://myanimelist.net/modules.php?go=api#animevalues}
+ *
+ * @todo use https://myanimelist.net/animelist/lapoozza to figure out some of the stuff below
+ */
+export interface IAnimeValues {
+    entry: {
+        episode?: number;
+        status?: MALStatus;
+        score?: MALScore;
+        storage_type?: number;      /* no clue what this is */
+        storage_value?: number;     /* no clue what this is */
+        times_rewatched?: number;
+        rewatch_value?: number;     /* no clue what this is */
+        date_start?: string;        /* format: mmddyyyy */
+        date_finish?: string;       /* format: mmddyyyy */
+        priority?: number;          /* no clue what this is */
+        enable_discussion?: 0 | 1;  /* no clue what this is */
+        enable_rewatching?: 0 | 1;  /* no clue what this is */
+        comments?: string;
+        tags?: string;
+    };
+}
+
+/**
+ * All the properties in search response from the MyAnimeList API.
+ */
+export interface IMALSearchAnime {
+    end_date: string;
+    english: string;
+    episodes: string;
+    id: string;
+    image: string;
+    score: string;
+    start_date: string;
+    status: string;
+    synonyms: string;
+    synopsis: string;
+    title: string;
+    type: string;
+}
+export interface IMALSearch {
+    anime: {
+        entry: IMALSearchAnime[],
+    };
+}
+
+/**
+ * All the properties in userlist response from the MyAnimeList API.
+ */
+export interface IMALUserListAnime {
+    my_finish_date: string;
+    my_id: string;
+    my_last_updated: string;
+    my_rewatching: string;
+    my_rewatching_ep: string;
+    my_score: string;
+    my_start_date: string;
+    my_status: string;
+    my_tags: string;
+    my_watched_episodes: string;
+    series_animedb_id: string;
+    series_end: string;
+    series_episodes: string;
+    series_image: string;
+    series_start: string;
+    series_status: string;
+    series_synonyms: string;
+    series_title: string;
+    series_type: string;
+}
+export interface IMALUserList {
+    myanimelist: {
+        anime: IMALUserListAnime[],
+        myinfo: {
+            user_completed: string;
+            user_days_spent_watching: string;
+            user_dropped: string;
+            user_id: string;
+            user_name: string;
+            user_onhold: string;
+            user_plantowatch: string;
+            user_watching: string;
+        },
+    };
 }
 
 /**
@@ -87,6 +182,16 @@ export interface IRuntimeMessage extends IGenericObject {
 }
 
 // --- ENUMS ---
+type MALScore = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export enum MALStatus {
+    WATCHING = 1,
+    COMPLETED = 2,
+    ONHOLD = 3,
+    DROPPED = 4,
+    PLANTOWATCH = 6,
+}
+
 /**
  * The list of servers that 9anime Companion can
  * currently download from. Currently they are:
@@ -136,6 +241,10 @@ export enum Intent {
     "Download_Status",
     "Find_In_Mal",
     "Find_In_Kitsu",
+    "MAL_QuickAdd",
+    "MAL_QuickUpdate",
+    "MAL_Search",
+    "MAL_Userlist",
     "Reddit_Discussion",
     "Recently_Watched_Add",
     "Recently_Watched_List",

@@ -5,7 +5,9 @@
 // you want to contribute, please make sure to study
 // the pattern we use in this file.
 
-@import "animations"
+@import "common"
+@import "download_all"
+@import "mal"
 
 // NOTE:
 // 1. Separate each block by 2 spaces
@@ -14,83 +16,6 @@
 // All the styles should be prefixed with "nac__"
 // why nac and not 9ac? because css cant have
 // numbers as selectors
-
-
-// Common animation classes
-.shake
-  @include animation__shake
-
-.fade_in
-  @include animation__fade-in
-
-.fade_out
-  @include animation__fade-out
-
-
-// This represents a generic modal.
-// Original implementation by @yumiris
-//
-// The parent class is the modal overlay, ie.
-// the part that darkens the page.
-.nac__modal
-  height: 100%
-  width: 100%
-  background-color: rgba(0, 0, 0, 0.7)
-  //padding-top: 25px
-
-  position: fixed
-  top: 0
-  left: 0
-  z-index: 100
-
-  a
-    cursor: pointer
-
-  // The actual modal.
-  .container
-    padding: 25px
-    margin: 50px auto
-    border-radius: 2px
-    position: relative
-
-    width: 100%
-    max-width: 480px
-    height: 100%
-    max-height: 480px
-
-    background-color: #16151c
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2)
-
-  // Top section of the modal
-  .header
-    border-bottom: 1px solid #9a9a9a
-    padding-bottom: 5px
-
-  // Body of the modal.
-  .body
-    margin-top: 10px
-    overflow-y: auto
-    max-width: 455px
-    height: 260px
-    padding: 20px
-    background-color: rgba(0, 0, 0, 0.25)
-    border-radius: 5px
-
-    display: flex
-    flex-wrap: wrap
-    align-items: flex-start
-    align-content: flex-start
-
-  // Bottom section of the modal
-  .footer
-    margin-top: 10px
-    text-align: center
-    display: block
-
-    &__item
-      display: inline-block
-      width: 100px
-
 
 #nac__utility-bar
   margin-top: 10px !important
@@ -105,104 +30,3 @@
     > img
       max-height: 16px
       margin: 2px 5px 2px 0
-
-
-// The status bar that shows information
-// about currently downloading files.
-.nac__dl-all__status-bar
-  margin-left: 10px
-  margin-bottom: 10px
-  #nac__dl-all__status
-    display: inline-block
-
-
-// The 'Download All' buttons that are added
-// for 9anime and RapidVideo servers.
-.nac__dl-all__btn
-  border: 1px solid #555
-  border-radius: 2px
-  background-color: #16151c
-
-  margin-top: 0
-  margin-left: 5px
-  @media screen and (min-width: 768px)
-    margin-top: 5px
-    margin-left: 0
-
-  &:hover
-    background-color: #111
-
-  &:active
-    background-color: #151515
-
-  &:disabled
-    background: #222
-    color: #888
-
-
-// This is the ep select modal.
-#nac__dl-all__ep-modal
-  .nac__dl-all__episode
-    margin-left: 5px
-    margin-right: 5px
-
-  .footer__options
-    margin-top: 10px
-
-    select
-      background: transparent
-      border: 1px solid rgba(255, 255, 255, 0.25)
-      margin-left: 5px
-
-  // This is the download button
-  #nac__dl-all__download
-    width: 100%
-    padding-top: 10px
-    padding-bottom: 10px
-    text-align: center
-    color: white
-    background: #472757
-
-    border-radius: 2px
-    border: 0 solid rgba(0, 0, 0, 0.25)
-    border-bottom-width: 2px
-
-    &:hover
-      background: #332041
-
-
-// The links modal.
-#nac__dl-all__links-modal
-  .container
-    // The height needs to be a little less
-    // than 480px since we only have 1 button.
-    max-height: 400px
-
-  .body
-    // Don't need the 20px padding. The textarea
-    // should cover entire body.
-    padding: 0
-    textarea
-      background: transparent
-      resize: none
-      height: 100%
-      width: 100%
-
-  // Need to make the button a bit wider since
-  // it has quite a bit of text.
-  .footer__item
-    width: 150px
-
-  // This is the copy to clipboard button
-  #nac__dl-all__copy-links
-    border: 0
-    padding: 10px
-    background: rgba(0, 0, 0, 0.25)
-    img
-      height: 20px
-      width: 20px
-
-    &:hover
-      box-shadow: 0 2px 5px rgba(0,0,0,.4)
-    &:active
-      box-shadow: 0 0 0

@@ -83,6 +83,7 @@ export function addToList(params: IRecentlyWatched): void {
     }
     if (!exist) {
         watchList.push({
+            // FIXME: some animeId's are being stored as number
             animeId: params.animeId,
             animeName: params.animeName,
             epId: params.epId,

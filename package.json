@@ -13,6 +13,7 @@
     "url": "https://github.com/lap00zza/9anime-Companion"
   },
   "scripts": {
+    "coverage": "jest test --coverage",
     "test": "jest test",
     "linter": "tslint -c tslint.json ./src/**/*.ts"
   },
@@ -35,8 +36,10 @@
   "dependencies": {
     "@types/chrome": "0.0.47",
     "@types/jquery": "^3.2.6",
+    "@types/x2js": "^3.1.0",
     "axios": "^0.16.2",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "x2js": "^3.1.1"
   },
   "jest": {
     "transform": {

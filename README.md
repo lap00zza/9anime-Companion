@@ -27,7 +27,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 ## Progress Tracker
 - [x] Download All
 - [ ] Ad and Popup Remover/Blocker (**done partially**)
-- [ ] MyAnimeList Integration
+- [x] MyAnimeList Integration
 - [ ] Recently Watched List (**API done, UI left**)
 - [ ] Pinned Anime List
 

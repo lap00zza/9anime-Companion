@@ -40,12 +40,13 @@
     "downloads",
     "*://9anime.to/*",
     "*://9anime.is/*",
-    "*://9anime.tv/*"
+    "*://9anime.tv/*",
+    "https://myanimelist.net/api/*" // TODO: make this optional later
   ],
 
-  "optional_permissions": [
-    "https://myanimelist.net/api/*"
-  ],
+  // "optional_permissions": [
+  //   "https://myanimelist.net/api/*"
+  // ],
 
   "web_accessible_resources": [
     "assets/images/*"
