@@ -18,25 +18,24 @@
     "linter": "tslint -c tslint.json ./src/**/*.ts"
   },
   "devDependencies": {
-    "@types/jest": "^20.0.2",
+    "@types/jest": "^20.0.5",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
     "gulp-util": "^3.0.8",
     "gulp-zip": "^4.0.0",
-    "html-loader": "^0.4.5",
+    "html-loader": "^0.5.0",
     "jest": "^20.0.4",
-    "run-sequence": "^2.0.0",
+    "run-sequence": "^2.1.0",
     "ts-jest": "^20.0.7",
     "ts-lint": "^4.5.1",
-    "ts-loader": "^2.2.2",
-    "typescript": "^2.4.1",
-    "webpack": "^3.0.0"
+    "ts-loader": "^2.3.2",
+    "typescript": "^2.4.2",
+    "webpack": "^3.4.1"
   },
   "dependencies": {
     "@types/chrome": "0.0.47",
-    "@types/jquery": "^3.2.6",
-    "@types/x2js": "^3.1.0",
+    "@types/jquery": "^3.2.10",
     "axios": "^0.16.2",
     "jquery": "^3.2.1",
     "x2js": "^3.1.1"
