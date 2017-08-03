@@ -1,0 +1,16 @@
+version: 1.0.{build}
+artifacts:
+  - path: dist\9anime_Companion_chrome.zip
+    name: 9anime_Companion_chrome
+    type: zip
+install:
+- ps: Install-Product node ''
+- npm install
+build_script:
+- npm run linter
+- npm run test
+- npm run build
+notifications:
+  - provider: Email
+    to:
+      - jewelmahanta@gmail.com
