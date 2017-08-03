@@ -46,7 +46,7 @@ gulp.task("make_chrome", function (callback) {
 // The default gulp task that runs when we
 // just type `gulp`
 gulp.task("default", function (callback) {
-    runSequence("sass", "make_chrome", callback);
+    runSequence("sass", "make_chrome", "zip_chrome", callback);
 })
 
 /* --- Other Tasks --- */
