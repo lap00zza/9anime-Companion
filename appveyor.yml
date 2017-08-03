@@ -1,0 +1,19 @@
+version: 1.0.0.{build}
+artifacts:
+  - path: dist\9anime_Companion-chrome-1.0.0.$(APPVEYOR_BUILD_NUMBER).zip
+    name: 9anime_Companion_chrome
+    type: zip
+install:
+- ps: Install-Product node ''
+- npm install
+build_script:
+- npm run linter
+- npm run test
+- npm run build
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: true
+    to:
+      - jewelmahanta@gmail.com

@@ -79,6 +79,7 @@ loadSettings([
     "remAds",
     "remComments",
     "remInfo",
+    "remSocialShare",
     "remSuggested",
     "resPlayer",
     "utilityBar",
@@ -88,7 +89,7 @@ loadSettings([
     // what it can. 9ac should be coupled with uBlock Origin
     // to get zero ads/popups.
     if (settings.remAds) {
-        console.info("Removing ads");
+        console.info("%c[x] Removing ads", "color: lightgreen;");
         // Contains the known ad selectors.
         let adsSelectors = [
             ".a_d",
@@ -105,19 +106,30 @@ loadSettings([
     }
 
     if (settings.resPlayer) {
-        console.info("Resizing player");
+        console.info("%c[x] Resizing player", "color: lightgreen;");
         let player = $("#player");
         player.css("maxHeight", "500px");
         player.parent().css("width", "100%");
     }
 
     if (settings.remComments) {
-        console.info("Removing comments");
+        console.info("%c[x] Removing comments", "color: lightgreen;");
         $("#comment").remove();
     }
 
+    if (settings.remSocialShare) {
+        console.info("%c[x] Removing social share box", "color: lightgreen;");
+        let socialSelectors = [
+            ".addthis_native_toolbox",
+            ".home-socials",
+        ];
+        for (let i of socialSelectors) {
+            $(i).remove();
+        }
+    }
+
     if (settings.remSuggested) {
-        console.info("Removing suggested");
+        console.info("%c[x] Removing suggested", "color: lightgreen;");
         $("#movie")
             .find("div.widget-title")
             .filter((index, el) => {
@@ -128,16 +140,18 @@ loadSettings([
     }
 
     if (settings.remInfo) {
-        console.info("Removing info");
+        console.info("%c[x] Removing info", "color: lightgreen;");
         title.remove();
         $("#info").remove();
     }
 
     if (settings.utilityBar) {
+        console.info("%c[x] Attaching utility bar", "color: lightgreen;");
         $("#player").parent().append(utilityBar(animeName));
     }
 
     if (settings.downloadAll) {
+        console.info("%c[x] Attaching download all", "color: lightgreen;");
         // NOTE:
         // "dlAll" means downloadAll. Its a short form.
         // We will use quite a bit of these throughout
@@ -149,6 +163,7 @@ loadSettings([
     }
 
     if (settings.myAnimeList) {
+        console.info("%c[x] Attaching MyAnimeList", "color: lightgreen;");
         mal.setup({
             animeName,
             currentEpisode: currentEpNum,
