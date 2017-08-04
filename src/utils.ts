@@ -138,7 +138,7 @@ export function notify(title: string, message: string): void {
     chrome.notifications.create(opt);
 }
 
-export function loadSettings(key: string | string[]): Promise<ISettings> {
+export function loadSettings(key: string | string[] | null): Promise<ISettings> {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(key, result => {
             resolve(result);

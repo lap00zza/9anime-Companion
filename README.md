@@ -45,7 +45,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 - [x] MyAnimeList Integration
 - [ ] Recently Watched List (**API done, UI left**)
 - [ ] Pinned Anime List
-- [ ] Settings Page
+- [x] Settings Page
 
 and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31
 

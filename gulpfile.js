@@ -20,6 +20,10 @@ if ("APPVEYOR" in process.env && process.env.APPVEYOR === "True") {
 }
 
 /* --- Common Tasks --- */
+gulp.task("clean_dist", function () {
+    return del(["dist/**/*"]);
+});
+
 gulp.task("sass", function () {
     return gulp.src("src/assets/sass/**/*.sass")
         .pipe(sass())
@@ -35,43 +39,49 @@ gulp.task("webpack", function (callback) {
 });
 
 /* --- Chrome Related Tasks --- */
-gulp.task("clean_chromium", function () {
-    return del(["dist/chromium"]);
-});
-
 gulp.task("copy_chromium_files", function () {
     return gulp.src([
-        "src/background.html",
-        "src/popup.html",
-        "src/**/*.{bundle.js,png,css,svg}",
+        "!src/templates/**.*",
+        "src/**/*.{bundle.js,png,css,svg,html}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
 });
 
-gulp.task("make_chrome", function (callback) {
-    runSequence("webpack", "clean_chromium", "copy_chromium_files", callback);
+// zips up the files in dist/chromium, which means
+// this should be called once there is some files
+// inside dist/chromium, i.e. towards the end of
+// the default task.
+gulp.task("zip_chrome", function () {
+    let fileName = `9anime_Companion-chrome-${version}.zip`
+    if (isAppveyor) {
+        fileName = `9anime_Companion-chrome-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
+    }
+    gulp.src("dist/chromium/**/*", {nodir: true})
+        .pipe(zip(fileName))
+        .pipe(gulp.dest("dist"));
+});
+
+/* --- Utility Tasks --- */
+gulp.task("quick:html_and_sass", ["sass"], function () {
+    return gulp.src([
+        "!src/templates/**.*",
+        "src/**/*.html",
+        "src/**/*.css",
+    ])
+        .pipe(gulp.dest("dist/chromium"));
 });
 
 /* --- DEFAULT TASK --- */
 // The default gulp task that runs when we
 // just type `gulp`
 gulp.task("default", function (callback) {
-    runSequence("sass", "make_chrome", "zip_chrome", callback);
+    runSequence(
+        "clean_dist",
+        "webpack",
+        "sass",
+        "copy_chromium_files",
+        "zip_chrome",
+        callback
+    );
 })
-
-/* --- Other Tasks --- */
-// A utility task to help zip up the built files.
-// This task should be called after running the
-// default task.
-gulp.task("zip_chrome", function () {
-    let fileName = `9anime_Companion-chrome-${version}.zip`
-    if (isAppveyor) {
-        fileName = `9anime_Companion-chrome-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
-    }
-    gulp.src([
-        "dist/chromium/**/*"
-    ])
-        .pipe(zip(fileName))
-        .pipe(gulp.dest("dist"));
-});

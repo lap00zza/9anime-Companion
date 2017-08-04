@@ -56,14 +56,14 @@ export default class MyAnimeListAPI {
         });
     }
 
-    public verify(): Promise<IVerify> {
+    public verify(username: string, password: string): Promise<IVerify> {
         return new Promise((resolve, reject) => {
             let endpoint = "https://myanimelist.net/api/account/verify_credentials.xml";
             axios
                 .get(endpoint, {
                     auth: {
-                        password: this.password,
-                        username: this.username,
+                        password,
+                        username,
                     },
                 })
                 .then(resp => {

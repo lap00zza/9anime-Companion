@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>9anime Companion - Settings</title>
+    <link rel="stylesheet" href="./build/css/options.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- Modal -->
+<div class="modal fade" id="mal-configure" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">MyAnimeList Integration: Options</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info" role="alert">
+                    Username/password will be stored in <em>plain text</em> in chrome.local storage.
+                    <a href="https://github.com/lap00zza/9anime-Companion/wiki/MyAnimeList-Integration"
+                       target="_blank">Tell me more</a>
+                </div>
+                <div class="mal-configure_enable">
+                    <span class="meta">Step 1: Enable</span>
+                    <div>
+                        MyAnimeList Integration
+                        <div class="settings-checkbox">
+                            <input id="myAnimeList" type="checkbox">
+                            <label for="myAnimeList"></label>
+                        </div>
+                    </div>
+                    <span class="meta">Requires additional permission</span>
+                </div>
+                <form id="mal-configure__form">
+                    <div id="mal-configure__form-overlay"></div>
+                    <span class="meta">Step 2: Login</span>
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <label for="mal-configure__userName">MAL Username</label>
+                            <input type="text" class="form-control" id="mal-configure__username" required>
+                        </div>
+
+                        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <label for="mal-configure__password">MAL Password</label>
+                            <input type="password" class="form-control" id="mal-configure__password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm" id="mal-configure__login">
+                        Login
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" id="mal-configure__reset">
+                        Remove Credentials
+                    </button>
+                    <span id="mal-configure__login-progress" style="float: right;"></span>
+                </form>
+                <span class="badge badge-info">Status</span> <span id="mal-configure__status">Not logged-in</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand" href="#"><img src="./assets/images/icon.png" height="15" width="15"></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-target="settings">
+                    <i class="fa fa-gear"></i> Settings <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="about">
+                    <i class="fa fa-info-circle"></i> About
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Header -->
+<section class="header">
+    <div class="container">
+        <h1>9anime Companion</h1>
+        <h2>1.0.0</h2>
+    </div>
+</section>
+
+<section class="view-mount">
+    <!-- TAB: Settings -->
+    <div class="container nac__tabs active" id="settings">
+        <!-- Settings: Global -->
+        <div class="card">
+            <div class="card-header" role="tab" id="global-settings-header">
+                <a class="collapsed" data-toggle="collapse" href="#global-settings-body"
+                   aria-expanded="true" aria-controls="global-settings-body">
+                    Global
+                </a>
+            </div>
+            <div id="global-settings-body" class="collapse show" role="tabpanel"
+                 aria-labelledby="General Settings">
+                <div class="card-block"><!-- Start Card Block -->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Remove ads
+                            <i class="fa fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="bottom"
+                               title="Remove and blocks all ads from 9anime.
+                               <br><span class='tooltip_info'>
+                               Requires additional permission.
+                               </span><br>
+                               <strong>Default: <span class='tooltip_default'>OFF</span></strong>">
+                            </i>
+                            <div class="settings-checkbox">
+                                <input id="remAds" type="checkbox">
+                                <label for="remAds"></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Remove social share
+                            <div class="settings-checkbox">
+                                <input id="remSocialShare" type="checkbox">
+                                <label for="remSocialShare"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Card Block -->
+            </div>
+        </div>
+
+        <!-- Settings: Watch Page -->
+        <div class="card">
+            <div class="card-header" role="tab" id="general-settings-header">
+                <a class="collapsed" data-toggle="collapse" href="#general-settings-body"
+                   aria-expanded="true" aria-controls="general-settings-body">
+                    Watch Page: Customize
+                </a>
+            </div>
+            <div id="general-settings-body" class="collapse show" role="tabpanel"
+                 aria-labelledby="General Settings">
+                <div class="card-block"><!-- Start Card Block -->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Remove comments
+                            <div class="settings-checkbox">
+                                <input id="remComments" type="checkbox">
+                                <label for="remComments"></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Remove anime info
+                            <div class="settings-checkbox">
+                                <input id="remInfo" type="checkbox">
+                                <label for="remInfo"></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Remove suggested
+                            <div class="settings-checkbox">
+                                <input id="remSuggested" type="checkbox">
+                                <label for="remSuggested"></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Resize/center player
+                            <div class="settings-checkbox">
+                                <input id="resPlayer" type="checkbox">
+                                <label for="resPlayer"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Card Block -->
+            </div>
+        </div>
+
+        <!-- Settings: Extra -->
+        <div class="card">
+            <div class="card-header" role="tab" id="extra-settings-header">
+                <a class="collapsed" data-toggle="collapse" href="#extra-settings-body"
+                   aria-expanded="true" aria-controls="extra-settings-body">
+                    Watch Page: Add-ons
+                </a>
+            </div>
+            <div id="extra-settings-body" class="collapse show" role="tabpanel"
+                 aria-labelledby="General Settings">
+                <div class="card-block"><!-- Start Card Block -->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Download All
+                            <div class="settings-checkbox">
+                                <input id="downloadAll" type="checkbox">
+                                <label for="downloadAll"></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            Utility Bar
+                            <div class="settings-checkbox">
+                                <input id="utilityBar" type="checkbox">
+                                <label for="utilityBar"></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            MyAnimeList
+                            <a class="btn btn-outline-primary btn-sm settings-config-btn" href="#"
+                               data-toggle="modal" data-target="#mal-configure" role="button">
+                                Configure
+                            </a>
+                        </div>
+                    </div>
+                </div><!-- End Card Block -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: About -->
+    <div class="container nac__tabs" id="about">
+        <section class="about">
+            <h2 class="title">Special thanks to</h2>
+            <ul>
+                <li><a href="https://github.com/densityx" target="_blank">@densityx</a> for designing the popup</li>
+                <li><a href="https://github.com/yumiris" target="_blank">@yumiris</a> for designing the download modal</li>
+                <li>And all the other
+                    <a href="https://github.com/lap00zza/9anime-Companion/graphs/contributors" target="_blank">contributors</a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="about">
+            <h2 class="title">Changelog</h2>
+            <div class="change-log-items">
+                <strong>1.0.0</strong>
+                <ul>
+                    <li>Rewrote the entire extension from scratch. It is now much more easy to manage and contribute to.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <!--<img src="assets/images/kawaii.png" style="height: auto; max-width: 100px;">-->
+    <p>
+        Made with <i class="fa fa-heart"></i> by <a href="https://github.com/lap00zza">Jewel Mahanta</a>.
+        Licensed
+        under MIT.
+    </p>
+    <p>
+        <a href="https://github.com/lap00zza/9anime-Companion" target="_blank">
+            <i class="fa fa-github"></i> Project Home
+        </a>
+        -
+        <a href="https://github.com/lap00zza/9anime-Companion/issues" target="_blank">
+            <i class="fa fa-bug"></i> Report a Bug
+        </a>
+    </p>
+</footer>
+
+</body>
+<script src="./build/js/dashboard.bundle.js"></script>
+</html>
