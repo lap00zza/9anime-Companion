@@ -1,5 +1,6 @@
 // TODO: webpack preset env
 
+let fs = require('fs')
 let gulp = require("gulp");
 let gutil = require("gulp-util");
 let del = require("del");
@@ -7,6 +8,16 @@ let runSequence = require("run-sequence");
 let webpack = require("webpack");
 let sass = require("gulp-sass");
 let zip = require("gulp-zip");
+
+// For the version, we will just read from package.json.
+// Version format is in Major Minor Patch. While building
+// in Appveyor, we will append the Build number to it.
+const version = JSON.parse(fs.readFileSync("package.json")).version
+
+let isAppveyor = false;
+if ("APPVEYOR" in process.env && process.env.APPVEYOR === "True") {
+    isAppveyor = true;
+}
 
 /* --- Common Tasks --- */
 gulp.task("sass", function () {
@@ -46,7 +57,7 @@ gulp.task("make_chrome", function (callback) {
 // The default gulp task that runs when we
 // just type `gulp`
 gulp.task("default", function (callback) {
-    runSequence("sass", "make_chrome", callback);
+    runSequence("sass", "make_chrome", "zip_chrome", callback);
 })
 
 /* --- Other Tasks --- */
@@ -54,9 +65,13 @@ gulp.task("default", function (callback) {
 // This task should be called after running the
 // default task.
 gulp.task("zip_chrome", function () {
+    let fileName = `9anime_Companion-chrome-${version}.zip`
+    if (isAppveyor) {
+        fileName = `9anime_Companion-chrome-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
+    }
     gulp.src([
         "dist/chromium/**/*"
     ])
-        .pipe(zip("9anime_Companion_chrome.zip"))
+        .pipe(zip(fileName))
         .pipe(gulp.dest("dist"));
 });

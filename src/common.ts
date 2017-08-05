@@ -18,6 +18,7 @@ export const Settings = {
     remAds: true,
     remComments: false,
     remInfo: false,
+    remSocialShare: true,
     remSuggested: false,
     resPlayer: true,
     utilityBar: true,
@@ -37,6 +38,7 @@ export interface ISettings {
     remAds?: boolean;
     remComments?: boolean;
     remInfo?: boolean;
+    remSocialShare?: boolean;
     remSuggested?: boolean;
     resPlayer?: boolean;
     utilityBar?: boolean;
@@ -234,8 +236,13 @@ export type DownloadMethodKeys = "Browser" | "External";
 /**
  * A collection of intents that the background can
  * understand. Intents other than these are not valid.
+ *
+ * NOTE: Open_Options must always be first otherwise
+ * options_ui.html (in both chromium and firefox) will
+ * break.
  */
 export enum Intent {
+    "Open_Options", /* <-- This MUST BE first */
     "Download_All",
     "Download_Complete",
     "Download_Status",

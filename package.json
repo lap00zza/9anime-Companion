@@ -13,6 +13,7 @@
     "url": "https://github.com/lap00zza/9anime-Companion"
   },
   "scripts": {
+    "build": "gulp",
     "coverage": "jest test --coverage",
     "test": "jest test",
     "linter": "tslint -c tslint.json ./src/**/*.ts"
