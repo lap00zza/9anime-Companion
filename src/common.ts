@@ -14,7 +14,7 @@ export const Settings = {
     downloadAll: true,
     malPassword: "",    /* used with MAL Integration */
     malUsername: "",    /* used with MAL Integration */
-    myAnimeList: true,  /* used with MAL Integration */
+    myAnimeList: false,  /* used with MAL Integration */
     remAds: true,
     remComments: false,
     remInfo: false,
@@ -42,6 +42,7 @@ export interface ISettings {
     remSuggested?: boolean;
     resPlayer?: boolean;
     utilityBar?: boolean;
+    [key: string]: string | boolean | undefined;
 }
 
 export interface IRecentlyWatched {
@@ -250,8 +251,10 @@ export enum Intent {
     "Find_In_Kitsu",
     "MAL_QuickAdd",
     "MAL_QuickUpdate",
+    "MAL_RemoveCredentials",
     "MAL_Search",
     "MAL_Userlist",
+    "MAL_VerifyCredentials",
     "Reddit_Discussion",
     "Recently_Watched_Add",
     "Recently_Watched_List",

@@ -7,6 +7,7 @@ module.exports = {
     entry: {
         background: "./src/background.ts",
         cs_watch_page: "./src/cs_watch_page.ts",
+        dashboard: "./src/dashboard.ts",
         popup: "./src/popup.ts"
     },
     module: {
@@ -28,6 +29,11 @@ module.exports = {
         new webpack.BannerPlugin({
             banner: fs.readFileSync("./LICENSE", {encoding: "UTF-8"}),
             entryOnly: true
+        }),
+        // Need to provide jQuery and Tether for bootstrap to run !!!
+        new webpack.ProvidePlugin({
+            jQuery: path.resolve(__dirname, "node_modules/jquery/dist/jquery.js"),
+            Tether: path.resolve(__dirname, "node_modules/tether/dist/js/tether.js"),
         })
     ],
     resolve: {

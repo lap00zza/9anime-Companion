@@ -1,19 +1,6 @@
 {
-  "files": [
-    "src/background.ts",
-    "src/common.ts",
-    "src/cs_watch_page.ts",
-    "src/download_all/api.ts",
-    "src/download_all/core.ts",
-    "src/download_all/widgets.ts",
-    "src/MyAnimeList/api.ts",
-    "src/MyAnimeList/core.ts",
-    "src/MyAnimeList/widgets.ts",
-    "src/popup.ts",
-    "src/recently_watched.ts",
-    "src/reddit_discussion.ts",
-    "src/utility_bar.ts",
-    "src/utils.ts"
+  "include": [
+    "src/**/*"
   ],
   "compilerOptions": {
     "noImplicitAny": true,

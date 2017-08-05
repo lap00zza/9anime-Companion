@@ -15,15 +15,6 @@
     "128": "assets/images/icon128.png"
   },
 
-  "content_scripts": [
-    {
-      "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
-      "js": ["build/js/cs_watch_page.bundle.js"],
-      "css": ["build/css/watch_page.css"],
-      "run_at": "document_end"
-    }
-  ],
-
   "background": {
     "page": "background.html"
   },
@@ -33,20 +24,32 @@
     "default_popup": "popup.html"
   },
 
+  "content_scripts": [
+    {
+      "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
+      "js": ["build/js/cs_watch_page.bundle.js"],
+      "css": ["build/css/watch_page.css"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "options_ui": {
+    "page": "options_ui.html"
+  },
+
+  // TODO: see if some perms can be cut.
   "permissions": [
-    "tabs",
     "storage",
     "notifications",
     "downloads",
     "*://9anime.to/*",
     "*://9anime.is/*",
-    "*://9anime.tv/*",
-    "https://myanimelist.net/api/*" // TODO: make this optional later
+    "*://9anime.tv/*"
   ],
 
-  // "optional_permissions": [
-  //   "https://myanimelist.net/api/*"
-  // ],
+   "optional_permissions": [
+     "https://myanimelist.net/api/*"
+   ],
 
   "web_accessible_resources": [
     "assets/images/*"

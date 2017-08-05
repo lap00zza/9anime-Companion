@@ -80,7 +80,7 @@ export function quickAdd(animeId: string): Promise<void> {
                     status: MALStatus.WATCHING,
                 },
             })
-            .then(resp => resolve())
+            .then(() => resolve())
             .catch((err: AxiosError) => {
                 if (err.response) {
                     reject(err.response.status);
@@ -98,7 +98,7 @@ export function quickUpdate(animeId: string, episode: number): Promise<void> {
                     episode,
                 },
             })
-            .then(resp => resolve())
+            .then(() => resolve())
             .catch((err: AxiosError) => {
                 if (err.response) {
                     reject(err.response.status);
@@ -106,4 +106,27 @@ export function quickUpdate(animeId: string, episode: number): Promise<void> {
                 reject(0);
             });
     });
+}
+
+export function verify(username: string, password: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        api
+            .verify(username, password)
+            .then(() => {
+                // Once verified, we need to make our API
+                // use the new username and password.
+                api.setCredentials(username, password);
+                resolve();
+            })
+            .catch((err: AxiosError) => {
+                if (err.response) {
+                    reject(err.response.status);
+                }
+                reject(0);
+            });
+    });
+}
+
+export function removeCredentials() {
+    api.setCredentials("", "");
 }

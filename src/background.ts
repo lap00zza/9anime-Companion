@@ -54,6 +54,13 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             });
             break;
 
+        case Intent.Open_Options:
+            // TODO: should only 1 settings page be allowed open at a time
+            chrome.tabs.create({
+                url: chrome.runtime.getURL("dashboard.html"),
+            });
+            break;
+
         case Intent.Recently_Watched_Add:
             recentlyWatched.register({
                 animeId: message.animeId,
@@ -138,6 +145,27 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 });
             return true;
 
+        case Intent.MAL_VerifyCredentials:
+            mal
+                .verify(message.username, message.password)
+                .then(resp => sendResponse({
+                    success: true,
+                }))
+                .catch((err: number) => {
+                    sendResponse({
+                        success: false,
+                        err,
+                    });
+                });
+            return true;
+
+        case Intent.MAL_RemoveCredentials:
+            mal.removeCredentials();
+            sendResponse({
+                success: true,
+            });
+            break;
+
         default:
             console.info("Intent not valid");
             break;
@@ -151,13 +179,13 @@ chrome.runtime.onInstalled.addListener(details => {
         case "install":
             console.info(
                 "%cNew install: Saving default settings to localStorage",
-                "color: lightgreen");
+                "color: lightgreen;");
             chrome.storage.local.set(Settings);
             break;
         case "update":
             console.info(
                 "%cUpdate: Preserving old settings and adding new ones",
-                "color: lightgreen");
+                "color: lightgreen;");
             break;
         default:
             break;
