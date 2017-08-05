@@ -37,6 +37,7 @@
     "@types/chrome": "0.0.47",
     "@types/jquery": "^3.2.10",
     "axios": "^0.16.2",
+    "bootstrap": "^4.0.0-alpha.6",
     "jquery": "^3.2.1",
     "x2js": "^3.1.1"
   },
