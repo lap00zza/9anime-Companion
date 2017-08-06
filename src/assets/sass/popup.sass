@@ -1,26 +1,298 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-reboot"
+
+// Variables
+$primary: #51286a
+$secondary: #d8d8d8
+$text: #5e5e5e
+$mal: #2e51a2
+
+$dark: #2f3136
+$dark-lighter: #42464d
+$dark-lightest: #6a6b6f
+
+// Mixins
+=transition($seconds: .3)
+  transition: all #{$seconds}s ease-in-out
+
+/* --- Generics --- */
+h1,
+h2
+  margin: 0
+
+a
+  text-decoration: none
+  color: $primary
+
 body
-  //margin: 0
-  font-family: "Segoe UI", Tahoma, sans-serif
+  margin: 0
+  font-family: 'Roboto', sans-serif
 
+/* --- Styles --- */
 .container
-  width: 300px
-  //max-height: 200px
+  width: 400px
+  box-shadow: 0 0 6px 0 rgba(155, 155, 155, 0.5)
+  border-radius: 4px
 
-#nac__recently-watched
-  max-height: 300px
-  overflow-y: auto
+.title
+  font-size: 18px
+  font-weight: 400
+  color: $primary
+  text-align: center
+  line-height: 1.5
 
-  .item
-    padding: 8px 0
+.strong
+  font-weight: 700
+
+.logo
+  +transition
+
+  &:hover
     cursor: pointer
-    &:hover
-      background: #f5f5f5
-    .name
-      font-size: 14px
-    .episode
-      display: inline-block
-      font-size: 11px
-      padding: 1px 7px 1px 7px
+    opacity: .8
+    +transition
 
-      background: lightblue
-      border-radius: 10px
+.setting
+  opacity: .5
+  +transition
+
+  &:hover
+    cursor: pointer
+    opacity: .7
+    +transition
+
+.section
+  padding: 15px
+
+  &:first-child
+    display: flex
+    justify-content: space-between
+
+.heading
+  display: inline-block
+  padding: 6px
+  font-size: 14px
+  font-weight: 500
+  background-color: rgba($secondary, .5)
+  border-top-right-radius: 4px
+  border-bottom-right-radius: 4px
+  border-left: 5px solid $secondary
+  color: $text
+  +transition
+
+  .label
+    display: none
+    background-color: $dark-lightest
+    color: #fff
+
+  &:hover
+    background-color: $secondary
+    cursor: pointer
+    +transition
+
+.content
+  padding: 15px 0
+
+.item
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 6px
+  border-radius: 4px
+  color: $text
+  +transition
+
+  &:hover
+    background-color: rgba($secondary, .25)
+    cursor: pointer
+    +transition
+
+.more-item
+  margin-top: 10px
+  background-color: rgba($secondary, .25)
+  border-radius: 4px
+  cursor: pointer
+  text-align: center
+  +transition
+
+  &:hover
+    background-color: rgba($secondary, .5)
+    +transition
+
+  svg
+    padding-bottom: 7px
+
+.no-item-img
+  width: 100%
+  border-radius: 4px
+
+.no-item-heading
+  padding: 12px 0
+  font-size: 18px
+  text-align: center
+  color: $dark-lighter
+
+.no-item-message
+  margin-top: 16px
+  text-align: center
+
+  h2
+    color: $dark-lighter
+    font-size: 16px
+
+  p
+    margin-bottom: 0
+    color: $dark-lightest
+
+.name
+  margin: 0
+  font-size: 12px
+  display: inline-block
+
+.label
+  margin-left: 5px
+  font-size: 10px
+  padding: 2px 4px
+  background: rgba($secondary, .5)
+  border-radius: 2px
+  color: $text
+  display: inline-block
+
+.remove
+  padding: 0 4px
+  border-radius: 4px
+  +transition
+
+  &:hover
+    background-color: rgba($secondary, .5)
+    cursor: pointer
+    +transition
+
+.remove
+  padding: 4px
+  width: 18px
+  height: 18px
+  border-radius: 4px
+  +transition
+
+  &:hover
+    background-color: rgba($secondary, .5)
+    cursor: pointer
+    +transition
+
+footer
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 15px
+
+.integrate-mal
+  padding: 6px 12px
+  border-radius: 4px
+  background-color: $mal
+  line-height: 0
+  +transition
+
+  img
+    width: 94px
+    height: auto
+
+  &:hover
+    cursor: pointer
+    background-color: rgba($mal, .85)
+    +transition
+
+.version
+  color: $text
+  font-size: 12px
+  opacity: .3
+  float: right
+  +transition
+
+  &:hover
+    cursor: pointer
+    opacity: .5
+    +transition
+
+/* --- Utilities --- */
+.hr-line
+  border-bottom: 1px solid rgba($secondary, .5)
+
+/* --- Theme --- */
+// dark-theme
+.dark-theme
+  background-color: $dark
+
+  & .logo
+
+    .outer
+      fill: $dark-lightest
+
+    .inner
+      fill: #fff
+
+  & .setting
+    path
+      fill: #fff
+
+  & .title
+    color: #fff
+
+  & .heading
+    background-color: rgba($secondary, .1)
+    border-left: 5px solid rgba($secondary, .5)
+    color: #fff
+
+    &:hover
+      background-color: rgba($secondary, .3)
+
+  & .item
+    color: $dark-lightest
+
+    img
+      fill: #fff
+
+    &:hover
+      color: #fff
+
+  & .more-item
+    background-color: rgba($secondary, .1)
+
+    &:hover
+      background-color: rgba($secondary, .15)
+
+    path
+      opacity: .5
+      fill: #fff
+      +transition
+
+    &:hover
+      path
+        opacity: 1
+        +transition
+
+  .no-item-heading
+    padding: 12px 0
+    font-size: 18px
+    text-align: center
+    color: $secondary
+
+  .no-item-message
+    margin-top: 16px
+    text-align: center
+
+    h2
+      color: $secondary
+
+    p
+      color: $secondary
+      opacity: .75
+
+  & .label
+    color: rgba(#fff, .5)
+    background: rgba($dark-lightest, .5)
+
+  & .version
+    color: #fff
+
+  & .hr-line
+    border-color: $dark-lighter
