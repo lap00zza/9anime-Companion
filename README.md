@@ -43,7 +43,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 - [x] Download All
 - [ ] Remove ads/popups (**done partially**)
 - [x] MyAnimeList Integration
-- [ ] Recently Watched List (**API done, UI left**)
+- [x] Recently Watched List
 - [ ] Pinned Anime List
 - [x] Settings Page
 
