@@ -4,6 +4,8 @@
 <hr>
 
 ## 9anime Companion
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg)](https://greenkeeper.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
 
