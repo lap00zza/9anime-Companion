@@ -78,7 +78,7 @@ $(".nav-link").on("click", e => {
  * loads the settings and set the checkbox state for those
  * settings in the options page.
  */
-loadSettings(settingsKeys).then((resp: ISettings) => {
+loadSettings(settingsKeys).then(resp => {
     // console.log(resp);
     for (let key of checkboxKeys) {
         // Luck for us, the key and it id are named the same.

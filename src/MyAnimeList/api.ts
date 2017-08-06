@@ -52,7 +52,7 @@ export default class MyAnimeListAPI {
                 .then(resp => {
                     resolve(x2js.xml2js(resp.data));
                 })
-                .catch((err: AxiosError) => reject(err));
+                .catch(err => reject(err));
         });
     }
 
@@ -69,7 +69,7 @@ export default class MyAnimeListAPI {
                 .then(resp => {
                     resolve(x2js.xml2js(resp.data));
                 })
-                .catch((err: AxiosError) => reject(err));
+                .catch(err => reject(err));
         });
     }
 
@@ -97,7 +97,7 @@ export default class MyAnimeListAPI {
                 .then(resp => {
                     resolve(x2js.xml2js(resp.data));
                 })
-                .catch((err: AxiosError) => reject(err));
+                .catch(err => reject(err));
         });
     }
 
@@ -119,7 +119,7 @@ export default class MyAnimeListAPI {
                 // 201: Created/Success
                 .then(resp => resolve(resp.data))
                 // 400: invalid animeID/Failure
-                .catch((err: AxiosError) => reject(err));
+                .catch(err => reject(err));
         });
     }
 
@@ -138,7 +138,7 @@ export default class MyAnimeListAPI {
                 })
                 .then(resp => resolve(resp.data))
                 // 400: Invalid XML format
-                .catch((err: AxiosError) => reject(err));
+                .catch(err => reject(err));
         });
     }
 
@@ -157,7 +157,7 @@ export default class MyAnimeListAPI {
                 })
                 .then(resp => resolve(resp.data))
                 // 400: Invalid ID
-                .catch((err: AxiosError) => reject(err));
+                .catch(err => reject(err));
         });
     }
 }

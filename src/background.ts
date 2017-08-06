@@ -22,6 +22,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
     // Probably a validation for whether the required
     // object properties are present or missing?
     switch (message.intent) {
+        /**************************************************************************************************************/
         case Intent.Download_All:
             let setupOptions = {
                 animeName: message.animeName,
@@ -35,6 +36,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             dlAll.start(message.baseUrl, setupOptions);
             break;
 
+        /**************************************************************************************************************/
         case Intent.Reddit_Discussion:
             let redditSearchUrl = new RedditDiscussion(message.animeName, message.episode, message.altNames).url();
             chrome.tabs.create({
@@ -54,6 +56,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             });
             break;
 
+        /**************************************************************************************************************/
         case Intent.Open_Options:
             // TODO: should only 1 settings page be allowed open at a time
             chrome.tabs.create({
@@ -61,6 +64,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             });
             break;
 
+        /**************************************************************************************************************/
         case Intent.Recently_Watched_Add:
             recentlyWatched.register({
                 animeId: message.animeId,
@@ -80,11 +84,15 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             break;
 
         case Intent.Recently_Watched_Remove:
+            let isRemoved = recentlyWatched.removeFromList(message.animeId);
+            let count =  recentlyWatched.listCount();
             sendResponse({
-                success: recentlyWatched.removeFromList(message.animeId),
+                data: count,
+                success: isRemoved,
             });
             break;
 
+        /**************************************************************************************************************/
         case Intent.MAL_QuickAdd:
             mal
                 .quickAdd(message.animeId)
@@ -166,6 +174,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             });
             break;
 
+        /**************************************************************************************************************/
         default:
             console.info("Intent not valid");
             break;

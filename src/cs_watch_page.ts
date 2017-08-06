@@ -83,7 +83,7 @@ loadSettings([
     "remSuggested",
     "resPlayer",
     "utilityBar",
-]).then((settings: ISettings) => {
+]).then(settings => {
     // Remove visible ads from the DOM. This does not block
     // ads. Remember: 9ac DOES NOT block ads, just removes
     // what it can. 9ac should be coupled with uBlock Origin
