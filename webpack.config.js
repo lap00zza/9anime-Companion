@@ -8,7 +8,8 @@ module.exports = {
         background: "./src/background.ts",
         cs_watch_page: "./src/cs_watch_page.ts",
         dashboard: "./src/dashboard.ts",
-        popup: "./src/popup.ts"
+        popup: "./src/popup.ts",
+        vendor: ["jquery"],
     },
     module: {
         rules: [
@@ -26,6 +27,15 @@ module.exports = {
         path: path.resolve(__dirname, "src/build/js")
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            // We need the vendor bundle for only 3 entrypoints.
+            chunks: ["cs_watch_page", "dashboard", "popup"],
+            filename: "vendor.bundle.js",
+            // `Infinity` just creates the commons chunk, but moves
+            // no modules into vendor.bundle.js
+            minChunks: Infinity,
+            name: "vendor"
+        }),
         new webpack.BannerPlugin({
             banner: fs.readFileSync("./LICENSE", {encoding: "UTF-8"}),
             entryOnly: true

@@ -42,7 +42,7 @@ gulp.task("webpack", function (callback) {
 gulp.task("copy_chromium_files", function () {
     return gulp.src([
         "!src/templates/**.*",
-        "src/**/*.{bundle.js,png,css,svg,html}",
+        "src/**/*.{bundle.js,png,css,svg,html,jpg}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
