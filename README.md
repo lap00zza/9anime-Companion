@@ -7,14 +7,14 @@ This is the rewrite branch. Contributions are welcome :smile:
     <a href="https://travis-ci.org/lap00zza/9anime-Companion">
         <img src="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=rewrite%2Ftypescript" alt="Build Status">
     </a>
-    <a href="https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/rewrite/typescript">
+    <a href="https://ci.appveyor.com/project/lap00zza/9anime-Companion/branch/rewrite/typescript">
         <img src="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/rewrite/typescript?svg=true" alt="Build Status">
     </a>
 </p>
 <p align="center"><em>A simple companion extension for 9anime</em></p>
 
 ## Download
-* The latest passing build of 9anime Companion can be downloaded from [here](https://ci.appveyor.com/project/lap00zza/9anime-companion/build/artifacts?branch=rewrite%2Ftypescript). *Remember that the builds are quite frequent.*
+* The latest passing build of 9anime Companion can be downloaded from [here](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=rewrite%2Ftypescript). *Remember that the builds are quite frequent.*
 * If you want to build it yourself, check out [How to set up?](#how-to-set-up)
 * **This version is not yet published to Chrome Webstore or AMO**. Those links will be updated here as soon as it is published.
 
