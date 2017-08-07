@@ -14,8 +14,9 @@ export const Settings = {
     downloadAll: true,
     malPassword: "",    /* used with MAL Integration */
     malUsername: "",    /* used with MAL Integration */
-    myAnimeList: false,  /* used with MAL Integration */
-    remAds: true,
+    myAnimeList: false, /* used with MAL Integration */
+    quickLink: "https://9anime.to",
+    remAds: false,
     remComments: false,
     remInfo: false,
     remSocialShare: true,
@@ -35,6 +36,7 @@ export interface ISettings {
     malPassword?: string;
     malUsername?: string;
     myAnimeList?: boolean;
+    quickLink?: string;
     remAds?: boolean;
     remComments?: boolean;
     remInfo?: boolean;
@@ -176,7 +178,9 @@ export interface IEpisode {
  */
 export interface IRuntimeResponse {
     success: boolean;   /* required; true or false */
-    data?: object;      /* data; if success */
+    /* tslint:disable:no-any */
+    data?: any;         /* data; if success */
+    /* tslint:enable:no-any */
     err?: number;       /* error code; if fail */
 }
 

@@ -85,9 +85,9 @@ loadSettings([
     "utilityBar",
 ]).then(settings => {
     // Remove visible ads from the DOM. This does not block
-    // ads. Remember: 9ac DOES NOT block ads, just removes
-    // what it can. 9ac should be coupled with uBlock Origin
-    // to get zero ads/popups.
+    // ads. remAds is also acting from the background script
+    // to block requests and on content_script_global to
+    // overwrite functions.
     if (settings.remAds) {
         console.info("%c[x] Removing ads", "color: lightgreen;");
         // Contains the known ad selectors.

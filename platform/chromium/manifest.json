@@ -24,14 +24,16 @@
     "default_popup": "popup.html"
   },
 
-  "content_scripts": [
-    {
+  "content_scripts": [{
       "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
-      "js": ["build/js/vendor.bundle.js", "build/js/cs_watch_page.bundle.js"],
+      "js": ["build/js/vendor.bundle.js", "build/js/content_script_watchpage.bundle.js"],
       "css": ["build/css/watch_page.css"],
       "run_at": "document_end"
-    }
-  ],
+    }, {
+    "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
+    "js": ["build/js/content_script_global.bundle.js"],
+    "run_at": "document_start"
+  }],
 
   "options_ui": {
     "page": "options_ui.html"
@@ -48,7 +50,10 @@
   ],
 
    "optional_permissions": [
-     "https://myanimelist.net/api/*"
+     "https://myanimelist.net/api/*",
+     "webRequest",
+     "webRequestBlocking",
+     "<all_urls>"
    ],
 
   "web_accessible_resources": [

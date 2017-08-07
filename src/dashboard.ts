@@ -20,7 +20,7 @@ declare global {
 
 import * as $ from "jquery";
 import "../node_modules/bootstrap/dist/js/bootstrap.js";
-import {Intent, IRuntimeResponse, ISettings, Settings} from "./common";
+import {Intent, IRuntimeResponse, Settings} from "./common";
 import {loadSettings} from "./utils";
 
 let settingsKeys = Object.keys(Settings);
@@ -105,25 +105,18 @@ loadSettings(settingsKeys).then(resp => {
  * and removed on uncheck.
  */
 function malTogglePermission(isChecked: boolean): void {
-    // If checked, ask for permission,
-    // else remove permission.
+    let perms: chrome.permissions.Permissions = {
+        origins: ["https://myanimelist.net/api/*"],
+    };
     if (isChecked) {
         malFormOverlay.hide();
-        chrome.permissions.contains({
-            origins: ["https://myanimelist.net/api/*"],
-        }, result => {
-
+        chrome.permissions.contains(perms, result => {
             // If permission is not present, we ask for
             // additional permission. If it is present,
             // which happens while asking more than once,
             // we enable the integration.
             if (!result) {
-                chrome.permissions.request({
-                    origins: ["https://myanimelist.net/api/*"],
-                }, granted => {
-
-                    // If permission is granted, we enable the
-                    // integration. Else we do nothing.
+                chrome.permissions.request(perms, granted => {
                     if (granted) {
                         chrome.storage.local.set({
                             myAnimeList: true,
@@ -142,11 +135,52 @@ function malTogglePermission(isChecked: boolean): void {
         });
     } else {
         malFormOverlay.show();
-        chrome.permissions.remove({
-            origins: ["https://myanimelist.net/api/*"],
-        });
+        chrome.permissions.remove(perms);
         chrome.storage.local.set({
             myAnimeList: false,
+        });
+    }
+}
+
+/**
+ * Handles the permission grant while toggling the remAds
+ * checkbox. Permission is added on check and removed on
+ * uncheck.
+ */
+function adsTogglePermission(isChecked: boolean): void {
+    let perms: chrome.permissions.Permissions = {
+        origins: ["<all_urls>"],
+        permissions: [
+            "webRequest",
+            "webRequestBlocking",
+        ],
+    };
+    if (isChecked) {
+        chrome.permissions.contains(perms, result => {
+            if (!result) {
+                chrome.permissions.request(perms, granted => {
+                    if (granted) {
+                        chrome.storage.local.set({
+                            remAds: true,
+                        });
+                    } else {
+                        $("#remAds").prop("checked", false).trigger("change");
+                    }
+                });
+            } else {
+                chrome.storage.local.set({
+                    remAds: true,
+                });
+            }
+        });
+    } else {
+        // FIXME: looks like <all_urls> can't be removed because
+        // of required origins for 9anime urls
+        chrome.permissions.remove({
+            permissions: perms.permissions,
+        });
+        chrome.storage.local.set({
+            remAds: false,
         });
     }
 }
@@ -163,6 +197,9 @@ for (let key of checkboxKeys) {
             switch (targetId) {
                 case "myAnimeList":
                     malTogglePermission(target.is(":checked"));
+                    break;
+                case "remAds":
+                    adsTogglePermission(target.is(":checked"));
                     break;
                 default:
                     chrome.storage.local.set({

@@ -41,7 +41,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 
 ## Progress Tracker
 - [x] Download All
-- [ ] Remove ads/popups (**done partially**)
+- [x] Remove ads/popups
 - [x] MyAnimeList Integration
 - [x] Recently Watched List
 - [ ] Pinned Anime List

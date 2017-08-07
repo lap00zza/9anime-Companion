@@ -6,7 +6,8 @@ module.exports = {
     cache: true,
     entry: {
         background: "./src/background.ts",
-        cs_watch_page: "./src/cs_watch_page.ts",
+        content_script_global: "./src/content_script_global.ts",
+        content_script_watchpage: "./src/content_script_watchpage.ts",
         dashboard: "./src/dashboard.ts",
         popup: "./src/popup.ts",
         vendor: ["jquery"],
