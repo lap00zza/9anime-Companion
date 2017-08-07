@@ -30,7 +30,7 @@ module.exports = {
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             // We need the vendor bundle for only 3 entrypoints.
-            chunks: ["cs_watch_page", "dashboard", "popup"],
+            chunks: ["content_script_watchpage", "dashboard", "popup"],
             filename: "vendor.bundle.js",
             // `Infinity` just creates the commons chunk, but moves
             // no modules into vendor.bundle.js
