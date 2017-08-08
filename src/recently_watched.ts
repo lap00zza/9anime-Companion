@@ -9,13 +9,16 @@
  * This module relies on a persistent state. So it must be
  * called in the background script. Don't call this from any
  * content script/popup.
- *
- * @todo should the list have a hard limit on items?
  */
 import {IRecentlyWatched} from "./common";
 
+/**
+ * Limiting the maximum amount of recently watched to 20, since
+ * beyond that people dont really care. Later on, I might add a
+ * way to change this number via the settings page.
+ */
+let MAX_ITEMS = 10;
 let watchList: IRecentlyWatched[] = [];
-let timeoutId: number;
 
 // This is the initialization function. Its IIFE since
 // it must execute right away. It is responsible for
@@ -33,6 +36,19 @@ let timeoutId: number;
  */
 function commit(): void {
     chrome.storage.local.set({recentlyWatched: watchList});
+}
+
+export function setMaxItems(amount: number): void {
+    MAX_ITEMS = amount;
+}
+
+export function listCount(): number {
+    return watchList.length;
+}
+
+export function clearList(): void {
+    watchList = [];
+    commit();
 }
 
 /**
@@ -70,30 +86,36 @@ export function addToList(params: IRecentlyWatched): void {
         throw new Error("[Recently Watched] [Error] All properties must be present.");
     }
 
-    let exist = false;
     // Check if same id exists. If it does then
     // change epId, epNum and ts. else push.
     for (let item of watchList) {
         if (item.animeId === params.animeId) {
-            exist = true;
             item.epId = params.epId;
             item.epNum = params.epNum;
             item.timestamp = params.timestamp || new Date().toISOString();
+            commit();
+            return;
         }
     }
-    if (!exist) {
-        watchList.push({
-            // FIXME: some animeId's are being stored as number
-            animeId: params.animeId,
-            animeName: params.animeName,
-            epId: params.epId,
-            epNum: params.epNum,
-            timestamp: params.timestamp || new Date().toISOString(),
-            url: params.url,
-        });
+
+    // Since the watchlist contains items that are
+    // chronologically added to it, that means the
+    // oldest entry will be the first one. So we
+    // shift() it to remove the first item.
+    if (watchList.length >= MAX_ITEMS) {
+        watchList.shift();
     }
+
+    watchList.push({
+        // FIXME: some animeId's are being stored as number
+        animeId: params.animeId,
+        animeName: params.animeName,
+        epId: params.epId,
+        epNum: params.epNum,
+        timestamp: params.timestamp || new Date().toISOString(),
+        url: params.url,
+    });
     commit();
-    // console.log(watchList, getList());
 }
 
 /**
@@ -115,20 +137,4 @@ export function removeFromList(animeId: string): boolean {
         }
     }
     return false;
-}
-
-/**
- * Register recently watched! It will call addToList after
- * a set countDuration so that only legit anime's are added
- * to watchList.
- * @param params
- *      id, name and path
- * @param countDuration
- *      The duration after which anime is counted.
- *      Defaults to 5000 (or 5 sec).
- */
-export function register(params: IRecentlyWatched, countDuration: number = 5000): void {
-    // TODO: will a timeout really prevent unwanted additions to list?
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => addToList(params), countDuration);
 }

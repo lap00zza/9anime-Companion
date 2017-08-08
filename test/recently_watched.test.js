@@ -10,6 +10,10 @@ global.chrome = {
 const addToList = require("../src/recently_watched").addToList
 const getList = require("../src/recently_watched").getList
 const removeFromList = require("../src/recently_watched").removeFromList
+const setMaxItems = require("../src/recently_watched").setMaxItems
+const clearList = require("../src/recently_watched").clearList
+
+beforeEach(() => clearList())
 
 // addToList
 describe("addToList", () => {
@@ -92,6 +96,37 @@ describe("addToList", () => {
         })
         expect(getList().length).toBe(1)
         expect(getList()[0].epId).toBe("234")
+    })
+
+    test("total number of items should not exceed MAX_ITEM", () => {
+        setMaxItems(2)
+        addToList({
+            animeId: "123",
+            animeName: "123",
+            epId: "123",
+            epNum: "123",
+            timestamp: "2017-07-20T14:21:42.859Z",
+            url: "123"
+        })
+        addToList({
+            animeId: "234",
+            animeName: "123",
+            epId: "123",
+            epNum: "123",
+            timestamp: "2017-07-20T14:31:42.859Z",
+            url: "123"
+        })
+        addToList({
+            animeId: "345",
+            animeName: "123",
+            epId: "123",
+            epNum: "123",
+            timestamp: "2017-07-20T14:41:42.859Z",
+            url: "123"
+        })
+        expect(getList().length).toBe(2)
+        expect(getList()[0].animeId).toBe("345")
+        expect(getList()[1].animeId).toBe("234")
     })
 })
 

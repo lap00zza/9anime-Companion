@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 
         /**************************************************************************************************************/
         case Intent.Recently_Watched_Add:
-            recentlyWatched.register({
+            recentlyWatched.addToList({
                 animeId: message.animeId,
                 animeName: message.animeName,
                 epId: message.epId,
