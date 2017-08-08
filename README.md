@@ -46,6 +46,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 - [x] Recently Watched List
 - [ ] Pinned Anime List
 - [x] Settings Page
+- [ ] Popup (**partially done**)
 
 and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31
 
