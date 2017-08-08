@@ -12,6 +12,9 @@ This is the rewrite branch. Contributions are welcome :smile:
     </a>
 </p>
 <p align="center"><em>A simple companion extension for 9anime</em></p>
+<p align="center">
+    <img src="https://image.ibb.co/jhPg4v/popup.png" alt="Popup">
+</p>
 
 ## Download
 * The latest passing build of 9anime Companion can be downloaded from [here](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=rewrite%2Ftypescript). *Remember that the builds are quite frequent.*
