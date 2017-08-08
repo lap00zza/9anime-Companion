@@ -50,7 +50,7 @@ This is the rewrite branch. All contributions are welcome.
     ```
 4. Check the `dist/chromium` for the built extension.
 5. *Optional:* since the project is in Typescript, be sure to use a editor like [VSCode](https://code.visualstudio.com/) to take full advantage.
-6. *Optional:* check out the instructions for running in [Running in Developement Mode](https://github.com/lap00zza/9anime-Companion/wiki/Running-in-Developement-Mode)
+6. *Optional:* check out the instructions for [Running in Developement Mode](https://github.com/lap00zza/9anime-Companion/wiki/Running-in-Developement-Mode)
 
 > :information_source: Check `gulpfile.js` and `package.json` for all the available tasks
 

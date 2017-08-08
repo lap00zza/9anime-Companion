@@ -117,6 +117,7 @@ loadSettings([
         $("#comment").remove();
     }
 
+    // TODO: this should be part of global script
     if (settings.remSocialShare) {
         console.info("%c[x] Removing social share box", "color: lightgreen;");
         let socialSelectors = [
