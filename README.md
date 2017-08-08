@@ -1,4 +1,4 @@
-This is the rewrite branch. Contributions are welcome :smile:
+This is the rewrite branch. All contributions are welcome.
 <hr>
 <h1 align="center">
   9anime Companion
@@ -15,6 +15,17 @@ This is the rewrite branch. Contributions are welcome :smile:
 <p align="center">
     <img src="https://image.ibb.co/jhPg4v/popup.png" height="350px" width="auto" alt="Popup">
 </p>
+
+## Features
+* Remove Ads/Popups <sup>[1]</sup>
+* Download All episodes
+* MyAnimeList Integration
+* Utility Bar
+* Recently Watched list
+* Toggle page elements (comments, you may also like etc.)
+* *and quite a few more..*
+ 
+[1]: In my tests it removed 100% ads/popups without the need for an external adblocker. *Tested in Google Chrome Version 60.0.3112.90 (Official Build) (64-bit)*
 
 ## Download
 * The latest passing build of 9anime Companion can be downloaded from [here](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=rewrite%2Ftypescript). *Remember that the builds are quite frequent.*
@@ -39,6 +50,7 @@ This is the rewrite branch. Contributions are welcome :smile:
     ```
 4. Check the `dist/chromium` for the built extension.
 5. *Optional:* since the project is in Typescript, be sure to use a editor like [VSCode](https://code.visualstudio.com/) to take full advantage.
+6. *Optional:* check out the instructions for running in [Running in Developement Mode](https://github.com/lap00zza/9anime-Companion/wiki/Running-in-Developement-Mode)
 
 > :information_source: Check `gulpfile.js` and `package.json` for all the available tasks
 
