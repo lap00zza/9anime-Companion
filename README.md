@@ -13,7 +13,7 @@ This is the rewrite branch. Contributions are welcome :smile:
 </p>
 <p align="center"><em>A simple companion extension for 9anime</em></p>
 <p align="center">
-    <img src="https://image.ibb.co/jhPg4v/popup.png" alt="Popup">
+    <img src="https://image.ibb.co/jhPg4v/popup.png" height="350px" width="auto" alt="Popup">
 </p>
 
 ## Download
