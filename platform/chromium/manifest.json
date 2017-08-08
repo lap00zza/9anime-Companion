@@ -9,10 +9,10 @@
   "description": "A simple companion extension for 9anime",
 
   "icons": {
-    "16": "assets/images/icon16.png",
-    "48": "assets/images/icon48.png",
-    "96": "assets/images/icon96.png",
-    "128": "assets/images/icon128.png"
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "96": "images/icon96.png",
+    "128": "images/icon128.png"
   },
 
   "background": {
@@ -20,7 +20,7 @@
   },
 
   "browser_action": {
-    "default_icon": "assets/images/icon.png",
+    "default_icon": "images/icon.png",
     "default_popup": "popup.html"
   },
 
@@ -57,6 +57,6 @@
    ],
 
   "web_accessible_resources": [
-    "assets/images/*"
+    "images/*"
   ]
 }

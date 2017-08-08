@@ -5,11 +5,11 @@ let webpack = require("webpack");
 module.exports = {
     cache: true,
     entry: {
-        background: "./src/background.ts",
-        content_script_global: "./src/content_script_global.ts",
-        content_script_watchpage: "./src/content_script_watchpage.ts",
-        dashboard: "./src/dashboard.ts",
-        popup: "./src/popup.ts",
+        background: "./src/ts/background.ts",
+        content_script_global: "./src/ts/content_script_global.ts",
+        content_script_watchpage: "./src/ts/content_script_watchpage.ts",
+        dashboard: "./src/ts/dashboard.ts",
+        popup: "./src/ts/popup.ts",
         vendor: ["jquery"],
     },
     module: {

@@ -293,6 +293,7 @@ export function downloader(): void {
  *      Setup options for download all
  */
 export function start(baseUrl: string, setupOptions: ISetupOptions): void {
+    // TODO: support queues for download
     // NOTE:
     // 9ac **DOES NOT** support queues for download. So if you
     // are trying to download from multiple tabs, chances are

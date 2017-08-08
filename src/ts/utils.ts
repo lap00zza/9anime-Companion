@@ -130,7 +130,7 @@ export function decomposeURL(uriString: string): [string, { [key: string]: strin
 
 export function notify(title: string, message: string): void {
     let opt = {
-        iconUrl: chrome.extension.getURL("assets/images/notification_icon.png"),
+        iconUrl: chrome.extension.getURL("images/notification_icon.png"),
         type: "basic",
         title,
         message,

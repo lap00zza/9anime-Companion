@@ -66,13 +66,13 @@ function showStatusIcon(statusType: StatusType = StatusType.InProgress): void {
     let statusIcon = $(selectors.statusIcon);
     switch (statusType) {
         case StatusType.Success:
-            statusIcon.attr("src", chrome.extension.getURL("assets/images/check-mark.png"));
+            statusIcon.attr("src", chrome.extension.getURL("images/check-mark.png"));
             break;
         case StatusType.Fail:
-            statusIcon.attr("src", chrome.extension.getURL("assets/images/x-mark.png"));
+            statusIcon.attr("src", chrome.extension.getURL("images/x-mark.png"));
             break;
         default: /* StatusType.InProgress */
-            statusIcon.attr("src", chrome.extension.getURL("assets/images/tail-spin.svg"));
+            statusIcon.attr("src", chrome.extension.getURL("images/tail-spin.svg"));
             break;
     }
     statusIcon.show();
@@ -227,13 +227,13 @@ export function initialize(): void {
  * allows a user to quickly add/update anime to their MAL.
  */
 export function quickAccess(): JQuery<HTMLElement> {
-    let template = require("html-loader!../templates/mal_quickAccess.html");
+    let template = require("html-loader!../../templates/mal_quickAccess.html");
     let qa = $(template);
 
     // Set the default images. For the statusIcon, we embed a
     // blank 1x1 gif because a img tag with no source is not
     // valid and will cause a unwanted server hit.
-    qa.find(".loader > img").attr("src", chrome.extension.getURL("assets/images/puff.svg"));
+    qa.find(".loader > img").attr("src", chrome.extension.getURL("images/puff.svg"));
     qa.find(selectors.statusIcon).attr("src", "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=");
 
     // Hide the status icon. Its only visible

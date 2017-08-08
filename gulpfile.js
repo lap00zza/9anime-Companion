@@ -25,7 +25,7 @@ gulp.task("clean_dist", function () {
 });
 
 gulp.task("sass", function () {
-    return gulp.src("src/assets/sass/**/*.sass")
+    return gulp.src("src/sass/**/*.sass")
         .pipe(sass())
         .pipe(gulp.dest("src/build/css"));
 });

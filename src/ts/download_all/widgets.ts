@@ -178,9 +178,9 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
  *      The Links Modal
  */
 export function linksModal(): JQuery<HTMLElement> {
-    let template = require("html-loader!../templates/dlAll_linksModal.html");
+    let template = require("html-loader!../../templates/dlAll_linksModal.html");
     let modal = $(template);
-    let clipboardIcon = chrome.extension.getURL("assets/images/clipboard.png");
+    let clipboardIcon = chrome.extension.getURL("images/clipboard.png");
 
     // 1> Add the clipboard icon to the button
     modal.find(selectors.copyLinks).find("img").attr("src", clipboardIcon);
@@ -213,7 +213,7 @@ export function linksModal(): JQuery<HTMLElement> {
  */
 export function epModal(): JQuery<HTMLElement> {
     // We wil start by loading the template from an external file.
-    let template = require("html-loader!../templates/dlAll_epModal.html");
+    let template = require("html-loader!../../templates/dlAll_epModal.html");
     let modal = $(template);
 
     // 1> Add the anime name to the "header"

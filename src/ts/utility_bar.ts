@@ -2,9 +2,9 @@ declare function require(arg: string): string;
 import * as $ from "jquery";
 import {Intent} from "./common";
 
-let redditLogo = chrome.extension.getURL("assets/images/reddit-icon.png");
-let malLogo = chrome.extension.getURL("assets/images/mal-icon.png");
-let kitsuLogo = chrome.extension.getURL("assets/images/kitsu-icon.png");
+let redditLogo = chrome.extension.getURL("images/reddit-icon.png");
+let malLogo = chrome.extension.getURL("images/mal-icon.png");
+let kitsuLogo = chrome.extension.getURL("images/kitsu-icon.png");
 
 /**
  * Returns a string template of the Utility Bar.
@@ -13,7 +13,7 @@ let kitsuLogo = chrome.extension.getURL("assets/images/kitsu-icon.png");
  *      The Utility Bar
  */
 export default function utilityBar(animeName: string): JQuery<HTMLElement> {
-    let template = require("html-loader!./templates/utilityBar.html");
+    let template = require("html-loader!../templates/utilityBar.html");
     let bar = $(template);
 
     let reddit = bar.find("#nac__utility-bar__reddit");

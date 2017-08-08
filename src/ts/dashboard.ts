@@ -19,7 +19,7 @@ declare global {
 /* tslint:enable:no-namespace interface-name*/
 
 import * as $ from "jquery";
-import "../node_modules/bootstrap/dist/js/bootstrap.js";
+import "../../node_modules/bootstrap/dist/js/bootstrap.js";
 import {Intent, IRuntimeResponse, Settings} from "./common";
 import {loadSettings} from "./utils";
 
@@ -237,7 +237,7 @@ $("#mal-configure__form").on("submit", e => {
     malLoginBtn.attr("disabled", "disabled");
     malUsernameInput.attr("disabled", "disabled");
     malPasswordInput.attr("disabled", "disabled");
-    malLoginProgress.empty().append(`<img src="../assets/images/loader.svg">`);
+    malLoginProgress.empty().append(`<img src="../images/loader.svg">`);
 
     let malUsername = malUsernameInput.val();
     let malPassword = malPasswordInput.val();
@@ -256,10 +256,10 @@ $("#mal-configure__form").on("submit", e => {
                     malPassword,
                     malUsername,
                 });
-                malLoginProgress.empty().append(`<img src="../assets/images/check-mark.png">`);
+                malLoginProgress.empty().append(`<img src="../images/check-mark.png">`);
                 disableMalLogin();
             } else {
-                malLoginProgress.empty().append(`<img src="../assets/images/x-mark.png">`);
+                malLoginProgress.empty().append(`<img src="../images/x-mark.png">`);
                 // console.log(resp.err);
             }
 
