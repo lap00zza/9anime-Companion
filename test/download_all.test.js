@@ -1,6 +1,6 @@
 /* global test, expect */
-const autoFallback = require("../src/download_all/core").autoFallback
-const Quality = require("../src/common").DownloadQuality
+const autoFallback = require("../src/ts/download_all/core").autoFallback
+const Quality = require("../src/ts/common").DownloadQuality
 
 // autoFallback
 describe("autoFallback", () => {

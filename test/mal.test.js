@@ -13,7 +13,7 @@ global.chrome = {
     }
 }
 
-const malDate = require("../src/MyAnimeList/core").malDate
+const malDate = require("../src/ts/MyAnimeList/core").malDate
 
 // malDate
 describe("malDate", () => {

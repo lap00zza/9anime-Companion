@@ -7,11 +7,11 @@ global.chrome = {
     }
 }
 
-const addToList = require("../src/recently_watched").addToList
-const getList = require("../src/recently_watched").getList
-const removeFromList = require("../src/recently_watched").removeFromList
-const setMaxItems = require("../src/recently_watched").setMaxItems
-const clearList = require("../src/recently_watched").clearList
+const addToList = require("../src/ts/recently_watched").addToList
+const getList = require("../src/ts/recently_watched").getList
+const removeFromList = require("../src/ts/recently_watched").removeFromList
+const setMaxItems = require("../src/ts/recently_watched").setMaxItems
+const clearList = require("../src/ts/recently_watched").clearList
 
 beforeEach(() => clearList())
 
