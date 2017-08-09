@@ -28,11 +28,11 @@ This is the rewrite branch. All contributions are welcome.
 [1]: In my tests it removed 100% ads/popups without the need for an external adblocker. *Tested in Google Chrome Version 60.0.3112.90 (Official Build) (64-bit)*
 
 ## Download
-* The latest passing build of 9anime Companion can be downloaded from [here](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=rewrite%2Ftypescript). *Remember that the builds are quite frequent.*
-* If you want to build it yourself, check out [How to set up?](#how-to-set-up)
+* The latest passing build of 9anime Companion can be [downloaded from appveyor](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=rewrite%2Ftypescript). *Remember that the builds are quite frequent.*
+* Want to build it yourself? check out [Build Instructions](#build-instructions)
 * **This version is not yet published to Chrome Webstore or AMO**. Those links will be updated here as soon as it is published.
 
-## How to set up?
+## Build Instructions
 1. Install NodeJS
 2. Install git
 3. Run the following commands
