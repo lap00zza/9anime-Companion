@@ -79,7 +79,6 @@ loadSettings([
     "remAds",
     "remComments",
     "remInfo",
-    "remSocialShare",
     "remSuggested",
     "resPlayer",
     "utilityBar",
@@ -115,18 +114,6 @@ loadSettings([
     if (settings.remComments) {
         console.info("%c[x] Removing comments", "color: lightgreen;");
         $("#comment").remove();
-    }
-
-    // TODO: this should be part of global script
-    if (settings.remSocialShare) {
-        console.info("%c[x] Removing social share box", "color: lightgreen;");
-        let socialSelectors = [
-            ".addthis_native_toolbox",
-            ".home-socials",
-        ];
-        for (let i of socialSelectors) {
-            $(i).remove();
-        }
     }
 
     if (settings.remSuggested) {

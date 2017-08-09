@@ -1,9 +1,19 @@
+/**
+ * Konichiwa~
+ *
+ * This is a content script that runs directly on the page.
+ * This one runs at document_start (thus the pre suffix).
+ * It contains the global functions/methods that must be
+ * called before the 9anime page is loaded.
+ */
+
 import {loadSettings} from "./utils";
+
+console.info("9anime Companion 1.0.0 (Global Script Pre)");
+
 loadSettings([
     "remAds",
 ]).then(settings => {
-    console.info("9anime Companion 1.0.0 (Global Script)");
-
     /**
      * The following is mainly to counter this specific script that 9anime uses.
      * According to my personal research, this accounts for most of the popups.
