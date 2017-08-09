@@ -73,14 +73,14 @@
 
     <a class="navbar-brand" href="#"><img src="./images/icon.png" height="15" width="15"></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto" role="tablist">
             <li class="nav-item active">
-                <a class="nav-link" href="#" data-target="settings">
+                <a class="nav-link" data-toggle="tab" role="tab" href="#settings">
                     <i class="fa fa-gear"></i> Settings <span class="sr-only">(current)</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-target="about">
+                <a class="nav-link" data-toggle="tab" role="tab" href="#about">
                     <i class="fa fa-info-circle"></i> About
                 </a>
             </li>
@@ -96,9 +96,9 @@
     </div>
 </section>
 
-<section class="view-mount">
+<section class="tab-content">
     <!-- TAB: Settings -->
-    <div class="container nac__tabs active" id="settings">
+    <div role="tabpanel" class="tab-pane active container" id="settings">
         <div>
             Need more information about the additional permissions?
             <a href="https://github.com/lap00zza/9anime-Companion/wiki/Permissions" target="_blank">
@@ -228,7 +228,7 @@
     </div>
 
     <!-- TAB: About -->
-    <div class="container nac__tabs" id="about">
+    <div role="tabpanel" class="tab-pane container" id="about">
         <section class="about">
             <h2 class="title">Special thanks to</h2>
             <ul>

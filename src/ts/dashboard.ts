@@ -61,19 +61,6 @@ $(() => {
 });
 
 /**
- * Initialize the navigation system.
- */
-$(".nav-link").on("click", e => {
-    e.preventDefault();
-    $(".nav-link").parent().removeClass("active");
-    $(".nac__tabs").removeClass("active");
-
-    let target = $(e.currentTarget).data("target");
-    $(e.currentTarget).parent().addClass("active");
-    $(`#${target}`).addClass("active");
-});
-
-/**
  * This runs as soon as the page loads. What this does is
  * loads the settings and set the checkbox state for those
  * settings in the options page.
