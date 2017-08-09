@@ -9,7 +9,7 @@ import * as dlAll from "./download_all/core";
 import * as mal from "./MyAnimeList/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
-import {cleanAnimeName, loadSettings} from "./utils";
+import {cleanAnimeName, joinURL, loadSettings} from "./utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 
@@ -59,8 +59,16 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
         /**************************************************************************************************************/
         case Intent.Open_Options:
             // TODO: should only 1 settings page be allowed open at a time
+            // The way this works is, if message.params is not present the
+            // url to open is url of "dashboard.html". If message.params is
+            // present, the url to open is same as above with the search
+            // params added to it.
+            let url = chrome.runtime.getURL("dashboard.html");
+            if (message.params && typeof message.params === "object") {
+                url = joinURL(url, message.params);
+            }
             chrome.tabs.create({
-                url: chrome.runtime.getURL("dashboard.html"),
+                url,
             });
             break;
 

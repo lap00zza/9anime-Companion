@@ -27,6 +27,16 @@ loadSettings(["quickLink"]).then(res => {
     });
 });
 
+// @Event Listener
+$(".integrate-mal").on("click", () => {
+    chrome.runtime.sendMessage({
+        intent: Intent.Open_Options,
+        params: {
+            goto: "MyAnimeList",
+        },
+    });
+});
+
 function showOverlay() {
     noItemsOverlay.show();
     recentlyWatched.hide();

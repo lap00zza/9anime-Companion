@@ -14,6 +14,7 @@
 declare global {
     interface JQuery {
         tooltip(): JQuery;
+        modal(param?: string): JQuery;
     }
 }
 /* tslint:enable:no-namespace interface-name*/
@@ -21,7 +22,7 @@ declare global {
 import * as $ from "jquery";
 import "../../node_modules/bootstrap/dist/js/bootstrap.js";
 import {Intent, IRuntimeResponse, Settings} from "./common";
-import {loadSettings} from "./utils";
+import {decomposeURL, loadSettings} from "./utils";
 
 let settingsKeys = Object.keys(Settings);
 
@@ -59,6 +60,22 @@ let malFormOverlay = $("#mal-configure__form-overlay");
 $(() => {
     $("[data-toggle='tooltip']").tooltip();
 });
+
+/**
+ * Toggle/Open parts of settings page by passing on
+ * a query parameter. For example:
+ *      chrome-extension://ehgnkecbhcagdnpeakiiebcmbiipillp/dashboard.html?open=MyAnimeList
+ * This will directly open the MAL configure modal as
+ * soon as the settings page is opened.
+ */
+(() => {
+    let decomposed = decomposeURL(document.location.href);
+    if (decomposed[1] && decomposed[1].goto) {
+        if (decomposed[1].goto === "MyAnimeList") {
+            $("#mal-configure").modal("toggle");
+        }
+    }
+})();
 
 /**
  * This runs as soon as the page loads. What this does is

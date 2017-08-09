@@ -128,6 +128,27 @@ export function decomposeURL(uriString: string): [string, { [key: string]: strin
     return [url, searchParams];
 }
 
+/**
+ * Joins a URL with search params object and returns a proper url string.
+ * This function does not verify if a url is valid or not. It simply joins.
+ * Care must be taken while passing the url parameter.
+ * @param url
+ *      The url string onto which the search parameters
+ *      are to be joined
+ * @param searchParams
+ *      An object containing the search parameters
+ */
+export function joinURL(url: string, searchParams: IGenericObject): string {
+    Object.keys(searchParams).forEach((key, index) => {
+        if (index === 0) {
+            url += `?${key}=${searchParams[key]}`;
+        } else {
+            url += `&${key}=${searchParams[key]}`;
+        }
+    });
+    return url;
+}
+
 export function notify(title: string, message: string): void {
     let opt = {
         iconUrl: chrome.extension.getURL("images/notification_icon.png"),

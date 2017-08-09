@@ -91,3 +91,22 @@ describe("cleanAnimeName", () => {
 //         expect(utils.getSlug(el.name)).toBe(el.slug)
 //     })
 // })
+
+// [7]: joinURL
+describe("joinURL", () => {
+    test("should generate a proper url from search params", () => {
+        let url = "https://abc.com"
+        let params1 = {
+            open: "test",
+            name: "something"
+        }
+        expect(utils.joinURL(url, params1)).toBe("https://abc.com?open=test&name=something")
+
+        let params2 = {
+            open: "test",
+            name: "something",
+            random: "random"
+        }
+        expect(utils.joinURL(url, params2)).toBe("https://abc.com?open=test&name=something&random=random")
+    })
+})
