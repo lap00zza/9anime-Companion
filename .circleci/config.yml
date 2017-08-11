@@ -1,14 +1,14 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/9anime-Companion
     docker:
       - image: circleci/node:7.10
-    working_directory: ~/9anime-Companion
     steps:
       - checkout
       - run:
           name: Update NPM
-          command: 'sudo npm install -g npm@latest'
+          command: npm install -g npm@latest
       # Download and cache dependencies
       - restore_cache:
           keys:
