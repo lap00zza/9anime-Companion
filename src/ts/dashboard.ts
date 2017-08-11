@@ -54,6 +54,10 @@ let malUsernameInput = $("#mal-configure__username");
 let malPasswordInput = $("#mal-configure__password");
 let malFormOverlay = $("#mal-configure__form-overlay");
 
+let adBlockFiltersInput = $("#ads-configure__adBlockFilters");
+let adBlockApplyBtn = $("#ads-configure__apply");
+let adBlockProgress = $("#ads-configure__progress");
+
 /**
  * Bootstrap Initialization for showing the tooltips
  */
@@ -91,6 +95,7 @@ loadSettings(settingsKeys).then(resp => {
     }
 
     // Stuff to do after loading the settings.
+    /* -- MAL Related --- */
     if (resp.myAnimeList) {
         malFormOverlay.hide();
     } else {
@@ -101,7 +106,41 @@ loadSettings(settingsKeys).then(resp => {
     } else {
         enableMalLogin();
     }
+
+    /* --- AdBlocker Related --- */
+    if (resp.adBlockFilters) {
+        adBlockFiltersInput.text(resp.adBlockFilters.join("\n"));
+    }
 });
+
+/**
+ * Listen to the change event on all the checkboxes
+ * and save settings when change event is triggered.
+ */
+for (let key of checkboxKeys) {
+    $(`#${key}`).on("change", e => {
+        let target = $(e.currentTarget);
+        let targetId = target.attr("id");
+        if (targetId) {
+            switch (targetId) {
+                case "myAnimeList":
+                    malTogglePermission(target.is(":checked"));
+                    break;
+
+                case "remAds":
+                    adsTogglePermission(target.is(":checked"));
+                    break;
+
+                default:
+                    chrome.storage.local.set({
+                        [targetId]: target.is(":checked"),
+                    });
+                    break;
+            }
+            // console.log(target.attr("id"), target.is(":checked"));
+        }
+    });
+}
 
 /**
  * Handles the permission grant while toggling the MAL
@@ -178,8 +217,7 @@ function adsTogglePermission(isChecked: boolean): void {
             }
         });
     } else {
-        // FIXME: looks like <all_urls> can't be removed because
-        // of required origins for 9anime urls
+        // FIXME: looks like <all_urls> can't be removed because of required origins for 9anime urls
         chrome.permissions.remove({
             permissions: perms.permissions,
         });
@@ -187,33 +225,6 @@ function adsTogglePermission(isChecked: boolean): void {
             remAds: false,
         });
     }
-}
-
-/**
- * Listen to the change event on all the checkboxes
- * and save settings when change event is triggered.
- */
-for (let key of checkboxKeys) {
-    $(`#${key}`).on("change", e => {
-        let target = $(e.currentTarget);
-        let targetId = target.attr("id");
-        if (targetId) {
-            switch (targetId) {
-                case "myAnimeList":
-                    malTogglePermission(target.is(":checked"));
-                    break;
-                case "remAds":
-                    adsTogglePermission(target.is(":checked"));
-                    break;
-                default:
-                    chrome.storage.local.set({
-                        [targetId]: target.is(":checked"),
-                    });
-                    break;
-            }
-            // console.log(target.attr("id"), target.is(":checked"));
-        }
-    });
 }
 
 function enableMalLogin() {
@@ -251,8 +262,8 @@ $("#mal-configure__form").on("submit", e => {
         // store it in the chrome.local storage.
         chrome.runtime.sendMessage({
             intent: Intent.MAL_VerifyCredentials,
-            password: malPasswordInput.val(),
-            username: malUsernameInput.val(),
+            password: malPassword,
+            username: malUsername,
         }, (resp: IRuntimeResponse) => {
             if (resp.success) {
                 // Yeay! Success
@@ -284,6 +295,29 @@ malResetButton.on("click", () => {
             malUsername: "",
         });
         enableMalLogin();
+    });
+});
+
+adBlockApplyBtn.on("click", () => {
+    let temp = String(adBlockFiltersInput.val()).trim().split("\n");
+    let filterList = [];
+    for (let item of temp) {
+        if (item) {
+            filterList.push(item.trim());
+        }
+    }
+
+    adBlockApplyBtn.attr("disabled", "disabled");
+    adBlockProgress.empty().append(`<img src="../images/loader.svg">`);
+
+    chrome.runtime.sendMessage({
+        intent: Intent.AdBlocker_UpdateFilter_Local,
+        filterList,
+    }, resp => {
+        if (resp.success) {
+            adBlockApplyBtn.removeAttr("disabled");
+            adBlockProgress.empty().append(`<img src="../images/check-mark.png">`);
+        }
     });
 });
 

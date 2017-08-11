@@ -4,14 +4,18 @@
  * This is the background script.
  */
 
+import * as adBlocker from "./adBlocker";
 import {Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
 import * as dlAll from "./download_all/core";
 import * as mal from "./MyAnimeList/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
-import {cleanAnimeName, joinURL, loadSettings} from "./utils";
+import {cleanAnimeName, joinURL} from "./utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
+
+/* --- Initialize other background services --- */
+adBlocker.setup();
 
 /***
  * This is the background listener. It listens to the messages sent
@@ -22,6 +26,14 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
     // Probably a validation for whether the required
     // object properties are present or missing?
     switch (message.intent) {
+        case Intent.AdBlocker_UpdateFilter_Local:
+            adBlocker
+                .updateViaLocal(message.filterList)
+                .then(() => sendResponse({
+                    success: true,
+                }));
+            return true;
+
         /**************************************************************************************************************/
         case Intent.Download_All:
             let setupOptions = {
@@ -188,79 +200,6 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             break;
     }
 });
-
-// --- ^.^ Request Blocking ^.^ ---
-// This can be loaded from local storage or remotely.
-// For remote, maybe github is good enough, or an api.
-let blockList = [
-    "(http|https):\/\/([a-z0-9]+[.])*af2f04d5bdd\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*mgid\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*revcontent\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*bebi\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*2mdnsys\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*scorecardresearch\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*quantserve\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*amung\.us",
-    "(http|https):\/\/([a-z0-9]+[.])*e2ertt\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*cdnads\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*addthis\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*oclasrv\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*onclkds\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*pippio\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*bluekai\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*exelator\.com",
-    "(http|https):\/\/([a-z0-9]+[.])*narrative\.io",
-    "(http|https):\/\/([a-z0-9]+[.])*agkn\.com",
-];
-let blockListRe: RegExp[] = [];
-
-for (let filter of blockList) {
-    blockListRe.push(new RegExp(filter, "i"));
-}
-
-let blockListener = (details: chrome.webRequest.WebRequestBodyDetails) => {
-    for (let re of blockListRe) {
-        if (re.test(details.url)) {
-            // console.log("cancelled", re);
-            return {cancel: true};
-        }
-    }
-};
-
-let addBlockListener = () => {
-    chrome.webRequest.onBeforeRequest.addListener(
-        blockListener,
-        {urls:  ["<all_urls>"]},
-        ["blocking"],
-    );
-};
-
-let removeBlockListener = () => {
-    if (chrome.webRequest.onBeforeRequest.hasListener(blockListener)) {
-        chrome.webRequest.onBeforeRequest.removeListener(blockListener);
-    }
-};
-
-// When the extension is first loaded, it should
-// start blocking if set to true.
-loadSettings("remAds").then(resp => {
-    if (resp.remAds) {
-        addBlockListener();
-    }
-});
-
-// In case remAds setting is changed, this is a
-// good way to track the change.
-chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (changes.remAds) {
-        if (changes.remAds.newValue === true) {
-            addBlockListener();
-        } else {
-            removeBlockListener();
-        }
-    }
-});
-// --- End Request Blocking ---
 
 chrome.runtime.onInstalled.addListener(details => {
     // TODO: in 1.0, the old settings are better off deleted

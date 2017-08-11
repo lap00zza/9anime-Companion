@@ -5,12 +5,43 @@
  */
 
 /**
+ * These are the list of default adblock filters.
+ * The default filters should not be modified.
+ * NOTE: the doubles slashes because we need to
+ * escape the special character \
+ */
+export let adBlockFilters = [
+    "^https?:\\/\\/([a-z0-9]+[.])*amung\\.us",
+    "^https?:\\/\\/([a-z0-9]+[.])*mgid\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*revcontent\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*addthis\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*oclasrv\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*bluekai\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*exelator\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*narrative\\.io",
+    "^https?:\\/\\/([a-z0-9]+[.])*agkn\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*scorecardresearch\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*quantserve\\.com",
+    "^https?:\\/\\/af2f04d5bdd\\.com",
+    "^https?:\\/\\/bebi\\.com",
+    "^https?:\\/\\/2mdnsys\\.com",
+    "^https?:\\/\\/e2ertt\\.com",
+    "^https?:\\/\\/cdnads\\.com",
+    "^https?:\\/\\/onclkds\\.com",
+    "^https?:\\/\\/pippio\\.com",
+    "^https?:\\/\\/www\\.facebook\\.com\\/impression\\.php",
+    "^https?:\\/\\/syndication\\.twitter.com\\/i\\/jot",
+    "^https?:\\/\\/ssl\\.google-analytics\\.com\\/ga\\.js",
+];
+
+/**
  * The available settings in 9anime Companion along with
  * the default values.
  * rem* -> remove*
  * res* -> resize*
  */
 export const Settings = {
+    adBlockFilters,
     downloadAll: true,
     malPassword: "",    /* used with MAL Integration */
     malUsername: "",    /* used with MAL Integration */
@@ -32,6 +63,7 @@ export const Settings = {
  * all settings can be present.
  */
 export interface ISettings {
+    adBlockFilters?: string[];
     downloadAll?: boolean;
     malPassword?: string;
     malUsername?: string;
@@ -44,7 +76,7 @@ export interface ISettings {
     remSuggested?: boolean;
     resPlayer?: boolean;
     utilityBar?: boolean;
-    [key: string]: string | boolean | undefined;
+    [key: string]: string | string[] | boolean | undefined;
 }
 
 export interface IRecentlyWatched {
@@ -65,8 +97,6 @@ export interface IRecentlyWatched {
  * All the AnimeValues properties for the MyAnimeList API.
  * The interface was mapped from the specification given in
  * {@link https://myanimelist.net/modules.php?go=api#animevalues}
- *
- * @todo use https://myanimelist.net/animelist/lapoozza to figure out some of the stuff below
  */
 export interface IAnimeValues {
     entry: {
@@ -154,8 +184,6 @@ export interface IMALUserList {
  * Defines a generic object with key, value as strings.
  * Since TS needs a index signature, we will use this
  * quite often.
- *
- * @todo this might be better of as union instead of any
  */
 export interface IGenericObject {
     /* tslint:disable:no-any */
@@ -248,6 +276,7 @@ export type DownloadMethodKeys = "Browser" | "External";
  */
 export enum Intent {
     "Open_Options", /* <-- This MUST BE first */
+    "AdBlocker_UpdateFilter_Local",
     "Download_All",
     "Download_Complete",
     "Download_Status",

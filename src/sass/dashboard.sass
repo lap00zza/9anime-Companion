@@ -8,7 +8,7 @@
   float: right
   width: 50px
   height: 26px
-  background: lightslategray
+  background: #444
   position: relative
   border-radius: 50px
   &:after
@@ -72,13 +72,15 @@ h2
   border-bottom: 1px solid #dedede
   padding-bottom: 0.5rem
 
-.header
-  padding: 2rem 1rem
+.header /* Section */
+  padding: 1.5rem 0
 
-.footer
+.footer /* Section */
   text-align: center
-  padding: 2rem 0.9rem
+  padding: 1.5rem 0
 
+section
+  padding: 1rem 0
 
 /**
  * Tooltips
@@ -97,6 +99,7 @@ h2
  * Settings
  */
 .settings-item
+  cursor: default
   padding: 0.5rem 1rem
 
 .settings-config-btn
@@ -106,6 +109,10 @@ h2
   float: right
   +checkBox(#27ae60)
 
+.settings-icon
+  color: #000
+  &:hover
+    color: rgba(0, 0, 0, 0.5)
 
 /**
  * MAL Configure Modal
@@ -133,3 +140,12 @@ h2
   background: rgba(0, 0, 0, 0.6)
   z-index: 100
   border-radius: 2px
+
+
+#ads-configure__adBlockFilters
+  resize: none
+  font-size: 0.9rem
+  font-family: monospace
+
+  width: 100%
+  min-height: 200px
