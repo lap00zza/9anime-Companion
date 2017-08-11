@@ -14,9 +14,10 @@ loadSettings([
     // Undefined when someone deletes settings on purpose.
     if (settings.malUsername !== undefined && settings.malPassword !== undefined) {
         api.setCredentials(settings.malUsername, settings.malPassword);
-    } else {
-        notify("MAL Error", "MAL Credentials not present where it is expected.");
     }
+    // else {
+    //     notify("MAL Error", "MAL Credentials not present where it is expected.");
+    // }
 });
 
 /**

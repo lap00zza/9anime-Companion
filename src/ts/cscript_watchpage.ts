@@ -1,7 +1,5 @@
-// TODO: find a better way to render templates instead of jquery
-
 import * as $ from "jquery";
-import {Intent, ISettings} from "./common";
+import {Intent} from "./common";
 import * as dlAll from "./download_all/widgets";
 import * as mal from "./MyAnimeList/widgets";
 import utilityBar from "./utility_bar";
@@ -52,7 +50,6 @@ setInterval(() => {
 
 /* --- Register recently watched --- */
 // See "recently_watched.ts" to find out how this part works.
-// TODO: maybe recently watched duration should be lowered
 function registerRecent() {
     chrome.runtime.sendMessage({
         animeId,
