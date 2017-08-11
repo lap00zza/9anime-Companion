@@ -29,5 +29,5 @@ jobs:
           name: Build wee!
           command: npm run build
       - store_artifacts:
-          path: /dist/9anime_Companion-chrome-1.0.0.zip
+          path: dist/9anime_Companion-chrome-1.0.0.zip
           destination: 9anime_Companion-chrome-1.0.0.zip
