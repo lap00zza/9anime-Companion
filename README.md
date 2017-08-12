@@ -19,6 +19,8 @@
 </p>
 
 ## Features
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg)](https://greenkeeper.io/)
 * Remove Ads/Popups <sup>[1]</sup>
 * Download All episodes
 * MyAnimeList Integration
