@@ -9,9 +9,9 @@ install:
   - npm install
 before_script:
   - greenkeeper-lockfile-update
-after_script:
-  - greenkeeper-lockfile-upload
 script:
   - npm run linter
   - npm run test
   - gulp
+after_script:
+  - greenkeeper-lockfile-upload
