@@ -18,15 +18,13 @@ beforeEach(() => clearList())
 // addToList
 describe("addToList", () => {
     test("should throw error if properties are missing", () => {
-        let errorMessage = "[Recently Watched] [Error] All properties must be present."
-        // Leaving out timestamp, all the other properties
-        // are required. Hence, there is a test case for all
-        // of them.
+        let errorMessage = "[Recently Watched] [Error] animeId, animeName and url must be present."
+        // Leaving out timestamp, epId and epNum the other 3
+        // properties are required. Hence, there is a test
+        // case for all of them.
         expect(() => {
             addToList({
                 animeName: "123",
-                epId: "123",
-                epNum:"123",
                 url: "123"
             })
         }).toThrowError(errorMessage)
@@ -34,17 +32,6 @@ describe("addToList", () => {
         expect(() => {
             addToList({
                 animeId: "123",
-                epId: "123",
-                epNum:"123",
-                url: "123"
-            })
-        }).toThrowError(errorMessage)
-
-        expect(() => {
-            addToList({
-                animeId: "123",
-                animeName: "123",
-                epNum:"123",
                 url: "123"
             })
         }).toThrowError(errorMessage)
@@ -53,17 +40,6 @@ describe("addToList", () => {
             addToList({
                 animeId: "123",
                 animeName: "123",
-                epId: "123",
-                url: "123"
-            })
-        }).toThrowError(errorMessage)
-
-        expect(() => {
-            addToList({
-                animeId: "123",
-                animeName: "123",
-                epId: "123",
-                epNum:"123",
             })
         }).toThrowError(errorMessage)
     })
