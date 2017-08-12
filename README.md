@@ -9,10 +9,10 @@
 </h1>
 <p align="center">
     <a href="https://travis-ci.org/lap00zza/9anime-Companion">
-        <img src="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=rewrite%2Ftypescript" alt="Build Status">
+        <img src="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master" alt="Build Status">
     </a>
-    <a href="https://ci.appveyor.com/project/lap00zza/9anime-Companion/branch/rewrite/typescript">
-        <img src="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/rewrite/typescript?svg=true" alt="Build Status">
+    <a href="https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master">
+        <img src="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true" alt="Build Status">
     </a>
     <a href="https://greenkeeper.io/">
             <img src="https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg" alt="Greenkeeper badge">
@@ -36,7 +36,7 @@
 
 ## Download
 * The latest passing build of 9anime Companion can be [downloaded from appveyor](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=master). *Remember that the builds are quite frequent.*
-* Want to build it yourself? check out [Build Instructions](#build-instructions)
+* Want to build it yourself? check out the [Build Instructions](#build-instructions)
 * **This version is not yet published to Chrome Webstore or AMO**. Those links will be updated here as soon as it is published.
 
 ## Build Instructions
@@ -74,6 +74,11 @@ and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Com
 
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/.github/CONTRIBUTING.md)
+
+## Credits
+* [Contributors](https://github.com/lap00zza/9anime-Companion/graphs/contributors)
+* [SVG Loaders](https://github.com/SamHerbert/SVG-Loaders) by [Sam Herbert](https://github.com/SamHerbert)
+
 
 ## License
 [MIT](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/LICENSE)

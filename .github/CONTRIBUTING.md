@@ -12,7 +12,7 @@ The following is a set of guidelines for contributing to 9anime Companion
 * [Styleguides](#styleguides)
 
 ## Goal
-9anime Companion aims to give users meaningful features which are not implemented by 9anime.
+9anime Companion aims to give users helpful features that improves their 9anime experience.
 
 ## How Can I Contribute?
 > :information_source: **Remember to fill in the template**. You will get the template whenever you open a new issue/pr.
