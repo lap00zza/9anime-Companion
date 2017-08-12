@@ -43,7 +43,7 @@
 1. Install NodeJS
 2. Install git
 3. Run the following commands
-   ```bash
+   ```shell
    # Clone the repository
    $ git clone https://github.com/lap00zza/9anime-Companion.git
     
