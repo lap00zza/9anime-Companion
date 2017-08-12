@@ -14,7 +14,7 @@
  * be used as a standalone script.
  */
 
-import axios, {AxiosError} from "axios";
+import axios from "axios";
 import * as X2JS from "x2js";
 import { IAnimeValues, IMALSearch, IMALUserList } from "../common";
 
