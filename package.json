@@ -35,7 +35,7 @@
     "webpack": "^3.4.1"
   },
   "dependencies": {
-    "@types/chrome": "0.0.47",
+    "@types/chrome": "0.0.48",
     "@types/jquery": "^3.2.10",
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-beta",

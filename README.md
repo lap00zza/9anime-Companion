@@ -1,7 +1,9 @@
-> :information_source: If you are looking for download_all fix for the previous version, [check out this comment](https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047)
+> If you are looking for download_all fix for the previous version, [check out this comment](https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047)
 
-> :information_source: This is the rewrite branch. All contributions are welcome.
+> This is the rewrite branch. All contributions are welcome.
+
 <hr>
+
 <h1 align="center">
   9anime Companion
 </h1>
@@ -12,6 +14,9 @@
     <a href="https://ci.appveyor.com/project/lap00zza/9anime-Companion/branch/rewrite/typescript">
         <img src="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/rewrite/typescript?svg=true" alt="Build Status">
     </a>
+    <a href="https://greenkeeper.io/">
+            <img src="https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg" alt="Greenkeeper badge">
+        </a>
 </p>
 <p align="center"><em>A simple companion extension for 9anime</em></p>
 <p align="center">
