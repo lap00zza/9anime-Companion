@@ -1,4 +1,9 @@
+:information_source: If you are looking for download_all fix for the previous version, [check out this comment](https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047)
+
+<hr>
+
 This is the rewrite branch. All contributions are welcome.
+
 <hr>
 <h1 align="center">
   9anime Companion
@@ -37,17 +42,17 @@ This is the rewrite branch. All contributions are welcome.
 2. Install git
 3. Run the following commands
    ```bash
-    $ git clone https://github.com/lap00zza/9anime-Companion.git
-    $ git checkout rewrite/typescript
+   # Clone the repository
+   $ git clone https://github.com/lap00zza/9anime-Companion.git
     
-    # install dependencies
-    $ npm install
+   # install dependencies
+   $ npm install
  
-    # Build the extension. If gulp command is not working, it means 
-    # you dont have gulp-cli. You can either download gulp-cli or use
-    # npm run build.
-    $ gulp
-    ```
+   # Build the extension. If gulp command is not working, it means 
+   # you dont have gulp-cli. You can either download gulp-cli or use
+   # npm run build.
+   $ gulp
+   ```
 4. Check the `dist/chromium` for the built extension.
 5. *Optional:* since the project is in Typescript, be sure to use a editor like [VSCode](https://code.visualstudio.com/) to take full advantage.
 6. *Optional:* check out the instructions for [Running in Developement Mode](https://github.com/lap00zza/9anime-Companion/wiki/Running-in-Developement-Mode)
