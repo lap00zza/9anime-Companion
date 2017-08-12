@@ -82,8 +82,8 @@ export function getList(items = 10): IRecentlyWatched[] {
  */
 export function addToList(params: IRecentlyWatched): void {
     // Check if all properties are present.
-    if (!params.animeId || !params.animeName || !params.epId || !params.epNum || !params.url) {
-        throw new Error("[Recently Watched] [Error] All properties must be present.");
+    if (!params.animeId || !params.animeName || !params.url) {
+        throw new Error("[Recently Watched] [Error] animeId, animeName and url must be present.");
     }
 
     // Check if same id exists. If it does then
