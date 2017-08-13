@@ -1,4 +1,4 @@
-**Tested on:**
+*Tested on:*
 
 Chrome | Firefox
 -------|--------
@@ -55,7 +55,7 @@ Chrome | Firefox
    # npm run build.
    $ gulp
    ```
-4. Check the `dist/chromium` for the built extension.
+4. Check `dist/chromium` and `dist/firefox` for the built extension.
 5. *Optional:* since the project is in Typescript, be sure to use a editor like [VSCode](https://code.visualstudio.com/) to take full advantage.
 6. *Optional:* check out the instructions for [Running in Developement Mode](https://github.com/lap00zza/9anime-Companion/wiki/Running-in-Developement-Mode)
 
