@@ -62,6 +62,26 @@ gulp.task("zip_chrome", function () {
         .pipe(gulp.dest("dist"));
 });
 
+/* --- Firefox Related Tasks --- */
+gulp.task("copy_firefox_files", function () {
+    return gulp.src([
+        "!src/templates/**.*",
+        "src/**/*.{bundle.js,png,css,svg,html,jpg}",
+        "platform/firefox/**/*"
+    ])
+        .pipe(gulp.dest("dist/firefox"));
+});
+
+gulp.task("zip_firefox", function () {
+    let fileName = `9anime_Companion-firefox-${version}.zip`
+    if (isAppveyor) {
+        fileName = `9anime_Companion-firefox-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
+    }
+    gulp.src("dist/firefox/**/*", {nodir: true})
+        .pipe(zip(fileName))
+        .pipe(gulp.dest("dist"));
+});
+
 /* --- Utility Tasks --- */
 gulp.task("quick:html_and_sass", ["sass"], function () {
     return gulp.src([
@@ -69,7 +89,8 @@ gulp.task("quick:html_and_sass", ["sass"], function () {
         "src/**/*.html",
         "src/**/*.css",
     ])
-        .pipe(gulp.dest("dist/chromium"));
+        .pipe(gulp.dest("dist/chromium"))
+        .pipe(gulp.dest("dist/firefox"));
 });
 
 /* --- DEFAULT TASK --- */
@@ -82,6 +103,8 @@ gulp.task("default", function (callback) {
         "sass",
         "copy_chromium_files",
         "zip_chrome",
+        "copy_firefox_files",
+        "zip_firefox",
         callback
     );
 })

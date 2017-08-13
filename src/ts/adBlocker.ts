@@ -52,7 +52,12 @@ function blockListener(details: chrome.webRequest.WebRequestBodyDetails) {
 function attachBlockListener(): void {
     chrome.webRequest.onBeforeRequest.addListener(
         blockListener,
-        {urls:  ["<all_urls>"]},
+        {
+            urls:  [
+                "http://*/*",
+                "https://*/*",
+            ],
+        },
         ["blocking"],
     );
 }

@@ -1,23 +1,23 @@
-> If you are looking for download_all fix for the previous version, [check out this comment](https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047)
+**Tested on:**
 
-> This is the rewrite branch. All contributions are welcome.
+Chrome | Firefox
+-------|--------
+60     | 55
+
+[![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
+[![Build status](https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true)](https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master)
+[![Greenkeeper Badge](https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg)](https://greenkeeper.io/)
+
+<hr>
+
+* If you are looking for download_all fix for the previous version, [check out this comment](https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047)
+* This is the rewrite branch. All contributions are welcome.
 
 <hr>
 
 <h1 align="center">
   9anime Companion
 </h1>
-<p align="center">
-    <a href="https://travis-ci.org/lap00zza/9anime-Companion">
-        <img src="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master" alt="Build Status">
-    </a>
-    <a href="https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master">
-        <img src="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true" alt="Build Status">
-    </a>
-    <a href="https://greenkeeper.io/">
-            <img src="https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg" alt="Greenkeeper badge">
-        </a>
-</p>
 <p align="center"><em>A simple companion extension for 9anime</em></p>
 <p align="center">
     <img src="https://image.ibb.co/jhPg4v/popup.png" height="350px" width="auto" alt="Popup">

@@ -153,27 +153,15 @@ function malTogglePermission(isChecked: boolean): void {
     };
     if (isChecked) {
         malFormOverlay.hide();
-        chrome.permissions.contains(perms, result => {
-            // If permission is not present, we ask for
-            // additional permission. If it is present,
-            // which happens while asking more than once,
-            // we enable the integration.
-            if (!result) {
-                chrome.permissions.request(perms, granted => {
-                    if (granted) {
-                        chrome.storage.local.set({
-                            myAnimeList: true,
-                        });
-                    } else {
-                        // we need to trigger "change" to get that
-                        // reverse animation on the checkbox.
-                        $("#myAnimeList").prop("checked", false).trigger("change");
-                    }
-                });
-            } else {
+        chrome.permissions.request(perms, granted => {
+            if (granted) {
                 chrome.storage.local.set({
                     myAnimeList: true,
                 });
+            } else {
+                // we need to trigger "change" to get that
+                // reverse animation on the checkbox.
+                $("#myAnimeList").prop("checked", false).trigger("change");
             }
         });
     } else {
@@ -199,30 +187,22 @@ function adsTogglePermission(isChecked: boolean): void {
         ],
     };
     if (isChecked) {
-        chrome.permissions.contains(perms, result => {
-            if (!result) {
-                chrome.permissions.request(perms, granted => {
-                    if (granted) {
-                        chrome.storage.local.set({
-                            remAds: true,
-                        });
-                    } else {
-                        $("#remAds").prop("checked", false).trigger("change");
-                    }
-                });
-            } else {
+        chrome.permissions.request(perms, granted => {
+            if (granted) {
                 chrome.storage.local.set({
                     remAds: true,
                 });
+            } else {
+                $("#remAds").prop("checked", false).trigger("change");
             }
         });
     } else {
-        // FIXME: looks like <all_urls> can't be removed because of required origins for 9anime urls
-        chrome.permissions.remove({
-            permissions: perms.permissions,
-        });
         chrome.storage.local.set({
             remAds: false,
+        });
+        // FIXME: <all_urls> can't be removed because of required origins for 9anime urls
+        chrome.permissions.remove({
+            permissions: perms.permissions,
         });
     }
 }
