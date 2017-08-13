@@ -3,6 +3,9 @@ artifacts:
   - path: dist\9anime_Companion-chrome-1.0.0.$(APPVEYOR_BUILD_NUMBER).zip
     name: 9anime_Companion_chrome
     type: zip
+  - path: dist\9anime_Companion-firefox-1.0.0.$(APPVEYOR_BUILD_NUMBER).zip
+    name: 9anime_Companion_firefox
+    type: zip
 install:
 - ps: Install-Product node ''
 - npm install
