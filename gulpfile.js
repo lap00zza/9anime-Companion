@@ -1,6 +1,6 @@
 // TODO: webpack preset env
 
-let fs = require('fs')
+let fs = require('fs');
 let gulp = require("gulp");
 let gutil = require("gulp-util");
 let del = require("del");
@@ -12,7 +12,7 @@ let zip = require("gulp-zip");
 // For the version, we will just read from package.json.
 // Version format is in Major Minor Patch. While building
 // in Appveyor, we will append the Build number to it.
-const version = JSON.parse(fs.readFileSync("package.json")).version
+const version = JSON.parse(fs.readFileSync("package.json")).version;
 
 let isAppveyor = false;
 if ("APPVEYOR" in process.env && process.env.APPVEYOR === "True") {
@@ -53,7 +53,7 @@ gulp.task("copy_chromium_files", function () {
 // inside dist/chromium, i.e. towards the end of
 // the default task.
 gulp.task("zip_chrome", function () {
-    let fileName = `9anime_Companion-chrome-${version}.zip`
+    let fileName = `9anime_Companion-chrome-${version}.zip`;
     if (isAppveyor) {
         fileName = `9anime_Companion-chrome-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
     }
@@ -73,7 +73,7 @@ gulp.task("copy_firefox_files", function () {
 });
 
 gulp.task("zip_firefox", function () {
-    let fileName = `9anime_Companion-firefox-${version}.zip`
+    let fileName = `9anime_Companion-firefox-${version}.zip`;
     if (isAppveyor) {
         fileName = `9anime_Companion-firefox-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
     }
@@ -107,4 +107,4 @@ gulp.task("default", function (callback) {
         "zip_firefox",
         callback
     );
-})
+});

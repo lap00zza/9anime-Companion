@@ -6,6 +6,6 @@
             // src/ts/common.ts for more details
             chrome.runtime.sendMessage({
                 intent: 0,
-            })
+            });
         });
 })();
