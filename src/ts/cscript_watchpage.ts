@@ -46,7 +46,6 @@ setInterval(() => {
         }
     }
 }, 1000);
-/* --- ^.^ --- */
 
 /* --- Register recently watched --- */
 // See "recently_watched.ts" to find out how this part works.
@@ -67,7 +66,29 @@ epChangeCallbacks.push(() => {
     console.info(`%cUpdated recent to ${currentEpNum}`, "color: yellow;");
     registerRecent();
 });
-/* --- ^.^ --- */
+
+/* --- Shortcuts --- */
+$(document).on("keydown", e => {
+    switch (e.keyCode) {
+        case 84: /*  84 is 't' */
+            $(document).scrollTop(0);
+            break;
+        default:
+            break;
+    }
+});
+
+/* --- Watchpage Enhancements --- */
+// [1]: Adds a scroll to top arrow at the bottom right corner
+// TODO: show/hide after scrolling specific distance
+let upArrowIcon = chrome.extension.getURL("images/up-arrow.png");
+$("body").append(
+    `<span id='nac__scrollTop'>
+        <img src="${upArrowIcon}" height="25px" width="25px">
+    </span>`,
+);
+let scrollTopIcon = $("#nac__scrollTop");
+scrollTopIcon.on("click", () => $(document).scrollTop(0));
 
 /* --- Page actions based on settings --- */
 loadSettings([
