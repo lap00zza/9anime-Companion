@@ -1,8 +1,12 @@
 global.chrome = {
     storage: {
         local: {
-            get: () => {return {recentlyWatched: []}},
-            set: () => {return true}
+            get: () => {
+                return {recentlyWatched: []};
+            },
+            set: () => {
+                return true;
+            }
         }
     }
 };
@@ -26,21 +30,21 @@ describe("addToList", () => {
             addToList({
                 animeName: "123",
                 url: "123"
-            })
+            });
         }).toThrowError(errorMessage);
 
         expect(() => {
             addToList({
                 animeId: "123",
                 url: "123"
-            })
+            });
         }).toThrowError(errorMessage);
 
         expect(() => {
             addToList({
                 animeId: "123",
                 animeName: "123",
-            })
+            });
         }).toThrowError(errorMessage);
     });
 
@@ -64,9 +68,9 @@ describe("addToList", () => {
             url: "123"
         });
         addToList({
-            animeId: "123",     /* animeId same */
+            animeId: "123", /* animeId same */
             animeName: "123",
-            epId: "234",        /* epId different */
+            epId: "234", /* epId different */
             epNum: "234",
             url: "123"
         });
