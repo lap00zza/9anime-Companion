@@ -6,6 +6,7 @@ Chrome | Firefox
 
 [![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
 [![Build status](https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true)](https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master)
+[![bitHound Overall Score](https://www.bithound.io/github/lap00zza/9anime-Companion/badges/score.svg)](https://www.bithound.io/github/lap00zza/9anime-Companion)
 [![Greenkeeper Badge](https://badges.greenkeeper.io/lap00zza/9anime-Companion.svg)](https://greenkeeper.io/)
 
 <hr>
