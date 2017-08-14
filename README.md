@@ -1,9 +1,3 @@
-*Tested on:*
-
-Chrome | Firefox
--------|--------
-60     | 55
-
 [![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
 [![Build status](https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true)](https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master)
 [![bitHound Overall Score](https://www.bithound.io/github/lap00zza/9anime-Companion/badges/score.svg)](https://www.bithound.io/github/lap00zza/9anime-Companion)
@@ -13,6 +7,11 @@ Chrome | Firefox
 
 * If you are looking for download_all fix for the previous version, [check out this comment](https://github.com/lap00zza/9anime-Companion/issues/27#issuecomment-308515047)
 * This is the rewrite branch. All contributions are welcome.
+* 9anime Companion is tested and runs on: (*pr's are welcome to expand this*)
+
+  Chrome | Firefox
+  -------|--------
+  60     | 55
 
 <hr>
 
