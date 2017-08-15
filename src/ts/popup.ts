@@ -1,5 +1,6 @@
 // TODO: popup theme switcher
 // TODO: when popup 10 items are deleted but list has more, then bug
+// FIXME: sanitize the values from the localStorage before binding to popup (AMO advisory)
 
 declare function require(arg: string): string;
 
@@ -84,12 +85,12 @@ function generateListItem(item: IRecentlyWatched, visible= true): JQuery<HTMLEle
     let display = visible ? "flex" : "none";
     let listItem = $(
         `<div class="item" style="display: ${display}">
-                    <div class="item-body">
-                        <span class="name">${item.animeName}</span>
-                            ${episodeSpan}
-                    </div>
-                    <img src="images/remove-icon.png" class="remove" alt="Remove Item">
-                </div>`,
+            <div class="item-body">
+                <span class="name">${item.animeName}</span>
+                    ${episodeSpan}
+            </div>
+            <img src="images/remove-icon.png" class="remove" alt="Remove Item">
+        </div>`,
     );
     listItem.find(".item-body").on("click", () => {
         chrome.tabs.create({
