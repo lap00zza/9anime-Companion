@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 import {Intent} from "./common";
 import * as dlAll from "./download_all/widgets";
+import * as enhancements from "./enhancements";
 import * as mal from "./MyAnimeList/widgets";
 import utilityBar from "./utility_bar";
 import {loadSettings} from "./utils";
@@ -14,6 +15,10 @@ let animeId = $("#movie").data("id");
 let currentEpId = serverDiv.find(".episodes > li > a.active").data("id");
 // TODO: maybe use data("comment") instead of data("base") for EpNum
 let currentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+
+/* --- Attach enhancements --- */
+enhancements.shortcuts();
+enhancements.utilities();
 
 /* --- Track Episode Change --- */
 /**
@@ -66,29 +71,6 @@ epChangeCallbacks.push(() => {
     console.info(`%cUpdated recent to ${currentEpNum}`, "color: yellow;");
     registerRecent();
 });
-
-/* --- Shortcuts --- */
-$(document).on("keydown", e => {
-    switch (e.keyCode) {
-        case 84: /*  84 is 't' */
-            $(document).scrollTop(0);
-            break;
-        default:
-            break;
-    }
-});
-
-/* --- Watchpage Enhancements --- */
-// [1]: Adds a scroll to top arrow at the bottom right corner
-// TODO: show/hide after scrolling specific distance
-let upArrowIcon = chrome.extension.getURL("images/up-arrow.png");
-$("body").append(
-    `<span id='nac__scrollTop'>
-        <img src="${upArrowIcon}" height="25px" width="25px">
-    </span>`,
-);
-let scrollTopIcon = $("#nac__scrollTop");
-scrollTopIcon.on("click", () => $(document).scrollTop(0));
 
 /* --- Page actions based on settings --- */
 loadSettings([
