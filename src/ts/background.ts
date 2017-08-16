@@ -4,6 +4,7 @@
  * This is the background script.
  */
 
+import axios from "axios";
 import * as adBlocker from "./adBlocker";
 import {Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
 import * as dlAll from "./download_all/core";
@@ -67,6 +68,24 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 url: "https://kitsu.io/anime?text=" + cleanAnimeName(message.animeName),
             });
             break;
+
+        case Intent.Search_Anime:
+            let endpoint = message.baseUrl + "/ajax/film/search";
+            axios
+                .get(endpoint, {
+                    params: {
+                        keyword: message.searchText,
+                        sort: "year A",
+                    },
+                })
+                .then(resp => sendResponse({
+                    data: resp.data,
+                    success: true,
+                }))
+                .catch(() => sendResponse({
+                    success: false,
+                }));
+            return true;
 
         /**************************************************************************************************************/
         case Intent.Open_Options:

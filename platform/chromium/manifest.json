@@ -35,7 +35,8 @@
     "run_at": "document_start"
   }, {
     "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
-    "js": ["build/js/cscript_global.bundle.js"],
+    "js": ["build/js/vendor.bundle.js", "build/js/cscript_global.bundle.js"],
+    "css": ["build/css/global.css"],
     "run_at": "document_end"
   }],
 

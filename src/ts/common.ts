@@ -292,4 +292,5 @@ export enum Intent {
     "Recently_Watched_Add",
     "Recently_Watched_List",
     "Recently_Watched_Remove",
+    "Search_Anime",
 }

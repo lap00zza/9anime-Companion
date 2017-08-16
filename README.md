@@ -31,6 +31,7 @@
 * Recently Watched list
 * Toggle page elements (comments, you may also like etc.)
 * Helpful shortcuts
+  * <kbd>s</kbd> - Alternate search overlay (global)
   * <kbd>t</kbd> - Quickly scroll to player (only watch page)
 * *and quite a few more..*
  

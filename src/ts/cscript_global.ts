@@ -6,9 +6,14 @@
  * throughout the 9anime website.
  */
 
+import * as enhancements from "./enhancements";
 import {loadSettings} from "./utils";
 
 console.info("9anime Companion 1.0.0 (Global Script)");
+
+/* --- Attach enhancements --- */
+enhancements.globalShortcuts();
+enhancements.enhancedSearch();
 
 loadSettings([
     "remSocialShare",

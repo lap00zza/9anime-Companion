@@ -18,7 +18,7 @@ let currentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
 
 /* --- Attach enhancements --- */
 enhancements.shortcuts();
-enhancements.utilities();
+enhancements.scrollToPlayer();
 
 /* --- Track Episode Change --- */
 /**
