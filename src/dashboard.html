@@ -9,6 +9,45 @@
 </head>
 <body>
 <!-- Modals -->
+<div class="modal fade" id="keyboard-shortcuts" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">Keyboard Shortcuts</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Global</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><kbd>s</kbd></td>
+                            <td>Yes</td>
+                            <td>Show alternate search overlay</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>t</kbd></td>
+                            <td>No</td>
+                            <td>Scroll to player</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="meta">
+                    <i class="fa fa-info"></i> If a shortcut is not global, it can only be used in watch anime page.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="ads-configure" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -115,6 +154,11 @@
                     <i class="fa fa-info-circle"></i> About
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="changelog-tab" data-toggle="tab" role="tab" href="#changelog" aria-controls="changelog">
+                    <i class="fa fa-code"></i> Changelog
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -131,9 +175,9 @@
     <!-- TAB: Settings -->
     <div role="tabpanel" class="tab-pane fade show active container" id="settings" aria-labelledby="settings-tab">
         <p class="meta">
-            Need more information about the additional permissions?
-            <a href="https://github.com/lap00zza/9anime-Companion/wiki/Permissions" target="_blank">
-                Read this
+            <i class="fa fa-lightbulb-o"></i> Pro Tip: press <kbd>s</kbd> to access the alternate search overlay.
+            <a href="" data-toggle="modal" data-target="#keyboard-shortcuts" id="keyboard-shortcuts-btn">
+                all shortcuts
             </a>
         </p>
         <!-- Settings: Global -->
@@ -350,13 +394,28 @@
         </section>
 
         <section>
-            <h2 class="title">Changelog</h2>
-            <div class="change-log-items">
-                <strong>1.0.0</strong>
-                <ul>
-                    <li>Rewrote the entire extension from scratch. It is now much more easy to manage and contribute to.</li>
-                </ul>
-            </div>
+            <h2 class="title">Links</h2>
+            <ul>
+                <li>
+                    <a href="https://github.com/lap00zza/9anime-Companion/wiki/Permissions" target="_blank">
+                        Information about the additional permissions
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- TAB: About -->
+    <div role="tabpanel" class="tab-pane fade container" id="changelog" aria-labelledby="changelog-tab">
+        <section>
+            <h2 class="title">1.0.0</h2>
+            <ul>
+                <li>Rewrote the entire extension from scratch.</li>
+                <li>Redesigned the popup.</li>
+                <li>Vastly improved the ad/popup blocker.</li>
+                <li>Added alternate search overlay and scroll to player.</li>
+                <li>Added support for keyboard shortcut.</li>
+            </ul>
         </section>
     </div>
 </section>
