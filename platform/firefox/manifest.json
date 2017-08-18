@@ -47,7 +47,8 @@
   }],
 
   "options_ui": {
-    "page": "options_ui.html"
+    "page": "dashboard.html",
+    "open_in_tab": true
   },
 
   // TODO: see if some perms can be cut.
