@@ -269,13 +269,9 @@ export type DownloadMethodKeys = "Browser" | "External";
 /**
  * A collection of intents that the background can
  * understand. Intents other than these are not valid.
- *
- * NOTE: Open_Options must always be first otherwise
- * options_ui.html (in both chromium and firefox) will
- * break.
  */
 export enum Intent {
-    "Open_Options", /* <-- This MUST BE first */
+    "Open_Options",
     "AdBlocker_UpdateFilter_Local",
     "Download_All",
     "Download_Complete",

@@ -5,7 +5,6 @@
  * It is a major part of the remove ads functionality.
  */
 
-import {adBlockFilters} from "./common";
 import {loadSettings} from "./utils";
 
 // This can be loaded from local storage or remotely.
