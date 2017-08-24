@@ -31,14 +31,21 @@ a
 body
   margin: 0
   font-family: 'Roboto', sans-serif
-
-/* --- Styles --- */
-.container
   width: 350px
   user-select: none
   cursor: default
-  box-shadow: 0 0 6px 0 rgba(155, 155, 155, 0.5)
-  border-radius: 4px
+
+/* --- Styles --- */
+//.container
+//  width: 350px
+//  user-select: none
+//  cursor: default
+//  box-shadow: 0 0 6px 0 rgba(155, 155, 155, 0.5)
+//  border-radius: 4px
+
+.popup-body
+  height: 400px
+  overflow-y: auto
 
 .title
   font-size: 1.05rem
@@ -102,7 +109,9 @@ body
 .item
   display: flex
   justify-content: space-between
-  align-items: center
+  // dont uncomment this. I want the close button
+  // at the top and not vertically centered.
+  /* align-items: center */
   padding: 6px
   border-radius: 4px
   color: $text
@@ -112,6 +121,11 @@ body
     background-color: rgba($secondary, .25)
     cursor: pointer
     +transition
+
+// This is to make sure there is some gap between
+// the name of the item and the delete button.
+.item-body
+  padding-right: 5px
 
 .more-item
   margin-top: 10px
@@ -128,12 +142,17 @@ body
   svg
     padding-bottom: 7px
 
-.no-item-img
+.no-item
   width: 100%
+  text-align: center
+
+.no-item-img
+  //width: 100%
   border-radius: 4px
 
 .no-item-heading
-  padding: 12px 0
+  //padding: 12px 0
+  padding-bottom: 12px
   font-size: 18px
   text-align: center
   color: $dark-lighter
@@ -153,7 +172,7 @@ body
 .name
   margin: 0
   font-size: 12px
-  display: inline-block
+  //display: inline-block
 
 .label
   margin-left: 5px
@@ -162,7 +181,7 @@ body
   background: rgba($secondary, .5)
   border-radius: 2px
   color: $text
-  display: inline-block
+  //display: inline-block
 
 //.remove
 //  padding: 0 4px
@@ -191,6 +210,17 @@ footer
   justify-content: space-between
   align-items: center
   padding: 15px
+
+.footer-item
+  display: inline-block
+  padding: 0 6px
+  font-size: 0.8rem
+  font-weight: 500
+  background-color: rgba($secondary, .5)
+  border-radius: 4px
+  color: $text
+  height: 30px
+  line-height: 30px
 
 .integrate-mal
   padding: 6px 12px
@@ -225,8 +255,11 @@ footer
   border-bottom: 1px solid rgba($secondary, .5)
 
 /* --- Theme --- */
-// dark-theme
-.dark-theme
+// dark-theme. For now we are sticking with the
+// default theme until the complete redesign is
+// done. After that the dark theme will be adjusted
+// to work with the default theme.
+/*.dark-theme
   background-color: $dark
 
   & .logo
@@ -302,4 +335,4 @@ footer
     color: #fff
 
   & .hr-line
-    border-color: $dark-lighter
+    border-color: $dark-lighter */
