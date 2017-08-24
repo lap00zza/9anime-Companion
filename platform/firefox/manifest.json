@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "9anime Companion",
-  "version": "1.0.0",
+  "version": "1.0.0alpha2",
 
   "author": "Jewel Mahanta",
   "homepage_url": "https://github.com/lap00zza/9anime-Companion",
@@ -9,7 +9,7 @@
 
   "applications": {
     "gecko": {
-      "id": "9anime-Companion@lap00zza.com",
+      "id": "9anime-companion-firefox@jewelmahanta.com",
       "strict_min_version": "55.0"
     }
   },
