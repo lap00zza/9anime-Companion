@@ -9,7 +9,6 @@ import {Intent, IRecentlyWatched, IRuntimeResponse} from "./common";
 import {loadSettings} from "./utils";
 
 let recentlyWatched = $("#recently-watched");
-let recentlyWatchedList = $("#recently-watched__list");
 let noItemsOverlay = $("#no-items");
 
 // @Event Listener
@@ -43,10 +42,10 @@ function showOverlay() {
     recentlyWatched.hide();
 }
 
-function hideOverlay() {
-    noItemsOverlay.hide();
-    recentlyWatched.show();
-}
+// function hideOverlay() {
+//     noItemsOverlay.hide();
+//     recentlyWatched.show();
+// }
 
 function removeListItem(el: HTMLElement, animeId: string): void {
     chrome.runtime.sendMessage({
@@ -72,22 +71,24 @@ function removeListItem(el: HTMLElement, animeId: string): void {
     });
 }
 
-function generateListItem(item: IRecentlyWatched, visible= true): JQuery<HTMLElement> {
-    let episodeSpan = "";
+function generateListItem(item: IRecentlyWatched /*, visible= true*/ ): JQuery<HTMLElement> {
+    let episodeLabel = "";
     let url = item.url;
     // If epNum is not present we just show the animeName.
     // If epId is not present, the url wont have the `/epId`
     // part appended at the end.
     if (item.epNum && item.epId) {
-        episodeSpan = `<span class="label">E${item.epNum}</span>`;
+        episodeLabel = `<span class="label">E${item.epNum}</span>`;
         url += `/${item.epId}`;
     }
-    let display = visible ? "flex" : "none";
+
+    // let display = visible ? "flex" : "none";
+    let display = "flex";
+
     let listItem = $(
         `<div class="item" style="display: ${display}">
             <div class="item-body">
-                <span class="name">${item.animeName}</span>
-                    ${episodeSpan}
+                <span class="name">${item.animeName}</span> ${episodeLabel}
             </div>
             <img src="images/remove-icon.png" class="remove" alt="Remove Item">
         </div>`,
@@ -106,8 +107,11 @@ function generateListItem(item: IRecentlyWatched, visible= true): JQuery<HTMLEle
 /**
  * Returns a html string for the list items.
  */
-function generateList(items: IRecentlyWatched[], moreItems= true, limit= 5): void {
-    for (let i = 0; i < items.length; i++) {
+function generateList(items: IRecentlyWatched[] /*, moreItems= true, limit= 5*/ ): void {
+    for (let item of items) {
+        recentlyWatched.append(generateListItem(item));
+    }
+    /*for (let i = 0; i < items.length; i++) {
         if (i >= limit && moreItems) {
             recentlyWatchedList.append(generateListItem(items[i], false));
         } else {
@@ -121,7 +125,7 @@ function generateList(items: IRecentlyWatched[], moreItems= true, limit= 5): voi
             $(".item").css("display", "flex");
         });
         recentlyWatchedList.append(moreItem);
-    }
+    }*/
 }
 
 // Get the last 10 recently watched anime
