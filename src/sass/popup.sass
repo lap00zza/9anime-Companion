@@ -207,20 +207,32 @@ body
 
 footer
   display: flex
-  justify-content: space-between
   align-items: center
   padding: 15px
 
 .footer-item
   display: inline-block
-  padding: 0 6px
-  font-size: 0.8rem
-  font-weight: 500
-  background-color: rgba($secondary, .5)
+  padding: 5px 10px
+  background-color: rgba(#f3f3f3, .5)
   border-radius: 4px
   color: $text
-  height: 30px
-  line-height: 30px
+
+  &:hover
+    background-color: #a4a4a4
+    cursor: pointer
+    +transition
+
+    .recently-watched,
+    .pinned,
+    .mal
+      fill: rgba(#f3f3f3, .5)
+
+    .mal
+      .active
+        fill: #2e51a2
+
+  &:not(:last-child)
+    margin-right: 10px
 
 .integrate-mal
   padding: 6px 12px
@@ -242,7 +254,7 @@ footer
   color: $text
   font-size: 12px
   opacity: .3
-  float: right
+  justify-content: flex-end
   +transition
 
   &:hover
