@@ -15,6 +15,7 @@ declare global {
     interface JQuery {
         tooltip(): JQuery;
         modal(param?: string): JQuery;
+        tab(param?: string): JQuery;
     }
 }
 /* tslint:enable:no-namespace interface-name*/
@@ -75,8 +76,15 @@ $(() => {
 (() => {
     let decomposed = decomposeURL(document.location.href);
     if (decomposed[1] && decomposed[1].goto) {
-        if (decomposed[1].goto === "MyAnimeList") {
-            $("#mal-configure").modal("toggle");
+        switch (decomposed[1].goto) {
+            case "MyAnimeList":
+                $("#mal-configure").modal("toggle");
+                break;
+            case "Changelog":
+                $("#changelog-tab").tab("show");
+                break;
+            default:
+                break;
         }
     }
 })();
