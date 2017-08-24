@@ -6,12 +6,12 @@
 
 import axios from "axios";
 import * as adBlocker from "./adBlocker";
-import {Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
+import {IGenericObject, Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
 import * as dlAll from "./download_all/core";
 import * as mal from "./MyAnimeList/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
-import {cleanAnimeName, joinURL} from "./utils";
+import {cleanAnimeName, joinURL, notify} from "./utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 
@@ -229,19 +229,57 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 });
 
 chrome.runtime.onInstalled.addListener(details => {
-    // TODO: in 1.0, the old settings are better off deleted
-    // chrome.storage.local.clear();
     switch (details.reason) {
         case "install":
-            console.info(
-                "%cNew install: Saving default settings to localStorage",
-                "color: lightgreen;");
+            console.info("New install: Saving default settings to localStorage");
             chrome.storage.local.set(Settings);
             break;
+
         case "update":
-            console.info(
-                "%cUpdate: Preserving old settings and adding new ones",
-                "color: lightgreen;");
+            let version = chrome.runtime.getManifest().version;
+
+            // For version older than 1, we will delete all the previous settings.
+            // Only if the major version is 1 or more we will preserve settings.
+            // This is to make sure that the settings from the older version wont
+            // conflict with the new settings.
+            if (details.previousVersion && Number(details.previousVersion.split(".")[0]) >= 1) {
+                // Preserve the previous settings and add the new default settings.
+                let settingsKeys = Object.keys(Settings);
+                let newSettings: IGenericObject = {};
+                chrome.storage.local.get(settingsKeys, previousSettings => {
+                    settingsKeys.forEach(key => {
+                        if (previousSettings[key] === undefined) {
+                            newSettings[key] = Settings[key];
+                        } else {
+                            newSettings[key] = previousSettings[key];
+                        }
+                    });
+                });
+                chrome.storage.local.set(newSettings);
+                console.info(`Updated to ${version}.\nPreserving old settings and adding new ones`, newSettings);
+            } else {
+                console.info(`Updated to ${version}.\nOlder version of 9anime Companion detected.` +
+                    ` Clearing old settings and adding new ones.`);
+                chrome.storage.local.clear(() => {
+                    chrome.storage.local.set(Settings);
+                });
+            }
+
+            // Display the update notification.
+            notify(
+                "Update_Notification",
+                "9anime Companion | Update",
+                `Updated to ${version}. Click here for the changelog.`,
+            );
+            // When the notification is clicked, we open the changelog
+            chrome.notifications.onClicked.addListener(notificationId => {
+                if (notificationId === "Update_Notification") {
+                    let url = chrome.runtime.getURL("dashboard.html") + "?goto=Changelog";
+                    chrome.tabs.create({
+                        url,
+                    });
+                }
+            });
             break;
         default:
             break;
