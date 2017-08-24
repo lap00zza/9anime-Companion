@@ -11,7 +11,7 @@
 
   Chrome | Firefox
   -------|--------
-  60     | 55
+  60+    | 55+
 
 <hr>
 
@@ -77,7 +77,7 @@
 and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31
 
 ## Want to contribute?
-Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/.github/CONTRIBUTING.md)
+Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/master/.github/CONTRIBUTING.md)
 
 ## Credits
 * [Contributors](https://github.com/lap00zza/9anime-Companion/graphs/contributors)
@@ -85,6 +85,6 @@ Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/re
 
 
 ## License
-[MIT](https://github.com/lap00zza/9anime-Companion/blob/rewrite/typescript/LICENSE)
+[MIT](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
 
 Copyright (c) 2017 Jewel Mahanta
