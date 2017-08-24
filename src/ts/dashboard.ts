@@ -192,6 +192,9 @@ function adsTogglePermission(isChecked: boolean): void {
                 chrome.storage.local.set({
                     remAds: true,
                 });
+                chrome.runtime.sendMessage({
+                    intent: Intent.AdBlocker_Enable,
+                });
             } else {
                 $("#remAds").prop("checked", false).trigger("change");
             }
@@ -199,6 +202,9 @@ function adsTogglePermission(isChecked: boolean): void {
     } else {
         chrome.storage.local.set({
             remAds: false,
+        });
+        chrome.runtime.sendMessage({
+            intent: Intent.AdBlocker_Disable,
         });
         // FIXME: <all_urls> can't be removed because of required origins for 9anime urls
         chrome.permissions.remove({

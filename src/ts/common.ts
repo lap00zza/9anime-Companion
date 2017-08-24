@@ -40,7 +40,7 @@ export let adBlockFilters = [
  * rem* -> remove*
  * res* -> resize*
  */
-export const Settings = {
+export const Settings: IGenericObject = {
     adBlockFilters,
     downloadAll: true,
     malPassword: "",    /* used with MAL Integration */
@@ -272,6 +272,8 @@ export type DownloadMethodKeys = "Browser" | "External";
  */
 export enum Intent {
     "Open_Options",
+    "AdBlocker_Disable",
+    "AdBlocker_Enable",
     "AdBlocker_UpdateFilter_Local",
     "Download_All",
     "Download_Complete",

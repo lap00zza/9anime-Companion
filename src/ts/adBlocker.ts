@@ -79,28 +79,20 @@ export function updateViaLocal(filterList: string[]): Promise<void> {
     });
 }
 
+export function enableAdblocker() {
+    initializeBlockList().then(() => attachBlockListener());
+}
+
+export function disableAdblocker() {
+    removeBlockListener();
+}
+
 export function setup(): void {
     // When the extension is first loaded, it should
     // start blocking if set to true.
     loadSettings("remAds").then(resp => {
         if (resp.remAds) {
-            initializeBlockList().then(() => attachBlockListener());
-        }
-    });
-
-    // In case remAds setting is changed, this is a
-    // good way to track the change.
-    chrome.storage.onChanged.addListener(changes => {
-        // NOTE: ensuring changes.remAds.oldValue is presents
-        // helps us know if this change was a legit change or
-        // a first install of the extension. On first install,
-        // oldValue won't be present.
-        if (changes.remAds && changes.remAds.hasOwnProperty("oldValue")) {
-            if (changes.remAds.newValue === true) {
-                initializeBlockList().then(() => attachBlockListener());
-            } else {
-                removeBlockListener();
-            }
+            enableAdblocker();
         }
     });
 }

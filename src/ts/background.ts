@@ -27,6 +27,14 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
     // Probably a validation for whether the required
     // object properties are present or missing?
     switch (message.intent) {
+        case Intent.AdBlocker_Disable:
+            adBlocker.disableAdblocker();
+            break;
+
+        case Intent.AdBlocker_Enable:
+            adBlocker.enableAdblocker();
+            break;
+
         case Intent.AdBlocker_UpdateFilter_Local:
             adBlocker
                 .updateViaLocal(message.filterList)
