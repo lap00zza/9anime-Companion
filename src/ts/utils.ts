@@ -149,14 +149,14 @@ export function joinURL(url: string, searchParams: IGenericObject): string {
     return url;
 }
 
-export function notify(title: string, message: string): void {
+export function notify(notificationId = "", title: string, message: string): void {
     let opt = {
         iconUrl: chrome.extension.getURL("images/notification_icon.png"),
         type: "basic",
         title,
         message,
     };
-    chrome.notifications.create(opt);
+    chrome.notifications.create(notificationId, opt);
 }
 
 export function loadSettings(key: string | string[] | null): Promise<ISettings> {

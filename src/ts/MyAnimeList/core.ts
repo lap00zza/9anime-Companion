@@ -16,7 +16,7 @@ loadSettings([
         api.setCredentials(settings.malUsername, settings.malPassword);
     }
     // else {
-    //     notify("MAL Error", "MAL Credentials not present where it is expected.");
+    //     notify("", "MAL Error", "MAL Credentials not present where it is expected.");
     // }
 });
 

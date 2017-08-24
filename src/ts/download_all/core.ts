@@ -304,5 +304,5 @@ export function start(baseUrl: string, setupOptions: ISetupOptions): void {
     });
     setup(setupOptions); /* setup download all */
     downloader(); /* trigger download */
-    utils.notify("Starting downloads", "Sit tight!");
+    utils.notify("", "Starting downloads", "Sit tight!");
 }
