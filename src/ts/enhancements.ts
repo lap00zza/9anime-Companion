@@ -11,26 +11,28 @@ import * as $ from "jquery";
 import {Intent, IRuntimeResponse} from "./common";
 
 /* --- Watchpage Enhancement Shortcuts --- */
+const input = $("input[type='text']");
+
 export function shortcuts() {
     $(document).on("keydown", e => {
-        switch (e.keyCode) {
-            /**
-             * This shortcut will move the user to the player.
-             * Key: 'T'
-             */
-            case 84: /*  84 is 't' */
-                let playerOffset = 0;
-                let player = $("#player");
-                if (typeof player.offset() !== "undefined") {
-                    // NOTE TO SELF: '!.' asserts that player.offset() is
-                    // not undefined, which is true because we just added
-                    // a condition to test this.
-                    playerOffset = player.offset()!.top;
-                }
-                $(document).scrollTop(playerOffset - 18);
-                break;
-            default:
-                break;
+        // We don't want to shortcuts to work inside input boxes
+        if (input.index(e.target) === -1) {
+            switch (e.keyCode) {
+                // [*]-> This shortcut will move the user to the player.
+                case 84: /*  84 is 't' */
+                    let playerOffset = 0;
+                    let player = $("#player");
+                    if (typeof player.offset() !== "undefined") {
+                        // NOTE TO SELF: '!.' asserts that player.offset() is
+                        // not undefined, which is true because we just added
+                        // a condition to test this.
+                        playerOffset = player.offset()!.top;
+                    }
+                    $(document).scrollTop(playerOffset - 18);
+                    break;
+                default:
+                    break;
+            }
         }
     });
 }
@@ -38,22 +40,22 @@ export function shortcuts() {
 export function globalShortcuts(): void {
     const body = $("body")[0];
     $(document).on("keydown", e => {
-        switch (e.keyCode) {
-            /**
-             * This shortcut displays the enhanced search window.
-             * Key: 'S'
-             */
-            case 83: /* 83 is s */
-                if (e.target === body) {
+        // We don't want to shortcuts to work inside input boxes
+        if (input.index(e.target) === -1) {
+            switch (e.keyCode) {
+                // [*]-> This shortcut displays the enhanced search window.
+                case 83: /* 83 is s */
+                    // FIXME: after the player starts, pressing s or any key scrolls page to top
+                    // FIXME: shortcuts do not work inside disqus iframe
                     // preventDefault because we dont want the character
                     // 's' to show up in the search box.
                     e.preventDefault();
                     $("#nac__enhancedSearch").show();
                     $("#nac__enhancedSearch__searchBox").focus();
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
     });
 }
