@@ -1,12 +1,13 @@
 version: 1.0.0.{build}
 artifacts:
   - path: dist\*.zip
-- ps: Install-Product node ''
-- npm install
+install:
+  - ps: Install-Product node ''
+  - npm install
 build_script:
-- npm run linter
-- npm run test
-- npm run build
+  - npm run linter
+  - npm run test
+  - npm run build
 notifications:
   - provider: Email
     on_build_success: false
