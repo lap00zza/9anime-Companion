@@ -149,6 +149,19 @@ export function joinURL(url: string, searchParams: IGenericObject): string {
     return url;
 }
 
+/**
+ * This helper function will help us test whether a given string is a valid URL.
+ * Credits to [Daveo]{@link https://stackoverflow.com/users/165839/daveo} for the regex.
+ * [Stack Overflow Thread]{@link https://stackoverflow.com/a/3809435/5800855}
+ *
+ * @param url
+ *      The url that we are supposed to test.
+ */
+export function isUrl(url: string): boolean {
+    const re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    return re.test(url);
+}
+
 export function notify(notificationId = "", title: string, message: string): void {
     let opt = {
         iconUrl: chrome.extension.getURL("images/notification_icon.png"),

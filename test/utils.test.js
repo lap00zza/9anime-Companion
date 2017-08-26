@@ -108,5 +108,27 @@ describe("joinURL", () => {
             random: "random"
         };
         expect(utils.joinURL(url, params2)).toBe("https://abc.com?open=test&name=something&random=random");
-    })
+    });
+});
+
+describe("isUrl", () => {
+    test("should return false when url is: javascript:alert(1)", function () {
+        let result = utils.isUrl("javascript:alert(1)");
+        expect(result).not.toBe(true);
+    });
+
+    test("should return false when url is: javascript:(function()%7Balert(%22test!%22)%7D)()", function () {
+        let result = utils.isUrl("javascript:alert(1)");
+        expect(result).not.toBe(true);
+    });
+
+    test("should return false when url is: shpp://#$%%*12121210....90qwqw", function () {
+        let result = utils.isUrl("javascript:alert(1)");
+        expect(result).not.toBe(true);
+    });
+
+    test("should return true when url is proper ", function () {
+        let result = utils.isUrl("https://9anime.to/watch/gamers.47rx/006plk");
+        expect(result).toBe(true);
+    });
 });

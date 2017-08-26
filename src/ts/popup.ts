@@ -1,12 +1,11 @@
 // TODO: popup theme switcher
 // TODO: when popup 10 items are deleted but list has more, then bug
-// FIXME: sanitize the values from the localStorage before binding to popup (AMO advisory)
 
 declare function require(arg: string): string;
 
 import * as $ from "jquery";
 import {Intent, IRecentlyWatched, IRuntimeResponse} from "./common";
-import {loadSettings} from "./utils";
+import {isUrl, loadSettings} from "./utils";
 
 let recentlyWatched = $("#recently-watched");
 let noItemsOverlay = $("#no-items");
@@ -71,33 +70,38 @@ function removeListItem(el: HTMLElement, animeId: string): void {
     });
 }
 
-function generateListItem(item: IRecentlyWatched /*, visible= true*/ ): JQuery<HTMLElement> {
-    let episodeLabel = "";
-    let url = item.url;
-    // If epNum is not present we just show the animeName.
-    // If epId is not present, the url wont have the `/epId`
-    // part appended at the end.
-    if (item.epNum && item.epId) {
-        episodeLabel = `<span class="label">E${item.epNum}</span>`;
-        url += `/${item.epId}`;
-    }
-
+function generateListItem(item: IRecentlyWatched /*, visible= true*/): JQuery<HTMLElement> {
     // let display = visible ? "flex" : "none";
     let display = "flex";
 
+    // NOTE: we are NOT BINDING the data directly to dom to
+    // prevent XSS. The data is bound using the .text() method
+    // later.
     let listItem = $(
         `<div class="item" style="display: ${display}">
             <div class="item-body">
-                <span class="name">${item.animeName}</span> ${episodeLabel}
+                <span class="name"></span>
+                <span class="label" style="display: none;"></span>
             </div>
             <img src="images/remove-icon.png" class="remove" alt="Remove Item">
         </div>`,
     );
-    listItem.find(".item-body").on("click", () => {
-        chrome.tabs.create({
-            url,
+
+    if (item.epNum && item.epId) {
+        // If epNum is not present we just show the animeName.
+        listItem.find(".label").text(`E${item.epNum}`).show();
+
+        // If epId is present, the url will have the `/epId` part at the end.
+        item.url += `/${item.epId}`;
+    }
+    listItem.find(".name").text(item.animeName);
+    if (isUrl(item.url)) { /* only bind click if url is valid. This prevents XSS. */
+        listItem.find(".item-body").on("click", () => {
+            chrome.tabs.create({
+                url: item.url,
+            });
         });
-    });
+    }
     listItem.find(".remove").on("click", e => {
         removeListItem(e.currentTarget, item.animeId);
     });
@@ -107,7 +111,7 @@ function generateListItem(item: IRecentlyWatched /*, visible= true*/ ): JQuery<H
 /**
  * Returns a html string for the list items.
  */
-function generateList(items: IRecentlyWatched[] /*, moreItems= true, limit= 5*/ ): void {
+function generateList(items: IRecentlyWatched[] /*, moreItems= true, limit= 5*/): void {
     for (let item of items) {
         recentlyWatched.append(generateListItem(item));
     }
