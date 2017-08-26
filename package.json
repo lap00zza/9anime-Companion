@@ -19,7 +19,7 @@
     "linter": "tslint -c tslint.json ./src/**/*.ts"
   },
   "devDependencies": {
-    "@types/jest": "^20.0.5",
+    "@types/jest": "^20.0.8",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
@@ -30,17 +30,17 @@
     "run-sequence": "^2.1.0",
     "ts-jest": "^20.0.7",
     "ts-lint": "^4.5.1",
-    "ts-loader": "^2.3.2",
-    "typescript": "^2.4.2",
-    "webpack": "^3.4.1"
+    "ts-loader": "^2.3.4",
+    "typescript": "^2.5.1",
+    "webpack": "^3.5.5"
   },
   "dependencies": {
     "@types/chrome": "0.0.48",
-    "@types/jquery": "^3.2.10",
+    "@types/jquery": "^3.2.12",
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-beta",
     "jquery": "^3.2.1",
-    "popper.js": "^1.11.1",
+    "popper.js": "^1.12.3",
     "x2js": "^3.1.1"
   },
   "jest": {
