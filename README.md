@@ -65,17 +65,6 @@
 
 > :information_source: Check `gulpfile.js` and `package.json` for all the available tasks
 
-## Progress Tracker
-- [x] Download All
-- [x] Remove ads/popups
-- [x] MyAnimeList Integration
-- [x] Recently Watched List
-- [ ] Pinned Anime List
-- [x] Settings Page
-- [ ] Popup (**partially done**)
-
-and the ones suggested by @densityx here: https://github.com/lap00zza/9anime-Companion/issues/31
-
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/master/.github/CONTRIBUTING.md)
 
