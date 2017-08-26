@@ -14,7 +14,7 @@ let animeName = title.text();
 let animeId = $("#movie").data("id");
 let currentEpId = serverDiv.find(".episodes > li > a.active").data("id");
 // TODO: maybe use data("comment") instead of data("base") for EpNum
-let currentEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+let currentEpNum: Number = Number(serverDiv.find(".episodes > li > a.active").data("base")) || 0;
 
 /* --- Attach enhancements --- */
 enhancements.shortcuts();
@@ -25,7 +25,7 @@ enhancements.scrollToPlayer();
  * Contains the callback functions which are executed when
  * the episode on the current page is changed via ajax.
  */
-let epChangeCallbacks: Array<(newEpId: string, newEpNum: string) => void> = [];
+let epChangeCallbacks: Array<(newEpId: string, newEpNum: number) => void> = [];
 
 /**
  * This part tracks when episodes are changed after the page loads.
@@ -38,7 +38,7 @@ setInterval(() => {
     if (history.state && history.state.name) {
         let newEpId = history.state.name;
         if (newEpId !== currentEpId) {
-            let newEpNum = serverDiv.find(".episodes > li > a.active").data("base");
+            let newEpNum: Number = Number(serverDiv.find(".episodes > li > a.active").data("base")) || 0;
 
             /* update values. This HAS TO BE DONE FIRST. */
             currentEpId = newEpId;
@@ -75,6 +75,7 @@ epChangeCallbacks.push(() => {
 /* --- Page actions based on settings --- */
 loadSettings([
     "downloadAll",
+    "malAutoUpdate",
     "myAnimeList",
     "remAds",
     "remComments",
@@ -154,7 +155,7 @@ loadSettings([
         console.info("%c[x] Attaching MyAnimeList", "color: lightgreen;");
         mal.setup({
             animeName,
-            currentEpisode: currentEpNum,
+            autoUpdate: settings.malAutoUpdate || false,
         });
         epChangeCallbacks.push(mal.epTracker);
     }

@@ -43,10 +43,12 @@ export let adBlockFilters = [
 export const Settings: IGenericObject = {
     adBlockFilters,
     downloadAll: true,
-    malPassword: "",    /* used with MAL Integration */
-    malUsername: "",    /* used with MAL Integration */
-    myAnimeList: false, /* used with MAL Integration */
+    malAutoUpdate: true,    /* used with MAL Integration */
+    malPassword: "",        /* used with MAL Integration */
+    malUsername: "",        /* used with MAL Integration */
+    myAnimeList: false,     /* used with MAL Integration */
     quickLink: "https://9anime.to",
+    recentlyWatched: [],
     remAds: false,
     remComments: false,
     remInfo: false,
@@ -65,10 +67,12 @@ export const Settings: IGenericObject = {
 export interface ISettings {
     adBlockFilters?: string[];
     downloadAll?: boolean;
+    malAutoUpdate?: boolean;
     malPassword?: string;
     malUsername?: string;
     myAnimeList?: boolean;
     quickLink?: string;
+    recentlyWatched: IRecentlyWatched[];
     remAds?: boolean;
     remComments?: boolean;
     remInfo?: boolean;
@@ -76,7 +80,7 @@ export interface ISettings {
     remSuggested?: boolean;
     resPlayer?: boolean;
     utilityBar?: boolean;
-    [key: string]: string | string[] | boolean | undefined;
+    [key: string]: string | boolean | string[] | IRecentlyWatched[] | undefined;
 }
 
 export interface IRecentlyWatched {
