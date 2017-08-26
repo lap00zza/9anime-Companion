@@ -236,7 +236,8 @@ chrome.runtime.onInstalled.addListener(details => {
             break;
 
         case "update":
-            let version = chrome.runtime.getManifest().version;
+            // let version = chrome.runtime.getManifest().version;
+            let versionName = chrome.runtime.getManifest().version_name;
 
             // For version older than 1, we will delete all the previous settings.
             // Only if the major version is 1 or more we will preserve settings.
@@ -256,9 +257,9 @@ chrome.runtime.onInstalled.addListener(details => {
                     });
                 });
                 chrome.storage.local.set(newSettings);
-                console.info(`Updated to ${version}.\nPreserving old settings and adding new ones`, newSettings);
+                console.info(`Updated to ${versionName}\nPreserving old settings and adding new ones`, newSettings);
             } else {
-                console.info(`Updated to ${version}.\nOlder version of 9anime Companion detected.` +
+                console.info(`Updated to ${versionName}\nOlder version of 9anime Companion detected.` +
                     ` Clearing old settings and adding new ones.`);
                 chrome.storage.local.clear(() => {
                     chrome.storage.local.set(Settings);
@@ -269,7 +270,7 @@ chrome.runtime.onInstalled.addListener(details => {
             notify(
                 "Update_Notification",
                 "9anime Companion | Update",
-                `Updated to ${version}. Click here for the changelog.`,
+                `Updated to ${versionName}. Click here for the changelog.`,
             );
             // When the notification is clicked, we open the changelog
             chrome.notifications.onClicked.addListener(notificationId => {
