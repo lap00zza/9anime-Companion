@@ -41,7 +41,7 @@
                     </tbody>
                 </table>
                 <p class="meta">
-                    <i class="fa fa-info"></i> If a shortcut is not global, it can only be used in watch anime page.
+                    <i class="fa fa-info-circle"></i> If a shortcut is not global, it can only be used in watch anime page.
                 </p>
             </div>
         </div>
@@ -141,7 +141,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
         <ul class="nav navbar-nav" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="settings-tab" data-toggle="tab" role="tab" href="#settings"
@@ -150,16 +150,17 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="about-tab" data-toggle="tab" role="tab" href="#about" aria-controls="about">
-                    <i class="fa fa-info-circle"></i> About
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" id="changelog-tab" data-toggle="tab" role="tab" href="#changelog" aria-controls="changelog">
                     <i class="fa fa-code"></i> Changelog
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="about-tab" data-toggle="tab" role="tab" href="#about" aria-controls="about">
+                    <i class="fa fa-info-circle"></i> About
+                </a>
+            </li>
         </ul>
+        <iframe src="https://ghbtns.com/github-btn.html?user=lap00zza&repo=9anime-Companion&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
     </div>
 </nav>
 
@@ -379,10 +380,6 @@
 
     <!-- TAB: About -->
     <div role="tabpanel" class="tab-pane fade container" id="about" aria-labelledby="about-tab">
-        <section style="padding: 0">
-            <iframe src="https://ghbtns.com/github-btn.html?user=lap00zza&repo=9anime-Companion&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
-        </section>
-
         <section>
             <h2 class="title">Credits</h2>
             <ul>
@@ -402,7 +399,17 @@
             <ul>
                 <li>
                     <a href="https://github.com/lap00zza/9anime-Companion/wiki" target="_blank">
-                        Wiki
+                        <i class="fa fa-book"></i> Wiki
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/lap00zza/9anime-Companion" target="_blank">
+                        <i class="fa fa-github"></i> Project Home
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/lap00zza/9anime-Companion/issues" target="_blank">
+                        <i class="fa fa-bug"></i> Report a Bug
                     </a>
                 </li>
             </ul>
@@ -414,11 +421,36 @@
         <section>
             <h2 class="title">1.0.0-beta.1</h2>
             <ul>
-                <li>Rewrote the entire extension from scratch.</li>
-                <li>Redesigned the popup.</li>
-                <li>Vastly improved the ad/popup blocker.</li>
-                <li>Added alternate search overlay and scroll to player.</li>
-                <li>Added support for keyboard shortcut.</li>
+                <li>
+                    Redesigned the popup. A special thanks to
+                    <a href="https://github.com/densityx" target="_blank">@densityx</a> for designing it.
+                </li>
+                <li>
+                    Improved the downloader. Now 9anime Companion can download from all the 9anime Servers (F2, F4 etc).
+                    A special thanks to <a href="https://github.com/yumiris" target="_blank">@yumiris</a> for designing
+                    the download modal.
+                </li>
+                <li>
+                    Vastly improved the ad/popup blocker. The new ad remover uses a combination of web request blocking
+                    and page element removal/function overrides. In my tests it removed 100% ads/popups without the need
+                    for an external adblocker.
+                </li>
+                <li>
+                    Added support for keyboard shortcuts.
+                </li>
+                <li>
+                    Added alternate search overlay . Shortcut <kbd>s</kbd>.
+                </li>
+                <li>
+                    Added scroll to player. Shortcut <kbd>t</kbd>.
+                </li>
+                <li>
+                    Added recently watched anime. This can be accessed via the popup.
+                </li>
+                <li>
+                    Vastly improved the core functionality of MyAnimeList integration. It can easily be expanded in the
+                    future to add features like Auto MAL sync, full featured add/edit etc
+                </li>
             </ul>
         </section>
     </div>
@@ -427,18 +459,9 @@
 <!-- Footer -->
 <footer class="footer">
     <!--<img src="assets/images/kawaii.png" style="height: auto; max-width: 100px;">-->
-    <p>
+    <p class="self-credits">
         Made with <i class="fa fa-heart"></i> by <a href="https://github.com/lap00zza">@lap00zza</a>.
         Licensed under MIT.
-    </p>
-    <p>
-        <a href="https://github.com/lap00zza/9anime-Companion" target="_blank">
-            <i class="fa fa-github"></i> Project Home
-        </a>
-        -
-        <a href="https://github.com/lap00zza/9anime-Companion/issues" target="_blank">
-            <i class="fa fa-bug"></i> Report a Bug
-        </a>
     </p>
 </footer>
 
