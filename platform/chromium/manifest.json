@@ -45,7 +45,6 @@
     "open_in_tab": true
   },
 
-  // TODO: see if some perms can be cut.
   "permissions": [
     "storage",
     "notifications",
