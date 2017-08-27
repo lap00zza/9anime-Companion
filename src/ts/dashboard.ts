@@ -34,6 +34,7 @@ let settingsKeys = Object.keys(Settings);
  */
 let checkboxKeys: string[] = [
     "downloadAll",
+    "malAutoUpdate",
     "myAnimeList",
     "remAds",
     "remComments",

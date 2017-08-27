@@ -174,7 +174,7 @@ export function notify(notificationId = "", title: string, message: string): voi
 
 export function loadSettings(key: string | string[] | null): Promise<ISettings> {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get(key, result => {
+        chrome.storage.local.get(key, (result: ISettings) => {
             resolve(result);
         });
     });

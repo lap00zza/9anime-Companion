@@ -94,18 +94,24 @@
                     <a href="https://github.com/lap00zza/9anime-Companion/wiki/MyAnimeList-Integration"
                        target="_blank"><i class="fa fa-info-circle"></i></a>
                 </div>
-                <div class="mal-configure_enable">
+                <div class="mal-configure__section">
                     <span class="meta">Step 1: Enable</span>
-                    <div>
-                        MyAnimeList Integration
+                    <div style="cursor: default;">
+                        <span data-toggle="tooltip" data-html="true" data-placement="bottom"
+                              title="Enable this integration.
+                                  <br><span class='tooltip_info'>
+                                  Requires additional permission.
+                                  </span>"
+                        >
+                                MyAnimeList Integration
+                        </span>
                         <div class="settings-checkbox">
                             <input id="myAnimeList" type="checkbox">
                             <label for="myAnimeList"></label>
                         </div>
                     </div>
-                    <span class="meta">Requires additional permission</span>
                 </div>
-                <form id="mal-configure__form">
+                <form id="mal-configure__form" class="mal-configure__section">
                     <div id="mal-configure__form-overlay"></div>
                     <span class="meta">Step 2: Login</span>
                     <div class="row">
@@ -127,6 +133,20 @@
                     </button>
                     <span id="mal-configure__login-progress" style="float: right;"></span>
                 </form>
+                <div class="mal-configure__section">
+                    <span class="meta">Step 3: Options</span>
+                    <div style="cursor: default;">
+                        <span data-toggle="tooltip" data-html="true" data-placement="bottom"
+                              title="Automatically update your MAL whenever the 9anime 'active' episode changes."
+                        >
+                                Auto-Update
+                        </span>
+                        <div class="settings-checkbox">
+                            <input id="malAutoUpdate" type="checkbox">
+                            <label for="malAutoUpdate"></label>
+                        </div>
+                    </div>
+                </div>
                 <span class="badge badge-info">Status</span> <span id="mal-configure__status">Not logged-in</span>
             </div>
         </div>

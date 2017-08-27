@@ -11,12 +11,14 @@ import {
     IMALUserListAnime,
     Intent,
 } from "../common";
-import {cleanAnimeName} from "../utils";
+import {cleanAnimeName, loadSettings} from "../utils";
 
 let animeName = "";
 let animeId = "";
 let currentAnime: IMALSearchAnime;
-let currentEpisode = "1";
+// holds the amount of episodes user has watches as per their MAL
+let malWatchedEpisodes = 0;
+let autoUpdate = true;
 let statusIconTimeout = 0;
 let userList: IMALUserListAnime[];
 
@@ -40,17 +42,18 @@ const selectors = {
 
 interface ISetupOptions {
     animeName: string;
-    currentEpisode: string;
 }
 
 // Setup
 export function setup(options: ISetupOptions): void {
-    animeName = cleanAnimeName(options.animeName);
-    currentEpisode = options.currentEpisode;
-
-    // The actual setup
-    $("#player").parent().append(quickAccess());
-    initialize();
+    loadSettings("malAutoUpdate").then(resp => {
+        resp.malAutoUpdate = resp.malAutoUpdate === undefined ? true : resp.malAutoUpdate;
+        autoUpdate = resp.malAutoUpdate;
+        animeName = cleanAnimeName(options.animeName);
+        // The actual setup
+        $("#player").parent().append(quickAccess());
+        initialize();
+    });
 }
 
 // Hides the loader in the quick access widget.
@@ -106,17 +109,17 @@ function showSectionUpdate(): void {
  * implement the auto mal sync behaviour.
  * @param newEpId
  * @param newEpNum
- * @todo only use this for autoupdate.
  */
-export function epTracker(newEpId: string, newEpNum: string): void {
-    // console.log(newEpId, newEpNum);
-
+export function epTracker(newEpId: string, newEpNum: number): void {
     // We need to make sure that the newEpNum is actually a episode
-    // number and not stuff like tv, full, movie etc.
-    if (!isNaN(Number(newEpNum))) {
-        currentEpisode = newEpNum;
-        // makes no sense updating watched box without auto sync
-        // $(selectors.watchedEp).val(newEpNum);
+    // number and not stuff like tv, full, movie etc. The last
+    // condition makes sure we dont spam the MAL API when 9anime
+    // auto switches servers if it doesn't find anime in a server.
+    if (!isNaN(Number(newEpNum)) && autoUpdate && malWatchedEpisodes !== newEpNum) {
+        // update watched box and trigger auto sync
+        $(selectors.watchedEp).val(newEpNum);
+        malWatchedEpisodes = newEpNum;
+        $(selectors.update).click();
     }
 }
 
@@ -199,6 +202,7 @@ export function initialize(): void {
                 showSectionUpdate();
                 $(selectors.totalEp).text(currentAnime.episodes);
                 $(selectors.watchedEp).val(entry.my_watched_episodes);
+                malWatchedEpisodes = Number(entry.my_watched_episodes) || 0;
             } else {        /* --- Add Anime --- */
                 showSectionAdd();
             }

@@ -256,11 +256,16 @@ chrome.runtime.onInstalled.addListener(details => {
                         }
                     });
                 });
-                chrome.storage.local.set(newSettings);
+                chrome.storage.local.clear(() => {
+                    chrome.storage.local.set(newSettings);
+                });
                 console.info(`Updated to ${versionName}\nPreserving old settings and adding new ones`, newSettings);
             } else {
                 console.info(`Updated to ${versionName}\nOlder version of 9anime Companion detected.` +
                     ` Clearing old settings and adding new ones.`);
+
+                // Clear the previous settings and add the new migrated settings.
+                // This also helps clear out the settings that we no longer need.
                 chrome.storage.local.clear(() => {
                     chrome.storage.local.set(Settings);
                 });
