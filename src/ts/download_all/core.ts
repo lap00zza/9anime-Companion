@@ -34,7 +34,7 @@ let sender: chrome.runtime.MessageSender;
 
 // Keeps track of the download cycles. Each cycle starts
 // at downloader and end before requeue is called.
-let inProgress = false;
+// let inProgress = false;
 
 /**
  * This variable holds all links when method external is selected.
@@ -51,6 +51,8 @@ let aggregateLinks = "";
  * @default []
  */
 let selectedEpisodes: IEpisode[] = [];
+
+let dlEpisode: IEpisode;
 
 /**
  * 9anime Companion can only download from 1 server at
@@ -81,6 +83,31 @@ interface ISetupOptions {
     server: Server;
     ts: string;
 }
+
+interface IJWPlayerSource {
+    "default": boolean;
+    file: string;
+    label: string;
+    preload: string;
+    res: string;
+    type: string;
+}
+
+/**
+ * This is to listen to the messages sent from scripts in RapidVideo.
+ */
+window.addEventListener("message", (e: MessageEvent) => {
+    if (e.origin === "https://www.rapidvideo.com") {
+        // console.log(e.data);
+        if (e.data.event === "nac__external__rapidvideo-sources") {
+            const iframe = document.getElementById("rv_grabber_iframe");
+            if (iframe) {
+                iframe.remove();
+            }
+            downloadRV(e.data.sources);
+        }
+    }
+});
 
 // Setup
 export function setup(options: ISetupOptions): void {
@@ -192,7 +219,7 @@ function requeue(): void {
     }
 }
 
-function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
+function getLinks9a(data: api.IGrabber): void {
     api
         .links9a(data.grabber, {
             ts,
@@ -210,9 +237,9 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
                 case DownloadMethod.External:
                     if (file) {
                         // the "?" is important after file.file
-                        aggregateLinks += `${file.file}?title=${fileName(file, episode, false)}&type=${file.type}\n`;
+                        aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
                     }
-                    status(`Completed ${episode.num}`);
+                    status(`Completed ${dlEpisode.num}`);
                     break;
                 default:
                     if (file) {
@@ -220,23 +247,52 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
                             conflictAction: "uniquify",
                             // this means, downloads will go to the 9anime Companion
                             // subdirectory, inside the default download directory.
-                            filename: "9anime Companion/" + fileName(file, episode),
+                            filename: "9anime Companion/" + fileName(file, dlEpisode),
                             url: file.file,
                         });
                     }
-                    status(`Completed ${episode.num}`);
+                    status(`Completed ${dlEpisode.num}`);
                     break;
             }
         })
         .catch(err => {
             console.debug(err);
-            status(`Failed ${episode.num}`);
+            status(`Failed ${dlEpisode.num}`);
         })
         // The last then acts like a finally.
         .then(() => {
-            inProgress = false;
+            // inProgress = false;
             requeue();
         });
+}
+
+function downloadRV(sources: IJWPlayerSource[]): void {
+    let file = autoFallback(quality, sources);
+    // downloadMethod can either be Browser or External.
+    // For Browser, we make use of the default case.
+    switch (method) {
+        case DownloadMethod.External:
+            if (file) {
+                // the "?" is important after file.file
+                aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
+            }
+            status(`Completed ${dlEpisode.num}`);
+            break;
+        default:
+            if (file) {
+                chrome.downloads.download({
+                    conflictAction: "uniquify",
+                    // this means, downloads will go to the 9anime Companion
+                    // subdirectory, inside the default download directory.
+                    filename: "9anime Companion/" + fileName(file, dlEpisode),
+                    url: file.file,
+                });
+            }
+            status(`Completed ${dlEpisode.num}`);
+            break;
+    }
+
+    requeue();
 }
 
 /**
@@ -246,7 +302,8 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
 export function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
-        inProgress = true;
+        // inProgress = true;
+        dlEpisode = ep;
         status(`Downloading ${ep.num}`);
         api
             .grabber({
@@ -259,14 +316,18 @@ export function downloader(): void {
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
                 switch (server) {
-                    // TODO: lets do the RapidVideo bit later
-                    // case Server.RapidVideo:
-                    //     // RapidVideo
-                    //     // When this is selected, additional permissions must be
-                    //     // asked to be able to access that domain.
-                    //     break;
+                    case Server.RapidVideo:
+                        // RapidVideo
+                        // When this is selected, additional permissions must be
+                        // asked to be able to access that domain.
+                        const iframe = document.createElement("iframe");
+                        iframe.id = "rv_grabber_iframe";
+                        iframe.src = resp.target;
+                        document.getElementsByTagName("body")[0].appendChild(iframe);
+                        // console.log(resp, dlEpisode);
+                        break;
                     default:
-                        getLinks9a(resp, ep as IEpisode);
+                        getLinks9a(resp);
                         break;
                 }
             })
@@ -278,7 +339,7 @@ export function downloader(): void {
                 // that happens only after the download link is fetched.
                 // But what if the download fails after trying to get
                 // the grabber? We must requeue it again from here.
-                inProgress = false;
+                // inProgress = false;
                 requeue();
             });
     }

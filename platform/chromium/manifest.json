@@ -38,6 +38,11 @@
     "js": ["build/js/vendor.bundle.js", "build/js/cscript_global.bundle.js"],
     "css": ["build/css/global.css"],
     "run_at": "document_end"
+  }, {
+    "all_frames": true,
+    "matches": ["*://www.rapidvideo.com/e/*"],
+    "js": ["build/js/host_rapidVideo.bundle.js"],
+    "run_at": "document_end"
   }],
 
   "options_ui": {
@@ -51,7 +56,8 @@
     "downloads",
     "*://9anime.to/*",
     "*://9anime.is/*",
-    "*://9anime.tv/*"
+    "*://9anime.tv/*",
+    "*://www.rapidvideo.com/e/*"
   ],
 
    "optional_permissions": [
