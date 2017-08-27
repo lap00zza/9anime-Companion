@@ -4,41 +4,44 @@
  * Checkbox theme by Brad Bodine
  * https://codepen.io/bbodine1/pen/novBm
  */
-=checkBox ($activeColor)
+=checkBox ($colorOn, $colorOff, $colorButton)
+  display: block
   float: right
+  position: relative
   width: 50px
   height: 26px
-  background: #444
-  position: relative
-  border-radius: 50px
-  &:after
-    position: absolute
-    right: 10px
-    z-index: 0
-    font-weight: bold
-    text-shadow: 1px 1px 0 rgba(255,255,255,.15)
-  &:before
-    color: $activeColor
-    position: absolute
-    left: 10px
-    z-index: 0
-    font-weight: bold
-  label
-    display: block
-    width: 20px
-    height: 20px
-    cursor: pointer
-    position: absolute
-    top: 3px
-    left: 3px
-    z-index: 1
-    background: #fff
-    border-radius: 50px
-    transition: all 0.4s ease
-  input[type=checkbox]
+
+  .switch
+    &__background
+      height: 100%
+      width: 100%
+      background-color: $colorOff
+      border-radius: 50px
+      display: block
+      transition: 2s
+      position: relative
+      top: 0
+      left: 0
+    &__button
+      display: block
+      width: 20px
+      height: 20px
+      border-radius: 20px
+      background-color: $colorButton
+      position: relative
+      top: 3px
+      left: 3px
+      transition: 2s
+
+  input[type="checkbox"]
     visibility: hidden
-    &:checked + label
-      left: 27px
+    position: fixed
+    &:checked
+      & + span
+        background-color: $colorOn
+      & + span > span
+        left: 27px
+        transition: 2s
 
 /**
  * Bootstrap Overrides
@@ -134,8 +137,7 @@ section
   float: right
 
 .settings-checkbox
-  float: right
-  +checkBox(#27ae60)
+  +checkBox(green, red, white)
 
 .settings-icon
   color: #000
