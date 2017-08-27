@@ -75,7 +75,6 @@ epChangeCallbacks.push(() => {
 /* --- Page actions based on settings --- */
 loadSettings([
     "downloadAll",
-    "malAutoUpdate",
     "myAnimeList",
     "remAds",
     "remComments",
@@ -155,7 +154,6 @@ loadSettings([
         console.info("%c[x] Attaching MyAnimeList", "color: lightgreen;");
         mal.setup({
             animeName,
-            autoUpdate: settings.malAutoUpdate || false,
         });
         epChangeCallbacks.push(mal.epTracker);
     }

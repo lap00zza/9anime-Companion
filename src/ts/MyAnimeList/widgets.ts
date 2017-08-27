@@ -11,7 +11,7 @@ import {
     IMALUserListAnime,
     Intent,
 } from "../common";
-import {cleanAnimeName} from "../utils";
+import {cleanAnimeName, loadSettings} from "../utils";
 
 let animeName = "";
 let animeId = "";
@@ -30,7 +30,6 @@ enum StatusType {
 
 const selectors = {
     add:            "#nac__mal__add",
-    autoUpdate:     "#nac__mal__auto-update",
     incrementEp:    "#nac__mal__increment-ep",
     quickAccess:    "#nac__mal__quick-access",
     sectionAdd:     "#nac__mal__section-add",
@@ -43,17 +42,18 @@ const selectors = {
 
 interface ISetupOptions {
     animeName: string;
-    autoUpdate: boolean;
 }
 
 // Setup
 export function setup(options: ISetupOptions): void {
-    animeName = cleanAnimeName(options.animeName);
-    autoUpdate = options.autoUpdate;
-
-    // The actual setup
-    $("#player").parent().append(quickAccess());
-    initialize();
+    loadSettings("malAutoUpdate").then(resp => {
+        resp.malAutoUpdate = resp.malAutoUpdate === undefined ? true : resp.malAutoUpdate;
+        autoUpdate = resp.malAutoUpdate;
+        animeName = cleanAnimeName(options.animeName);
+        // The actual setup
+        $("#player").parent().append(quickAccess());
+        initialize();
+    });
 }
 
 // Hides the loader in the quick access widget.
@@ -253,18 +253,6 @@ export function quickAccess(): JQuery<HTMLElement> {
                 return false;
             }
         }
-    });
-
-    // Set the initial state of the auto check box
-    if (autoUpdate) {
-        qa.find(selectors.autoUpdate).attr("checked", "checked");
-    }
-    qa.find(selectors.autoUpdate).on("change", e => {
-        const isChecked = $(e.currentTarget).is(":checked");
-        autoUpdate = isChecked;
-        chrome.storage.local.set({
-            malAutoUpdate: isChecked,
-        });
     });
 
     qa.find(selectors.incrementEp).on("click", () => {
