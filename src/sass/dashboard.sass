@@ -33,7 +33,7 @@
       position: relative
       top: 3px
       left: 3px
-      transition: 2s
+      transition: 0.5s
       &:hover
         cursor: pointer
 
@@ -45,7 +45,7 @@
         background-color: $colorOn
       & + span > span
         left: 27px
-        transition: 2s
+        transition: 0.5s
 
 /**
  * Bootstrap Overrides
@@ -141,7 +141,7 @@ section
   float: right
 
 .settings-checkbox
-  +checkBox(green, red, white)
+  +checkBox(#6d368f, #444, white)
 
 .settings-icon
   color: #000
