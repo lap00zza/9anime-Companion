@@ -90,6 +90,15 @@ $(() => {
     }
 })();
 
+/* --- Load a random pro tip at startup --- */
+const tips = $("#tips");
+const tipsList = [
+    "hover over an option to get more details",
+    "press <kbd>s</kbd> within 9anime to access the alternate search overlay",
+];
+tips.html(tipsList[Math.floor(Math.random() * tipsList.length)]);
+/* --- ^.^ --- */
+
 /**
  * This runs as soon as the page loads. What this does is
  * loads the settings and set the checkbox state for those

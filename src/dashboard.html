@@ -202,21 +202,19 @@
 <section class="tab-content">
     <!-- TAB: Settings -->
     <div role="tabpanel" class="tab-pane fade show active container" id="settings" aria-labelledby="settings-tab">
+        <!-- This hold the random pro tips -->
         <p class="meta">
-            <i class="fa fa-lightbulb-o"></i> Pro Tip: press <kbd>s</kbd> within 9anime to access the alternate search overlay.
-            <a href="" data-toggle="modal" data-target="#keyboard-shortcuts" id="keyboard-shortcuts-btn">
-                all shortcuts
-            </a>
+            <i class="fa fa-lightbulb-o"></i> Pro Tip: <span id="tips"></span>
         </p>
-        <!-- Settings: Global -->
+        <!-- Settings: General -->
         <div class="card">
-            <div class="card-header" role="tab" id="global-settings-header">
-                <a class="collapsed" data-toggle="collapse" href="#global-settings-body"
-                   aria-expanded="true" aria-controls="global-settings-body">
+            <div class="card-header" role="tab" id="general-settings-header">
+                <a class="collapsed" data-toggle="collapse" href="#general-settings-body"
+                   aria-expanded="true" aria-controls="general-settings-body">
                     Global
                 </a>
             </div>
-            <div id="global-settings-body" class="collapse show" role="tabpanel"
+            <div id="general-settings-body" class="collapse show" role="tabpanel"
                  aria-labelledby="General Settings">
                 <div class="card-body"><!-- Start Card Body -->
                     <div class="row">
@@ -263,6 +261,20 @@
                             </label>
                         </div>
 
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            <span data-toggle="tooltip" data-html="true" data-placement="bottom"
+                                  title="Various keyboard shortcuts that you can use inside 9anime."
+                            >
+                                Keyboard Shortcuts
+                            </span>
+
+                            <!-- View shortcuts Button-->
+                            <button class="btn btn-outline-primary btn-sm settings-config-btn"
+                                    data-toggle="modal" data-target="#keyboard-shortcuts">
+                                View all
+                            </button>
+                        </div>
+
                     </div>
                 </div><!-- End Card Body -->
             </div>
@@ -270,13 +282,13 @@
 
         <!-- Settings: Watch Page -->
         <div class="card">
-            <div class="card-header" role="tab" id="general-settings-header">
-                <a class="collapsed" data-toggle="collapse" href="#general-settings-body"
-                   aria-expanded="true" aria-controls="general-settings-body">
+            <div class="card-header" role="tab" id="watch_page-settings-header">
+                <a class="collapsed" data-toggle="collapse" href="#watch_page-settings-body"
+                   aria-expanded="true" aria-controls="watch_page-settings-body">
                     Watch Page: Customize
                 </a>
             </div>
-            <div id="general-settings-body" class="collapse show" role="tabpanel"
+            <div id="watch_page-settings-body" class="collapse show" role="tabpanel"
                  aria-labelledby="General Settings">
                 <div class="card-body"><!-- Start Card Body -->
                     <div class="row">
@@ -427,17 +439,28 @@
         <section>
             <h2 class="title">Credits</h2>
             <ul>
-                <li><a href="https://github.com/densityx">@densityx</a> for designing the popup</li>
-                <li><a href="https://github.com/yumiris">@yumiris</a> for designing the download modal</li>
+                <li>
+                    All the <a href="https://github.com/lap00zza/9anime-Companion/graphs/contributors">contributors</a>.
+                    A special shoutout to <a href="https://github.com/densityx">@densityx</a>,
+                    <a href="https://github.com/yumiris">@yumiris</a> and <a href="https://github.com/WEBhicham">@WEBhicham</a>
+                </li>
                 <li>
                     <a href="https://github.com/SamHerbert/SVG-Loaders">SVG Loaders</a> by <a href="https://github.com/SamHerbert">Sam Herbert</a>
                 </li>
                 <li>
-                    And all the other <a href="https://github.com/lap00zza/9anime-Companion/graphs/contributors">contributors</a>
+                    <a href="http://fontawesome.io">Font Awesome</a> by <a href="https://github.com/davegandy">Dave Gandy</a>
+                </li>
+                <li>
+                    <a href="https://github.com/mzabriskie/axios">axios</a> by <a href="https://github.com/mzabriskie">Matt Zabriskie</a>
+                </li>
+                <li>
+                    <a href="https://github.com/jquery/jquery">jQuery</a>
+                </li>
+                <li>
+                    <a href="https://github.com/twbs/bootstrap">Bootstrap</a>
                 </li>
             </ul>
         </section>
-
         <section>
             <h2 class="title">Links</h2>
             <ul>
