@@ -61,7 +61,7 @@
                 <h2>Filters</h2>
                 <p class="meta">
                     One regex per line.
-                    <a href="https://github.com/lap00zza/9anime-Companion/wiki/AdBlocker#filter-tips" target="_blank">
+                    <a href="https://github.com/lap00zza/9anime-Companion/wiki/AdBlocker#filter-tips">
                         <i class="fa fa-info-circle"></i>
                     </a>
                     <!--<br> Last updated: <span class="badge badge-info">09/08/2017</span> via
@@ -91,8 +91,9 @@
             <div class="modal-body">
                 <div class="alert alert-info" role="alert">
                     Username/password will be stored in <em>plain text</em> in chrome.local storage.
-                    <a href="https://github.com/lap00zza/9anime-Companion/wiki/MyAnimeList-Integration"
-                       target="_blank"><i class="fa fa-info-circle"></i></a>
+                    <a href="https://github.com/lap00zza/9anime-Companion/wiki/MyAnimeList-Integration">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
                 </div>
                 <div class="mal-configure__section">
                     <span class="meta">Step 1: Enable</span>
@@ -188,7 +189,7 @@
 <section class="header">
     <div class="container">
         <h1>9anime <span class="light">Companion</span></h1>
-        <h2>1.0.0-beta.1</h2>
+        <h2>1.0.0-beta.2</h2>
     </div>
 </section>
 
@@ -403,13 +404,13 @@
         <section>
             <h2 class="title">Credits</h2>
             <ul>
-                <li><a href="https://github.com/densityx" target="_blank">@densityx</a> for designing the popup</li>
-                <li><a href="https://github.com/yumiris" target="_blank">@yumiris</a> for designing the download modal</li>
-                <li><a href="https://github.com/SamHerbert/SVG-Loaders">SVG Loaders</a> by
-                    <a href="https://github.com/SamHerbert">Sam Herbert</a>
+                <li><a href="https://github.com/densityx">@densityx</a> for designing the popup</li>
+                <li><a href="https://github.com/yumiris">@yumiris</a> for designing the download modal</li>
+                <li>
+                    <a href="https://github.com/SamHerbert/SVG-Loaders">SVG Loaders</a> by <a href="https://github.com/SamHerbert">Sam Herbert</a>
                 </li>
-                <li>And all the other
-                    <a href="https://github.com/lap00zza/9anime-Companion/graphs/contributors" target="_blank">contributors</a>
+                <li>
+                    And all the other <a href="https://github.com/lap00zza/9anime-Companion/graphs/contributors">contributors</a>
                 </li>
             </ul>
         </section>
@@ -418,17 +419,17 @@
             <h2 class="title">Links</h2>
             <ul>
                 <li>
-                    <a href="https://github.com/lap00zza/9anime-Companion/wiki" target="_blank">
+                    <a href="https://github.com/lap00zza/9anime-Companion/wiki">
                         <i class="fa fa-book"></i> Wiki
                     </a>
                 </li>
                 <li>
-                    <a href="https://github.com/lap00zza/9anime-Companion" target="_blank">
+                    <a href="https://github.com/lap00zza/9anime-Companion">
                         <i class="fa fa-github"></i> Project Home
                     </a>
                 </li>
                 <li>
-                    <a href="https://github.com/lap00zza/9anime-Companion/issues" target="_blank">
+                    <a href="https://github.com/lap00zza/9anime-Companion/issues">
                         <i class="fa fa-bug"></i> Report a Bug
                     </a>
                 </li>
@@ -439,15 +440,35 @@
     <!-- TAB: Changelog -->
     <div role="tabpanel" class="tab-pane fade container" id="changelog" aria-labelledby="changelog-tab">
         <section>
-            <h2 class="title">1.0.0-beta.1</h2>
+            <h2 class="title">
+                <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/1.0.0-beta.2">
+                    1.0.0-beta.2
+                </a>
+                <a href="https://github.com/lap00zza/9anime-Companion/compare/1.0.0-beta.1...1.0.0-beta.2">
+                    <img src="images/git_compare.svg">
+                </a>
+            </h2>
             <ul>
                 <li>
-                    Redesigned the popup. A special thanks to
-                    <a href="https://github.com/densityx" target="_blank">@densityx</a> for designing it.
+                    Added auto-update for the MyAnimeList integration. This can be found in the MyAnimeList configure
+                    box. (<a class="commit-hash" href="https://github.com/lap00zza/9anime-Companion/commit/751902023dd29388e2e329512341ee63c8b6dae7">7519020</a>)
                 </li>
                 <li>
+                    Fixed issue <a class="github-ref" href="https://github.com/lap00zza/9anime-Companion/issues/48">#48</a> which was
+                    causing the alternate search overlay to pop up when typing password and in the report episode box
+                    (<a class="commit-hash" href="https://github.com/lap00zza/9anime-Companion/commit/37f213a301620451485fa862b6876517017e1fcf">37f213a</a>)
+                </li>
+            </ul>
+        </section>
+        <section>
+            <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/1.0.0-beta.1">
+                <h2 class="title">1.0.0-beta.1</h2>
+            </a>
+            <ul>
+                <li>Redesigned the popup. A special thanks to<a href="https://github.com/densityx">@densityx</a> for designing it.</li>
+                <li>
                     Improved the downloader. Now 9anime Companion can download from all the 9anime Servers (F2, F4 etc).
-                    A special thanks to <a href="https://github.com/yumiris" target="_blank">@yumiris</a> for designing
+                    A special thanks to <a href="https://github.com/yumiris">@yumiris</a> for designing
                     the download modal.
                 </li>
                 <li>
@@ -455,18 +476,10 @@
                     and page element removal/function overrides. In my tests it removed 100% ads/popups without the need
                     for an external adblocker.
                 </li>
-                <li>
-                    Added support for keyboard shortcuts.
-                </li>
-                <li>
-                    Added alternate search overlay . Shortcut <kbd>s</kbd>.
-                </li>
-                <li>
-                    Added scroll to player. Shortcut <kbd>t</kbd>.
-                </li>
-                <li>
-                    Added recently watched anime. This can be accessed via the popup.
-                </li>
+                <li>Added support for keyboard shortcuts.</li>
+                <li>Added alternate search overlay . Shortcut <kbd>s</kbd>.</li>
+                <li>Added scroll to player. Shortcut <kbd>t</kbd>.</li>
+                <li>Added recently watched anime. This can be accessed via the popup.</li>
                 <li>
                     Vastly improved the core functionality of MyAnimeList integration. It can easily be expanded in the
                     future to add features like Auto MAL sync, full featured add/edit etc
