@@ -36,42 +36,27 @@ let sender: chrome.runtime.MessageSender;
 // at downloader and end before requeue is called.
 // let inProgress = false;
 
-/**
- * This variable holds all links when method external is selected.
- * The links are then resolved via promise which then shows up in
- * the users tab.
- * @see getLinks9a
- */
+// This variable holds all links when method external is selected.
+// The links are then resolved via promise which then shows up in
+// the users tab.
 let aggregateLinks = "";
 
-/**
- * The episodes that the users selected in the epModal
- * are stored here. These are the episodes that will be
- * downloaded.
- * @default []
- */
+// The episodes that the users selected in the epModal are stored
+// here. These are the episodes that will be downloaded.
 let selectedEpisodes: IEpisode[] = [];
 
+// This is the episode that we are currently trying to download.
 let dlEpisode: IEpisode;
 
-/**
- * 9anime Companion can only download from 1 server at
- * a time. This variable holds the type of server from
- * which we are currently downloading/will download.
- * @default Server.Default
- */
+// 9anime Companion can only download from 1 server at a time. This
+// variable holds the type of server from which we are currently
+// downloading/will download.
 let server: Server = Server.Default;
 
-/**
- * The preferred quality of the files to download.
- * @default Quality["360p"]
- */
+// The preferred quality of the files to download.
 let quality: DownloadQuality = DownloadQuality["360p"];
 
-/**
- * The preferred download method.
- * @default DownloadMethod.Browser
- */
+// The preferred download method.
 let method: DownloadMethod = DownloadMethod.Browser;
 
 interface ISetupOptions {
@@ -94,7 +79,7 @@ interface IJWPlayerSource {
 }
 
 /**
- * This is to listen to the messages sent from scripts in RapidVideo.
+ * This is to listen to the messages sent from "src/ts/external_hosts/rapidvideo.ts".
  */
 window.addEventListener("message", (e: MessageEvent) => {
     if (e.origin === "https://www.rapidvideo.com") {
@@ -316,10 +301,13 @@ export function downloader(): void {
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
                 switch (server) {
+                    // To download from RapidVideo first we query the grabber as always.
+                    // But after we get back the details we create a iframe and set its
+                    // source to the rv url. When that page is loaded, it gets injected
+                    // with "src/ts/external_hosts/rapidVideo.ts". Once the listener
+                    // (line#84) gets the sources the iframe is deleted. Rinse and repeat
+                    // for the other episodes in the list.
                     case Server.RapidVideo:
-                        // RapidVideo
-                        // When this is selected, additional permissions must be
-                        // asked to be able to access that domain.
                         const iframe = document.createElement("iframe");
                         iframe.id = "rv_grabber_iframe";
                         iframe.src = resp.target;
