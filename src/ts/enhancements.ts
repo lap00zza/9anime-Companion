@@ -11,12 +11,10 @@ import * as $ from "jquery";
 import {Intent, IRuntimeResponse} from "./common";
 
 /* --- Watchpage Enhancement Shortcuts --- */
-const input = $("input[type='text']");
-
 export function shortcuts() {
     $(document).on("keydown", e => {
         // We don't want to shortcuts to work inside input boxes
-        if (input.index(e.target) === -1) {
+        if (!(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
             switch (e.keyCode) {
                 // [*]-> This shortcut will move the user to the player.
                 case 84: /*  84 is 't' */
@@ -41,7 +39,7 @@ export function globalShortcuts(): void {
     const body = $("body")[0];
     $(document).on("keydown", e => {
         // We don't want to shortcuts to work inside input boxes
-        if (input.index(e.target) === -1) {
+        if (!(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
             switch (e.keyCode) {
                 // [*]-> This shortcut displays the enhanced search window.
                 case 83: /* 83 is s */
