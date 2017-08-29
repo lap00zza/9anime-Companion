@@ -48,7 +48,7 @@
   }, {
     "all_frames": true,
     "matches": ["*://www.rapidvideo.com/e/*"],
-    "js": ["build/js/host_rapidVideo.bundle.js"],
+    "js": ["external_hosts/rapidvideo.js"],
     "run_at": "document_end"
   }],
 

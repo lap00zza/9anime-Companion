@@ -6,6 +6,8 @@
  * window.
  */
 (() => {
+    // Why do we need to append a script? because this is the only
+    // way to interact with the global object within the page.
     const script = document.createElement("script");
     script.innerText =
         `if (parent != window) {

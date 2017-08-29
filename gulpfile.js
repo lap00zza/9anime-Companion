@@ -42,7 +42,7 @@ gulp.task("webpack", function (callback) {
 gulp.task("copy_chromium_files", function () {
     return gulp.src([
         "!src/templates/**.*",
-        "src/**/*.{bundle.js,png,css,svg,html,jpg}",
+        "src/**/*.{js,bundle.js,png,css,svg,html,jpg}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
@@ -66,7 +66,7 @@ gulp.task("zip_chrome", function () {
 gulp.task("copy_firefox_files", function () {
     return gulp.src([
         "!src/templates/**.*",
-        "src/**/*.{bundle.js,png,css,svg,html,jpg}",
+        "src/**/*.{js,bundle.js,png,css,svg,html,jpg}",
         "platform/firefox/**/*"
     ])
         .pipe(gulp.dest("dist/firefox"));

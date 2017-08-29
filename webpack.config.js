@@ -10,7 +10,6 @@ module.exports = {
         cscript_global_pre: "./src/ts/cscript_global_pre.ts",
         cscript_watchpage: "./src/ts/cscript_watchpage.ts",
         dashboard: "./src/ts/dashboard.ts",
-        host_rapidVideo: "./src/ts/external_hosts/rapidVideo.ts",
         popup: "./src/ts/popup.ts",
         vendor: ["jquery"],
     },

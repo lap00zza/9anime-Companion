@@ -83,7 +83,7 @@ interface IJWPlayerSource {
  */
 window.addEventListener("message", (e: MessageEvent) => {
     if (e.origin === "https://www.rapidvideo.com") {
-        // console.log(e.data);
+        // console.log(e);
         if (e.data.event === "nac__external__rapidvideo-sources") {
             const iframe = document.getElementById("rv_grabber_iframe");
             if (iframe) {
