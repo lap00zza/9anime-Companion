@@ -34,56 +34,44 @@
   width: 100%
   background-color: rgba(0, 0, 0, 0.7)
   //padding-top: 25px
-
   position: fixed
   top: 0
   left: 0
   z-index: 100
+  overflow-x: hidden
+  overflow-y: auto
 
   a
     cursor: pointer
 
   // The actual modal.
   .container
-    padding: 25px
+    padding: 0
     margin: 50px auto
-    border-radius: 2px
+    border-radius: 5px
     position: relative
-
     width: 100%
     max-width: 480px
-    height: 100%
-    max-height: 480px
-
     background-color: #16151c
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2)
 
   // Top section of the modal
   .header
-    border-bottom: 1px solid #9a9a9a
-    padding-bottom: 5px
-
-  // Body of the modal.
-  .body
-    margin-top: 10px
-    overflow-y: auto
-    max-width: 455px
-    height: 260px
-    padding: 20px
-    background-color: rgba(0, 0, 0, 0.25)
-    border-radius: 5px
-
     display: flex
-    flex-wrap: wrap
-    align-items: flex-start
-    align-content: flex-start
+    justify-content: space-between
+    border-bottom: 1px solid #9a9a9a
+    padding: 20px
 
-  // Bottom section of the modal
+    .title
+      line-height: 20px
+    .nac__modal__close
+      line-height: 20px
+      font-size: 2rem
+      border: none
+      background-color: transparent
+      &:active
+        color: dodgerblue
+  .body
+    padding: 20px
   .footer
-    margin-top: 10px
-    text-align: center
-    display: block
-
-    &__item
-      display: inline-block
-      width: 100px
+    padding: 0 20px 20px

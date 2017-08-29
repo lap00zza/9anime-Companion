@@ -31,6 +31,7 @@ let animeName = "";
 // used to quickly access the required selectors
 // without having to remember the names.
 const selectors = {
+    closeBtn:   ".nac__modal__close",
     copyLinks:  "#nac__dl-all__copy-links",     /* linksModal */
     dlBtn:      ".nac__dl-all__btn",            /* Page */
     download:   "#nac__dl-all__download",       /* epModal */
@@ -79,6 +80,7 @@ function showModal(selector: string): void {
     let modal = $(selector);
     $(modal).show();
     $(modal).find(".container").addClass("fade_in");
+    $("body").css("overflow", "hidden");
     setTimeout(() => {
         $(modal).find(".container").removeClass("fade_in");
     }, 500);
@@ -90,6 +92,7 @@ function hideModal(selector: string): void {
     setTimeout(() => {
         $(modal).find(".container").removeClass("fade_out");
         $(modal).hide();
+        $("body").css("overflow", "auto");
     }, 500);
 }
 
@@ -153,6 +156,7 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
         // episode to the "epModal". The user can then take
         // further action.
         let modalBody = $(selectors.epModal).find(".body");
+        const episodesContainer = $(`<div class="nac__dl-all__episodes-container"></div>`);
         // Delete the earlier episodes and start fresh
         modalBody.empty();
         for (let ep of episodes) {
@@ -162,8 +166,9 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
                     <input type="checkbox" id="${ep.id}" data-num="${ep.num}">
                     <label for="${ep.id}">${animeName}: Ep. ${ep.num}</label>
                 </span>`);
-            modalBody.append(epSpan);
+            episodesContainer.append(epSpan);
         }
+        modalBody.append(episodesContainer);
         showModal(selectors.epModal);
     });
     return btn;
@@ -190,7 +195,12 @@ export function linksModal(): JQuery<HTMLElement> {
         }
     });
 
-    // 3> Bind functionality to the 'Copy to clipboard' button.
+    // 3> When the close btn is clicked, the modal hides
+    modal.find(selectors.closeBtn).on("click", e => {
+        hideModal(selectors.linksModal);
+    });
+
+    // 4> Bind functionality to the 'Copy to clipboard' button.
     modal.find(selectors.copyLinks).on("click", () => {
         $(selectors.links).select();
         document.execCommand("copy");
@@ -224,12 +234,17 @@ export function epModal(): JQuery<HTMLElement> {
         }
     });
 
-    // 3> Bind functionality for the "Select All" button
+    // 3> When the close btn is clicked, the modal hides
+    modal.find(selectors.closeBtn).on("click", e => {
+        hideModal(selectors.epModal);
+    });
+
+    // 4> Bind functionality for the "Select All" button
     modal.find(selectors.selectAll).on("click", () => {
         $(selectors.epModal).find(".body input[type='checkbox']").prop("checked", true);
     });
 
-    // 4> Bind functionality for the "Download" button
+    // 5> Bind functionality for the "Download" button
     modal.find(selectors.download).on("click", () => {
         if (!isDownloading) {
             let selectedEpisodes: IEpisode[] = [];
