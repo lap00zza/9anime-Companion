@@ -216,26 +216,26 @@ function getLinks9a(data: api.IGrabber): void {
         .then(resp => {
             // console.log(resp);
             let file = autoFallback(quality, resp.data);
+            if (!file) {
+                status(`Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
+                return;
+            }
             // downloadMethod can either be Browser or External.
             // For Browser, we make use of the default case.
             switch (method) {
                 case DownloadMethod.External:
-                    if (file) {
-                        // the "?" is important after file.file
-                        aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
-                    }
+                    // the "?" is important after file.file
+                    aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
                     status(`Completed ${dlEpisode.num}`);
                     break;
                 default:
-                    if (file) {
-                        chrome.downloads.download({
-                            conflictAction: "uniquify",
-                            // this means, downloads will go to the 9anime Companion
-                            // subdirectory, inside the default download directory.
-                            filename: "9anime Companion/" + fileName(file, dlEpisode),
-                            url: file.file,
-                        });
-                    }
+                    chrome.downloads.download({
+                        conflictAction: "uniquify",
+                        // this means, downloads will go to the 9anime Companion
+                        // subdirectory, inside the default download directory.
+                        filename: "9anime Companion/" + fileName(file, dlEpisode),
+                        url: file.file,
+                    });
                     status(`Completed ${dlEpisode.num}`);
                     break;
             }
@@ -253,26 +253,27 @@ function getLinks9a(data: api.IGrabber): void {
 
 function downloadRV(sources: IJWPlayerSource[]): void {
     let file = autoFallback(quality, sources);
+    if (!file) {
+        status(`Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
+        requeue();
+        return;
+    }
     // downloadMethod can either be Browser or External.
     // For Browser, we make use of the default case.
     switch (method) {
         case DownloadMethod.External:
-            if (file) {
-                // the "?" is important after file.file
-                aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
-            }
+            // the "?" is important after file.file
+            aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
             status(`Completed ${dlEpisode.num}`);
             break;
         default:
-            if (file) {
-                chrome.downloads.download({
-                    conflictAction: "uniquify",
-                    // this means, downloads will go to the 9anime Companion
-                    // subdirectory, inside the default download directory.
-                    filename: "9anime Companion/" + fileName(file, dlEpisode),
-                    url: file.file,
-                });
-            }
+            chrome.downloads.download({
+                conflictAction: "uniquify",
+                // this means, downloads will go to the 9anime Companion
+                // subdirectory, inside the default download directory.
+                filename: "9anime Companion/" + fileName(file, dlEpisode),
+                url: file.file,
+            });
             status(`Completed ${dlEpisode.num}`);
             break;
     }
