@@ -76,7 +76,7 @@ interface IExternalSource {
 }
 
 /**
- * This is to listen to the messages sent from "src/ts/external_hosts/rapidvideo.ts".
+ * This is to listen to the messages sent from files in "src/external_hosts/".
  */
 window.addEventListener("message", (e: MessageEvent) => {
     if (e.origin === "https://www.rapidvideo.com") {
