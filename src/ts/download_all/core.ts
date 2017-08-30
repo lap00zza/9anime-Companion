@@ -69,12 +69,9 @@ interface ISetupOptions {
     ts: string;
 }
 
-interface IJWPlayerSource {
-    "default": boolean;
+interface IExternalSource {
     file: string;
     label: string;
-    preload: string;
-    res: string;
     type: string;
 }
 
@@ -84,6 +81,7 @@ interface IJWPlayerSource {
 window.addEventListener("message", (e: MessageEvent) => {
     if (e.origin === "https://www.rapidvideo.com") {
         // console.log(e);
+        // TODO: do the sources need to be sanitized and checked?
         if (e.data.event === "nac__external__rapidvideo-sources") {
             const iframe = document.getElementById("rv_grabber_iframe");
             if (iframe) {
@@ -251,8 +249,12 @@ function getLinks9a(data: api.IGrabber): void {
         });
 }
 
-function downloadRV(sources: IJWPlayerSource[]): void {
-    let file = autoFallback(quality, sources);
+function downloadRV(sources: IExternalSource[]): void {
+    // let file = autoFallback(quality, sources);
+    // we don't need fallback atm because the quality is chose via
+    // the q parameter of the rapidvideo url and sources contain
+    // exactly 1 item.
+    let file = sources[0];
     if (!file) {
         status(`Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
         requeue();
@@ -305,13 +307,16 @@ export function downloader(): void {
                     // To download from RapidVideo first we query the grabber as always.
                     // But after we get back the details we create a iframe and set its
                     // source to the rv url. When that page is loaded, it gets injected
-                    // with "src/ts/external_hosts/rapidVideo.ts". Once the listener
-                    // (line#84) gets the sources the iframe is deleted. Rinse and repeat
-                    // for the other episodes in the list.
+                    // with "external_hosts/rapidvideo.js". Once the listener (line#84)
+                    // gets the sources, the iframe is deleted. Rinse and repeat for the
+                    // other episodes in the list.
+                    // TODO: need a way to cancel unresponsive downloads
+                    // TODO: is using regex to get the source urls better?
                     case Server.RapidVideo:
                         const iframe = document.createElement("iframe");
                         iframe.id = "rv_grabber_iframe";
-                        iframe.src = resp.target;
+                        // [30-08-2017]: RapidVideo added quality selectors via url parameter
+                        iframe.src = resp.target + `?q=${DownloadQuality[quality]}`;
                         document.getElementsByTagName("body")[0].appendChild(iframe);
                         // console.log(resp, dlEpisode);
                         break;
