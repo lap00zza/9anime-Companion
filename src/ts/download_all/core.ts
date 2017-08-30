@@ -12,6 +12,7 @@
  * of download is over before starting again.
  */
 
+import axios, {AxiosResponse} from "axios";
 import {
     DownloadMethod,
     DownloadQuality,
@@ -22,6 +23,7 @@ import {
 } from  "../common";
 import * as utils from "../utils";
 import * as api from "./api";
+import {IFile} from "./api";
 
 // We need this value while sending API requests.
 let ts = "";
@@ -68,29 +70,6 @@ interface ISetupOptions {
     server: Server;
     ts: string;
 }
-
-interface IExternalSource {
-    file: string;
-    label: string;
-    type: string;
-}
-
-/**
- * This is to listen to the messages sent from files in "src/external_hosts/".
- */
-window.addEventListener("message", (e: MessageEvent) => {
-    if (e.origin === "https://www.rapidvideo.com") {
-        // console.log(e);
-        // TODO: do the sources need to be sanitized and checked?
-        if (e.data.event === "nac__external__rapidvideo-sources") {
-            const iframe = document.getElementById("rv_grabber_iframe");
-            if (iframe) {
-                iframe.remove();
-            }
-            downloadRV(e.data.sources);
-        }
-    }
-});
 
 // Setup
 export function setup(options: ISetupOptions): void {
@@ -202,6 +181,26 @@ function requeue(): void {
     }
 }
 
+function startDownload(file: IFile): void {
+    switch (method) {
+        case DownloadMethod.External:
+            // the "?" is important after file.file
+            aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
+            status(`✔ Completed ${dlEpisode.num}`);
+            break;
+        default:
+            chrome.downloads.download({
+                conflictAction: "uniquify",
+                // this means, downloads will go to the 9anime Companion
+                // subdirectory, inside the default download directory.
+                filename: "9anime Companion/" + fileName(file, dlEpisode),
+                url: file.file,
+            });
+            status(`✔ Completed ${dlEpisode.num}`);
+            break;
+    }
+}
+
 function getLinks9a(data: api.IGrabber): void {
     api
         .links9a(data.grabber, {
@@ -215,32 +214,14 @@ function getLinks9a(data: api.IGrabber): void {
             // console.log(resp);
             let file = autoFallback(quality, resp.data);
             if (!file) {
-                status(`Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
+                status(`❌ Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
                 return;
             }
-            // downloadMethod can either be Browser or External.
-            // For Browser, we make use of the default case.
-            switch (method) {
-                case DownloadMethod.External:
-                    // the "?" is important after file.file
-                    aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
-                    status(`Completed ${dlEpisode.num}`);
-                    break;
-                default:
-                    chrome.downloads.download({
-                        conflictAction: "uniquify",
-                        // this means, downloads will go to the 9anime Companion
-                        // subdirectory, inside the default download directory.
-                        filename: "9anime Companion/" + fileName(file, dlEpisode),
-                        url: file.file,
-                    });
-                    status(`Completed ${dlEpisode.num}`);
-                    break;
-            }
+            startDownload(file);
         })
         .catch(err => {
             console.debug(err);
-            status(`Failed ${dlEpisode.num}`);
+            status(`❌ Failed ${dlEpisode.num}`);
         })
         // The last then acts like a finally.
         .then(() => {
@@ -249,38 +230,77 @@ function getLinks9a(data: api.IGrabber): void {
         });
 }
 
-function downloadRV(sources: IExternalSource[]): void {
-    // let file = autoFallback(quality, sources);
-    // we don't need fallback atm because the quality is chose via
-    // the q parameter of the rapidvideo url and sources contain
-    // exactly 1 item.
-    let file = sources[0];
-    if (!file) {
-        status(`Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
-        requeue();
-        return;
+/**
+ * Parse a source string of the form below and return a object.
+ * <source src="https://xxx/xxx.mp4" type="video/mp4" title="720p" data-res="720" />
+ * @param {string} source
+ *      The source string
+ */
+function rvParseEpisodeDetails(source: string): IFile | null {
+    let episodeDetails: IFile = {
+        file: "",
+        label: "",
+        type: "",
+    };
+    source.split(" ").forEach((el: string) => {
+        let rvEpData = el.split("=");
+        if (rvEpData.length === 2) {
+            let value = rvEpData[1].replace(/["']/g, "");
+            // console.log(rvEpData[1], value);
+            switch (rvEpData[0]) {
+                case "src":
+                    episodeDetails.file = value;
+                    break;
+                case "type":
+                    episodeDetails.type = value.replace("video/", "");
+                    break;
+                case "title":
+                    episodeDetails.label = value;
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+    if (episodeDetails.file === "" || episodeDetails.label === "" || episodeDetails.type === "") {
+        return null;
+    } else {
+        return episodeDetails;
     }
-    // downloadMethod can either be Browser or External.
-    // For Browser, we make use of the default case.
-    switch (method) {
-        case DownloadMethod.External:
-            // the "?" is important after file.file
-            aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
-            status(`Completed ${dlEpisode.num}`);
-            break;
-        default:
-            chrome.downloads.download({
-                conflictAction: "uniquify",
-                // this means, downloads will go to the 9anime Companion
-                // subdirectory, inside the default download directory.
-                filename: "9anime Companion/" + fileName(file, dlEpisode),
-                url: file.file,
-            });
-            status(`Completed ${dlEpisode.num}`);
-            break;
-    }
+}
 
-    requeue();
+// To get the links we basically scrap the RapidVideo link using regex.
+export function getLinksRV(data: api.IGrabber): void {
+    const rvSourcesRegex = /<source(.*)\/>/i;
+    axios
+        .get(data.target + `?q=${DownloadQuality[quality]}`)
+        .then((resp: AxiosResponse) => {
+            // We are looking for this specific line in the RapidVideo html file.
+            // <source src="https://xxx/xxx.mp4" type="video/mp4" title="720p" data-res="720" />
+            let matched = resp.data.match(rvSourcesRegex);
+            if (matched) {
+                let rvEpisodeDetails = rvParseEpisodeDetails(matched[0]);
+                // console.log(rvEpisodeDetails);
+                if (rvEpisodeDetails && rvEpisodeDetails.label === DownloadQuality[quality]) {
+                    startDownload(rvEpisodeDetails);
+                } else {
+                    status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Use a higher preferred quality.`);
+                    return;
+                }
+            } else {
+                status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Use a higher preferred quality.`);
+                return;
+            }
+        })
+        .catch(err => {
+            console.debug(err);
+            status(`❌ Failed ${dlEpisode.num}`);
+        })
+        // The last then acts like a finally.
+        .then(() => {
+            // inProgress = false;
+            requeue();
+        });
 }
 
 /**
@@ -304,21 +324,8 @@ export function downloader(): void {
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
                 switch (server) {
-                    // To download from RapidVideo first we query the grabber as always.
-                    // But after we get back the details we create a iframe and set its
-                    // source to the rv url. When that page is loaded, it gets injected
-                    // with "external_hosts/rapidvideo.js". Once the listener (line#84)
-                    // gets the sources, the iframe is deleted. Rinse and repeat for the
-                    // other episodes in the list.
-                    // TODO: need a way to cancel unresponsive downloads
-                    // TODO: is using regex to get the source urls better?
                     case Server.RapidVideo:
-                        const iframe = document.createElement("iframe");
-                        iframe.id = "rv_grabber_iframe";
-                        // [30-08-2017]: RapidVideo added quality selectors via url parameter
-                        iframe.src = resp.target + `?q=${DownloadQuality[quality]}`;
-                        document.getElementsByTagName("body")[0].appendChild(iframe);
-                        // console.log(resp, dlEpisode);
+                        getLinksRV(resp);
                         break;
                     default:
                         getLinks9a(resp);
@@ -326,7 +333,7 @@ export function downloader(): void {
                 }
             })
             .catch(err => {
-                status(`Failed ${(ep as IEpisode).num}`);
+                status(`❌ Failed ${(ep as IEpisode).num}`);
                 console.debug(err.response);
 
                 // getLinks9a automatically requeue downloads, but

@@ -38,11 +38,6 @@
     "js": ["build/js/vendor.bundle.js", "build/js/cscript_global.bundle.js"],
     "css": ["build/css/global.css"],
     "run_at": "document_end"
-  }, {
-    "all_frames": true,
-    "matches": ["*://www.rapidvideo.com/e/*"],
-    "js": ["external_hosts/rapidvideo.js"],
-    "run_at": "document_end"
   }],
 
   "options_ui": {
