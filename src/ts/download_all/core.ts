@@ -15,12 +15,12 @@
 import axios, {AxiosResponse} from "axios";
 import {
     DownloadMethod,
-    DownloadQuality,
+    DownloadQuality, DownloadQualityKeys,
     IEpisode,
     Intent,
     IRuntimeMessage,
     Server,
-} from  "../common";
+} from "../common";
 import * as utils from "../utils";
 import * as api from "./api";
 import {IFile} from "./api";
@@ -270,6 +270,7 @@ function rvParseEpisodeDetails(source: string): IFile | null {
 }
 
 // To get the links we basically scrap the RapidVideo link using regex.
+// TODO: try implementing fallback for rapidvideo downloads later
 export function getLinksRV(data: api.IGrabber): void {
     const rvSourcesRegex = /<source(.*)\/>/i;
     axios
@@ -284,11 +285,11 @@ export function getLinksRV(data: api.IGrabber): void {
                 if (rvEpisodeDetails && rvEpisodeDetails.label === DownloadQuality[quality]) {
                     startDownload(rvEpisodeDetails);
                 } else {
-                    status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Use a higher preferred quality.`);
+                    status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Try changing the quality.`);
                     return;
                 }
             } else {
-                status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Use a higher preferred quality.`);
+                status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Try changing the quality.`);
                 return;
             }
         })
