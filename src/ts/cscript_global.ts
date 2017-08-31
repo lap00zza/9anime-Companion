@@ -12,8 +12,10 @@ import {loadSettings} from "./utils";
 console.info("9anime Companion 1.0.0 (Global Script)");
 
 /* --- Attach enhancements --- */
+console.info("%c[✔] Attaching enhancements", "color: lightgreen;");
 enhancements.globalShortcuts();
 enhancements.enhancedSearch();
+enhancements.scrollToTop();
 
 loadSettings([
     "remSocialShare",

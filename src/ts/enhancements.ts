@@ -11,32 +11,7 @@ import * as $ from "jquery";
 import {Intent, IRuntimeResponse} from "./common";
 
 /* --- Watchpage Enhancement Shortcuts --- */
-export function shortcuts() {
-    $(document).on("keydown", e => {
-        // We don't want to shortcuts to work inside input boxes
-        if (!(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
-            switch (e.keyCode) {
-                // [*]-> This shortcut will move the user to the player.
-                case 84: /*  84 is 't' */
-                    let playerOffset = 0;
-                    let player = $("#player");
-                    if (typeof player.offset() !== "undefined") {
-                        // NOTE TO SELF: '!.' asserts that player.offset() is
-                        // not undefined, which is true because we just added
-                        // a condition to test this.
-                        playerOffset = player.offset()!.top;
-                    }
-                    $(document).scrollTop(playerOffset - 18);
-                    break;
-                default:
-                    break;
-            }
-        }
-    });
-}
-
 export function globalShortcuts(): void {
-    const body = $("body")[0];
     $(document).on("keydown", e => {
         // We don't want to shortcuts to work inside input boxes
         if (!(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
@@ -51,6 +26,12 @@ export function globalShortcuts(): void {
                     $("#nac__enhancedSearch").show();
                     $("#nac__enhancedSearch__searchBox").focus();
                     break;
+                // [*]-> This shortcut will move the user to the player.
+                case 84: /*  84 is 't' */
+                    $("body").animate({
+                        scrollTop: 0,
+                    }, 1000);
+                    break;
                 default:
                     break;
             }
@@ -62,7 +43,7 @@ export function globalShortcuts(): void {
 /**
  * Adds a scroll to player arrow at the bottom right corner.
  */
-export function scrollToPlayer(): void {
+export function scrollToTop(): void {
     let upArrowIcon = chrome.extension.getURL("images/up-arrow.png");
     $("body").append(
         `<span id='nac__scrollTop'>
@@ -74,15 +55,9 @@ export function scrollToPlayer(): void {
     // We will only scroll to a offset near the player. There is
     // no point is scrolling all the way to offset 0/
     scrollTopIcon.on("click", () => {
-        let playerOffset = 0;
-        let player = $("#player");
-        if (typeof player.offset() !== "undefined") {
-            // NOTE TO SELF: '!.' asserts that player.offset() is
-            // not undefined, which is true because we just added
-            // a condition to test this.
-            playerOffset = player.offset()!.top;
-        }
-        $(document).scrollTop(playerOffset - 18);
+        $("body").animate({
+            scrollTop: 0,
+        }, 1000);
     });
 
     // We only want the scrollToTop button to be visible

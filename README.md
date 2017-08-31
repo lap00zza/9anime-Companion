@@ -30,7 +30,7 @@
 * Toggle page elements (comments, you may also like etc.)
 * Helpful shortcuts
   * <kbd>s</kbd> - Alternate search overlay (global)
-  * <kbd>t</kbd> - Quickly scroll to player (only watch page)
+  * <kbd>t</kbd> - Quickly scroll to top (global)
 * *and quite a few more..*
  
 [1]: In my tests it removed 100% ads/popups without the need for an external adblocker. *Tested in Google Chrome Version 60.0.3112.90 (Official Build) (64-bit)*

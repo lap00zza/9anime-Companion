@@ -16,10 +16,6 @@ let currentEpId = serverDiv.find(".episodes > li > a.active").data("id");
 // TODO: maybe use data("comment") instead of data("base") for EpNum
 let currentEpNum: Number = Number(serverDiv.find(".episodes > li > a.active").data("base")) || 0;
 
-/* --- Attach enhancements --- */
-enhancements.shortcuts();
-enhancements.scrollToPlayer();
-
 /* --- Track Episode Change --- */
 /**
  * Contains the callback functions which are executed when
