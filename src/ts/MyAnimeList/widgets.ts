@@ -15,6 +15,7 @@ import {cleanAnimeName, loadSettings} from "../utils";
 
 let animeName = "";
 let animeId = "";
+let animeInUserList = false;
 let currentAnime: IMALSearchAnime;
 // holds the amount of episodes user has watches as per their MAL
 let malWatchedEpisodes = 0;
@@ -115,7 +116,7 @@ export function epTracker(newEpId: string, newEpNum: number): void {
     // number and not stuff like tv, full, movie etc. The last
     // condition makes sure we dont spam the MAL API when 9anime
     // auto switches servers if it doesn't find anime in a server.
-    if (!isNaN(Number(newEpNum)) && autoUpdate && malWatchedEpisodes !== newEpNum) {
+    if (!isNaN(Number(newEpNum)) && autoUpdate && malWatchedEpisodes !== newEpNum && animeInUserList) {
         // update watched box and trigger auto sync
         $(selectors.watchedEp).val(newEpNum);
         malWatchedEpisodes = newEpNum;
@@ -129,7 +130,7 @@ export function epTracker(newEpId: string, newEpNum: number): void {
  * getting information like watched episodes etc. If the
  * current anime does not exist, then null is returned.
  */
-function isAnimeInUserList(): IMALUserListAnime | null {
+function findAnimeInUserList(): IMALUserListAnime | null {
     for (let entry of userList) {
         if (currentAnime.id === entry.series_animedb_id) {
             return entry;
@@ -197,8 +198,9 @@ export function initialize(): void {
             animeId = currentAnime.id;
             // console.log(currentAnime, userList);
 
-            let entry = isAnimeInUserList();
+            let entry = findAnimeInUserList();
             if (entry) {    /* --- Update Anime --- */
+                animeInUserList = true;
                 showSectionUpdate();
                 $(selectors.totalEp).text(currentAnime.episodes);
                 $(selectors.watchedEp).val(entry.my_watched_episodes);
@@ -267,6 +269,7 @@ export function quickAccess(): JQuery<HTMLElement> {
             intent: Intent.MAL_QuickAdd,
         }, resp => {
             if (resp.success) {
+                animeInUserList = true;
                 showStatusIcon(StatusType.Success);
                 showSectionUpdate();
                 $(selectors.totalEp).text(currentAnime.episodes);
