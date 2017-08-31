@@ -84,7 +84,7 @@ loadSettings([
     // to block requests and on content_script_global to
     // overwrite functions.
     if (settings.remAds) {
-        console.info("%c[x] Removing ads", "color: lightgreen;");
+        console.info("%c[✔] Removing ads", "color: lightgreen;");
         // Contains the known ad selectors.
         let adsSelectors = [
             ".a_d",
@@ -101,19 +101,19 @@ loadSettings([
     }
 
     if (settings.resPlayer) {
-        console.info("%c[x] Resizing player", "color: lightgreen;");
+        console.info("%c[✔] Resizing player", "color: lightgreen;");
         let player = $("#player");
         player.css("maxHeight", "500px");
         player.parent().css("width", "100%");
     }
 
     if (settings.remComments) {
-        console.info("%c[x] Removing comments", "color: lightgreen;");
+        console.info("%c[✔] Removing comments", "color: lightgreen;");
         $("#comment").remove();
     }
 
     if (settings.remSuggested) {
-        console.info("%c[x] Removing suggested", "color: lightgreen;");
+        console.info("%c[✔] Removing suggested", "color: lightgreen;");
         $("#movie")
             .find("div.widget-title")
             .filter((index, el) => {
@@ -124,18 +124,18 @@ loadSettings([
     }
 
     if (settings.remInfo) {
-        console.info("%c[x] Removing info", "color: lightgreen;");
+        console.info("%c[✔] Removing info", "color: lightgreen;");
         title.remove();
         $("#info").remove();
     }
 
     if (settings.utilityBar) {
-        console.info("%c[x] Attaching utility bar", "color: lightgreen;");
+        console.info("%c[✔] Attaching utility bar", "color: lightgreen;");
         $("#player").parent().append(utilityBar(animeName));
     }
 
     if (settings.downloadAll) {
-        console.info("%c[x] Attaching download all", "color: lightgreen;");
+        console.info("%c[✔] Attaching download all", "color: lightgreen;");
         // NOTE:
         // "dlAll" means downloadAll. Its a short form.
         // We will use quite a bit of these throughout
@@ -147,7 +147,7 @@ loadSettings([
     }
 
     if (settings.myAnimeList) {
-        console.info("%c[x] Attaching MyAnimeList", "color: lightgreen;");
+        console.info("%c[✔] Attaching MyAnimeList", "color: lightgreen;");
         mal.setup({
             animeName,
         });

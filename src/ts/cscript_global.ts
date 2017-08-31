@@ -21,7 +21,7 @@ loadSettings([
     "remSocialShare",
 ]).then(settings => {
     if (settings.remSocialShare) {
-        console.info("%c[x] Removing social share box", "color: lightgreen;");
+        console.info("%c[✔] Removing social share box", "color: lightgreen;");
         let socialSelectors = [
             ".addthis_native_toolbox",
             ".home-socials",
