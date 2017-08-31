@@ -51,7 +51,8 @@
     "downloads",
     "*://9anime.to/*",
     "*://9anime.is/*",
-    "*://9anime.tv/*"
+    "*://9anime.tv/*",
+    "*://www.rapidvideo.com/e/*"
   ],
 
    "optional_permissions": [

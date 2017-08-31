@@ -33,17 +33,39 @@
 
 // This is the ep select modal.
 #nac__dl-all__ep-modal
+  .nac__dl-all__episodes-container
+    //margin-top: 10px
+    overflow-y: auto
+    height: 260px
+    padding: 20px
+    background-color: rgba(0, 0, 0, 0.25)
+    border-radius: 5px
+
+    display: flex
+    flex-wrap: wrap
+    align-items: flex-start
+    align-content: flex-start
+
   .nac__dl-all__episode
     margin-left: 5px
     margin-right: 5px
 
-  .footer__options
-    margin-top: 10px
-
-    select
-      background: transparent
-      border: 1px solid rgba(255, 255, 255, 0.25)
-      margin-left: 5px
+  .footer
+    text-align: center
+    &__item
+      display: inline-block
+      margin-bottom: 0.5rem
+    &__options
+      span
+        display: block
+      select
+        background: transparent
+        border: 1px solid rgba(255, 255, 255, 0.25)
+        margin-left: 5px
+    &__tip
+      font-size: 0.85rem
+      font-family: monospace
+      color: #666
 
   // This is the download button
   #nac__dl-all__download
@@ -64,25 +86,19 @@
 
 // The links modal.
 #nac__dl-all__links-modal
-  .container
-    // The height needs to be a little less
-    // than 480px since we only have 1 button.
-    max-height: 400px
-
   .body
-    // Don't need the 20px padding. The textarea
-    // should cover entire body.
-    padding: 0
     textarea
       background: transparent
       resize: none
-      height: 100%
+      height: 260px
       width: 100%
 
-  // Need to make the button a bit wider since
-  // it has quite a bit of text.
-  .footer__item
-    width: 150px
+  .footer
+    text-align: center
+    // Need to make the button a bit wider since
+    // it has quite a bit of text.
+    &__item
+      width: 150px
 
   // This is the copy to clipboard button
   #nac__dl-all__copy-links

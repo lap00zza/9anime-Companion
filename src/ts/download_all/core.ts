@@ -12,16 +12,18 @@
  * of download is over before starting again.
  */
 
+import axios, {AxiosResponse} from "axios";
 import {
     DownloadMethod,
-    DownloadQuality,
+    DownloadQuality, DownloadQualityKeys,
     IEpisode,
     Intent,
     IRuntimeMessage,
     Server,
-} from  "../common";
+} from "../common";
 import * as utils from "../utils";
 import * as api from "./api";
+import {IFile} from "./api";
 
 // We need this value while sending API requests.
 let ts = "";
@@ -34,42 +36,29 @@ let sender: chrome.runtime.MessageSender;
 
 // Keeps track of the download cycles. Each cycle starts
 // at downloader and end before requeue is called.
-let inProgress = false;
+// let inProgress = false;
 
-/**
- * This variable holds all links when method external is selected.
- * The links are then resolved via promise which then shows up in
- * the users tab.
- * @see getLinks9a
- */
+// This variable holds all links when method external is selected.
+// The links are then resolved via promise which then shows up in
+// the users tab.
 let aggregateLinks = "";
 
-/**
- * The episodes that the users selected in the epModal
- * are stored here. These are the episodes that will be
- * downloaded.
- * @default []
- */
+// The episodes that the users selected in the epModal are stored
+// here. These are the episodes that will be downloaded.
 let selectedEpisodes: IEpisode[] = [];
 
-/**
- * 9anime Companion can only download from 1 server at
- * a time. This variable holds the type of server from
- * which we are currently downloading/will download.
- * @default Server.Default
- */
+// This is the episode that we are currently trying to download.
+let dlEpisode: IEpisode;
+
+// 9anime Companion can only download from 1 server at a time. This
+// variable holds the type of server from which we are currently
+// downloading/will download.
 let server: Server = Server.Default;
 
-/**
- * The preferred quality of the files to download.
- * @default Quality["360p"]
- */
+// The preferred quality of the files to download.
 let quality: DownloadQuality = DownloadQuality["360p"];
 
-/**
- * The preferred download method.
- * @default DownloadMethod.Browser
- */
+// The preferred download method.
 let method: DownloadMethod = DownloadMethod.Browser;
 
 interface ISetupOptions {
@@ -192,7 +181,27 @@ function requeue(): void {
     }
 }
 
-function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
+function startDownload(file: IFile): void {
+    switch (method) {
+        case DownloadMethod.External:
+            // the "?" is important after file.file
+            aggregateLinks += `${file.file}?title=${fileName(file, dlEpisode, false)}&type=${file.type}\n`;
+            status(`✔ Completed ${dlEpisode.num}`);
+            break;
+        default:
+            chrome.downloads.download({
+                conflictAction: "uniquify",
+                // this means, downloads will go to the 9anime Companion
+                // subdirectory, inside the default download directory.
+                filename: "9anime Companion/" + fileName(file, dlEpisode),
+                url: file.file,
+            });
+            status(`✔ Completed ${dlEpisode.num}`);
+            break;
+    }
+}
+
+function getLinks9a(data: api.IGrabber): void {
     api
         .links9a(data.grabber, {
             ts,
@@ -204,37 +213,93 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
         .then(resp => {
             // console.log(resp);
             let file = autoFallback(quality, resp.data);
-            // downloadMethod can either be Browser or External.
-            // For Browser, we make use of the default case.
-            switch (method) {
-                case DownloadMethod.External:
-                    if (file) {
-                        // the "?" is important after file.file
-                        aggregateLinks += `${file.file}?title=${fileName(file, episode, false)}&type=${file.type}\n`;
-                    }
-                    status(`Completed ${episode.num}`);
+            if (!file) {
+                status(`❌ Failed ${dlEpisode.num}. No fallback quality found. Use a higher preferred quality.`);
+                return;
+            }
+            startDownload(file);
+        })
+        .catch(err => {
+            console.debug(err);
+            status(`❌ Failed ${dlEpisode.num}`);
+        })
+        // The last then acts like a finally.
+        .then(() => {
+            // inProgress = false;
+            requeue();
+        });
+}
+
+/**
+ * Parse a source string of the form below and return a object.
+ * <source src="https://xxx/xxx.mp4" type="video/mp4" title="720p" data-res="720" />
+ * @param {string} source
+ *      The source string
+ */
+function rvParseEpisodeDetails(source: string): IFile | null {
+    let episodeDetails: IFile = {
+        file: "",
+        label: "",
+        type: "",
+    };
+    source.split(" ").forEach((el: string) => {
+        let rvEpData = el.split("=");
+        if (rvEpData.length === 2) {
+            let value = rvEpData[1].replace(/["']/g, "");
+            // console.log(rvEpData[1], value);
+            switch (rvEpData[0]) {
+                case "src":
+                    episodeDetails.file = value;
+                    break;
+                case "type":
+                    episodeDetails.type = value.replace("video/", "");
+                    break;
+                case "title":
+                    episodeDetails.label = value;
                     break;
                 default:
-                    if (file) {
-                        chrome.downloads.download({
-                            conflictAction: "uniquify",
-                            // this means, downloads will go to the 9anime Companion
-                            // subdirectory, inside the default download directory.
-                            filename: "9anime Companion/" + fileName(file, episode),
-                            url: file.file,
-                        });
-                    }
-                    status(`Completed ${episode.num}`);
                     break;
+            }
+        }
+    });
+    if (episodeDetails.file === "" || episodeDetails.label === "" || episodeDetails.type === "") {
+        return null;
+    } else {
+        return episodeDetails;
+    }
+}
+
+// To get the links we basically scrap the RapidVideo link using regex.
+// TODO: try implementing fallback for rapidvideo downloads later
+export function getLinksRV(data: api.IGrabber): void {
+    const rvSourcesRegex = /<source(.*)\/>/i;
+    axios
+        .get(data.target + `?q=${DownloadQuality[quality]}`)
+        .then((resp: AxiosResponse) => {
+            // We are looking for this specific line in the RapidVideo html file.
+            // <source src="https://xxx/xxx.mp4" type="video/mp4" title="720p" data-res="720" />
+            let matched = resp.data.match(rvSourcesRegex);
+            if (matched) {
+                let rvEpisodeDetails = rvParseEpisodeDetails(matched[0]);
+                // console.log(rvEpisodeDetails);
+                if (rvEpisodeDetails && rvEpisodeDetails.label === DownloadQuality[quality]) {
+                    startDownload(rvEpisodeDetails);
+                } else {
+                    status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Try changing the quality.`);
+                    return;
+                }
+            } else {
+                status(`❌ Failed ${dlEpisode.num}. Preferred quality not found. Try changing the quality.`);
+                return;
             }
         })
         .catch(err => {
             console.debug(err);
-            status(`Failed ${episode.num}`);
+            status(`❌ Failed ${dlEpisode.num}`);
         })
         // The last then acts like a finally.
         .then(() => {
-            inProgress = false;
+            // inProgress = false;
             requeue();
         });
 }
@@ -246,7 +311,8 @@ function getLinks9a(data: api.IGrabber, episode: IEpisode): void {
 export function downloader(): void {
     let ep = selectedEpisodes.shift();
     if (ep) {
-        inProgress = true;
+        // inProgress = true;
+        dlEpisode = ep;
         status(`Downloading ${ep.num}`);
         api
             .grabber({
@@ -259,26 +325,23 @@ export function downloader(): void {
                 // Server can either be RapidVideo or Default.
                 // For Default, we make use of default case.
                 switch (server) {
-                    // TODO: lets do the RapidVideo bit later
-                    // case Server.RapidVideo:
-                    //     // RapidVideo
-                    //     // When this is selected, additional permissions must be
-                    //     // asked to be able to access that domain.
-                    //     break;
+                    case Server.RapidVideo:
+                        getLinksRV(resp);
+                        break;
                     default:
-                        getLinks9a(resp, ep as IEpisode);
+                        getLinks9a(resp);
                         break;
                 }
             })
             .catch(err => {
-                status(`Failed ${(ep as IEpisode).num}`);
+                status(`❌ Failed ${(ep as IEpisode).num}`);
                 console.debug(err.response);
 
                 // getLinks9a automatically requeue downloads, but
                 // that happens only after the download link is fetched.
                 // But what if the download fails after trying to get
                 // the grabber? We must requeue it again from here.
-                inProgress = false;
+                // inProgress = false;
                 requeue();
             });
     }
