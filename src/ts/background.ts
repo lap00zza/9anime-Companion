@@ -11,7 +11,7 @@ import * as dlAll from "./download_all/core";
 import * as mal from "./MyAnimeList/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
-import {cleanAnimeName, joinURL, notify} from "./utils";
+import {cleanAnimeName, joinURL, loadSettings} from "./utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 
@@ -222,6 +222,28 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             break;
 
         /**************************************************************************************************************/
+        case Intent.Install_Check:
+            loadSettings("latestInstall").then(settings => {
+                // if notification is already shown then we don't bother
+                // sending it to the content script once again.
+                if (settings.latestInstall && !settings.latestInstall.notificationShown) {
+                    let latestInstall = settings.latestInstall;
+                    sendResponse({
+                        data: settings.latestInstall,
+                        success: true,
+                    });
+                    latestInstall.notificationShown = true;
+                    chrome.storage.local.set({
+                        latestInstall,
+                    });
+                } else {
+                    sendResponse({
+                        success: false,
+                    });
+                }
+            });
+            return true;
+
         default:
             console.info("Intent not valid");
             break;
@@ -229,16 +251,24 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 });
 
 chrome.runtime.onInstalled.addListener(details => {
+    // let version = chrome.runtime.getManifest().version;
+    let versionName = chrome.runtime.getManifest().version_name || "";
+
     switch (details.reason) {
         case "install":
+            chrome.storage.local.set({
+                latestInstall: {
+                    notificationShown: false,
+                    timestamp: new Date().toISOString(),
+                    type: "install",
+                    versionName,
+                },
+            });
             console.info("New install: Saving default settings to localStorage");
             chrome.storage.local.set(Settings);
             break;
 
         case "update":
-            // let version = chrome.runtime.getManifest().version;
-            let versionName = chrome.runtime.getManifest().version_name;
-
             // For version older than 1, we will delete all the previous settings.
             // Only if the major version is 1 or more we will preserve settings.
             // This is to make sure that the settings from the older version wont
@@ -258,6 +288,14 @@ chrome.runtime.onInstalled.addListener(details => {
                 });
                 chrome.storage.local.clear(() => {
                     chrome.storage.local.set(newSettings);
+                    chrome.storage.local.set({
+                        latestInstall: {
+                            notificationShown: false,
+                            timestamp: new Date().toISOString(),
+                            type: "update",
+                            versionName,
+                        },
+                    });
                 });
                 console.info(`Updated to ${versionName}\nPreserving old settings and adding new ones`, newSettings);
             } else {
@@ -270,22 +308,6 @@ chrome.runtime.onInstalled.addListener(details => {
                     chrome.storage.local.set(Settings);
                 });
             }
-
-            // Display the update notification.
-            notify(
-                "Update_Notification",
-                "9anime Companion | Update",
-                `Updated to ${versionName}. Click here for the changelog.`,
-            );
-            // When the notification is clicked, we open the changelog
-            chrome.notifications.onClicked.addListener(notificationId => {
-                if (notificationId === "Update_Notification") {
-                    let url = chrome.runtime.getURL("dashboard.html") + "?goto=Changelog";
-                    chrome.tabs.create({
-                        url,
-                    });
-                }
-            });
             break;
         default:
             break;

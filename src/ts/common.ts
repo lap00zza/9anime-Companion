@@ -40,7 +40,7 @@ export let adBlockFilters = [
  * rem* -> remove*
  * res* -> resize*
  */
-export const Settings: IGenericObject = {
+export const Settings: ISettings = {
     adBlockFilters,
     downloadAll: true,
     malAutoUpdate: true,    /* used with MAL Integration */
@@ -59,6 +59,13 @@ export const Settings: IGenericObject = {
 };
 
 // --- INTERFACES ---
+export interface ILatestInstall {
+    notificationShown: boolean;
+    timestamp: string;
+    type: "update" | "install";
+    versionName: string;
+}
+
 /**
  * The interface representing a settings object. Useful
  * when used with loadSettings to quickly find out what
@@ -67,6 +74,7 @@ export const Settings: IGenericObject = {
 export interface ISettings {
     adBlockFilters?: string[];
     downloadAll?: boolean;
+    latestInstall?: ILatestInstall;
     malAutoUpdate?: boolean;
     malPassword?: string;
     malUsername?: string;
@@ -80,7 +88,7 @@ export interface ISettings {
     remSuggested?: boolean;
     resPlayer?: boolean;
     utilityBar?: boolean;
-    [key: string]: string | boolean | string[] | IRecentlyWatched[] | undefined;
+    [key: string]: string | boolean | string[] | IRecentlyWatched[] | ILatestInstall | undefined;
 }
 
 export interface IRecentlyWatched {
@@ -295,4 +303,5 @@ export enum Intent {
     "Recently_Watched_List",
     "Recently_Watched_Remove",
     "Search_Anime",
+    "Install_Check", /* sent by content script on page load */
 }

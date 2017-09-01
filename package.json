@@ -37,10 +37,12 @@
   "dependencies": {
     "@types/chrome": "0.0.48",
     "@types/jquery": "^3.2.12",
+    "@types/toastr": "^2.1.35",
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-beta",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.5",
+    "toastr": "^2.1.2",
     "x2js": "^3.1.1"
   },
   "jest": {
