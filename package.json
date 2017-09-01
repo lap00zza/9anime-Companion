@@ -28,10 +28,10 @@
     "html-loader": "^0.5.0",
     "jest": "^20.0.4",
     "run-sequence": "^2.1.0",
-    "ts-jest": "^20.0.7",
+    "ts-jest": "^20.0.14",
     "ts-lint": "^4.5.1",
     "ts-loader": "^2.3.4",
-    "typescript": "^2.4.2",
+    "typescript": "^2.5.2",
     "webpack": "^3.5.5"
   },
   "dependencies": {
@@ -40,7 +40,7 @@
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-beta",
     "jquery": "^3.2.1",
-    "popper.js": "^1.12.3",
+    "popper.js": "^1.12.5",
     "x2js": "^3.1.1"
   },
   "jest": {
