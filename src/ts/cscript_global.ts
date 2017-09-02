@@ -6,8 +6,6 @@
  * throughout the 9anime website.
  */
 
-import * as $ from "jquery";
-import * as toastr from "toastr";
 import {Intent, IRuntimeMessage, IRuntimeResponse} from "./common";
 import * as enhancements from "./enhancements";
 import {loadSettings} from "./utils";

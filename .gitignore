@@ -16,5 +16,6 @@ dist/
 # ignore macOS related files
 *.DS_Store
 
-# Ignore the build directory
+# Ignore the build and vendor directory
 src/build
+src/vendor

@@ -24,6 +24,17 @@ gulp.task("clean_dist", function () {
     return del(["dist/**/*"]);
 });
 
+gulp.task("copy_vendor_files", function () {
+    return gulp.src([
+        // "node_modules/axios/dist/axios.js",
+        "node_modules/bootstrap/dist/js/bootstrap.js",
+        "node_modules/jquery/dist/jquery.js",
+        "node_modules/popper.js/dist/umd/popper.js",
+        "node_modules/toastr/toastr.js",
+    ])
+        .pipe(gulp.dest("src/vendor"));
+});
+
 gulp.task("sass", function () {
     return gulp.src("src/sass/**/*.sass")
         .pipe(sass())
@@ -39,10 +50,10 @@ gulp.task("webpack", function (callback) {
 });
 
 /* --- Chrome Related Tasks --- */
-gulp.task("copy_chromium_files", function () {
+gulp.task("copy_chromium_files", ["copy_vendor_files"], function () {
     return gulp.src([
         "!src/templates/**.*",
-        "src/**/*.{bundle.js,png,css,svg,html,jpg}",
+        "src/**/*.{js,bundle.js,png,css,svg,html,jpg}",
         "platform/chromium/**/*"
     ])
         .pipe(gulp.dest("dist/chromium"));
@@ -63,10 +74,10 @@ gulp.task("zip_chrome", function () {
 });
 
 /* --- Firefox Related Tasks --- */
-gulp.task("copy_firefox_files", function () {
+gulp.task("copy_firefox_files", ["copy_vendor_files"], function () {
     return gulp.src([
         "!src/templates/**.*",
-        "src/**/*.{bundle.js,png,css,svg,html,jpg}",
+        "src/**/*.{js,bundle.js,png,css,svg,html,jpg}",
         "platform/firefox/**/*"
     ])
         .pipe(gulp.dest("dist/firefox"));

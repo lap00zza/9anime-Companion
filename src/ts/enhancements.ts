@@ -7,7 +7,6 @@
  */
 
 declare function require(arg: string): string;
-import * as $ from "jquery";
 import {Intent, IRuntimeResponse} from "./common";
 
 /* --- Watchpage Enhancement Shortcuts --- */

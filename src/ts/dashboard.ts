@@ -20,8 +20,6 @@ declare global {
 }
 /* tslint:enable:no-namespace interface-name*/
 
-import * as $ from "jquery";
-import "../../node_modules/bootstrap/dist/js/bootstrap.js";
 import {Intent, IRuntimeResponse, Settings} from "./common";
 import {decomposeURL, loadSettings} from "./utils";
 
