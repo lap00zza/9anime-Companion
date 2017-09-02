@@ -8,7 +8,7 @@
 
 import * as $ from "jquery";
 import * as toastr from "toastr";
-import {Intent, IRuntimeResponse} from "./common";
+import {Intent, IRuntimeMessage, IRuntimeResponse} from "./common";
 import * as enhancements from "./enhancements";
 import {loadSettings} from "./utils";
 
@@ -93,5 +93,16 @@ chrome.runtime.sendMessage({
             default:
                 break;
         }
+    }
+});
+
+// This portions deals with showing notifications on the page.
+chrome.runtime.onMessage.addListener((message: IRuntimeMessage) => {
+    switch (message.intent) {
+        case Intent.Show_Notification:
+            toastr.success(message.message, message.title);
+            break;
+        default:
+            break;
     }
 });

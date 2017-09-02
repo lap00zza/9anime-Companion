@@ -162,16 +162,6 @@ export function isUrl(url: string): boolean {
     return re.test(url);
 }
 
-export function notify(notificationId = "", title: string, message: string): void {
-    let opt = {
-        iconUrl: chrome.extension.getURL("images/notification_icon.png"),
-        type: "basic",
-        title,
-        message,
-    };
-    chrome.notifications.create(notificationId, opt);
-}
-
 export function loadSettings(key: string | string[] | null): Promise<ISettings> {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(key, (result: ISettings) => {

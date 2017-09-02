@@ -54,7 +54,6 @@
 
   "permissions": [
     "storage",
-    "notifications",
     "downloads",
     "*://9anime.to/*",
     "*://9anime.is/*",

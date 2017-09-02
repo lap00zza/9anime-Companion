@@ -304,4 +304,5 @@ export enum Intent {
     "Recently_Watched_Remove",
     "Search_Anime",
     "Install_Check", /* sent by content script on page load */
+    "Show_Notification",
 }

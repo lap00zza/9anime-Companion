@@ -367,5 +367,9 @@ export function start(baseUrl: string, setupOptions: ISetupOptions): void {
     });
     setup(setupOptions); /* setup download all */
     downloader(); /* trigger download */
-    utils.notify("", "Starting downloads", "Sit tight!");
+    sendMessage({
+        intent: Intent.Show_Notification,
+        message: "Sit tight!",
+        title: "Starting downloads",
+    });
 }
