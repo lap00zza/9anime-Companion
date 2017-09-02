@@ -65,7 +65,7 @@ let EnableAdblockToast = () => {
     );
     $("#nac__toast__open-settings").on("click", () => {
         chrome.runtime.sendMessage({
-            intent: 0,
+            intent: Intent.Open_Options,
         });
     });
 };
