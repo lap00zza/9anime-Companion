@@ -11,7 +11,7 @@ import * as dlAll from "./download_all/core";
 import * as mal from "./MyAnimeList/core";
 import * as recentlyWatched from "./recently_watched";
 import RedditDiscussion from "./reddit_discussion";
-import {cleanAnimeName, joinURL, loadSettings} from "./utils";
+import {cleanAnimeName, joinURL, loadSettings, obj2query} from "./utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 
@@ -78,16 +78,20 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
             break;
 
         case Intent.Search_Anime:
-            let endpoint = message.baseUrl + "/ajax/film/search";
-            axios
-                .get(endpoint, {
-                    params: {
-                        keyword: message.searchText,
-                        sort: "year A",
-                    },
+            let params = {
+                keyword: message.searchText,
+                sort: "year A",
+            };
+            let endpoint = message.baseUrl + "/ajax/film/search?" + obj2query(params);
+            fetch(endpoint)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error(response.status.toString());
                 })
                 .then(resp => sendResponse({
-                    data: resp.data,
+                    data: resp,
                     success: true,
                 }))
                 .catch(() => sendResponse({

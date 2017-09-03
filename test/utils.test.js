@@ -111,6 +111,17 @@ describe("joinURL", () => {
     });
 });
 
+describe("obj2query", () => {
+    test("should generate a proper string", () => {
+        let params = {
+            a: "1",
+            b: 2,
+            c: true,
+        };
+        expect(utils.obj2query(params)).toBe("a=1&b=2&c=true");
+    });
+});
+
 describe("isUrl", () => {
     test("should return false when url is: javascript:alert(1)", function () {
         let result = utils.isUrl("javascript:alert(1)");
