@@ -4,7 +4,6 @@
  * This is the background script.
  */
 
-import axios from "axios";
 import * as adBlocker from "./adBlocker";
 import {IGenericObject, Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
 import * as dlAll from "./download_all/core";

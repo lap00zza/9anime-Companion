@@ -5,7 +5,6 @@
  * This module also takes care of the 9anime encryption scheme.
  */
 
-// axios because jquery is too big for just ajax
 import * as utils from "../utils";
 
 // The parts/functions marked as [*] are part of

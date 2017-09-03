@@ -26,7 +26,6 @@ gulp.task("clean_dist", function () {
 
 gulp.task("copy_vendor_files", function () {
     return gulp.src([
-        // "node_modules/axios/dist/axios.js",
         "node_modules/bootstrap/dist/js/bootstrap.js",
         "node_modules/jquery/dist/jquery.js",
         "node_modules/popper.js/dist/umd/popper.js",
