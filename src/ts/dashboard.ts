@@ -89,12 +89,12 @@ $(() => {
 })();
 
 /* --- Load a random pro tip at startup --- */
-const tips = $("#tips");
-const tipsList = [
-    "hover over an option to get more details",
-    "press <kbd>s</kbd> within 9anime to access the alternate search overlay",
-];
-tips.html(tipsList[Math.floor(Math.random() * tipsList.length)]);
+// const tips = $("#tips");
+// const tipsList = [
+//     "hover over an option to get more details",
+//     "press <kbd>s</kbd> within 9anime to access the alternate search overlay",
+// ];
+// tips.html(tipsList[Math.floor(Math.random() * tipsList.length)]);
 /* --- ^.^ --- */
 
 /**
