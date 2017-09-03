@@ -27,7 +27,9 @@ export function globalShortcuts(): void {
                     break;
                 // [*]-> This shortcut will move the user to the player.
                 case 84: /*  84 is 't' */
-                    $("body").animate({
+                    // For firefox we need "html, body" instead of just "body"
+                    // for scroll to work. See issue #56.
+                    $("html, body").animate({
                         scrollTop: 0,
                     }, 1000);
                     break;
@@ -54,7 +56,9 @@ export function scrollToTop(): void {
     // We will only scroll to a offset near the player. There is
     // no point is scrolling all the way to offset 0/
     scrollTopIcon.on("click", () => {
-        $("body").animate({
+        // For firefox we need "html, body" instead of just "body"
+        // for scroll to work. See issue #56.
+        $("html, body").animate({
             scrollTop: 0,
         }, 1000);
     });
