@@ -3,7 +3,6 @@
 
 declare function require(arg: string): string;
 
-import * as $ from "jquery";
 import {Intent, IRecentlyWatched, IRuntimeResponse} from "./common";
 import {isUrl, loadSettings} from "./utils";
 

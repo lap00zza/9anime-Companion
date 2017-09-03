@@ -1,5 +1,4 @@
 declare function require(arg: string): string;
-import * as $ from "jquery";
 import {Intent} from "./common";
 
 let redditLogo = chrome.extension.getURL("images/reddit-icon.png");

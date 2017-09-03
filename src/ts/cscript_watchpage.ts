@@ -1,7 +1,5 @@
-import * as $ from "jquery";
 import {Intent} from "./common";
 import * as dlAll from "./download_all/widgets";
-import * as enhancements from "./enhancements";
 import * as mal from "./MyAnimeList/widgets";
 import utilityBar from "./utility_bar";
 import {loadSettings} from "./utils";

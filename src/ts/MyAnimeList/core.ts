@@ -1,7 +1,7 @@
 // TODO: The API calls for search and userlist should be cached
 import {AxiosError} from "axios";
 import {IMALSearchAnime, IMALUserListAnime, ISettings, MALStatus} from "../common";
-import {loadSettings, notify} from "../utils";
+import {loadSettings} from "../utils";
 import MyAnimeListAPI from "./api";
 
 let api = new MyAnimeListAPI();
