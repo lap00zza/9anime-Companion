@@ -5,14 +5,6 @@
 
 <hr>
 
-* 9anime Companion is tested and runs on: (*pr's are welcome to expand this*)
-
-  Chrome | Firefox
-  -------|--------
-  60+    | 55+
-
-<hr>
-
 <h1 align="center">
   9anime Companion
 </h1>
@@ -36,24 +28,26 @@
 [1]: In my tests it removed 100% ads/popups without the need for an external adblocker. *Tested in Google Chrome Version 60.0.3112.90 (Official Build) (64-bit)*
 
 ## Download
+> :information_source: 9anime Companion is tested and runs on: Chrome **60+**, Firefox **55+**
 * The latest passing build of 9anime Companion can be [downloaded from appveyor](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=master). *Remember that the builds are quite frequent.*
 * Want to build it yourself? check out the [Build Instructions](#build-instructions)
 * **Chrome Webstore**: https://chrome.google.com/webstore/detail/9anime-companion/fopcehkidabibdmachbcpbgllhehknah
 * **AMO**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/versions/beta
 
-*Firefox users please check the developement channel (the one linked above). AMO review process is quite long so it is possible that the firefox version is behind the chrome version. If you want the latest features you can build the extension yourself.*
+*Firefox users please check the development channel (the one linked above). AMO review process is quite long so it is possible that the firefox version is behind the chrome version. If you want the latest features you can build the extension yourself.*
 
 ## Build Instructions
 1. Install NodeJS
 2. Install git
 3. Run the following commands
    ```shell
-   # Clone the repository
+   # Clone the repository and move inside it
    $ git clone https://github.com/lap00zza/9anime-Companion.git
-    
+   $ cd 9anime-Companion
+
    # install dependencies
    $ npm install
- 
+
    # Build the extension. If gulp command is not working, it means 
    # you dont have gulp-cli. You can either download gulp-cli or use
    # npm run build.
@@ -67,11 +61,6 @@
 
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/master/.github/CONTRIBUTING.md)
-
-## Credits
-* [Contributors](https://github.com/lap00zza/9anime-Companion/graphs/contributors)
-* [SVG Loaders](https://github.com/SamHerbert/SVG-Loaders) by [Sam Herbert](https://github.com/SamHerbert)
-
 
 ## License
 [MIT](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
