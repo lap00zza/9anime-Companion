@@ -32,9 +32,7 @@
 * The latest passing build of 9anime Companion can be [downloaded from appveyor](https://ci.appveyor.com/project/lap00zza/9anime-Companion/build/artifacts?branch=master). *Remember that the builds are quite frequent.*
 * Want to build it yourself? check out the [Build Instructions](#build-instructions)
 * **Chrome Webstore**: https://chrome.google.com/webstore/detail/9anime-companion/fopcehkidabibdmachbcpbgllhehknah
-* **AMO**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion/versions/beta
-
-*Firefox users please check the development channel (the one linked above). AMO review process is quite long so it is possible that the firefox version is behind the chrome version. If you want the latest features you can build the extension yourself.*
+* **AMO**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion
 
 ## Build Instructions
 1. Install NodeJS
