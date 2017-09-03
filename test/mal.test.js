@@ -12,6 +12,9 @@ global.chrome = {
         }
     }
 };
+global.X2JS = class {
+    constructor() {}
+};
 
 const malDate = require("../src/ts/MyAnimeList/core").malDate;
 
