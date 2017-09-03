@@ -1,5 +1,4 @@
 // TODO: The API calls for search and userlist should be cached
-import {AxiosError} from "axios";
 import {IMALSearchAnime, IMALUserListAnime, ISettings, MALStatus} from "../common";
 import {loadSettings} from "../utils";
 import MyAnimeListAPI from "./api";
@@ -48,11 +47,12 @@ export function getUserList(): Promise<IMALUserListAnime[]> {
         api
             .userList()
             .then(resp => resolve(resp.myanimelist.anime))
-            .catch((err: AxiosError) => {
-                if (err.response) {
-                    reject(err.response.status);
+            .catch(err => {
+                if (isNaN(err.message)) {
+                    reject(0);
+                } else {
+                    reject(Number(err.message));
                 }
-                reject(0);
             });
     });
 }
@@ -62,11 +62,12 @@ export function search(animeName: string): Promise<IMALSearchAnime[]> {
         api
             .searchAnime(animeName)
             .then(resp => resolve(resp.anime.entry))
-            .catch((err: AxiosError) => {
-                if (err.response) {
-                    reject(err.response.status);
+            .catch(err => {
+                if (isNaN(err.message)) {
+                    reject(0);
+                } else {
+                    reject(Number(err.message));
                 }
-                reject(0);
             });
     });
 }
@@ -82,11 +83,12 @@ export function quickAdd(animeId: string): Promise<void> {
                 },
             })
             .then(() => resolve())
-            .catch((err: AxiosError) => {
-                if (err.response) {
-                    reject(err.response.status);
+            .catch(err => {
+                if (isNaN(err.message)) {
+                    reject(0);
+                } else {
+                    reject(Number(err.message));
                 }
-                reject(0);
             });
     });
 }
@@ -100,11 +102,12 @@ export function quickUpdate(animeId: string, episode: number): Promise<void> {
                 },
             })
             .then(() => resolve())
-            .catch((err: AxiosError) => {
-                if (err.response) {
-                    reject(err.response.status);
+            .catch(err => {
+                if (isNaN(err.message)) {
+                    reject(0);
+                } else {
+                    reject(Number(err.message));
                 }
-                reject(0);
             });
     });
 }
@@ -119,11 +122,12 @@ export function verify(username: string, password: string): Promise<void> {
                 api.setCredentials(username, password);
                 resolve();
             })
-            .catch((err: AxiosError) => {
-                if (err.response) {
-                    reject(err.response.status);
+            .catch(err => {
+                if (isNaN(err.message)) {
+                    reject(0);
+                } else {
+                    reject(Number(err.message));
                 }
-                reject(0);
             });
     });
 }
