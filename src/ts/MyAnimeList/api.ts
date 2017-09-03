@@ -14,7 +14,17 @@
  * be used as a standalone script.
  */
 
-import * as X2JS from "x2js";
+/* tslint:disable:max-classes-per-file */
+// Type declaration for x2js. Why not just import x2js?
+// Because I wanted to keep all vendor libraries separate
+// so that its easier and faster for the AMO reviewers to
+// go through the code.
+declare class X2JS {
+    constructor(config?: {arrayAccessFormPaths: string[]});
+    public js2xml<T>(json: T): string;
+    public xml2js<T>(xml: string): T;
+}
+
 import { IAnimeValues, IMALSearch, IMALUserList } from "../common";
 
 let x2js = new X2JS({
@@ -165,3 +175,4 @@ export default class MyAnimeListAPI {
         });
     }
 }
+/* tslint:enable:max-classes-per-file */
