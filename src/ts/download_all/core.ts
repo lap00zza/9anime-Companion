@@ -12,10 +12,9 @@
  * of download is over before starting again.
  */
 
-import axios, {AxiosResponse} from "axios";
 import {
     DownloadMethod,
-    DownloadQuality, DownloadQualityKeys,
+    DownloadQuality,
     IEpisode,
     Intent,
     IRuntimeMessage,
@@ -273,12 +272,18 @@ function rvParseEpisodeDetails(source: string): IFile | null {
 // TODO: try implementing fallback for rapidvideo downloads later
 export function getLinksRV(data: api.IGrabber): void {
     const rvSourcesRegex = /<source(.*)\/>/i;
-    axios
-        .get(data.target + `?q=${DownloadQuality[quality]}`)
-        .then((resp: AxiosResponse) => {
+    const endpoint = data.target + `?q=${DownloadQuality[quality]}`;
+    fetch(endpoint)
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            }
+            throw new Error(response.status.toString());
+        })
+        .then(resp => {
             // We are looking for this specific line in the RapidVideo html file.
             // <source src="https://xxx/xxx.mp4" type="video/mp4" title="720p" data-res="720" />
-            let matched = resp.data.match(rvSourcesRegex);
+            let matched = resp.match(rvSourcesRegex);
             if (matched) {
                 let rvEpisodeDetails = rvParseEpisodeDetails(matched[0]);
                 // console.log(rvEpisodeDetails);
@@ -335,7 +340,7 @@ export function downloader(): void {
             })
             .catch(err => {
                 status(`❌ Failed ${(ep as IEpisode).num}`);
-                console.debug(err.response);
+                console.debug(err);
 
                 // getLinks9a automatically requeue downloads, but
                 // that happens only after the download link is fetched.

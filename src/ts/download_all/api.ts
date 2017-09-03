@@ -5,8 +5,6 @@
  * This module also takes care of the 9anime encryption scheme.
  */
 
-// axios because jquery is too big for just ajax
-import axios from "axios";
 import * as utils from "../utils";
 
 // The parts/functions marked as [*] are part of
@@ -97,12 +95,20 @@ export function grabber(params: IGrabberParams): Promise<IGrabber> {
     // [*] this is the token
     params._ = generateToken(params);
     return new Promise((resolve, reject) => {
-        axios
-            .get(baseUrl + "/ajax/episode/info?", {
-                params,
-                responseType: "json",
+        let endpoint = `${baseUrl}/ajax/episode/info?${utils.obj2query(params)}`;
+        fetch(endpoint)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error(response.status.toString());
             })
-            .then(resp => resolve(resp.data))
+            .then(resp => {
+                if (resp.error && resp.error === "token") {
+                    throw new Error("Token is missing");
+                }
+                resolve(resp);
+            })
             .catch(err => reject(err));
     });
 }
@@ -161,12 +167,15 @@ export function links9a(uri: string, data: IlinksParams): Promise<IFileList> {
     merged._ = generateToken(merged, initState);
 
     return new Promise((resolve, reject) => {
-        axios
-            .get(decomposed[0], {
-                params: merged,
-                responseType: "json",
+        let endpoint = `${decomposed[0]}?${utils.obj2query(merged)}`;
+        fetch(endpoint)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error(response.status.toString());
             })
-            .then(resp => resolve(resp.data))
+            .then(resp => resolve(resp))
             .catch(err => reject(err));
     });
 }

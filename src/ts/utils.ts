@@ -150,6 +150,19 @@ export function joinURL(url: string, searchParams: IGenericObject): string {
 }
 
 /**
+ * A helper function that converts a object to a query string.
+ * Credits to [Artur Klesun]{@link https://stackoverflow.com/users/2750743/artur-klesun}
+ * [Stack Overflow Thread]{@link http://stackoverflow.com/a/34209399/707580}
+ *
+ * NOTE: Pass flat objects only. Don't pass nested objects.
+ */
+export function obj2query(params: {[key: string]: string | number | boolean}): string {
+    return Object.keys(params)
+        .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k].toString()))
+        .join("&");
+}
+
+/**
  * This helper function will help us test whether a given string is a valid URL.
  * Credits to [Daveo]{@link https://stackoverflow.com/users/165839/daveo} for the regex.
  * [Stack Overflow Thread]{@link https://stackoverflow.com/a/3809435/5800855}

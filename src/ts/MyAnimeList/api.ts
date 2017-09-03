@@ -14,7 +14,6 @@
  * be used as a standalone script.
  */
 
-import axios from "axios";
 import * as X2JS from "x2js";
 import { IAnimeValues, IMALSearch, IMALUserList } from "../common";
 
@@ -44,14 +43,15 @@ export default class MyAnimeListAPI {
 
     public userList(): Promise<IMALUserList> {
         return new Promise((resolve, reject) => {
-            let url = encodeURI(`https://myanimelist.net/malappinfo.php?u=${this.username}&status=all&type=anime`);
-            axios
-                .get(url, {
-                    responseType: "text",
+            let endpoint = `https://myanimelist.net/malappinfo.php?u=${this.username}&status=all&type=anime`;
+            fetch(endpoint)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(response.status.toString());
                 })
-                .then(resp => {
-                    resolve(x2js.xml2js(resp.data));
-                })
+                .then(resp => resolve(x2js.xml2js(resp)))
                 .catch(err => reject(err));
         });
     }
@@ -59,44 +59,41 @@ export default class MyAnimeListAPI {
     public verify(username: string, password: string): Promise<IVerify> {
         return new Promise((resolve, reject) => {
             let endpoint = "https://myanimelist.net/api/account/verify_credentials.xml";
-            axios
-                .get(endpoint, {
-                    auth: {
-                        password,
-                        username,
-                    },
+            const token = btoa(`${username}:${password}`);
+            fetch(endpoint, {
+                headers: {
+                    authorization: `Basic ${token}`,
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(response.status.toString());
                 })
-                .then(resp => {
-                    resolve(x2js.xml2js(resp.data));
-                })
+                .then(resp => resolve(x2js.xml2js(resp)))
                 .catch(err => reject(err));
         });
     }
 
     public searchAnime(name: string): Promise<IMALSearch> {
         return new Promise((resolve, reject) => {
-            let endpoint = `https://myanimelist.net/api/anime/search.xml`;
-            axios
-                .get(endpoint, {
-                    auth: {
-                        password: this.password,
-                        username: this.username,
-                    },
-                    params: {
-                        // NOTE: query should not be uri encoded,
-                        // as it seems to cause issues.
-                        q: name,
-                    },
-                    responseType: "text",
+            let endpoint = `https://myanimelist.net/api/anime/search.xml?q=${name}`;
+            const token = btoa(`${this.username}:${this.password}`);
+            fetch(endpoint, {
+                headers: {
+                    authorization: `Basic ${token}`,
+                },
+            })
+                .then(response => {
                     // NOTE: You maybe wondering why 204 is set as error. 204
                     // means No Content, which is a error in terms of our API.
-                    validateStatus(status) {
-                        return status !== 204 && (status >= 200 && status < 300);
-                    },
+                    if (response.status !== 204 && (response.status >= 200 && response.status <= 299)) {
+                        return response.text();
+                    }
+                    throw new Error(response.status.toString());
                 })
-                .then(resp => {
-                    resolve(x2js.xml2js(resp.data));
-                })
+                .then(resp => resolve(x2js.xml2js(resp)))
                 .catch(err => reject(err));
         });
     }
@@ -104,21 +101,22 @@ export default class MyAnimeListAPI {
     public addAnime(animeId: string, data: IAnimeValues): Promise<string> {
         return new Promise((resolve, reject) => {
             let endpoint = `https://myanimelist.net/api/animelist/add/${animeId}.xml`;
-            axios
-            // data=xxx is how data is sent with our
-            // x-www-form-urlencoded content type.
-                .post(endpoint, "data=" + x2js.js2xml(data), {
-                    auth: {
-                        password: this.password,
-                        username: this.username,
-                    },
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
+            const token = btoa(`${this.username}:${this.password}`);
+            fetch(endpoint, {
+                body: "data=" + x2js.js2xml(data),
+                headers: {
+                    "authorization": `Basic ${token}`,
+                    "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+                },
+                method: "POST",
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(response.status.toString());
                 })
-                // 201: Created/Success
-                .then(resp => resolve(resp.data))
-                // 400: invalid animeID/Failure
+                .then(resp => resolve(x2js.xml2js(resp)))
                 .catch(err => reject(err));
         });
     }
@@ -126,18 +124,22 @@ export default class MyAnimeListAPI {
     public updateAnime(animeId: string, data: IAnimeValues): Promise<string> {
         return new Promise((resolve, reject) => {
             let endpoint = `https://myanimelist.net/api/animelist/update/${animeId}.xml`;
-            axios
-                .post(endpoint, "data=" + x2js.js2xml(data), {
-                    auth: {
-                        password: this.password,
-                        username: this.username,
-                    },
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
+            const token = btoa(`${this.username}:${this.password}`);
+            fetch(endpoint, {
+                body: "data=" + x2js.js2xml(data),
+                headers: {
+                    "authorization": `Basic ${token}`,
+                    "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+                },
+                method: "POST",
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(response.status.toString());
                 })
-                .then(resp => resolve(resp.data))
-                // 400: Invalid XML format
+                .then(resp => resolve(x2js.xml2js(resp)))
                 .catch(err => reject(err));
         });
     }
@@ -145,18 +147,20 @@ export default class MyAnimeListAPI {
     public deleteAnime(animeId: string): Promise<string> {
         return new Promise((resolve, reject) => {
             let endpoint = `https://myanimelist.net/api/animelist/delete/${animeId}.xml`;
-            axios
-                .post(endpoint, null, {
-                    auth: {
-                        password: this.password,
-                        username: this.username,
-                    },
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
+            const token = btoa(`${this.username}:${this.password}`);
+            fetch(endpoint, {
+                headers: {
+                    authorization: `Basic ${token}`,
+                },
+                method: "POST",
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(response.status.toString());
                 })
-                .then(resp => resolve(resp.data))
-                // 400: Invalid ID
+                .then(resp => resolve(resp))
                 .catch(err => reject(err));
         });
     }
