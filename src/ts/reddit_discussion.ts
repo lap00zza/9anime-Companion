@@ -27,25 +27,25 @@ export default class RedditDiscussion {
         return this.name.replace(/\(DUB\)|\(SUB\)|\(TV\)/gi, "").trim();
     }
 
-    private urlWithEp(): string {
-        let titleText = `title:"${this.cleanTitle()} Episode ${this.episode}" `/* <-- trailing space is important */;
+    private addAltNames(): string {
+        let altNames = "";
         if (this.altNames.length > 0) {
             this.altNames.forEach(name => {
-                titleText += ` OR title:"${name} Episode ${this.episode}"`;
+                altNames += ` OR title:"${name}`;
             });
         }
-        let params = `subreddit:anime self:yes title:"[Spoilers]" title:"[Discussion]"`;
-        return encodeURI(this.endpoint + titleText + params + "&sort=new");
+        return altNames;
+    }
+
+    private urlWithEp(): string {
+        let titleText = `title:"${this.cleanTitle()}" title:"Episode ${this.episode}"`;
+        let params = `subreddit:anime self:yes title:"Spoiler" title:"Discussion"`;
+        return encodeURI(this.endpoint + titleText + this.addAltNames() + " " + params + "&sort=new");
     }
 
     private urlWithoutEp(): string {
-        let titleText = `title:"${this.cleanTitle()}" `/* <-- trailing space is important */;
-        if (this.altNames.length > 0) {
-            this.altNames.forEach(name => {
-                titleText += ` OR title:"${name}"`;
-            });
-        }
-        let params = `subreddit:anime self:yes title:"[Spoilers]" title:"[Discussion]"`;
-        return encodeURI(this.endpoint + titleText + params + "&sort=new");
+        let titleText = `title:"${this.cleanTitle()}"`;
+        let params = `subreddit:anime self:yes title:"Spoiler" title:"Discussion"`;
+        return encodeURI(this.endpoint + titleText + this.addAltNames() + " " + params + "&sort=new");
     }
 }
