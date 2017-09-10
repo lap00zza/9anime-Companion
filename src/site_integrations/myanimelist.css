@@ -1,0 +1,10 @@
+.nac__mal-site-link a {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    background-color: aliceblue;
+}
+
+.nac__mal-site-link a > img {
+    height: 20px;
+}
