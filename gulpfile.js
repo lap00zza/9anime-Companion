@@ -84,9 +84,9 @@ gulp.task("copy_firefox_files", ["copy_vendor_files"], function () {
 });
 
 gulp.task("zip_firefox", function () {
-    let fileName = `9anime_Companion-firefox-${version}.zip`;
+    let fileName = `9anime_Companion-firefox-${version}.xpi`;
     if (isAppveyor) {
-        fileName = `9anime_Companion-firefox-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.zip`;
+        fileName = `9anime_Companion-firefox-${version}.${process.env.APPVEYOR_BUILD_NUMBER}.xpi`;
     }
     gulp.src("dist/firefox/**/*", {nodir: true})
         .pipe(zip(fileName))
