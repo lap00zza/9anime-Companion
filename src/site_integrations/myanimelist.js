@@ -66,21 +66,12 @@ let DOMAddLink = (animeName, animeLink) => {
             `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
             `    <img src="${icon}"><span>Watch on 9anime</span>`+
             `</a>`;
-        
-
         linkDiv.addEventListener("mouseenter", function(){
-            linkDiv.innerHTML = 
-            `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
-            `    <img src="${iconReverse}"><span>Watch on 9anime</span>`+
-            `</a>`;
-        })
-
+            linkDiv.getElementsByTagName("img")[0].src = iconReverse;
+        });
         linkDiv.addEventListener("mouseleave", function(){
-            linkDiv.innerHTML = 
-            `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
-            `    <img src="${icon}"><span>Watch on 9anime</span>`+
-            `</a>`;
-        })
+            linkDiv.getElementsByTagName("img")[0].src = icon;
+        });
         profileRows.parentNode.insertBefore(linkDiv, profileRows.nextSibling);
     }
 };

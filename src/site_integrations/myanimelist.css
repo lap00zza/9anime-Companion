@@ -14,21 +14,19 @@
     .nac__mal-site-link:hover{
         background-color: #861FBD;
     }
-
-.nac__mal-site-link a {
-    display: flex;
-    align-items: center;
-    text-decoration: none !important;
-}
-.nac__mal-site-link a > img {
-    height: 35px;
-    padding-left: 10px;
-}
-.nac__mal-site-link a > span {
-    padding-left: 27px;
-    color: black;
-}
-
-    .nac__mal-site-link:hover a > span {
-        color: #fff;
+    .nac__mal-site-link a {
+        display: flex;
+        align-items: center;
+        text-decoration: none !important;
     }
+        .nac__mal-site-link a > img {
+            height: 35px;
+            padding-left: 10px;
+        }
+        .nac__mal-site-link a > span {
+            padding-left: 27px;
+            color: black;
+        }
+        .nac__mal-site-link:hover a > span {
+            color: #fff;
+        }
