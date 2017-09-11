@@ -32,6 +32,14 @@
 * **Chrome Webstore**: https://chrome.google.com/webstore/detail/9anime-companion/fopcehkidabibdmachbcpbgllhehknah
 * **AMO**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion
 
+## Links
+* Wiki: https://github.com/lap00zza/9anime-Companion/wiki
+* Project Board (aka what am I doing right now): https://github.com/lap00zza/9anime-Companion/projects/2
+* Discord server: https://discord.gg/BnAqVF9
+* Donate:
+  * Patreon: https://www.patreon.com/lap00zza
+  * Paypal: https://www.paypal.me/lapoozza
+
 ## Build Instructions
 1. Install NodeJS
 2. Install git
