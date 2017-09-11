@@ -1,7 +1,7 @@
 /**
  * MIT License
  * Copyright (c) 2017 Jewel Mahanta
- * Check https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE for details.
+ * Check accompanied LICENSE file for details.
  */
 
 /**
@@ -62,7 +62,9 @@ let DOMAddLink = (animeName, animeLink) => {
         const linkDiv = document.createElement("div");
         linkDiv.classList.add("nac__mal-site-link");
         linkDiv.innerHTML =
-            `<a href=${animeLink} target="_blank"><img src="${icon}"><span>Watch on 9anime</span></a>`;
+            `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
+            `    <img src="${icon}"><span>Watch on 9anime</span>`+
+            `</a>`;
         profileRows.parentNode.insertBefore(linkDiv, profileRows.nextSibling);
     }
 };

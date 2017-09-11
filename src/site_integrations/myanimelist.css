@@ -1,10 +1,23 @@
+/**
+ * MIT License
+ * Copyright (c) 2017 Jewel Mahanta
+ * Check accompanied LICENSE file for details.
+ *
+ * Styling for the "Watch on 9anime" link that is displayed in myanimelist.net
+ */
+.nac__mal-site-link {
+    font-size: 0.85rem;
+    padding: 5px 0;
+}
+
 .nac__mal-site-link a {
     display: flex;
     align-items: center;
-    font-size: 1rem;
-    background-color: aliceblue;
+    text-decoration: none !important;
 }
-
-.nac__mal-site-link a > img {
-    height: 20px;
-}
+    .nac__mal-site-link a > img {
+        height: 16px;
+    }
+    .nac__mal-site-link a > span {
+        padding-left: 10px;
+    }
