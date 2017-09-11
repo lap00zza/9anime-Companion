@@ -223,6 +223,13 @@ export function epModal(): JQuery<HTMLElement> {
     let template = require("html-loader!../../templates/dlAll_epModal.html");
     let modal = $(template);
 
+    // Get the last download quality. This is basically a convenience feature.
+    // This was suggested in #6.
+    let lastQuality = localStorage.getItem("9AC__lastDownloadQuality");
+    if (lastQuality) {
+        modal.find("#nac__dl-all__quality").val(lastQuality);
+    }
+
     // 1> Add the anime name to the "header"
     modal.find(".title").text(`Download ${animeName} episodes:`);
 
@@ -287,6 +294,9 @@ export function epModal(): JQuery<HTMLElement> {
                     selectedEpisodes,
                     ts,
                 });
+
+                // Save the last chosen download quality to the browser local storage.
+                localStorage.setItem("9AC__lastDownloadQuality", DownloadQuality[quality]);
             } else {
                 // Gotta select some episodes!!!
                 shakeModal(selectors.epModal);
