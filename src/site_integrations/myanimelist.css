@@ -9,7 +9,7 @@
     font-size: 0.9rem;
     padding: 5px 0;
     border: 2px solid #861FBD;
-    border-radius: 10px;
+    border-radius: 6px;
 }
     .nac__mal-site-link:hover{
         background-color: #861FBD;
@@ -20,7 +20,7 @@
         text-decoration: none !important;
     }
         .nac__mal-site-link a > img {
-            height: 35px;
+            height: 16px;
             padding-left: 10px;
         }
         .nac__mal-site-link a > span {
