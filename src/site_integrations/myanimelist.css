@@ -6,18 +6,29 @@
  * Styling for the "Watch on 9anime" link that is displayed in myanimelist.net
  */
 .nac__mal-site-link {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     padding: 5px 0;
+    border: 2px solid #861FBD;
+    border-radius: 10px;
 }
+    .nac__mal-site-link:hover{
+        background-color: #861FBD;
+    }
 
 .nac__mal-site-link a {
     display: flex;
     align-items: center;
     text-decoration: none !important;
 }
-    .nac__mal-site-link a > img {
-        height: 16px;
-    }
-    .nac__mal-site-link a > span {
-        padding-left: 10px;
+.nac__mal-site-link a > img {
+    height: 35px;
+    padding-left: 10px;
+}
+.nac__mal-site-link a > span {
+    padding-left: 27px;
+    color: black;
+}
+
+    .nac__mal-site-link:hover a > span {
+        color: #fff;
     }

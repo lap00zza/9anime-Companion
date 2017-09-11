@@ -58,6 +58,7 @@ let getAnimeLink = (animeName, html) => {
 let DOMAddLink = (animeName, animeLink) => {
     console.log(animeName, animeLink, profileRows);
     if (animeName && animeLink && profileRows) {
+        const iconReverse = chrome.runtime.getURL("images/iconReverse.png");
         const icon = chrome.runtime.getURL("images/icon.png");
         const linkDiv = document.createElement("div");
         linkDiv.classList.add("nac__mal-site-link");
@@ -65,6 +66,23 @@ let DOMAddLink = (animeName, animeLink) => {
             `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
             `    <img src="${icon}"><span>Watch on 9anime</span>`+
             `</a>`;
+        
+
+        linkDiv.addEventListener("mouseenter", function(){
+            linkDiv.innerHTML = 
+            `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
+            `    <img src="${iconReverse}"><span>Watch on 9anime</span>`+
+            `</a>`;
+        })
+
+        linkDiv.addEventListener("mouseleave", function(){
+            linkDiv.innerHTML = 
+            `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
+            `    <img src="${icon}"><span>Watch on 9anime</span>`+
+            `</a>`;
+        })
         profileRows.parentNode.insertBefore(linkDiv, profileRows.nextSibling);
     }
 };
+
+
