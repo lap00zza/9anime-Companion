@@ -3,6 +3,7 @@
   "name": "9anime Companion",
   "version": "1.0.2",
   "version_name": "1.0.0",
+  "minimum_chrome_version": "55",
 
   "author": "Jewel Mahanta",
   "homepage_url": "https://github.com/lap00zza/9anime-Companion",

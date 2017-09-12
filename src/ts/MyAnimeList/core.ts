@@ -42,94 +42,55 @@ export function malDate(date: Date = new Date()) {
     return month + day + year;
 }
 
-export function getUserList(): Promise<IMALUserListAnime[]> {
-    return new Promise((resolve, reject) => {
-        api
-            .userList()
-            .then(resp => resolve(resp.myanimelist.anime))
-            .catch(err => {
-                if (isNaN(err.message)) {
-                    reject(0);
-                } else {
-                    reject(Number(err.message));
-                }
-            });
-    });
+export async function getUserList(): Promise<IMALUserListAnime[]> {
+    try {
+        return (await api.userList()).myanimelist.anime;
+    } catch (err) {
+        throw new Error(err.message);
+    }
 }
 
-export function search(animeName: string): Promise<IMALSearchAnime[]> {
-    return new Promise((resolve, reject) => {
-        api
-            .searchAnime(animeName)
-            .then(resp => resolve(resp.anime.entry))
-            .catch(err => {
-                if (isNaN(err.message)) {
-                    reject(0);
-                } else {
-                    reject(Number(err.message));
-                }
-            });
-    });
+export async function search(animeName: string): Promise<IMALSearchAnime[]> {
+    try {
+        return (await api.searchAnime(animeName)).anime.entry;
+    } catch (err) {
+        throw new Error(err.message);
+    }
 }
 
-export function quickAdd(animeId: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-        api
-            .addAnime(animeId, {
-                entry: {
-                    date_start: malDate(),
-                    episode: 1,
-                    status: MALStatus.WATCHING,
-                },
-            })
-            .then(() => resolve())
-            .catch(err => {
-                if (isNaN(err.message)) {
-                    reject(0);
-                } else {
-                    reject(Number(err.message));
-                }
-            });
-    });
+export async function quickAdd(animeId: string): Promise<void> {
+    try {
+        await api.addAnime(animeId, {
+            entry: {
+                date_start: malDate(),
+                episode: 1,
+                status: MALStatus.WATCHING,
+            },
+        });
+    } catch (err) {
+        throw new Error(err.message);
+    }
 }
 
-export function quickUpdate(animeId: string, episode: number): Promise<void> {
-    return new Promise((resolve, reject) => {
-        api
-            .updateAnime(animeId, {
-                entry: {
-                    episode,
-                },
-            })
-            .then(() => resolve())
-            .catch(err => {
-                if (isNaN(err.message)) {
-                    reject(0);
-                } else {
-                    reject(Number(err.message));
-                }
-            });
-    });
+export async function quickUpdate(animeId: string, episode: number): Promise<void> {
+    try {
+        await api.updateAnime(animeId, {
+            entry: {
+                episode,
+            },
+        });
+    } catch (err) {
+        throw new Error(err.message);
+    }
 }
 
-export function verify(username: string, password: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-        api
-            .verify(username, password)
-            .then(() => {
-                // Once verified, we need to make our API
-                // use the new username and password.
-                api.setCredentials(username, password);
-                resolve();
-            })
-            .catch(err => {
-                if (isNaN(err.message)) {
-                    reject(0);
-                } else {
-                    reject(Number(err.message));
-                }
-            });
-    });
+export async function verify(username: string, password: string): Promise<void> {
+    try {
+        await MyAnimeListAPI.verify(username, password);
+        api.setCredentials(username, password);
+    } catch (err) {
+        throw new Error(err.message);
+    }
 }
 
 export function removeCredentials() {

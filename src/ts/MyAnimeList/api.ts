@@ -43,6 +43,24 @@ interface IVerify {
 }
 
 export default class MyAnimeListAPI {
+    public static async verify(username: string, password: string): Promise<IVerify> {
+        try {
+            const endpoint = "https://myanimelist.net/api/account/verify_credentials.xml";
+            const token = btoa(`${username}:${password}`);
+            const response = await fetch(endpoint, {
+                headers: {
+                    authorization: `Basic ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error(response.status.toString());
+            }
+            return x2js.xml2js(await response.text());
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
     private username: string = "";
     private password: string = "";
 
@@ -51,128 +69,96 @@ export default class MyAnimeListAPI {
         this.password = password;
     }
 
-    public userList(): Promise<IMALUserList> {
-        return new Promise((resolve, reject) => {
-            let endpoint = `https://myanimelist.net/malappinfo.php?u=${this.username}&status=all&type=anime`;
-            fetch(endpoint)
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => resolve(x2js.xml2js(resp)))
-                .catch(err => reject(err));
-        });
+    public async userList(): Promise<IMALUserList> {
+        try {
+            const endpoint = `https://myanimelist.net/malappinfo.php?u=${this.username}&status=all&type=anime`;
+            const response = await fetch(endpoint);
+            if (!response.ok) {
+                throw new Error(response.status.toString());
+            }
+            return x2js.xml2js(await response.text());
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
 
-    public verify(username: string, password: string): Promise<IVerify> {
-        return new Promise((resolve, reject) => {
-            let endpoint = "https://myanimelist.net/api/account/verify_credentials.xml";
-            const token = btoa(`${username}:${password}`);
-            fetch(endpoint, {
+    public async searchAnime(name: string): Promise<IMALSearch> {
+        try {
+            const endpoint = `https://myanimelist.net/api/anime/search.xml?q=${name}`;
+            const token = btoa(`${this.username}:${this.password}`);
+            const response = await fetch(endpoint, {
                 headers: {
                     authorization: `Basic ${token}`,
                 },
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => resolve(x2js.xml2js(resp)))
-                .catch(err => reject(err));
-        });
+            });
+            if (response.status === 204 || !response.ok) {
+                throw new Error(response.status.toString());
+            }
+            return x2js.xml2js(await response.text());
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
 
-    public searchAnime(name: string): Promise<IMALSearch> {
-        return new Promise((resolve, reject) => {
-            let endpoint = `https://myanimelist.net/api/anime/search.xml?q=${name}`;
+    public async addAnime(animeId: string, data: IAnimeValues): Promise<string> {
+        try {
+            const endpoint = `https://myanimelist.net/api/animelist/add/${animeId}.xml`;
             const token = btoa(`${this.username}:${this.password}`);
-            fetch(endpoint, {
-                headers: {
-                    authorization: `Basic ${token}`,
-                },
-            })
-                .then(response => {
-                    // NOTE: You maybe wondering why 204 is set as error. 204
-                    // means No Content, which is a error in terms of our API.
-                    if (response.status !== 204 && (response.status >= 200 && response.status <= 299)) {
-                        return response.text();
-                    }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => resolve(x2js.xml2js(resp)))
-                .catch(err => reject(err));
-        });
-    }
-
-    public addAnime(animeId: string, data: IAnimeValues): Promise<string> {
-        return new Promise((resolve, reject) => {
-            let endpoint = `https://myanimelist.net/api/animelist/add/${animeId}.xml`;
-            const token = btoa(`${this.username}:${this.password}`);
-            fetch(endpoint, {
+            const response = await fetch(endpoint, {
                 body: "data=" + x2js.js2xml(data),
                 headers: {
                     "authorization": `Basic ${token}`,
                     "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
                 },
                 method: "POST",
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => resolve(x2js.xml2js(resp)))
-                .catch(err => reject(err));
-        });
+            });
+            if (!response.ok) {
+                throw new Error(response.status.toString());
+            }
+            return x2js.xml2js(await response.text());
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
 
-    public updateAnime(animeId: string, data: IAnimeValues): Promise<string> {
-        return new Promise((resolve, reject) => {
-            let endpoint = `https://myanimelist.net/api/animelist/update/${animeId}.xml`;
+    public async updateAnime(animeId: string, data: IAnimeValues): Promise<string> {
+        try {
+            const endpoint = `https://myanimelist.net/api/animelist/update/${animeId}.xml`;
             const token = btoa(`${this.username}:${this.password}`);
-            fetch(endpoint, {
+            const response = await fetch(endpoint, {
                 body: "data=" + x2js.js2xml(data),
                 headers: {
                     "authorization": `Basic ${token}`,
                     "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
                 },
                 method: "POST",
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => resolve(x2js.xml2js(resp)))
-                .catch(err => reject(err));
-        });
+            });
+            if (!response.ok) {
+                throw new Error(response.status.toString());
+            }
+            return x2js.xml2js(await response.text());
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
 
-    public deleteAnime(animeId: string): Promise<string> {
-        return new Promise((resolve, reject) => {
-            let endpoint = `https://myanimelist.net/api/animelist/delete/${animeId}.xml`;
+    public async deleteAnime(animeId: string): Promise<string> {
+        try {
+            const endpoint = `https://myanimelist.net/api/animelist/delete/${animeId}.xml`;
             const token = btoa(`${this.username}:${this.password}`);
-            fetch(endpoint, {
+            const response = await fetch(endpoint, {
                 headers: {
                     authorization: `Basic ${token}`,
                 },
                 method: "POST",
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => resolve(resp))
-                .catch(err => reject(err));
-        });
+            });
+            if (!response.ok) {
+                throw new Error(response.status.toString());
+            }
+            return x2js.xml2js(await response.text());
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
 }
 /* tslint:enable:max-classes-per-file */
