@@ -149,10 +149,10 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 .then(() => sendResponse({
                     success: true,
                 }))
-                .catch((err: number) => {
+                .catch((err: Error) => {
                     sendResponse({
+                        err: isNaN(Number(err.message)) ? 0 : Number(err.message),
                         success: false,
-                        err,
                     });
                 });
             // means we want to return the response
@@ -165,10 +165,10 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 .then(() => sendResponse({
                     success: true,
                 }))
-                .catch((err: number) => {
+                .catch((err: Error) => {
                     sendResponse({
+                        err: isNaN(Number(err.message)) ? 0 : Number(err.message),
                         success: false,
-                        err,
                     });
                 });
             return true;
@@ -180,10 +180,10 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                     data: resp,
                     success: true,
                 }))
-                .catch((err: number) => {
+                .catch((err: Error) => {
                     sendResponse({
+                        err: isNaN(Number(err.message)) ? 0 : Number(err.message),
                         success: false,
-                        err,
                     });
                 });
             return true;
@@ -195,10 +195,10 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                     data: resp,
                     success: true,
                 }))
-                .catch((err: number) => {
+                .catch((err: Error) => {
                     sendResponse({
+                        err: isNaN(Number(err.message)) ? 0 : Number(err.message),
                         success: false,
-                        err,
                     });
                 });
             return true;
@@ -209,10 +209,10 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 .then(resp => sendResponse({
                     success: true,
                 }))
-                .catch((err: number) => {
+                .catch((err: Error) => {
                     sendResponse({
+                        err: isNaN(Number(err.message)) ? 0 : Number(err.message),
                         success: false,
-                        err,
                     });
                 });
             return true;

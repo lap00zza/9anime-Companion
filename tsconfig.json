@@ -5,7 +5,7 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "target": "es6",
+    "target": "es2017",
     "module": "commonjs",
     "strict": true
   }
