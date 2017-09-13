@@ -26,7 +26,7 @@ if (titleSpan.length > 0) {
         intent: 22, /* manually set intent */
         anime,
     }, resp => {
-        if (resp.success) {
+        if (resp.success && resp.data && resp.data.url) {
             DOMAddLink(resp.data.url);
         } else {
             chrome.runtime.sendMessage({
@@ -34,7 +34,7 @@ if (titleSpan.length > 0) {
                 intent: 19, /* manually set intent */
                 searchText: anime,
             }, resp => {
-                if (resp.success && resp.data.html) {
+                if (resp.success && resp.data && resp.data.html) {
                     DOMAddLink(getAnimeLink(anime, resp.data.html));
                 }
             });
