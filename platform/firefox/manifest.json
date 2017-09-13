@@ -45,6 +45,11 @@
     "js": ["vendor/jquery.js", "vendor/toastr.js", "build/js/cscript_global.bundle.js"],
     "css": ["build/css/global.css"],
     "run_at": "document_end"
+  }, {
+    "matches": ["*://myanimelist.net/anime/*"],
+    "js": ["site_integrations/myanimelist.js"],
+    "css": ["site_integrations/myanimelist.css"],
+    "run_at": "document_end"
   }],
 
   "options_ui": {
@@ -57,7 +62,9 @@
     "downloads",
     "*://9anime.to/*",
     "*://9anime.is/*",
-    "*://9anime.tv/*"
+    "*://9anime.tv/*",
+    "*://www.rapidvideo.com/e/*",
+    "*://myanimelist.net/anime/*"
   ],
 
    "optional_permissions": [

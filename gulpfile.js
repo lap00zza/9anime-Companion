@@ -52,6 +52,7 @@ gulp.task("webpack", function (callback) {
 /* --- Chrome Related Tasks --- */
 gulp.task("copy_chromium_files", ["copy_vendor_files"], function () {
     return gulp.src([
+        "LICENSE",
         "!src/templates/**.*",
         "src/**/*.{js,bundle.js,png,css,svg,html,jpg}",
         "platform/chromium/**/*"
@@ -76,6 +77,7 @@ gulp.task("zip_chrome", function () {
 /* --- Firefox Related Tasks --- */
 gulp.task("copy_firefox_files", ["copy_vendor_files"], function () {
     return gulp.src([
+        "LICENSE",
         "!src/templates/**.*",
         "src/**/*.{js,bundle.js,png,css,svg,html,jpg}",
         "platform/firefox/**/*"
