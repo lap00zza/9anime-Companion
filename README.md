@@ -37,6 +37,7 @@
 * Project Board (aka what am I doing right now): https://github.com/lap00zza/9anime-Companion/projects/2
 * Discord server: https://discord.gg/BnAqVF9
 * Donate:
+  * Gratipay: https://gratipay.com/9anime-Companion/
   * Patreon: https://www.patreon.com/lap00zza
   * Paypal: https://www.paypal.me/lapoozza
 
