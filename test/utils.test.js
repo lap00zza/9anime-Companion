@@ -75,22 +75,22 @@ describe("cleanAnimeName", () => {
 });
 
 // [6]: getSlug
-// test("getSlug: should generate a proper slug", () => {
-//     let testData = [{
-//         name: "Kono Subarashii Sekai ni Shukufuku wo! 2",
-//         slug: "kono-subarashii-sekai-ni-shukufuku-wo-2"
-//     }, {
-//         name: "Keijo!!!!!!!!",
-//         slug: "keijo"
-//     }, {
-//         name: "A    A    A",
-//         slug: "a----a----a"
-//     }]
-//
-//     testData.forEach(el => {
-//         expect(utils.getSlug(el.name)).toBe(el.slug)
-//     })
-// })
+test("getSlug: should generate a proper slug", () => {
+    let testData = [{
+        name: "Kono Subarashii Sekai ni Shukufuku wo! 2",
+        slug: "kono-subarashii-sekai-ni-shukufuku-wo-2"
+    }, {
+        name: "Keijo!!!!!!!!",
+        slug: "keijo"
+    }, {
+        name: "A    A    A",
+        slug: "a-a-a"
+    }];
+
+    testData.forEach(el => {
+        expect(utils.getSlug(el.name)).toBe(el.slug)
+    })
+});
 
 // [7]: joinURL
 describe("joinURL", () => {

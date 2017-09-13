@@ -14,19 +14,30 @@
  * @todo change to typescript
  */
 
-console.log("9anime Companion MAL Site Integration");
 const titleSpan = document.querySelectorAll("h1 > span[itemprop='name']");
 const profileRows = document.getElementById("profileRows");
 if (titleSpan.length > 0) {
-    const animeName = titleSpan[0].innerText;
-    console.log(animeName);
+    const anime = titleSpan[0].innerText;
+    // console.log(anime);
+    // The idea here is, first we try to get the anime from
+    // @Akkusativ's endpoint. If its not present in his
+    // database we get it from 9anime search.
     chrome.runtime.sendMessage({
-        baseUrl: "https://9anime.to",
-        intent: 19, /* manually set intent */
-        searchText: animeName,
+        intent: 22, /* manually set intent */
+        anime,
     }, resp => {
-        if (resp.success && resp.data.html) {
-            DOMAddLink(animeName, getAnimeLink(animeName, resp.data.html));
+        if (resp.success) {
+            DOMAddLink(resp.data.url);
+        } else {
+            chrome.runtime.sendMessage({
+                baseUrl: "https://9anime.to",
+                intent: 19, /* manually set intent */
+                searchText: anime,
+            }, resp => {
+                if (resp.success && resp.data.html) {
+                    DOMAddLink(getAnimeLink(anime, resp.data.html));
+                }
+            });
         }
     });
 }
@@ -58,12 +69,11 @@ let getAnimeLink = (animeName, html) => {
 };
 
 /**
- * @param {string} animeName
  * @param {string} animeLink
  */
-let DOMAddLink = (animeName, animeLink) => {
-    console.log(animeName, animeLink, profileRows);
-    if (animeName && animeLink && profileRows) {
+let DOMAddLink = (animeLink) => {
+    // console.log(animeLink, profileRows);
+    if (animeLink && profileRows) {
         const iconReverse = chrome.runtime.getURL("images/iconReverse.png");
         const icon = chrome.runtime.getURL("images/icon.png");
         const linkDiv = document.createElement("div");

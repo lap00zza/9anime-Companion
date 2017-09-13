@@ -305,4 +305,5 @@ export enum Intent {
     "Search_Anime",
     "Install_Check", /* sent by content script on page load */
     "Show_Notification",
+    "SiteIntegration_GetLink",
 }

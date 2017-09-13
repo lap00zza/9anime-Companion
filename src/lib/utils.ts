@@ -34,18 +34,21 @@ export function fileSafeString(filename: string): string {
     return filename.replace(re, "");
 }
 
-// /**
-//  * Generates a slug from an anime name. The slug only contains
-//  * letters a to z, number 0 to 9 and the character -.
-//  * @param name
-//  * @returns
-//  *      slug
-//  */
-// export function getSlug(name: string): string {
-//     let slugRe = /[^A-Za-z0-9\-]/g;
-//     // the first replace replaces all spaces with -
-//     return name.toLocaleLowerCase().replace(/\s/g, "-").replace(slugRe, "");
-// }
+/**
+ * Generates a slug from an anime name. The slug only contains
+ * letters a to z, number 0 to 9 and the character -.
+ * Credits to mathewbyrne(https://github.com/mathewbyrne)
+ * https://gist.github.com/mathewbyrne/1280286
+ * @param name
+ */
+export function getSlug(name: string): string {
+    return name.toString().toLowerCase()
+        .replace(/\s+/g, "-")           // Replace spaces with -
+        .replace(/[^\w\-]+/g, "")       // Remove all non-word chars
+        .replace(/--+/g, "-")         // Replace multiple - with single -
+        .replace(/^-+/, "")             // Trim - from start of text
+        .replace(/-+$/, "");            // Trim - from end of text
+}
 
 /**
  * Removes some of the modifiers like DUB, SUB etc that are

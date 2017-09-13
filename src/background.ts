@@ -10,7 +10,7 @@ import * as dlAll from "./lib/download_all/core";
 import * as mal from "./lib/MyAnimeList/core";
 import * as recentlyWatched from "./lib/recently_watched";
 import RedditDiscussion from "./lib/reddit_discussion";
-import {cleanAnimeName, joinURL, loadSettings, obj2query} from "./lib/utils";
+import {cleanAnimeName, getSlug, joinURL, loadSettings, obj2query} from "./lib/utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 
@@ -245,6 +245,27 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                     });
                 }
             });
+            return true;
+
+        /**
+         *  Akkusativ's endpoint
+         *  @todo implement caching
+         */
+        case Intent.SiteIntegration_GetLink:
+            fetch(`https://kissanimelist.firebaseio.com/Prototyp/9anime/${getSlug(message.anime)}.json`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error(response.status.toString());
+                })
+                .then(resp => sendResponse({
+                    data: resp,
+                    success: true,
+                }))
+                .catch(() => sendResponse({
+                    success: false,
+                }));
             return true;
 
         default:
