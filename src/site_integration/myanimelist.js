@@ -18,20 +18,20 @@ const titleSpan = document.querySelectorAll("h1 > span[itemprop='name']");
 const profileRows = document.getElementById("profileRows");
 if (titleSpan.length > 0) {
     const anime = titleSpan[0].innerText;
-    // console.log(anime);
     // The idea here is, first we try to get the anime from
     // @Akkusativ's endpoint. If its not present in his
     // database we get it from 9anime search.
     chrome.runtime.sendMessage({
-        intent: 22, /* manually set intent */
+        intent: 22, /* Intent.SiteIntegration_GetLink */
         anime,
     }, resp => {
-        if (resp.success && resp.data && resp.data.url) {
-            DOMAddLink(resp.data.url);
+        // console.log(resp);
+        if (resp.success && resp.data /*&& resp.data.url*/) {
+            DOMAddLink(resp.data/*.url*/);
         } else {
             chrome.runtime.sendMessage({
                 baseUrl: "https://9anime.to",
-                intent: 19, /* manually set intent */
+                intent: 19, /* Intent.Search_Anime */
                 searchText: anime,
             }, resp => {
                 if (resp.success && resp.data && resp.data.html) {

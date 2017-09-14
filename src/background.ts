@@ -10,7 +10,7 @@ import * as dlAll from "./lib/download_all/core";
 import * as mal from "./lib/MyAnimeList/core";
 import * as recentlyWatched from "./lib/recently_watched";
 import RedditDiscussion from "./lib/reddit_discussion";
-import {cleanAnimeName, getSlug, joinURL, loadSettings, obj2query} from "./lib/utils";
+import {cleanAnimeName, getSlug, isUrl, joinURL, loadSettings, obj2query} from "./lib/utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 
@@ -249,23 +249,31 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 
         /**
          *  Akkusativ's endpoint
+         *  @todo implement POST for new anime
          *  @todo implement caching
          */
         case Intent.SiteIntegration_GetLink:
-            fetch(`https://kissanimelist.firebaseio.com/Prototyp/9anime/${getSlug(message.anime)}.json`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
+            (async () => {
+                try {
+                    const apiEndpoint = "https://kissanimelist.firebaseio.com/Prototyp/9anime/";
+                    const response = await fetch(apiEndpoint + getSlug(message.anime) + "/url.json");
+                    if (!response.ok) {
+                        throw new Error(response.status.toString());
                     }
-                    throw new Error(response.status.toString());
-                })
-                .then(resp => sendResponse({
-                    data: resp,
-                    success: true,
-                }))
-                .catch(() => sendResponse({
-                    success: false,
-                }));
+                    const data = await response.json();
+                    if (!isUrl(data)) {
+                        throw new Error("Invalid URL");
+                    }
+                    sendResponse({
+                        data,
+                        success: true,
+                    });
+                } catch (err) {
+                    sendResponse({
+                        success: false,
+                    });
+                }
+            })();
             return true;
 
         default:
