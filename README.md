@@ -68,6 +68,10 @@
 
 > :information_source: Check `gulpfile.js` and `package.json` for all the available tasks
 
+## Special thanks to
+* All the [contributors](https://github.com/lap00zza/9anime-Companion/graphs/contributors)
+* Francisco Seipel-Soubrier ([@lolamtisch](https://github.com/lolamtisch)) for his extensive Episode Database. Check out his project: [KissAnimeList](https://greasyfork.org/de/scripts/27564-kissanimelist).
+
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/master/.github/CONTRIBUTING.md)
 
