@@ -70,7 +70,7 @@
 
 ## Special thanks to
 * All the [contributors](https://github.com/lap00zza/9anime-Companion/graphs/contributors)
-* Francisco Seipel-Soubrier ([@lolamtisch](https://github.com/lolamtisch)) for his extensive Episode Database. Check out his project: [KissAnimeList](https://greasyfork.org/de/scripts/27564-kissanimelist).
+* Francisco Seipel-Soubrier ([@lolamtisch](https://github.com/lolamtisch)) for his extensive anime url mapping database. Check out his project: [KissAnimeList](https://greasyfork.org/en/scripts/27564-kissanimelist).
 
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/master/.github/CONTRIBUTING.md)
