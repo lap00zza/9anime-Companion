@@ -3,13 +3,13 @@
 </h1>
 <p align="center">
   <a href="https://travis-ci.org/lap00zza/9anime-Companion">
-    <img alt="Build Status" href="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master>
+    <img alt="Build Status" src="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master">
   </a>
   <a href="https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master">
-    <img alt="Build status" href="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true">
+    <img alt="Build status" src="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true">
   </a>
   <a href="https://www.bithound.io/github/lap00zza/9anime-Companion">
-    <img alt="bitHound Overall Score" href="https://www.bithound.io/github/lap00zza/9anime-Companion/badges/score.svg">
+    <img alt="bitHound Overall Score" src="https://www.bithound.io/github/lap00zza/9anime-Companion/badges/score.svg">
   </a>
   <br>
   <em>A simple companion extension for 9anime</em>
