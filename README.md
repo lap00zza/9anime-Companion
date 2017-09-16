@@ -1,12 +1,19 @@
-[![Build Status](https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master)](https://travis-ci.org/lap00zza/9anime-Companion)
-[![Build status](https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true)](https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master)
-[![bitHound Overall Score](https://www.bithound.io/github/lap00zza/9anime-Companion/badges/score.svg)](https://www.bithound.io/github/lap00zza/9anime-Companion)
-<hr>
-
 <h1 align="center">
   9anime Companion
 </h1>
-<p align="center"><em>A simple companion extension for 9anime</em></p>
+<p align="center">
+  <a href="https://travis-ci.org/lap00zza/9anime-Companion">
+    <img alt="Build Status" href="https://travis-ci.org/lap00zza/9anime-Companion.svg?branch=master>
+  </a>
+  <a href="https://ci.appveyor.com/project/lap00zza/9anime-companion/branch/master">
+    <img alt="Build status" href="https://ci.appveyor.com/api/projects/status/glkjys3aw8y9m8vb/branch/master?svg=true">
+  </a>
+  <a href="https://www.bithound.io/github/lap00zza/9anime-Companion">
+    <img alt="bitHound Overall Score" href="https://www.bithound.io/github/lap00zza/9anime-Companion/badges/score.svg">
+  </a>
+  <br>
+  <em>A simple companion extension for 9anime</em>
+</p>
 <p align="center">
     <img src="https://image.ibb.co/jHMahQ/9ac_popup.png" height="350px" width="auto" alt="Popup">
 </p>
@@ -33,19 +40,16 @@
 * **AMO**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion
 
 ## Links
-* Wiki: https://github.com/lap00zza/9anime-Companion/wiki
-* Project Board (aka what am I doing right now): https://github.com/lap00zza/9anime-Companion/projects/2
-* Discord server: https://discord.gg/BnAqVF9
-* Donate:
-  * Gratipay: https://gratipay.com/9anime-Companion/
-  * Patreon: https://www.patreon.com/lap00zza
-  * Paypal: https://www.paypal.me/lapoozza
+* [Wiki](https://github.com/lap00zza/9anime-Companion/wiki)
+* [Project Board](https://github.com/lap00zza/9anime-Companion/projects/2)
+* Discord server: [Invite](https://discord.gg/BnAqVF9)
+* Donate: [Patreon](https://www.patreon.com/lap00zza) | [Gratipay](https://gratipay.com/9anime-Companion) | [Paypal](https://www.paypal.me/lapoozza)
 
 ## Build Instructions
 1. Install NodeJS
 2. Install git
 3. Run the following commands
-   ```shell
+   ```bash
    # Clone the repository and move inside it
    $ git clone https://github.com/lap00zza/9anime-Companion.git
    $ cd 9anime-Companion
