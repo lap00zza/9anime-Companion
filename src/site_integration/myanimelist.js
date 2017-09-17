@@ -14,33 +14,11 @@
  * @todo change to typescript
  */
 
+/* globals chrome, console */
+
 const titleSpan = document.querySelectorAll("h1 > span[itemprop='name']");
 const profileRows = document.getElementById("profileRows");
-if (titleSpan.length > 0) {
-    const anime = titleSpan[0].innerText;
-    // The idea here is, first we try to get the anime from
-    // @Akkusativ's endpoint. If its not present in his
-    // database we get it from 9anime search.
-    chrome.runtime.sendMessage({
-        intent: 22, /* Intent.SiteIntegration_GetLink */
-        anime,
-    }, resp => {
-        // console.log(resp);
-        if (resp.success && resp.data /*&& resp.data.url*/) {
-            DOMAddLink(resp.data/*.url*/);
-        } else {
-            chrome.runtime.sendMessage({
-                baseUrl: "https://9anime.to",
-                intent: 19, /* Intent.Search_Anime */
-                searchText: anime,
-            }, resp => {
-                if (resp.success && resp.data && resp.data.html) {
-                    DOMAddLink(getAnimeLink(anime, resp.data.html));
-                }
-            });
-        }
-    });
-}
+const linkDiv = domAddLink();
 
 const isUrl = function (url) {
     const re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -68,26 +46,64 @@ let getAnimeLink = (animeName, html) => {
     return "";
 };
 
-/**
- * @param {string} animeLink
- */
-let DOMAddLink = (animeLink) => {
-    // console.log(animeLink, profileRows);
-    if (animeLink && profileRows) {
+function domAddLink() {
+    if (profileRows) {
         const iconReverse = chrome.runtime.getURL("images/iconReverse.png");
         const icon = chrome.runtime.getURL("images/icon.png");
         const linkDiv = document.createElement("div");
         linkDiv.classList.add("nac__mal-site-link");
         linkDiv.innerHTML =
-            `<a href=${animeLink} rel="noopener noreferrer" target="_blank">` +
-            `    <img src="${icon}"><span>Watch on 9anime</span>`+
+            `<a href="#">` +
+            `    <img src="${icon}"><span>Fetching 9anime link</span>` +
             `</a>`;
-        linkDiv.addEventListener("mouseenter", function(){
+        linkDiv.addEventListener("mouseenter", function () {
             linkDiv.getElementsByTagName("img")[0].src = iconReverse;
         });
-        linkDiv.addEventListener("mouseleave", function(){
+        linkDiv.addEventListener("mouseleave", function () {
             linkDiv.getElementsByTagName("img")[0].src = icon;
         });
         profileRows.parentNode.insertBefore(linkDiv, profileRows.nextSibling);
+        return linkDiv;
     }
-};
+    return null;
+}
+
+function prepareLink(url) {
+    if (linkDiv) {
+        const link = linkDiv.querySelectorAll("a");
+        const span = linkDiv.querySelectorAll("span");
+        if (link && span && link.length > 0 && span.length > 0) {
+            link[0].href = url;
+            link[0].rel = "noopener noreferrer";
+            link[0].target = "_blank";
+            span[0].innerText = "Watch on 9anime";
+        }
+    }
+}
+
+// Attach the link div and start searching the link for anime
+if (titleSpan.length > 0) {
+    const anime = titleSpan[0].innerText;
+    // The idea here is, first we try to get the anime from
+    // @Akkusativ's endpoint. If its not present in his
+    // database we get it from 9anime search.
+    chrome.runtime.sendMessage({
+        intent: 22, /* Intent.SiteIntegration_GetLink */
+        anime,
+    }, resp => {
+        console.log(resp);
+        if (resp.success && resp.data /*&& resp.data.url*/) {
+            prepareLink(resp.data);
+        } else {
+            chrome.runtime.sendMessage({
+                baseUrl: "https://9anime.to",
+                intent: 19, /* Intent.Search_Anime */
+                searchText: anime,
+            }, resp => {
+                if (resp.success && resp.data && resp.data.html) {
+                    prepareLink(getAnimeLink(anime, resp.data.html));
+                }
+            });
+        }
+    });
+}
