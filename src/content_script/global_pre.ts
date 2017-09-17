@@ -7,7 +7,7 @@
  * called before the 9anime page is loaded.
  */
 
-import {loadSettings} from "./utils";
+import {loadSettings} from "../lib/utils";
 
 console.info("9anime Companion 1.0.0 (Global Script Pre)");
 

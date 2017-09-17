@@ -41,8 +41,8 @@
     "run_at": "document_end"
   }, {
     "matches": ["*://myanimelist.net/anime/*"],
-    "js": ["site_integrations/myanimelist.js"],
-    "css": ["site_integrations/myanimelist.css"],
+    "js": ["site_integration/myanimelist.js"],
+    "css": ["site_integration/myanimelist.css"],
     "run_at": "document_end"
   }],
 

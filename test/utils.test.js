@@ -1,5 +1,5 @@
 /* global test, expect */
-const utils = require("../src/ts/utils");
+const utils = require("../src/lib/utils");
 
 // [1]: fileSafeString
 describe("fileSafeString", () => {

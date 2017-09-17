@@ -16,7 +16,7 @@ global.X2JS = class {
     constructor() {}
 };
 
-const malDate = require("../src/ts/MyAnimeList/core").malDate;
+const malDate = require("../src/lib/MyAnimeList/core").malDate;
 
 // malDate
 describe("malDate", () => {

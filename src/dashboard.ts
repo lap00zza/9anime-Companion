@@ -20,8 +20,8 @@ declare global {
 }
 /* tslint:enable:no-namespace interface-name*/
 
-import {Intent, IRuntimeResponse, Settings} from "./common";
-import {decomposeURL, loadSettings} from "./utils";
+import {Intent, IRuntimeResponse, Settings} from "./lib/common";
+import {decomposeURL, loadSettings} from "./lib/utils";
 
 let settingsKeys = Object.keys(Settings);
 
@@ -254,7 +254,7 @@ $("#mal-configure__form").on("submit", e => {
     malLoginBtn.attr("disabled", "disabled");
     malUsernameInput.attr("disabled", "disabled");
     malPasswordInput.attr("disabled", "disabled");
-    malLoginProgress.empty().append(`<img src="../images/loader.svg">`);
+    malLoginProgress.empty().append(`<img src="images/loader.svg">`);
 
     let malUsername = malUsernameInput.val();
     let malPassword = malPasswordInput.val();
@@ -273,10 +273,10 @@ $("#mal-configure__form").on("submit", e => {
                     malPassword,
                     malUsername,
                 });
-                malLoginProgress.empty().append(`<img src="../images/check-mark.png">`);
+                malLoginProgress.empty().append(`<img src="images/check-mark.png">`);
                 disableMalLogin();
             } else {
-                malLoginProgress.empty().append(`<img src="../images/x-mark.png">`);
+                malLoginProgress.empty().append(`<img src="images/x-mark.png">`);
                 // console.log(resp.err);
             }
 
@@ -310,7 +310,7 @@ adBlockApplyBtn.on("click", () => {
     }
 
     adBlockApplyBtn.attr("disabled", "disabled");
-    adBlockProgress.empty().append(`<img src="../images/loader.svg">`);
+    adBlockProgress.empty().append(`<img src="images/loader.svg">`);
 
     chrome.runtime.sendMessage({
         intent: Intent.AdBlocker_UpdateFilter_Local,
@@ -318,7 +318,7 @@ adBlockApplyBtn.on("click", () => {
     }, resp => {
         if (resp.success) {
             adBlockApplyBtn.removeAttr("disabled");
-            adBlockProgress.empty().append(`<img src="../images/check-mark.png">`);
+            adBlockProgress.empty().append(`<img src="images/check-mark.png">`);
         }
     });
 });

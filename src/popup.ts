@@ -3,8 +3,8 @@
 
 declare function require(arg: string): string;
 
-import {Intent, IRecentlyWatched, IRuntimeResponse} from "./common";
-import {isUrl, loadSettings} from "./utils";
+import {Intent, IRecentlyWatched, IRuntimeResponse} from "./lib/common";
+import {isUrl, loadSettings} from "./lib/utils";
 
 let recentlyWatched = $("#recently-watched");
 let noItemsOverlay = $("#no-items");

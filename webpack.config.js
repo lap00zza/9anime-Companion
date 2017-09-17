@@ -3,12 +3,12 @@ let path = require("path");
 module.exports = {
     cache: true,
     entry: {
-        background: "./src/ts/background.ts",
-        cscript_global: "./src/ts/cscript_global.ts",
-        cscript_global_pre: "./src/ts/cscript_global_pre.ts",
-        cscript_watchpage: "./src/ts/cscript_watchpage.ts",
-        dashboard: "./src/ts/dashboard.ts",
-        popup: "./src/ts/popup.ts"
+        background: "./src/background.ts",
+        cscript_global: "./src/content_script/global.ts",
+        cscript_global_pre: "./src/content_script/global_pre.ts",
+        cscript_watchpage: "./src/content_script/watchpage.ts",
+        dashboard: "./src/dashboard.ts",
+        popup: "./src/popup.ts"
     },
     module: {
         rules: [

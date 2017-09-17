@@ -4,13 +4,13 @@
  * This is the background script.
  */
 
-import * as adBlocker from "./adBlocker";
-import {IGenericObject, Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./common";
-import * as dlAll from "./download_all/core";
-import * as mal from "./MyAnimeList/core";
-import * as recentlyWatched from "./recently_watched";
-import RedditDiscussion from "./reddit_discussion";
-import {cleanAnimeName, joinURL, loadSettings, obj2query} from "./utils";
+import * as adBlocker from "./lib/adBlocker";
+import {IGenericObject, Intent, IRuntimeMessage, IRuntimeResponse, Settings} from "./lib/common";
+import * as dlAll from "./lib/download_all/core";
+import * as mal from "./lib/MyAnimeList/core";
+import * as recentlyWatched from "./lib/recently_watched";
+import RedditDiscussion from "./lib/reddit_discussion";
+import {cleanAnimeName, joinURL, loadSettings, obj2query} from "./lib/utils";
 
 export type SendResponse = (param: IRuntimeResponse) => void;
 

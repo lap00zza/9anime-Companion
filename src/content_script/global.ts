@@ -6,9 +6,9 @@
  * throughout the 9anime website.
  */
 
-import {Intent, IRuntimeMessage, IRuntimeResponse} from "./common";
-import * as enhancements from "./enhancements";
-import {loadSettings} from "./utils";
+import {Intent, IRuntimeMessage, IRuntimeResponse} from "../lib/common";
+import * as enhancements from "../lib/enhancements";
+import {loadSettings} from "../lib/utils";
 
 console.info("9anime Companion 1.0.0 (Global Script)");
 

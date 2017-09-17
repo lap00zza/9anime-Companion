@@ -1,8 +1,8 @@
-import {Intent} from "./common";
-import * as dlAll from "./download_all/widgets";
-import * as mal from "./MyAnimeList/widgets";
-import utilityBar from "./utility_bar";
-import {loadSettings} from "./utils";
+import {Intent} from "../lib/common";
+import * as dlAll from "../lib/download_all/widgets";
+import * as mal from "../lib/MyAnimeList/widgets";
+import utilityBar from "../lib/utility_bar";
+import {loadSettings} from "../lib/utils";
 
 console.info("%c9anime Companion 1.0.0", "color: orange; font-weight: bold;");
 
