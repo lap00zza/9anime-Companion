@@ -253,6 +253,9 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
          *  @todo implement caching
          */
         case Intent.SiteIntegration_GetLink:
+            // TODO: begin: https://myanimelist.net/anime/19815/No_Game_No_Life
+            // - Use mal IDs and start a request to
+            //   https://kissanimelist.firebaseio.com/Prototyp/Malanime/19815/Sites/9anime.json
             (async () => {
                 try {
                     const apiEndpoint = "https://kissanimelist.firebaseio.com/Prototyp/9anime/";
