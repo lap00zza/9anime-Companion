@@ -38,7 +38,7 @@ export default class RedditDiscussion {
     }
 
     private urlWithEp(): string {
-        let titleText = `title:"${this.cleanTitle()}" title:"Episode ${this.episode}"`;
+        let titleText = `title:"${this.cleanTitle()} - Episode ${this.episode}"`;
         let params = `subreddit:anime self:yes title:"Spoiler" title:"Discussion"`;
         return encodeURI(this.endpoint + titleText + this.addAltNames() + " " + params + "&sort=new");
     }
