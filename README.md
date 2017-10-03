@@ -42,7 +42,6 @@
 ## Links
 * [Wiki](https://github.com/lap00zza/9anime-Companion/wiki)
 * [Project Board](https://github.com/lap00zza/9anime-Companion/projects/2)
-* Discord server: [Invite](https://discord.gg/BnAqVF9)
 * Donate: [Patreon](https://www.patreon.com/lap00zza) | [Gratipay](https://gratipay.com/9anime-Companion) | [Paypal](https://www.paypal.me/lapoozza)
 
 ## Build Instructions
