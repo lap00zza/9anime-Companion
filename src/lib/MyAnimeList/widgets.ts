@@ -250,7 +250,7 @@ export function quickAccess(): JQuery<HTMLElement> {
     qa.find(selectors.watchedEp).on("keydown", e => {
         if (e.keyCode) {
             // Backspace is allowed
-            if (!(e.keyCode === 8 || (e.keyCode >= 48 && e.keyCode <= 57))) {
+            if (!(e.keyCode === 8 || (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105))) {
                 return false;
             }
         }
