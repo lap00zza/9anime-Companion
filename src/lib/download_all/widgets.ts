@@ -68,6 +68,8 @@ export function setup(options: ISetupOptions) {
         // the labels and adding appropriate dl buttons.
         if (/Server\s+F/i.test(serverLabel)) {
             $(s).append(downloadBtn(Server.Default));
+        } else if (/Server\s+G/i.test(serverLabel)) {
+            $(s).append(downloadBtn(Server.Default));
         } else if (/RapidVideo/i.test(serverLabel)) {
             $(s).append(downloadBtn(Server.RapidVideo));
         }
