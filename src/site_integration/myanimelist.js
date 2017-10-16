@@ -31,6 +31,11 @@ if (titleSpan.length > 0) {
     });
 }
 
+const isUrl = function (url) {
+    const re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    return re.test(url);
+};
+
 /**
  * Parses the html from 9anime search results and returns
  * the url of the anime.
@@ -45,7 +50,8 @@ let getAnimeLink = (animeName, html) => {
     const searchArr = doc.querySelectorAll(".info > a.name");
     for (let i = 0; i < searchArr.length; i++) {
         if (searchArr[i].innerText === animeName) {
-            return searchArr[i].href || "";
+            const url = searchArr[i].href;
+            return isUrl(url) ? url : "";
         }
     }
     return "";
@@ -75,5 +81,3 @@ let DOMAddLink = (animeName, animeLink) => {
         profileRows.parentNode.insertBefore(linkDiv, profileRows.nextSibling);
     }
 };
-
-
