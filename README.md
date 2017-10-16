@@ -28,6 +28,7 @@
 * Helpful shortcuts
   * <kbd>s</kbd> - Alternate search overlay (global)
   * <kbd>t</kbd> - Quickly scroll to top (global)
+* *Watch on 9anime* button in MyAnimeList ([screenshot](https://image.ibb.co/iBw25m/1.png))
 * *and quite a few more..*
  
 [1]: In my tests it removed 100% ads/popups without the need for an external adblocker. *Tested in Google Chrome Version 60.0.3112.90 (Official Build) (64-bit)*
