@@ -168,3 +168,67 @@ section
 
   width: 100%
   min-height: 200px
+
+
+// Slightly Better Looking Design
+// Variables
+$primary: #51286a
+
+$text-color: #5e5e5e
+$text-color-light: #9b9b9b
+
+$hover-color: #d8d8d8
+$background-color: #fbfbfb
+
+.card
+  border-color: transparent
+  border-top: 2px solid $primary
+  box-shadow: 0 0 3px 0 rgba(155,155,155,0.50)
+  border-radius: 4px
+
+.card-sidebar
+  font-weight: 500
+
+.sidebar-header
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding-top: 32px
+  padding-bottom: 32px
+
+.sidebar-nav
+  flex-direction: column
+
+  .nav-link
+    padding: 12px 15px
+    width: 100%
+    text-align: right
+    color: $text-color-light
+
+    &.active,
+    &:hover
+      color: $text-color
+      background-color: rgba($hover-color, .3)
+
+.sidebar-footer
+  margin-top: 32px
+
+.card-content
+  .card-header
+    background: transparent
+    border-color: $hover-color
+    font-weight: 500
+    font-size: 18px
+
+    a
+      color: $text-color
+
+      &:hover
+        color: $primary
+        text-decoration: none
+
+  .settings-checkbox
+    +checkBox($primary, #444, white)
+
+  .settings-name
+    color: $text-color-light
