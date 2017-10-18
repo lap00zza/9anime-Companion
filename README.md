@@ -38,11 +38,54 @@
 * **Chrome Webstore**: https://chrome.google.com/webstore/detail/9anime-companion/fopcehkidabibdmachbcpbgllhehknah
 * **AMO**: https://addons.mozilla.org/en-US/firefox/addon/9anime-companion
 
-## Donate
-If you like 9anime Companion and want to help support it you can donate via: [Patreon](https://www.patreon.com/lap00zza) | [Gratipay](https://gratipay.com/9anime-Companion) | [Paypal](https://www.paypal.me/lapoozza). You can also consider adding a :star: above.
+## Contributors
+<!-- Template taken from: https://github.com/kentcdodds/all-contributors -->
+<table>
+    <tr align="center">
+        <td>
+            <img src="https://avatars.githubusercontent.com/u/8621583" width="100px"><br>
+            <sub>
+                <strong>
+                    <a href="https://github.com/lap00zza">Jewel Mahanta</a>
+                </strong>
+            </sub><br>
+            <a href="https://github.com/lap00zza/9anime-Companion/commits?author=lap00zza">💻</a>
+        </td>
+        <td>
+            <img src="https://avatars.githubusercontent.com/u/10068719" width="100px"><br>
+            <sub>
+                <strong>
+                    <a href="https://github.com/densityx">Ahmad Aziz</a>
+                </strong>
+            </sub><br>
+            <a href="https://github.com/lap00zza/9anime-Companion/commits?author=densityx">💻</a>
+        </td>
+        <td>
+            <img src="https://avatars.githubusercontent.com/u/27362642" width="100px"><br>
+            <sub>
+                <strong>
+                    <a href="https://github.com/WEBhicham">WEBhicham</a>
+                </strong>
+            </sub><br>
+            <a href="https://github.com/lap00zza/9anime-Companion/commits?author=WEBhicham">💻</a>
+        </td>
+        <td>
+            <img src="https://avatars.githubusercontent.com/u/10241434" width="100px"><br>
+            <sub>
+                <strong>
+                    <a href="https://github.com/yumiris">Emilian Roman</a>
+                </strong>
+            </sub><br>
+            <a href="https://github.com/lap00zza/9anime-Companion/commits?author=yumiris">💻</a>
+        </td>
+    </tr>
+</table>
 
 ## Want to contribute?
 Check out [CONTRIBUTING.md](https://github.com/lap00zza/9anime-Companion/blob/master/.github/CONTRIBUTING.md)
+
+## Donate
+If you like 9anime Companion and want to help support it you can donate via: [Patreon](https://www.patreon.com/lap00zza) | [Gratipay](https://gratipay.com/9anime-Companion) | [Paypal](https://www.paypal.me/lapoozza). You can also consider adding a :star: above.
 
 ## License
 [MIT](https://github.com/lap00zza/9anime-Companion/blob/master/LICENSE)
