@@ -288,6 +288,8 @@ chrome.runtime.onInstalled.addListener(details => {
                             newSettings[key] = previousSettings[key];
                         }
                     });
+                    // TODO: add a way to preserve users filter list
+                    newSettings.adBlockFilters = Settings.adBlockFilters;
                 });
                 chrome.storage.local.clear(() => {
                     chrome.storage.local.set(newSettings);
