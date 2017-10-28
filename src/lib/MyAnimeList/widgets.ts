@@ -115,7 +115,7 @@ export function epTracker(newEpId: string, newEpNum: number): void {
     // number and not stuff like tv, full, movie etc. The last
     // condition makes sure we dont spam the MAL API when 9anime
     // auto switches servers if it doesn't find anime in a server.
-    if (!isNaN(Number(newEpNum)) && autoUpdate && malWatchedEpisodes !== newEpNum && animeInUserList) {
+    if (!isNaN(Number(newEpNum)) && autoUpdate && animeInUserList && newEpNum > malWatchedEpisodes) {
         // update watched box and trigger auto sync
         $(selectors.watchedEp).val(newEpNum);
         malWatchedEpisodes = newEpNum;
@@ -152,7 +152,9 @@ function getCurrentAnime(): Promise<IMALSearchAnime> {
             if (resp.success) {
                 // We need the actual brackets in the regex for anime's
                 // like Little Witch Academia (TV). So we escape them.
-                let fixed = animeName.replace("(", "\\(").replace(")", "\\)");
+                let fixed = animeName
+                    .replace("(", "\\(")
+                    .replace(")", "\\)");
                 let titleRe = new RegExp(`^${fixed}$`, "i");
                 // console.log(resp);
 
