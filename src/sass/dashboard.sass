@@ -8,8 +8,10 @@
   display: block
   float: right
   position: relative
-  width: 50px
-  height: 26px
+  //width: 50px
+  //height: 26px
+  width: 35px
+  height: 22px
 
   .switch
     &__background
@@ -26,9 +28,11 @@
         cursor: pointer
     &__button
       display: block
-      width: 20px
-      height: 20px
-      border-radius: 20px
+      //width: 20px
+      //height: 20px
+      width: 16px
+      height: 16px
+      border-radius: 50%
       background-color: $colorButton
       position: relative
       top: 3px
@@ -44,7 +48,8 @@
       & + span
         background-color: $colorOn
       & + span > span
-        left: 27px
+        //left: 27px
+        left: 16px
         transition: 0.5s
 
 /**
@@ -168,3 +173,146 @@ section
 
   width: 100%
   min-height: 200px
+
+
+
+/**
+ * Slightly better looking dashboard
+ * @densityx
+ */
+$primary: #16a085
+$text-color: #5e5e5e
+$text-color-light: #9b9b9b
+$hover-color: #d8d8d8
+$background-color: #fbfbfb
+
+.logo
+  width: 177px
+  height: 38px
+
+  @include media-breakpoint-down(md)
+    width: 150px
+
+.inner-logo
+  fill: $primary
+
+.card
+  border-color: transparent
+  // border-top: 2px solid $primary
+  box-shadow: 0 0 3px 0 rgba(155,155,155,0.50)
+  border-radius: 4px
+
+.card-body
+  padding: 0 1.25rem 0 1.25rem
+
+.card-header
+  border-bottom: none
+
+.card-sidebar
+  margin-bottom: 0
+  font-weight: 500
+
+  @include media-breakpoint-down(sm)
+    margin-bottom: 2.5rem
+
+.sidebar-header
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding-top: 32px
+  padding-bottom: 32px
+
+.sidebar-nav
+  flex-direction: column
+
+  .nav-link
+    padding: 12px 15px
+    width: 100%
+    text-align: right
+    color: $text-color-light
+    font-size: .875rem
+    
+    @include media-breakpoint-down(md)
+      text-align: center
+    
+    &.active,
+    &:hover
+      color: $text-color
+      background-color: rgba(#bdc3c7, .1)
+
+.sidebar-footer
+  margin-top: 32px
+  padding: 15px
+
+.card-content
+  &:not(:last-child)
+    margin-bottom: 2.5rem
+
+  .card-header
+    background: transparent
+    border-color: $hover-color
+    font-weight: 500
+    font-size: .875rem
+
+    a
+      color: $text-color
+
+      &:hover
+        color: $primary
+        text-decoration: none
+
+  .settings-checkbox
+    margin-bottom: 0
+    +checkBox($primary, #bdc3c7, white)
+
+  .settings-name
+    font-size: .85rem
+    color: $text-color-light
+  
+  .settings-hyperlink
+    &:hover
+      cursor: pointer
+      text-decoration: none
+
+      .settings-name
+        color: $primary
+    
+  .settings-item
+    display: flex
+    justify-content: space-between
+    padding-top: .75rem
+    padding-bottom: .75rem
+
+.btn-outline-primary
+  color: $primary
+  border-color: $primary
+
+  &:hover
+    cursor: pointer
+    background-color: $primary
+    border-color: $primary
+
+.made-by
+  margin-bottom: 0
+  padding: 1.25rem
+  font-size: .85rem
+  text-align: center
+  font-weight: 400
+  color: $text-color-light
+
+  a
+    color: $primary
+
+    &:hover
+      color: darken($primary, 20%)
+      text-decoration: none
+    
+  .fa
+    color: #e74c3c
+
+// Tooltip
+.tooltip
+  font-size: .75rem
+
+.tooltip-inner
+  background-color: #2c3e50
