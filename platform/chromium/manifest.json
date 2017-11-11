@@ -26,16 +26,16 @@
   },
 
   "content_scripts": [{
-    "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*"],
+    "matches": ["*://9anime.to/watch/*", "*://9anime.is/watch/*", "*://9anime.tv/watch/*", "*://9anime.ru/watch/*"],
     "js": ["vendor/jquery.js", "build/js/cscript_watchpage.bundle.js"],
     "css": ["build/css/watch_page.css"],
     "run_at": "document_end"
   }, {
-    "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
+    "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*", "*://9anime.ru/*"],
     "js": ["build/js/cscript_global_pre.bundle.js"],
     "run_at": "document_start"
   }, {
-    "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*"],
+    "matches": ["*://9anime.to/*", "*://9anime.is/*", "*://9anime.tv/*", "*://9anime.ru/*"],
     "js": ["vendor/jquery.js", "vendor/toastr.js", "build/js/cscript_global.bundle.js"],
     "css": ["build/css/global.css"],
     "run_at": "document_end"
@@ -57,6 +57,7 @@
     "*://9anime.to/*",
     "*://9anime.is/*",
     "*://9anime.tv/*",
+    "*://9anime.ru/*",
     "*://www.rapidvideo.com/e/*",
     "*://myanimelist.net/anime/*"
   ],
