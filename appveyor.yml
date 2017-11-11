@@ -5,7 +5,9 @@ artifacts:
   - path: dist\*.xpi
     type: zip
 install:
-  - ps: Install-Product node ''
+  # node-sass has issues with node 9
+  # - ps: Install-Product node ''
+  - ps: Install-Product node 8
   - npm install
 build_script:
   - npm run linter
