@@ -23,8 +23,18 @@ enhancements.enhancedSearch();
 enhancements.scrollToTop();
 
 loadSettings([
+    "remAds",
     "remSocialShare",
 ]).then(settings => {
+    // This will remove all the iframes from 9anime except the disqus iframe
+    if (settings.remAds) {
+        console.info("%c[✔] Removing iframes", "color: lightgreen;");
+        $("iframe").each((_, el: HTMLIFrameElement) => {
+            if (!/disqus/.test(el.src)) {
+                $(el).remove();
+            }
+        });
+    }
     if (settings.remSocialShare) {
         console.info("%c[✔] Removing social share box", "color: lightgreen;");
         let socialSelectors = [
