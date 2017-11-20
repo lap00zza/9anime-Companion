@@ -24,23 +24,25 @@ loadSettings([
      * The following adds the _elavfx and _msdurx methods to window and makes sure
      * they cant be overwritten by 9anime. Thus, stopping (most of) the popups.
      */
+    // 20-11-2017
+    // 9anime renamed _elavfx and _msdurx to _fsbfifi and _qcvrgvy
     if (settings.remAds) {
         console.info("9anime Companion: Neutralizing ads");
         let head = document.querySelectorAll("head");
         let script = document.createElement("script");
         script.innerText = `
-            window._msdurx = () => {
+            window._fsbfifi = () => {
                 console.log("9anime Companion: 'Blocking popup...'");
             };
-            window._elavfx = () => {
+            window._qcvrgvy = () => {
                 console.log("9anime Companion: 'Blocking popup...'");
             };
-            Object.defineProperty(window, "_msdurx", {
+            Object.defineProperty(window, "_fsbfifi", {
                 enumerable: true,
                 configurable: false,
                 writable: false
             });
-            Object.defineProperty(window, "_elavfx", {
+            Object.defineProperty(window, "_qcvrgvy", {
                 enumerable: true,
                 configurable: false,
                 writable: false

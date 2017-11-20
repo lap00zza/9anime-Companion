@@ -23,6 +23,7 @@ export let adBlockFilters = [
     "^https?:\\/\\/([a-z0-9]+[.])*scorecardresearch\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*quantserve\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*bebi\\.com",
+    "^https?:\\/\\/([a-z0-9]+[.])*wwwpromoter\\.com",
     "^https?:\\/\\/af2f04d5bdd\\.com",
     "^https?:\\/\\/2mdnsys\\.com",
     "^https?:\\/\\/e2ertt\\.com",
