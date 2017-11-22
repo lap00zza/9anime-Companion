@@ -32,8 +32,8 @@ loadSettings([
         console.info("9anime Companion: Neutralizing ads");
         let head = document.querySelectorAll("head");
         let script = document.createElement("script");
-        script.innerText = `
-            window.fai = {
+        script.innerText =
+            `window.fai = {
                 M: {},
                 a: {}
             };
@@ -57,7 +57,7 @@ loadSettings([
                 enumerable: true,
                 configurable: false,
                 writable: false
-            });`;
+            });`.replace(/\s{2,}/g, "");
         // Script inject is required because thats the only way to
         // manipulate the global window object.
         head[0].appendChild(script);
