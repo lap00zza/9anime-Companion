@@ -26,11 +26,22 @@ loadSettings([
      */
     // 20-11-2017
     // 9anime renamed _elavfx and _msdurx to _fsbfifi and _qcvrgvy
+    // 22-11-2017
+    // 9anime added fai to thwart adblock :)
     if (settings.remAds) {
         console.info("9anime Companion: Neutralizing ads");
         let head = document.querySelectorAll("head");
         let script = document.createElement("script");
         script.innerText = `
+            window.fai = {
+                M: {},
+                a: {}
+            };
+            Object.defineProperty(window, "fai", {
+                enumerable: true,
+                configurable: false,
+                writable: false
+            });
             window._fsbfifi = () => {
                 console.log("9anime Companion: 'Blocking popup...'");
             };
@@ -46,8 +57,7 @@ loadSettings([
                 enumerable: true,
                 configurable: false,
                 writable: false
-            })`;
-
+            });`;
         // Script inject is required because thats the only way to
         // manipulate the global window object.
         head[0].appendChild(script);
