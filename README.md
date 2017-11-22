@@ -1,5 +1,4 @@
-> It looks like 9anime somehow blocked 9anime Companion. If you are getting the disable adblock message, please
-> [check this thread](https://github.com/lap00zza/9anime-Companion/issues/97). Please check the thread for discussions.
+> If you are getting the disable adblock message, update to version `1.3.1`. [Issue discussion thread](https://github.com/lap00zza/9anime-Companion/issues/97).
 
 <hr>
 
