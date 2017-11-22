@@ -97,6 +97,10 @@ $(() => {
 // tips.html(tipsList[Math.floor(Math.random() * tipsList.length)]);
 /* --- ^.^ --- */
 
+/* --- Version --- */
+$("#version").text(chrome.runtime.getManifest().version);
+/* --- ~~~ --- */
+
 /**
  * This runs as soon as the page loads. What this does is
  * loads the settings and set the checkbox state for those

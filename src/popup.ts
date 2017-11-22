@@ -144,3 +144,6 @@ chrome.runtime.sendMessage({
         showOverlay();
     }
 });
+
+// bind version
+$(".version").text(chrome.runtime.getManifest().version);
