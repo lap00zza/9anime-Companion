@@ -62,29 +62,29 @@ setTimeout(() => {
             let script = document.createElement("script");
             script.innerText =
                 `window.fai = {
-                M: {},
-                a: {}
-            };
-            Object.defineProperty(window, "fai", {
-                enumerable: true,
-                configurable: false,
-                writable: false
-            });
-            window._fsbfifi = () => {
-                console.log("9anime Companion: 'Blocking popup...'");
-            };
-            window._qcvrgvy = () => {
-                console.log("9anime Companion: 'Blocking popup...'");
-            };
-            Object.defineProperty(window, "_fsbfifi", {
-                enumerable: true,
-                configurable: false,
-                writable: false
-            });
-            Object.defineProperty(window, "_qcvrgvy", {
-                enumerable: true,
-                configurable: false,
-                writable: false
+                    M: {},
+                    a: {}
+                };
+                Object.defineProperty(window, "fai", {
+                    enumerable: true,
+                    configurable: false,
+                    writable: false
+                });
+                window._fsbfifi = () => {
+                    console.log("9anime Companion: 'Blocking popup...'");
+                };
+                window._qcvrgvy = () => {
+                    console.log("9anime Companion: 'Blocking popup...'");
+                };
+                Object.defineProperty(window, "_fsbfifi", {
+                    enumerable: true,
+                    configurable: false,
+                    writable: false
+                });
+                Object.defineProperty(window, "_qcvrgvy", {
+                    enumerable: true,
+                    configurable: false,
+                    writable: false
             });`.replace(/\s{2,}/g, "");
             // Script inject is required because thats the only way to
             // manipulate the global window object.
