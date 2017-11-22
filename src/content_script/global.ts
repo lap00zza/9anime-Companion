@@ -28,6 +28,15 @@ loadSettings([
 ]).then(settings => {
     // This will remove all the iframes from 9anime except the disqus iframe
     if (settings.remAds) {
+        console.info("%c[✔] Removing global ad placeholders", "color: lightgreen;");
+        // Contains the known ad selectors.
+        let adsSelectors = [
+            ".myass",
+        ];
+        for (let i of adsSelectors) {
+            $(i).remove();
+        }
+
         console.info("%c[✔] Removing iframes", "color: lightgreen;");
         $("iframe").each((_, el: HTMLIFrameElement) => {
             if (!/disqus/.test(el.src)) {

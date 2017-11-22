@@ -88,6 +88,8 @@ loadSettings([
             ".a_d",
             ".ads",
             ".sidebar",
+            ".pa",
+            ".myass",
         ];
         for (let i of adsSelectors) {
             $(i).remove();
