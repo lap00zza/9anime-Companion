@@ -1,4 +1,4 @@
-> If you are getting the disable adblock message, update to version `1.3.1`. [Issue discussion thread](https://github.com/lap00zza/9anime-Companion/issues/97).
+> If you are getting the disable adblock message, check out this [Issue discussion thread](https://github.com/lap00zza/9anime-Companion/issues/101).
 
 <hr>
 
