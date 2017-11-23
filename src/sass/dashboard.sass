@@ -127,9 +127,14 @@ section
 .settings-item
   cursor: default
   padding: 0.5rem 1rem
+  display: flex
+  justify-content: center
+  align-items: flex-start
+  > *:first-child
+    flex: 1
 
 .settings-config-btn
-  float: right
+  //float: right
 
 .settings-checkbox
   +checkBox(#2196F3, #444, white)

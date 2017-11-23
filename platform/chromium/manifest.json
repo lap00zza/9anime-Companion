@@ -91,7 +91,8 @@
     "*://9anime.tv/*",
     "*://9anime.ru/*",
     "*://www.rapidvideo.com/e/*",
-    "*://myanimelist.net/anime/*"
+    "*://myanimelist.net/anime/*",
+    "https://github.com/*"
   ],
   "optional_permissions": [
     "https://myanimelist.net/api/*",

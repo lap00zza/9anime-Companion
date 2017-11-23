@@ -327,4 +327,41 @@ adBlockApplyBtn.on("click", () => {
     });
 });
 
+/* --- AntiAdblock --- */
+const getUpdatedDetection = async () => {
+    try {
+        const resp = await fetch("https://github.com/lap00zza/9anime-Companion/raw/master/scripts/antiAdblock.json");
+        if (!resp.ok) {
+            throw new Error(resp.status.toString());
+        }
+        return await resp.json();
+    } catch (err) {
+        throw new Error(err.message);
+    }
+};
+
+const aabStatus = $("#antiAdblockStatus");
+const aabUpdateBtn = $("#antiAdblockUpdate");
+chrome.storage.local.get("antiAdblock", r => {
+    if (r.antiAdblock) {
+        aabStatus.text("last definition update: " + r.antiAdblock.lastUpdated);
+    }
+});
+aabUpdateBtn.on("click", () => {
+    aabUpdateBtn.attr("disabled", "disabled").text("Updating...");
+    getUpdatedDetection()
+        .then(r => {
+            chrome.storage.local.set({
+                antiAdblock: r,
+            });
+            aabStatus.text("Done. last definition update: " + r.lastUpdated);
+            aabUpdateBtn.removeAttr("disabled").text("Update");
+        })
+        .catch(() => {
+            aabStatus.text("Update failed. Try again later.");
+            aabUpdateBtn.removeAttr("disabled").text("Update");
+        });
+});
+/* --- ~~~ --- */
+
 // (<any> window).$ = $;

@@ -21,17 +21,10 @@ const disableAdblockDetection = () => {
     console.info("9anime Companion: disabling adblock detection");
     let head = document.querySelectorAll("head");
     let script = document.createElement("script");
-    script.innerText =
-        `window.I = {
-                M: {},
-                a: {}
-        };
-        Object.defineProperty(window, "fai", {
-            enumerable: true,
-            configurable: false,
-            writable: false
-        });`.replace(/\s{2,}/g, "");
-    // Script inject is required because thats the only way to
+    chrome.storage.local.get("antiAdblock", r => {
+        script.innerText = r.antiAdblock.snippet;
+    });
+    // Script inject is required because that's the only way to
     // manipulate the global window object.
     head[0].appendChild(script);
 };

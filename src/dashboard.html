@@ -238,10 +238,10 @@
                                   </span>"
                             >
                                 Remove ads
+                                <i class="fa fa-cog settings-icon" data-toggle="modal"
+                                   data-target="#ads-configure" id="ads-configure-btn" role="button">
+                                </i>
                             </span>
-                            <i class="fa fa-cog settings-icon" data-toggle="modal"
-                               data-target="#ads-configure" id="ads-configure-btn" role="button">
-                            </i>
                             <!--<button class="btn btn-sm btn-outline-success" data-toggle="modal"
                                     data-target="#ads-configure" id="ads-configure-btn">
                                 <i class="fa fa-cog settings-icon"></i>
@@ -285,6 +285,22 @@
                                 View all
                             </button>
                         </div>
+
+                        <!-- AntiAdblock -->
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                            <div data-toggle="tooltip" data-html="true" data-placement="bottom"
+                                  title="Update ONLY IF you are getting the please disable adblock message."
+                            >
+                                Anti Adblock Detection <br>
+                                <small class="text-muted" id="antiAdblockStatus">
+
+                                </small>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm settings-config-btn" id="antiAdblockUpdate">
+                                Update
+                            </button>
+                        </div>
+                        <!-- ~~~ -->
 
                     </div>
                 </div><!-- End Card Body -->
@@ -393,12 +409,10 @@
                                   the watch page allowing you to download all the episodes."
                             >
                                 Download All
-
+                                <a href="https://github.com/lap00zza/9anime-Companion/wiki/Using-External-Downloaders">
+                                    <i class="fa fa-info-circle"></i>
+                                </a>
                             </span>
-                            <a href="https://github.com/lap00zza/9anime-Companion/wiki/Using-External-Downloaders">
-                                <i class="fa fa-info-circle"></i>
-                            </a>
-
                             <!-- Checkbox-->
                             <label for="downloadAll" class="settings-checkbox">
                                 <input id="downloadAll" type="checkbox">

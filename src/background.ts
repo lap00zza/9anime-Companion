@@ -253,6 +253,20 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
     }
 });
 
+/* --- AntiAdblock --- */
+const getUpdatedDetection = async() => {
+    try {
+        const resp = await fetch("https://github.com/lap00zza/9anime-Companion/raw/master/scripts/antiAdblock.json");
+        if (!resp.ok) {
+            throw new Error(resp.status.toString());
+        }
+        return await resp.json();
+    } catch (err) {
+        throw new Error(err.message);
+    }
+};
+/* --- ~~~ --- */
+
 chrome.runtime.onInstalled.addListener(details => {
     // let version = chrome.runtime.getManifest().version;
     let versionName = chrome.runtime.getManifest().version_name || "";
@@ -317,4 +331,20 @@ chrome.runtime.onInstalled.addListener(details => {
         default:
             break;
     }
+
+    /* --- Load antiAdblockDetection snippet --- */
+    chrome.storage.local.set({
+        antiAdblock: {
+            lastUpdated: "23-11-2017",
+            snippet: "window.I = {M: {},a: {}};Object.defineProperty(window, 'I', {enumerable: true," +
+            "configurable: false,writable: false});",
+        },
+    });
+    getUpdatedDetection().then(r => {
+        console.info("Successfully updated the antiAdblock...");
+        chrome.storage.local.set({
+            antiAdblock: r,
+        });
+    });
+    /* --- ~~~ --- */
 });
