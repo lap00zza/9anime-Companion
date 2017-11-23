@@ -17,7 +17,7 @@ console.info("9anime Companion 1.0.0 (Global Script Pre)");
 // 23-11-2017
 // 9anime change fai to I
 // TODO: make this a changeable setting
-const disableAdblockDetection = () => {
+/*const disableAdblockDetection = () => {
     console.info("9anime Companion: disabling adblock detection");
     let head = document.querySelectorAll("head");
     let script = document.createElement("script");
@@ -27,14 +27,14 @@ const disableAdblockDetection = () => {
     // Script inject is required because that's the only way to
     // manipulate the global window object.
     head[0].appendChild(script);
-};
+};*/
 /* --- ~~~ --- */
 
 // schedule to run the following on the nextTick.
 setTimeout(() => {
     // Always do this. Why? Because 9anime outright blocks
     // 9anime Companion of this is not done.
-    disableAdblockDetection();
+    // disableAdblockDetection();
 
     // Do only if settings allow
     loadSettings([

@@ -202,17 +202,19 @@
 <section class="tab-content">
     <!-- TAB: Settings -->
     <div role="tabpanel" class="tab-pane fade show active container" id="settings" aria-labelledby="settings-tab">
-        <div class="callout" role="alert">
+        <!--<div class="callout" role="alert">
             <h1>NOTE:</h1>
             Since 21 Nov, 2017 <a href="https://www.reddit.com/r/9anime/comments/7el3p7/9anime_changes_adblock_blocker_banner_ads_etc/">
             9anime started blocking all adblockers</a> (including 9anime Companion). As always, <strong>9anime Companion
             will try to block/remove ads</strong>, but it is entirely up to the user on enabling this feature. But please
             do note that 9anime loses revenue and possibly becomes worse when too many people are blocking ads.
-            <br>
-            --
-            <br>
-            <em>This banner will be removed in the next update.</em>
+        </div>-->
+        <div class="callout" role="alert">
+            <h1>NOTE:</h1>
+            For the time being if you see a please disable adblock message, goto 9anime Companion Settings > disable
+            <code>Remove Ads</code> and <code>Remove Social Share</code> until I find a solid way to deal with it.
         </div>
+
         <!-- This hold the random pro tips -->
         <p class="meta">
             <i class="fa fa-lightbulb-o"></i> Pro Tip: <span id="tips">hover over an option to get more details</span>
@@ -287,7 +289,7 @@
                         </div>
 
                         <!-- AntiAdblock -->
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
+                        <!--<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 settings-item">
                             <div data-toggle="tooltip" data-html="true" data-placement="bottom"
                                   title="Update ONLY IF you are getting the please disable adblock message."
                             >
@@ -299,7 +301,7 @@
                             <button class="btn btn-outline-primary btn-sm settings-config-btn" id="antiAdblockUpdate">
                                 Update
                             </button>
-                        </div>
+                        </div>-->
                         <!-- ~~~ -->
 
                     </div>
@@ -513,6 +515,23 @@
 
     <!-- TAB: Changelog -->
     <div role="tabpanel" class="tab-pane fade container" id="changelog" aria-labelledby="changelog-tab">
+        <section>
+            <h2 class="title">
+                <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/1.3.2">
+                    1.3.3
+                </a>
+            </h2>
+            <ul>
+                <li>
+                    Reverted most of the changes from the previous release because it was not a very reliable way to deal
+                    with the anti adblock (I still haven't found a way). For the time being if you see a please disable
+                    adblock message, goto 9anime Companion Settings > disable `Remove Ads` and `Remove Social Share`.
+                </li>
+                <li>
+                    Removed the Github permission.
+                </li>
+            </ul>
+        </section>
         <section>
             <h2 class="title">
                 <a href="https://github.com/lap00zza/9anime-Companion/releases/tag/1.3.2">

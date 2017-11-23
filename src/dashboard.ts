@@ -328,7 +328,7 @@ adBlockApplyBtn.on("click", () => {
 });
 
 /* --- AntiAdblock --- */
-const getUpdatedDetection = async () => {
+/*const getUpdatedDetection = async () => {
     try {
         const resp = await fetch("https://github.com/lap00zza/9anime-Companion/raw/master/scripts/antiAdblock.json");
         if (!resp.ok) {
@@ -361,7 +361,7 @@ aabUpdateBtn.on("click", () => {
             aabStatus.text("Update failed. Try again later.");
             aabUpdateBtn.removeAttr("disabled").text("Update");
         });
-});
+});*/
 /* --- ~~~ --- */
 
 // (<any> window).$ = $;

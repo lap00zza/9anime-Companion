@@ -254,7 +254,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
 });
 
 /* --- AntiAdblock --- */
-const getUpdatedDetection = async() => {
+/*const getUpdatedDetection = async() => {
     try {
         const resp = await fetch("https://github.com/lap00zza/9anime-Companion/raw/master/scripts/antiAdblock.json");
         if (!resp.ok) {
@@ -264,7 +264,7 @@ const getUpdatedDetection = async() => {
     } catch (err) {
         throw new Error(err.message);
     }
-};
+};*/
 /* --- ~~~ --- */
 
 chrome.runtime.onInstalled.addListener(details => {
@@ -333,11 +333,14 @@ chrome.runtime.onInstalled.addListener(details => {
     }
 
     /* --- Load antiAdblockDetection snippet --- */
-    chrome.storage.local.set({
+    /*chrome.storage.local.set({
         antiAdblock: {
             lastUpdated: "23-11-2017",
-            snippet: "window.I = {M: {},a: {}};Object.defineProperty(window, 'I', {enumerable: true," +
-            "configurable: false,writable: false});",
+            snippet: "window.fai = {M: {},a: {}};Object.defineProperty(window, 'fai', {enumerable: true," +
+            "configurable: false,writable: false});" +
+            "window.fai = {M: {},a: {}};Object.defineProperty(window, 'fai', {enumerable: true," +
+            "configurable: false,writable: false});" /!*+
+            "window.getComputedStyle = function (sel) {return {display: \"fuck\", visibility: \"you\"};};",*!/
         },
     });
     getUpdatedDetection().then(r => {
@@ -345,6 +348,6 @@ chrome.runtime.onInstalled.addListener(details => {
         chrome.storage.local.set({
             antiAdblock: r,
         });
-    });
+    });*/
     /* --- ~~~ --- */
 });
