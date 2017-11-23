@@ -1,4 +1,4 @@
 {
   "lastUpdated": "23-11-2017",
-  "snippet": "window.I = {M: {},a: {}};Object.defineProperty(window, 'I', {enumerable: true,configurable: false,writable: false});"
+  "snippet": ""
 }
