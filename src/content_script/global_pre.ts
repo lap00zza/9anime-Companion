@@ -14,20 +14,23 @@ console.info("9anime Companion 1.0.0 (Global Script Pre)");
 /* --- Disabling the adblock detection --- */
 // 22-11-2017
 // 9anime added fai to thwart adblock :)
+// 23-11-2017
+// 9anime change fai to I
+// TODO: make this a changeable setting
 const disableAdblockDetection = () => {
     console.info("9anime Companion: disabling adblock detection");
     let head = document.querySelectorAll("head");
     let script = document.createElement("script");
     script.innerText =
-        `window.fai = {
+        `window.I = {
                 M: {},
                 a: {}
-            };
-            Object.defineProperty(window, "fai", {
-                enumerable: true,
-                configurable: false,
-                writable: false
-            });`.replace(/\s{2,}/g, "");
+        };
+        Object.defineProperty(window, "fai", {
+            enumerable: true,
+            configurable: false,
+            writable: false
+        });`.replace(/\s{2,}/g, "");
     // Script inject is required because thats the only way to
     // manipulate the global window object.
     head[0].appendChild(script);
