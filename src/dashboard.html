@@ -174,17 +174,37 @@
                         </div>
                         <div class="sidebar-content">
                             <nav class="nav sidebar-nav">
-                                <a class="nav-link active" href="#">Settings</a>
-                                <a class="nav-link" href="#">Changelog (coming-soon)</a>
-                                <a class="nav-link" href="#">About (coming-soon)</a>
+                                <a class="nav-link active"
+                                   id="settings-tab"
+                                   data-toggle="tab"
+                                   role="tab"
+                                   href="#settings"
+                                   aria-controls="settings"
+                                   aria-expanded="true">
+                                    Settings
+                                </a>
+                                <a class="nav-link"
+                                   id="changelog-tab"
+                                   data-toggle="tab"
+                                   role="tab"
+                                   href="#changelog"
+                                   aria-controls="changelog">
+                                    Changelog
+                                </a>
+                                <a class="nav-link"
+                                   id="about-tab"
+                                   data-toggle="tab"
+                                   role="tab"
+                                   href="#about"
+                                   aria-controls="about">
+                                    About
+                                </a>
                             </nav>
                         </div>
                         <div class="sidebar-footer">
-                            <!--<p class="made-by">-->
-                                <!--Made with <i class="fa fa-heart-o"></i> by <a href="https://github.com/lap00zza">@lap00zza</a>-->
-                                <!--designed <i class="fa fa-diamond"></i> by <a href="https://github.com/densityx">@densityx</a>-->
-                                <!--Licensed under MIT.-->
-                            <!--</p>-->
+                            <p class="version">
+                                v1.5 - Senjougahara
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -203,12 +223,10 @@
                                         data-html="true"
                                         data-placement="bottom"
                                         title=""
-                                        data-original-title="Remove and block all ads/popups from 9anime.<br><span class='tooltip_info'>Requires additional permission.</span>">Remove ads</span>
+                                        data-original-title="Remove and block ads/popups from 9anime.<br><span class='tooltip_info'>Requires additional permission.</span>">
+                                        Remove ads
+                                    </span>
                                     </a>
-                                <!--<label for="myAnimeList" class="settings-checkbox">-->
-                                    <!--<input id="myAnimeList" type="checkbox">-->
-                                    <!--<span class="switch__background"><span class="switch__button"></span></span>-->
-                                <!--</label>-->
                                     <label for="remAds" class="settings-checkbox">
                                         <input id="remAds" type="checkbox">
                                         <span class="switch__background">
