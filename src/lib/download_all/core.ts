@@ -53,6 +53,7 @@ let dlEpisode: IEpisode;
 // variable holds the type of server from which we are currently
 // downloading/will download.
 let server: Server = Server.Default;
+let serverId = 22; // default F2 server
 
 // The preferred quality of the files to download.
 let quality: DownloadQuality = DownloadQuality["360p"];
@@ -67,6 +68,7 @@ interface ISetupOptions {
     selectedEpisodes: IEpisode[];
     sender: chrome.runtime.MessageSender; /* we need this to send messages to tab */
     server: Server;
+    serverId: number;
     ts: string;
 }
 
@@ -82,8 +84,65 @@ export function setup(options: ISetupOptions): void {
     selectedEpisodes = options.selectedEpisodes;
     sender = options.sender;
     server = options.server;
+    serverId = options.serverId;
     ts = options.ts;
 }
+
+/* --- 26-11-2017 --- */
+// 9anime's new encryption
+// A special thanks to @hoppler (https://github.com/hoppler) for
+// helping out with decryptTs and rot8.
+const decryptTs = (str: string) => {
+    let result = "";
+    const firstCharMap: string[] = [];
+    const secondCharMap: string[] = [];
+    for (let n = 65; n < 91; n++) {
+        firstCharMap.push(String.fromCharCode(n));
+        if (n % 2 !== 0) {
+            secondCharMap.push(String.fromCharCode(n));
+        }
+    }
+    for (let n = 65; n < 91; n++) {
+        if (n % 2 === 0) {
+            secondCharMap.push(String.fromCharCode(n));
+        }
+    }
+    for (let i = 0; i < str.length; i++) {
+        let charReplaced = false;
+        for (let y = 0; y < secondCharMap.length; y++) {
+            if (str[i] === secondCharMap[y]) {
+                result += firstCharMap[y];
+                charReplaced = true;
+                break;
+            }
+        }
+        if (!charReplaced) {
+            result += str[i];
+        }
+    }
+    return atob(result);
+};
+
+const rot8 = (str: string) => {
+    const i = -18;
+    const e = [];
+    for (let q = 1; q < str.length; q++) {
+        const intChar = str[q].charCodeAt(0);
+        let newChar = 0;
+        if (intChar >= 97 && intChar <= 122) {
+            newChar = (intChar - 71 + i) % 26 + 97;
+        } else if (intChar >= 65 && intChar <= 90) {
+            newChar = (intChar - 39 + i) % 26 + 65;
+        } else {
+            newChar = intChar;
+        }
+        e.push(newChar);
+    }
+    return e
+        .map(c => String.fromCharCode(c))
+        .join("");
+};
+/* --- ~~~ --- */
 
 /**
  * Send messages to the tab/content script.
@@ -203,11 +262,11 @@ function startDownload(file: IFile): void {
 function getLinks9a(data: api.IGrabber): void {
     api
         .links9a(data.grabber, {
-            ts,
             id: data.params.id,
             mobile: 0,
-            options: data.params.options,
-            token: data.params.token,
+            options: rot8(data.params.options),
+            token: rot8(data.params.token),
+            ts: decryptTs(ts),
         })
         .then(resp => {
             // console.log(resp);
@@ -322,7 +381,8 @@ export function downloader(): void {
         api
             .grabber({
                 id: ep.id,
-                ts,
+                server: serverId,
+                ts: decryptTs(ts),
                 update: 0,
             })
             .then(resp => {

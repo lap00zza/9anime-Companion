@@ -46,7 +46,9 @@ export function generateToken(data: { [key: string]: string | number }, initialS
     }
     // 16-07-2017
     // 9anime subtracted 30 from the token.
-    return _ - 30;
+    // 25-11-2017
+    // 9anime subtracted 33 from the token.
+    return _ - 33;
 }
 
 // *** 9anime API ***

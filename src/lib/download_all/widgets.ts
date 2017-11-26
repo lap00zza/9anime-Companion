@@ -25,6 +25,9 @@ let method: DownloadMethod = DownloadMethod.Browser;
 let isDownloading = false;
 let ts = "";
 let animeName = "";
+// --- added on 25-11-2017
+// ID of current selected server
+let serverId = "";
 
 // Contains most of the selectors used. Can be
 // used to quickly access the required selectors
@@ -170,6 +173,10 @@ export function downloadBtn(targetServer: Server): JQuery<HTMLElement> {
             episodesContainer.append(epSpan);
         }
         modalBody.append(episodesContainer);
+
+        /* --- Server ID added on 25-11-2017 --- */
+        serverId = btn.parents(".server.row").data("id");
+        /* --- ~~~ --- */
         showModal(selectors.epModal);
     });
     return btn;
@@ -294,6 +301,7 @@ export function epModal(): JQuery<HTMLElement> {
                     method,
                     quality,
                     selectedEpisodes,
+                    serverId,
                     ts,
                 });
 

@@ -51,6 +51,7 @@ chrome.runtime.onMessage.addListener((message: IRuntimeMessage, sender, sendResp
                 selectedEpisodes: message.selectedEpisodes,
                 sender,
                 server: message.server,
+                serverId: message.serverId,
                 ts: message.ts,
             };
             dlAll.start(message.baseUrl, setupOptions);
