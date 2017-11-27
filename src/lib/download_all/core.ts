@@ -94,8 +94,8 @@ export function setup(options: ISetupOptions): void {
 // helping out with decryptTs and rot8.
 const decryptTs = (str: string) => {
     let result = "";
-    const firstCharMap: string[] = [];
-    const secondCharMap: string[] = [];
+    const firstCharMap = [];
+    const secondCharMap = [];
     for (let n = 65; n < 91; n++) {
         firstCharMap.push(String.fromCharCode(n));
         if (n % 2 !== 0) {
@@ -123,7 +123,41 @@ const decryptTs = (str: string) => {
     return atob(result);
 };
 
-const rot8 = (str: string) => {
+function decryptTokenAndOptions(str: string) { /* line: 14138, all.js */
+    const cleanStr = str.replace(/^-/, "");
+    const firstCharMap = [];
+    const secondCharMap = [];
+    for (let j = 97; j <= 122; j++) {
+        firstCharMap.push(String.fromCharCode(j));
+        if (j % 2) {
+            secondCharMap.push(String.fromCharCode(j));
+        }
+    }
+    for (let k = 97; k <= 122; k++) {
+        if (k % 2 === 0) {
+            secondCharMap.push(String.fromCharCode(k));
+        }
+    }
+    /* --- */
+    let result = "";
+    for (let e = 0; e < cleanStr.length; e++) {
+        let replaced = false;
+        for (let f = 0; f < secondCharMap.length; f++) {
+            if (cleanStr[e] === secondCharMap[f]) {
+                result += firstCharMap[f];
+                replaced = true;
+                break;
+            }
+        }
+        if (!replaced) {
+            result += cleanStr[e];
+        }
+    }
+    /* --- */
+    return atob(result);
+}
+
+/*const rot8 = (str: string) => {
     const i = -18;
     const e = [];
     for (let q = 1; q < str.length; q++) {
@@ -141,7 +175,7 @@ const rot8 = (str: string) => {
     return e
         .map(c => String.fromCharCode(c))
         .join("");
-};
+};*/
 /* --- ~~~ --- */
 
 /**
@@ -264,8 +298,8 @@ function getLinks9a(data: api.IGrabber): void {
         .links9a(data.grabber, {
             id: data.params.id,
             mobile: 0,
-            options: rot8(data.params.options),
-            token: rot8(data.params.token),
+            options: decryptTokenAndOptions(data.params.options),
+            token: decryptTokenAndOptions(data.params.token),
             ts: decryptTs(ts),
         })
         .then(resp => {
