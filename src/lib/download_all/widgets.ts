@@ -73,9 +73,9 @@ export function setup(options: ISetupOptions) {
             $(s).append(downloadBtn(Server.Default));
         } else if (/Server\s+G/i.test(serverLabel)) {
             $(s).append(downloadBtn(Server.Default));
-        } /*else if (/RapidVideo/i.test(serverLabel)) {
+        } else if (/RapidVideo/i.test(serverLabel)) {
             $(s).append(downloadBtn(Server.RapidVideo));
-        }*/
+        }
     }
 }
 

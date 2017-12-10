@@ -365,7 +365,8 @@ function rvParseEpisodeDetails(source: string): IFile | null {
 // TODO: try implementing fallback for rapidvideo downloads later
 export function getLinksRV(data: api.IGrabber): void {
     const rvSourcesRegex = /<source(.*)\/>/i;
-    const endpoint = data.target + `?q=${DownloadQuality[quality]}`;
+    // decryptTokenAndOptions works for token, options and target.
+    const endpoint = decryptTokenAndOptions(data.target) + `?q=${DownloadQuality[quality]}`;
     fetch(endpoint)
         .then(response => {
             if (response.ok) {
