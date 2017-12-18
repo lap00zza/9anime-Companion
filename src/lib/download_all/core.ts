@@ -366,7 +366,10 @@ function rvParseEpisodeDetails(source: string): IFile | null {
 export function getLinksRV(data: api.IGrabber): void {
     const rvSourcesRegex = /<source(.*)\/>/i;
     // decryptTokenAndOptions works for token, options and target.
-    const endpoint = decryptTokenAndOptions(data.target) + `?q=${DownloadQuality[quality]}`;
+    // const endpoint = decryptTokenAndOptions(data.target) + `?q=${DownloadQuality[quality]}`;
+    // 18-12-2017
+    // looks like 9anime removed the encryption from RapidVideo target
+    const endpoint = data.target + `?q=${DownloadQuality[quality]}`;
     fetch(endpoint)
         .then(response => {
             if (response.ok) {
