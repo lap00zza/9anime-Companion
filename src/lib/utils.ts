@@ -30,7 +30,7 @@ export function dedent(data: string): string {
  *      The file-safe name of the episode
  */
 export function fileSafeString(filename: string): string {
-    let re = /[\\/<>*?:"|]/gi;
+    let re = /[\\/<>*?:"|.]/gi;
     return filename.replace(re, "");
 }
 
