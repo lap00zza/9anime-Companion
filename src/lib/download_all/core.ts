@@ -211,7 +211,7 @@ function status(message: string): void {
  */
 export function fileName(file: api.IFile, episode: IEpisode, ext = true): string {
     if (ext) {
-        return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}.${file.type}`);
+        return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}`) + `.${file.type}`;
     } else {
         return utils.fileSafeString(`${animeName}_E${episode.num }_${file.label}`);
     }
