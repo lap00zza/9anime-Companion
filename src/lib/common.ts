@@ -24,7 +24,7 @@ export let adBlockFilters = [
     "^https?:\\/\\/([a-z0-9]+[.])*quantserve\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*bebi\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*wwwpromoter\\.com",
-    "^https?:\\/\\/([a-z0-9]+[.])*amgload\\.net",
+    // "^https?:\\/\\/([a-z0-9]+[.])*amgload\\.net",
     "^https?:\\/\\/([a-z0-9]+[.])*adsnative\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*deloton\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*contextweb\\.com",
