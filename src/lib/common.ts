@@ -29,7 +29,7 @@ export let adBlockFilters = [
     "^https?:\\/\\/([a-z0-9]+[.])*deloton\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*contextweb\\.com",
     "^https?:\\/\\/([a-z0-9]+[.])*steepto\\.com",
-    "^https?:\\/\\/([a-z0-9]+[.])*piguiqproxy\\.com",
+    // "^https?:\\/\\/([a-z0-9]+[.])*piguiqproxy\\.com",
     "^https?:\\/\\/af2f04d5bdd\\.com",
     "^https?:\\/\\/2mdnsys\\.com",
     "^https?:\\/\\/e2ertt\\.com",
