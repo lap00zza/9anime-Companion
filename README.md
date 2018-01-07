@@ -1,4 +1,4 @@
-> If you are getting the disable adblock message, check out this [Issue discussion thread](https://github.com/lap00zza/9anime-Companion/issues/101).
+> ### I am currently not working on 9anime Companion due to school/projects etc. I dunno when I will resume (maybe after 2-3 weeks). If you have any issues, just file them but I wont respond to them for a while. -lap00zza
 
 <hr>
 
