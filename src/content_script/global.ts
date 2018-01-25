@@ -40,7 +40,10 @@ loadSettings([
         console.info("%c[✔] Removing iframes", "color: lightgreen;");
         $("iframe").each((_, el: HTMLIFrameElement) => {
             if (!/disqus/.test(el.src)) {
-                $(el).remove();
+                // Adding compatibility to KissAnimeList (https://greasyfork.org/en/scripts/27564-kissanimelist)
+                if ($(el).id !== "info-iframe" && !$(el).attr("src")) {
+                    $(el).remove();
+                }
             }
         });
     }
