@@ -41,7 +41,7 @@ loadSettings([
         $("iframe").each((_, el: HTMLIFrameElement) => {
             if (!/disqus/.test(el.src)) {
                 // Adding compatibility to KissAnimeList (https://greasyfork.org/en/scripts/27564-kissanimelist)
-                if ($(el).id !== "info-iframe" && !$(el).attr('src')) {
+                if ($(el).id !== "info-iframe" && !$(el).attr("src")) {
                     $(el).remove();
                 }
             }
