@@ -50,7 +50,7 @@ let getAnimeLink = (animeName, html) => {
     const searchArr = doc.querySelectorAll(".info > a.name");
     for (let i = 0; i < searchArr.length; i++) {
         if (searchArr[i].innerText === animeName) {
-            const url = searchArr[i].href;
+            const url = "https://9anime.to" + searchArr[i].pathname;
             return isUrl(url) ? url : "";
         }
     }
