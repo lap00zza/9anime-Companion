@@ -26,7 +26,9 @@
         "*://9anime.to/watch/*",
         "*://9anime.is/watch/*",
         "*://9anime.tv/watch/*",
-        "*://9anime.ru/watch/*"
+        "*://9anime.ru/watch/*",
+        "*://9anime.ch/watch/*",
+        "*://*.9anime.is/watch/*"
       ],
       "js": [
         "vendor/jquery.js",
@@ -42,7 +44,9 @@
         "*://9anime.to/*",
         "*://9anime.is/*",
         "*://9anime.tv/*",
-        "*://9anime.ru/*"
+        "*://9anime.ru/*",
+        "*://9anime.ch/*",
+        "*://*.9anime.is/*"
       ],
       "js": [
         "build/js/cscript_global_pre.bundle.js"
@@ -54,7 +58,9 @@
         "*://9anime.to/*",
         "*://9anime.is/*",
         "*://9anime.tv/*",
-        "*://9anime.ru/*"
+        "*://9anime.ru/*",
+        "*://9anime.ch/*",
+        "*://*.9anime.is/*"
       ],
       "js": [
         "vendor/jquery.js",
@@ -90,6 +96,8 @@
     "*://9anime.is/*",
     "*://9anime.tv/*",
     "*://9anime.ru/*",
+    "*://9anime.ch/*",
+    "*://*.9anime.is/*",
     "*://www.rapidvideo.com/e/*",
     "*://myanimelist.net/anime/*"
   ],
